@@ -19,9 +19,14 @@ POCIB 一门课下来要填几百个栏位，其中真正需要动脑子的不�
 
 ## 快速开始
 
-**方式一（推荐）**：下载 `dist/POCIB填单助手.html`，双击用浏览器打开。不用安装、不用联网。
+**方式一（最省事）**：到 [Releases](https://gitee.com/crane-and-egret/pocib-form-helper/releases) 页面下载 `POCIB填单助手.zip`，解压后双击里面的 html 即可。不用安装、不用联网。
 
-**方式二**：下载 `dist/POCIB填单助手.zip`，解压后打开里面的 html。
+**方式二**：直接用仓库里的 `dist/POCIB填单助手.html`，双击用浏览器打开。
+
+**方式三**：
+```bash
+git clone https://gitee.com/crane-and-egret/pocib-form-helper.git
+```
 
 推荐用 Edge 或 Chrome。
 
