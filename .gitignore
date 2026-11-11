@@ -5,7 +5,6 @@ data/parsed/
 data/ref/*.html
 
 # 构建产物
-dist/*.zip
 node_modules/
 __pycache__/
 *.pyc
