@@ -1,0 +1,499 @@
+{
+ "schema": {
+  "deal_profile": {
+   "seller": {
+    "_label": "出口商（卖方/受益人/发货人/Exporter）",
+    "fields": {
+     "account": [
+      "text",
+      "账号，如 202405110116"
+     ],
+     "country": [
+      "enum",
+      "国家（系统分配，独立字段，如 Germany）"
+     ],
+     "bank_zh": [
+      "text",
+      "开户行（中），如 德国德意志银行"
+     ],
+     "bank_en": [
+      "text",
+      "开户行（英），如 Deutsche Bank"
+     ],
+     "account_no": [
+      "text",
+      "本币账号，如 6101000014043"
+     ],
+     "currency": [
+      "enum",
+      "币别，如 EUR"
+     ],
+     "reg_inspection": [
+      "text",
+      "报检登记号，如 32000001404"
+     ],
+     "reg_tax": [
+      "text",
+      "税务登记号，如 32010300001404"
+     ],
+     "credit_code": [
+      "text",
+      "统一社会信用代码，如 913320010000014040"
+     ],
+     "name_zh": [
+      "text",
+      "公司全称（中）"
+     ],
+     "short_zh": [
+      "text",
+      "公司简称（中）"
+     ],
+     "name_en": [
+      "text",
+      "公司全称（英）"
+     ],
+     "short_en": [
+      "text",
+      "公司简称（英）"
+     ],
+     "legal_zh": [
+      "text",
+      "法人代表（中）"
+     ],
+     "legal_en": [
+      "text",
+      "法人代表（英）"
+     ],
+     "address_zh": [
+      "text",
+      "公司地址（中）"
+     ],
+     "address_en": [
+      "text",
+      "公司地址（英，不含国别）"
+     ],
+     "tel": [
+      "text",
+      "电话"
+     ],
+     "fax": [
+      "text",
+      "传真"
+     ],
+     "postcode": [
+      "text",
+      "邮政编码"
+     ],
+     "intro_zh": [
+      "text",
+      "公司介绍（中）"
+     ],
+     "intro_en": [
+      "text",
+      "公司介绍（英）"
+     ]
+    }
+   },
+   "buyer": {
+    "_label": "进口商（买方/开证申请人/收货人/Applicant）",
+    "fields": {
+     "account": [
+      "text",
+      "账号，如 202405110116"
+     ],
+     "country": [
+      "enum",
+      "国家（系统分配，独立字段，如 Germany）"
+     ],
+     "bank_zh": [
+      "text",
+      "开户行（中），如 德国德意志银行"
+     ],
+     "bank_en": [
+      "text",
+      "开户行（英），如 Deutsche Bank"
+     ],
+     "account_no": [
+      "text",
+      "本币账号，如 6101000014043"
+     ],
+     "currency": [
+      "enum",
+      "币别，如 EUR"
+     ],
+     "reg_inspection": [
+      "text",
+      "报检登记号，如 32000001404"
+     ],
+     "reg_tax": [
+      "text",
+      "税务登记号，如 32010300001404"
+     ],
+     "credit_code": [
+      "text",
+      "统一社会信用代码，如 913320010000014040"
+     ],
+     "name_zh": [
+      "text",
+      "公司全称（中）"
+     ],
+     "short_zh": [
+      "text",
+      "公司简称（中）"
+     ],
+     "name_en": [
+      "text",
+      "公司全称（英）"
+     ],
+     "short_en": [
+      "text",
+      "公司简称（英）"
+     ],
+     "legal_zh": [
+      "text",
+      "法人代表（中）"
+     ],
+     "legal_en": [
+      "text",
+      "法人代表（英）"
+     ],
+     "address_zh": [
+      "text",
+      "公司地址（中）"
+     ],
+     "address_en": [
+      "text",
+      "公司地址（英，不含国别）"
+     ],
+     "tel": [
+      "text",
+      "电话"
+     ],
+     "fax": [
+      "text",
+      "传真"
+     ],
+     "postcode": [
+      "text",
+      "邮政编码"
+     ],
+     "intro_zh": [
+      "text",
+      "公司介绍（中）"
+     ],
+     "intro_en": [
+      "text",
+      "公司介绍（英）"
+     ]
+    }
+   },
+   "goods": {
+    "_label": "商品（来自 My City → 国内工厂 商品资料）",
+    "fields": {
+     "code": [
+      "text",
+      "POCIB 商品编码，如 08002"
+     ],
+     "name_zh": [
+      "text",
+      "中文品名"
+     ],
+     "name_en": [
+      "text",
+      "英文品名"
+     ],
+     "desc_en": [
+      "text",
+      "英文规格描述"
+     ],
+     "hs_code": [
+      "text",
+      "H.S. 编码"
+     ],
+     "unit": [
+      "text",
+      "销售计量单位"
+     ],
+     "pack_qty": [
+      "number",
+      "每包装单位含销售数量"
+     ],
+     "pack_unit": [
+      "text",
+      "包装单位"
+     ],
+     "gw_per_pack": [
+      "number",
+      "每包装单位毛重 KG"
+     ],
+     "nw_per_pack": [
+      "number",
+      "每包装单位净重 KG"
+     ],
+     "vol_per_pack": [
+      "number",
+      "每包装单位体积 CBM"
+     ],
+     "cost": [
+      "number",
+      "工厂采购单价（人民币）"
+     ],
+     "origin": [
+      "text",
+      "原产国（报关单/产地证用）"
+     ],
+     "unit_zh": [
+      "text",
+      "中文计量单位，如 件"
+     ]
+    }
+   },
+   "deal": {
+    "_label": "交易条件",
+    "fields": {
+     "contract_no": [
+      "text",
+      "合同号 S/C No."
+     ],
+     "contract_date": [
+      "date",
+      "合同日期"
+     ],
+     "term": [
+      "enum",
+      "贸易术语"
+     ],
+     "payment": [
+      "enum",
+      "结算方式"
+     ],
+     "transport": [
+      "enum",
+      "运输方式 海运/空运"
+     ],
+     "port_load": [
+      "text",
+      "装运港（港口名+国家）"
+     ],
+     "port_dest": [
+      "text",
+      "目的港（港口名+国家）"
+     ],
+     "currency": [
+      "text",
+      "计价货币"
+     ],
+     "qty": [
+      "number",
+      "成交数量"
+     ],
+     "unit_price": [
+      "number",
+      "单价"
+     ],
+     "amount": [
+      "money",
+      "总金额"
+     ],
+     "say_total": [
+      "text",
+      "总金额大写"
+     ],
+     "shipping_mark": [
+      "text",
+      "唛头"
+     ],
+     "documents_clause": [
+      "list",
+      "合同 Document 条款要求的商检证书"
+     ],
+     "insurance_cover": [
+      "text",
+      "投保险别"
+     ],
+     "insurance_rate": [
+      "number",
+      "保险加成率"
+     ],
+     "lc_no": [
+      "text",
+      "信用证号"
+     ],
+     "lc_date": [
+      "date",
+      "开证日期"
+     ],
+     "invoice_no": [
+      "text",
+      "发票号"
+     ],
+     "invoice_date": [
+      "date",
+      "发票日期"
+     ],
+     "trade_country": [
+      "text",
+      "贸易国（地区）"
+     ],
+     "vessel": [
+      "text",
+      "船名/航班号"
+     ],
+     "voyage": [
+      "text",
+      "航次号"
+     ],
+     "b/l_no": [
+      "text",
+      "提单号"
+     ],
+     "freight_forwarder": [
+      "text",
+      "货代公司中文名称（境内付运费收款人）"
+     ],
+     "pack_total": [
+      "number",
+      "外包装总件数"
+     ],
+     "gw_total": [
+      "number",
+      "总毛重"
+     ],
+     "nw_total": [
+      "number",
+      "总净重"
+     ],
+     "vol_total": [
+      "number",
+      "总体积"
+     ],
+     "payment_days": [
+      "number",
+      "远期天数，如 D/A 60 天"
+     ],
+     "lc_expiry": [
+      "date",
+      "信用证有效期（yyyy-mm-dd）"
+     ],
+     "shipment_deadline": [
+      "date",
+      "最迟装运期"
+     ],
+     "partial_shipment": [
+      "enum",
+      "可分批装运 allowed / not allowed"
+     ],
+     "transhipment": [
+      "enum",
+      "可转运 allowed / not allowed"
+     ],
+     "credit_available": [
+      "text",
+      "信用证兑付方式，如 ANY BANK BY NEGOTIATION"
+     ],
+     "draft_tenor": [
+      "text",
+      "汇票期限，如 at sight / 60 days after sight"
+     ],
+     "draft_drawee": [
+      "text",
+      "汇票付款人，如开证行"
+     ],
+     "freight_amount": [
+      "number",
+      "运费（报关单运费栏）"
+     ],
+     "premium_amount": [
+      "number",
+      "保费（报关单保费栏）"
+     ],
+     "customs_decl_date": [
+      "date",
+      "申报日期"
+     ]
+    }
+   }
+  }
+ },
+ "doc_rules": {
+  "投保单": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  },
+  "商业发票": {
+   "actor": "seller"
+  },
+  "装箱单": {
+   "actor": "seller"
+  },
+  "合同（外销合同）": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  },
+  "出口货物报关单": {
+   "actor": "seller"
+  },
+  "进口货物报关单": {
+   "actor": "buyer"
+  },
+  "国际海运委托书": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  },
+  "国际空运委托书": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  },
+  "托收委托书": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  },
+  "汇票": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  },
+  "出口押汇申请书": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  },
+  "不可撤销信用证开证申请书": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  },
+  "信用证修改申请书": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  },
+  "境外汇款申请书": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  },
+  "境内汇款申请书": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  },
+  "出境货物检验检疫申请": {
+   "actor": "seller"
+  },
+  "入境货物检验检疫申请": {
+   "actor": "buyer"
+  },
+  "一般原产地证": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  },
+  "普惠制产地证": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  },
+  "申请鉴定表": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  },
+  "索赔申请书": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ }
+}

@@ -1,0 +1,6630 @@
+[
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "出票人(Issuer)",
+  "field_zh": "出票人",
+  "field_en": "Issuer",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "受票人(To)",
+  "field_zh": "受票人",
+  "field_en": "To",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "发票号(No.)",
+  "field_zh": "发票号",
+  "field_en": "No.",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "发票日期(Date)",
+  "field_zh": "发票日期",
+  "field_en": "Date",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "运输说明(Transport Details)",
+  "field_zh": "运输说明",
+  "field_en": "Transport Details",
+  "target": "deal.vessel",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "合同号(S/C No.)",
+  "field_zh": "合同号",
+  "field_en": "S/C No.",
+  "target": "deal.contract_no",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "信用证号(L/C No.)",
+  "field_zh": "信用证号",
+  "field_en": "L/C No.",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "支付条款(Term of Payment)",
+  "field_zh": "支付条款",
+  "field_en": "Term of Payment",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "唛头及件数编号(Marks and numbers)",
+  "field_zh": "唛头及件数编号",
+  "field_en": "Marks and numbers",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "货物描述(description of goods)",
+  "field_zh": "货物描述",
+  "field_en": "description of goods",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "数量(Quantity)",
+  "field_zh": "数量",
+  "field_en": "Quantity",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "单价(Unit Price)",
+  "field_zh": "单价",
+  "field_en": "Unit Price",
+  "target": "deal.unit_price",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "金额小计(Amount)",
+  "field_zh": "金额小计",
+  "field_en": "Amount",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "Total",
+  "field_zh": "Total",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "SAY TOTAL",
+  "field_zh": "SAY TOTAL",
+  "field_en": "",
+  "target": "deal.say_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "商业发票",
+  "side": "出口",
+  "section": "商业发票填写说明",
+  "field": "备注(Special terms)",
+  "field_zh": "备注",
+  "field_en": "Special terms",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "出单方(Issuer)",
+  "field_zh": "出单方",
+  "field_en": "Issuer",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "受单方(To)",
+  "field_zh": "受单方",
+  "field_en": "To",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "装箱单号",
+  "field_zh": "装箱单号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "发票号(Invoice No.)",
+  "field_zh": "发票号",
+  "field_en": "Invoice No.",
+  "target": "deal.invoice_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "日期(Date)",
+  "field_zh": "日期",
+  "field_en": "Date",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "唛头及件数编号(Marks and Numbers)",
+  "field_zh": "唛头及件数编号",
+  "field_en": "Marks and Numbers",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "包装种类和件数、货物描述(Number and kind of packages, description of goods)",
+  "field_zh": "包装种类和件数、货物描述",
+  "field_en": "Number and kind of packages, description of goods",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "外包装件数(PACKAGE)",
+  "field_zh": "外包装件数",
+  "field_en": "PACKAGE",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "毛重(G.W)",
+  "field_zh": "毛重",
+  "field_en": "G.W",
+  "target": "deal.gw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "净重(N.W)",
+  "field_zh": "净重",
+  "field_en": "N.W",
+  "target": "deal.nw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "箱外尺寸(Meas.)",
+  "field_zh": "箱外尺寸",
+  "field_en": "Meas.",
+  "target": "deal.vol_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "Total",
+  "field_zh": "Total",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "装箱单",
+  "side": "出口",
+  "section": "装箱单填写说明",
+  "field": "SAY TOTAL",
+  "field_zh": "SAY TOTAL",
+  "field_en": "",
+  "target": "deal.say_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "发货人、地址和电话",
+  "field_zh": "发货人、地址和电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "日期",
+  "field_zh": "日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "收货人、地址、电话",
+  "field_zh": "收货人、地址、电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "通知人名称、地址、电话",
+  "field_zh": "通知人名称、地址、电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "装运港",
+  "field_zh": "装运港",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "目的港",
+  "field_zh": "目的港",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "船名",
+  "field_zh": "船名",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "货物名称及描述",
+  "field_zh": "货物名称及描述",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "唛头",
+  "field_zh": "唛头",
+  "field_en": "",
+  "target": "deal.shipping_mark",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "件数及单位",
+  "field_zh": "件数及单位",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "毛重及单位",
+  "field_zh": "毛重及单位",
+  "field_en": "",
+  "target": "deal.gw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "净重及单位",
+  "field_zh": "净重及单位",
+  "field_en": "",
+  "target": "deal.nw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "体积及单位",
+  "field_zh": "体积及单位",
+  "field_en": "",
+  "target": "deal.vol_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "合计件数、合计毛重、合计净重、合计体积",
+  "field_zh": "合计件数、合计毛重、合计净重、合计体积",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "柜型选择和数量",
+  "field_zh": "柜型选择和数量",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "运费金额、预付与到付",
+  "field_zh": "运费金额、预付与到付",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "发票、装箱单号",
+  "field_zh": "发票、装箱单号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际海运委托书",
+  "side": "出口",
+  "section": "国际海运委托书填写说明",
+  "field": "委托人名称地址、签名",
+  "field_zh": "委托人名称地址、签名",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='海运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "发货人、地址和电话",
+  "field_zh": "发货人、地址和电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "日期",
+  "field_zh": "日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "收货人、地址、电话",
+  "field_zh": "收货人、地址、电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "通知人名称、地址、电话",
+  "field_zh": "通知人名称、地址、电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "航班日期",
+  "field_zh": "航班日期",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "运费金额、预付与到付",
+  "field_zh": "运费金额、预付与到付",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "始发站",
+  "field_zh": "始发站",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "到达站",
+  "field_zh": "到达站",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "货物名称及描述",
+  "field_zh": "货物名称及描述",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "唛头",
+  "field_zh": "唛头",
+  "field_en": "",
+  "target": "deal.shipping_mark",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "件数及单位",
+  "field_zh": "件数及单位",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "毛重及单位",
+  "field_zh": "毛重及单位",
+  "field_en": "",
+  "target": "deal.gw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "净重及单位",
+  "field_zh": "净重及单位",
+  "field_en": "",
+  "target": "deal.nw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "体积及单位",
+  "field_zh": "体积及单位",
+  "field_en": "",
+  "target": "deal.vol_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "合计件数、合计毛重、合计净重、合计体积",
+  "field_zh": "合计件数、合计毛重、合计净重、合计体积",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "国际空运委托书",
+  "side": "出口",
+  "section": "国际空运委托书填写说明",
+  "field": "委托人名称地址、签名",
+  "field_zh": "委托人名称地址、签名",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "transport=='空运'"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "申请单位名称",
+  "field_zh": "申请单位名称",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "申请单位登记号",
+  "field_zh": "申请单位登记号",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "申请单位联系人",
+  "field_zh": "申请单位联系人",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "申请单位电话",
+  "field_zh": "申请单位电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "申请日期",
+  "field_zh": "申请日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "编号",
+  "field_zh": "编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "发货人",
+  "field_zh": "发货人",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "收货人",
+  "field_zh": "收货人",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "货物名称(中/外文)",
+  "field_zh": "货物名称(中/外文)",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "H.S.编码",
+  "field_zh": "H.S.编码",
+  "field_en": "",
+  "target": "goods.hs_code",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "产地",
+  "field_zh": "产地",
+  "field_en": "",
+  "target": "goods.origin",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "数/重量",
+  "field_zh": "数/重量",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "货物总值",
+  "field_zh": "货物总值",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "包装种类及数量",
+  "field_zh": "包装种类及数量",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "运输工具名称号码",
+  "field_zh": "运输工具名称号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "贸易方式",
+  "field_zh": "贸易方式",
+  "field_en": "",
+  "target": "一般贸易",
+  "kind": "const",
+  "const_note": "POCIB 统一按一般贸易申报",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "货物存放地点",
+  "field_zh": "货物存放地点",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "合同号",
+  "field_zh": "合同号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "信用证号",
+  "field_zh": "信用证号",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "用途",
+  "field_zh": "用途",
+  "field_en": "",
+  "target": "其他",
+  "kind": "const",
+  "const_note": "按系统默认",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "发货日期",
+  "field_zh": "发货日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "输往国家(地区)",
+  "field_zh": "输往国家(地区)",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "许可证/审批号",
+  "field_zh": "许可证/审批号",
+  "field_en": "",
+  "target": "无需填写",
+  "kind": "const",
+  "const_note": "POCIB 一般不涉及",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "启运地",
+  "field_zh": "启运地",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "到达口岸",
+  "field_zh": "到达口岸",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "生产单位注册号",
+  "field_zh": "生产单位注册号",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "集装箱规格、数量及号码",
+  "field_zh": "集装箱规格、数量及号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "合同、信用证订立的检验检疫条款或特殊要求",
+  "field_zh": "合同、信用证订立的检验检疫条款或特殊要求",
+  "field_en": "",
+  "target": "deal.documents_clause",
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "标记及号码",
+  "field_zh": "标记及号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "随附单据",
+  "field_zh": "随附单据",
+  "field_en": "",
+  "target": "deal.documents_clause",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "需要证单名称",
+  "field_zh": "需要证单名称",
+  "field_en": "",
+  "target": "deal.documents_clause",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "检验检疫费",
+  "field_zh": "检验检疫费",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "签名",
+  "field_zh": "签名",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出境货物检验检疫申请",
+  "side": "出口",
+  "section": "出境货物检验检疫申请填写说明",
+  "field": "领取证单",
+  "field_zh": "领取证单",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "证书编号(Certificate No.)",
+  "field_zh": "证书编号",
+  "field_en": "Certificate No.",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "出口方(Exporter)",
+  "field_zh": "出口方",
+  "field_en": "Exporter",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "收货人(Consignee)",
+  "field_zh": "收货人",
+  "field_en": "Consignee",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "运输方式和路线(Means of transport and route)",
+  "field_zh": "运输方式和路线",
+  "field_en": "Means of transport and route",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "目的地国(地区)(Country/region of destination)",
+  "field_zh": "目的地国(地区)",
+  "field_en": "Country/region of destination",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "仅供签证机构使用(For certifying authority use only)",
+  "field_zh": "仅供签证机构使用",
+  "field_en": "For certifying authority use only",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "运输标志(Marks and numbers)",
+  "field_zh": "运输标志",
+  "field_en": "Marks and numbers",
+  "target": "deal.shipping_mark",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "包装种类和件数、货物描述(Number and kind of packages, Description of goods)",
+  "field_zh": "包装种类和件数、货物描述",
+  "field_en": "Number and kind of packages, Description of goods",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "首先",
+  "field_zh": "首先",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "其次",
+  "field_zh": "其次",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "再次",
+  "field_zh": "再次",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "然后",
+  "field_zh": "然后",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "最后",
+  "field_zh": "最后",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "海关协调制度编码(H. S. Code)",
+  "field_zh": "海关协调制度编码",
+  "field_en": "H. S. Code",
+  "target": "goods.hs_code",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "量值(Quantity)",
+  "field_zh": "量值",
+  "field_en": "Quantity",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "发票号和发票日期(Number and date of invoice)",
+  "field_zh": "发票号和发票日期",
+  "field_en": "Number and date of invoice",
+  "target": "deal.invoice_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "出口方声明(Declaration by the exporter)",
+  "field_zh": "出口方声明",
+  "field_en": "Declaration by the exporter",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "一般原产地证",
+  "side": "出口",
+  "section": "一般原产地证明书填写说明",
+  "field": "签证机构证明(Certification)",
+  "field_zh": "签证机构证明",
+  "field_en": "Certification",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国要求一般原产地证（如美国）"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "证书号码(Reference No.)",
+  "field_zh": "证书号码",
+  "field_en": "Reference No.",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "发货人(出口商名称、地址、国家)(Goods consigned from...)",
+  "field_zh": "发货人(出口商名称、地址、国家)",
+  "field_en": "Goods consigned from...",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "收货人(收货人名称、地址、国别)(Goods consigned to...)",
+  "field_zh": "收货人(收货人名称、地址、国别)",
+  "field_en": "Goods consigned to...",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "运输方式和路线(Means of transport and route)",
+  "field_zh": "运输方式和路线",
+  "field_en": "Means of transport and route",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "供官方使用(For official use)",
+  "field_zh": "供官方使用",
+  "field_en": "For official use",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "项目编号(Item number)",
+  "field_zh": "项目编号",
+  "field_en": "Item number",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "唛头及包装号码(Marks and numbers of packages)",
+  "field_zh": "唛头及包装号码",
+  "field_en": "Marks and numbers of packages",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "包装种类和件数、货物描述(Number and kind of packages, Description of goods)",
+  "field_zh": "包装种类和件数、货物描述",
+  "field_en": "Number and kind of packages, Description of goods",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "首先",
+  "field_zh": "首先",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "其次",
+  "field_zh": "其次",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "再次",
+  "field_zh": "再次",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "然后",
+  "field_zh": "然后",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "最后",
+  "field_zh": "最后",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "原产地标准(Origin criterion)",
+  "field_zh": "原产地标准",
+  "field_en": "Origin criterion",
+  "target": "goods.origin",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "毛重或其它数量(Gross weight or other quantity)",
+  "field_zh": "毛重或其它数量",
+  "field_en": "Gross weight or other quantity",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "发票号和发票日期(Number and date of invoice)",
+  "field_zh": "发票号和发票日期",
+  "field_en": "Number and date of invoice",
+  "target": "deal.invoice_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "签证证明(Certification)",
+  "field_zh": "签证证明",
+  "field_en": "Certification",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "进口国别",
+  "field_zh": "进口国别",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "普惠制产地证",
+  "side": "出口",
+  "section": "普惠制产地证书填写说明",
+  "field": "出口商申报(Declaration by the exporter)",
+  "field_zh": "出口商申报",
+  "field_en": "Declaration by the exporter",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "进口国可享普惠制"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "货物名称",
+  "field_zh": "货物名称",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "生产厂家",
+  "field_zh": "生产厂家",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "货物主要成分及含量",
+  "field_zh": "货物主要成分及含量",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "货物主要危险性",
+  "field_zh": "货物主要危险性",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "货物主要物理和化学性质",
+  "field_zh": "货物主要物理和化学性质",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "联系电话",
+  "field_zh": "联系电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "申请单位",
+  "field_zh": "申请单位",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "申请鉴定表",
+  "side": "出口",
+  "section": "申请鉴定表填写说明",
+  "field": "申请日期",
+  "field_zh": "申请日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "商品需做货物运输条件鉴定（21001/40001/40002/06002）"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "投保人名称、地址、邮编、联系人、电话、电子邮箱等",
+  "field_zh": "投保人名称、地址、邮编、联系人、电话、电子邮箱等",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "被保险人名称、电话",
+  "field_zh": "被保险人名称、电话",
+  "field_en": "",
+  "target": "deal.insurance_cover",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "信用证号",
+  "field_zh": "信用证号",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "发票号",
+  "field_zh": "发票号",
+  "field_en": "",
+  "target": "deal.invoice_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "标记",
+  "field_zh": "标记",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "包装数量",
+  "field_zh": "包装数量",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "保险货物项目",
+  "field_zh": "保险货物项目",
+  "field_en": "",
+  "target": "deal.insurance_cover",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "装载运输工具",
+  "field_zh": "装载运输工具",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "起运日期",
+  "field_zh": "起运日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "赔付地点",
+  "field_zh": "赔付地点",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "启运港",
+  "field_zh": "启运港",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "转运港",
+  "field_zh": "转运港",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "目的港",
+  "field_zh": "目的港",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "包装方式",
+  "field_zh": "包装方式",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "运输方式",
+  "field_zh": "运输方式",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "承保条件",
+  "field_zh": "承保条件",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "特别约定",
+  "field_zh": "特别约定",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "投保加成",
+  "field_zh": "投保加成",
+  "field_en": "",
+  "target": "deal.insurance_rate",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "CIF金额、保险金额、费率、保险费",
+  "field_zh": "CIF金额、保险金额、费率、保险费",
+  "field_en": "",
+  "target": "deal.insurance_cover",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "投保人签字",
+  "field_zh": "投保人签字",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "投保单",
+  "side": "出口",
+  "section": "货物运输保险投保单填写说明",
+  "field": "投保日期",
+  "field_zh": "投保日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "term in ('CIF','CIP') ? 'seller' : 'buyer'",
+   "cond": "所有术语都需要投保，只是执行方不同",
+   "note": "CIF/CIP 由出口商投保；FOB/FCA/CFR/CPT 由进口商投保，且须在出口商订舱完成后、货物出运前尽早办理"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "预录入编号",
+  "field_zh": "预录入编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "海关编号",
+  "field_zh": "海关编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "境内发货人",
+  "field_zh": "境内发货人",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "出境关别",
+  "field_zh": "出境关别",
+  "field_en": "",
+  "target": "口岸海关",
+  "kind": "const",
+  "const_note": "按运输口岸对应海关",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "出口日期",
+  "field_zh": "出口日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "申报日期",
+  "field_zh": "申报日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "备案号",
+  "field_zh": "备案号",
+  "field_en": "",
+  "target": "无需填写",
+  "kind": "const",
+  "const_note": "POCIB 一般不涉及",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "境外收货人",
+  "field_zh": "境外收货人",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "运输方式",
+  "field_zh": "运输方式",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "运输工具名称及航次号",
+  "field_zh": "运输工具名称及航次号",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "提运单号",
+  "field_zh": "提运单号",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "生产销售单位",
+  "field_zh": "生产销售单位",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "监管方式",
+  "field_zh": "监管方式",
+  "field_en": "",
+  "target": "一般贸易",
+  "kind": "const",
+  "const_note": "POCIB 统一按一般贸易申报",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "征免性质",
+  "field_zh": "征免性质",
+  "field_en": "",
+  "target": "一般征税",
+  "kind": "const",
+  "const_note": "POCIB 统一按一般征税",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "许可证号",
+  "field_zh": "许可证号",
+  "field_en": "",
+  "target": "无需填写",
+  "kind": "const",
+  "const_note": "POCIB 一般不涉及",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "合同协议号",
+  "field_zh": "合同协议号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "贸易国（地区）",
+  "field_zh": "贸易国（地区）",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "运抵国（地区）",
+  "field_zh": "运抵国（地区）",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "指运港",
+  "field_zh": "指运港",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "离境口岸",
+  "field_zh": "离境口岸",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "包装种类",
+  "field_zh": "包装种类",
+  "field_en": "",
+  "target": "deal.pack_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "件数",
+  "field_zh": "件数",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "毛重(千克)",
+  "field_zh": "毛重(千克)",
+  "field_en": "",
+  "target": "deal.gw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "净重(千克)",
+  "field_zh": "净重(千克)",
+  "field_en": "",
+  "target": "deal.nw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "成交方式",
+  "field_zh": "成交方式",
+  "field_en": "",
+  "target": "{term}",
+  "kind": "const",
+  "const_note": "随贸易术语变化",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "运费",
+  "field_zh": "运费",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "保费",
+  "field_zh": "保费",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "杂费",
+  "field_zh": "杂费",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "随附单据及编号",
+  "field_zh": "随附单据及编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "标记唛码及备注",
+  "field_zh": "标记唛码及备注",
+  "field_en": "",
+  "target": "deal.shipping_mark",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "项号",
+  "field_zh": "项号",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "产品编号",
+  "field_zh": "产品编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "商品编号（H.S编码）",
+  "field_zh": "商品编号（H.S编码）",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "商品名称、规格型号",
+  "field_zh": "商品名称、规格型号",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "数量及单位",
+  "field_zh": "数量及单位",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "单价",
+  "field_zh": "单价",
+  "field_en": "",
+  "target": "deal.unit_price",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "总价",
+  "field_zh": "总价",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "币制",
+  "field_zh": "币制",
+  "field_en": "",
+  "target": "deal.currency",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "原产国（地区）",
+  "field_zh": "原产国（地区）",
+  "field_en": "",
+  "target": "goods.origin",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "最终目的国（地区）",
+  "field_zh": "最终目的国（地区）",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "境内货源地",
+  "field_zh": "境内货源地",
+  "field_en": "",
+  "target": "{seller.city}",
+  "kind": "const",
+  "const_note": "取出口商所在城市",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "征免",
+  "field_zh": "征免",
+  "field_en": "",
+  "target": "照章征税",
+  "kind": "const",
+  "const_note": "系统默认",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "报关人员",
+  "field_zh": "报关人员",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "报关人员证号",
+  "field_zh": "报关人员证号",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "电话",
+  "field_zh": "电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "申报单位",
+  "field_zh": "申报单位",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "出口货物报关单",
+  "side": "出口",
+  "section": "出口货物报关单填写说明",
+  "field": "海关批注及签章",
+  "field_zh": "海关批注及签章",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "日期",
+  "field_zh": "日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "托收行（Remitting Bank）",
+  "field_zh": "托收行",
+  "field_en": "Remitting Bank",
+  "target": "银行",
+  "kind": "const",
+  "const_note": "由系统/银行填写",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "代收行 (Collecting Bank)",
+  "field_zh": "代收行",
+  "field_en": "Collecting Bank",
+  "target": "银行",
+  "kind": "const",
+  "const_note": "由系统/银行填写",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "委托人(Principal)",
+  "field_zh": "委托人",
+  "field_en": "Principal",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "付款人(Drawee)",
+  "field_zh": "付款人",
+  "field_en": "Drawee",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "托收方式",
+  "field_zh": "托收方式",
+  "field_en": "",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "发票号码",
+  "field_zh": "发票号码",
+  "field_en": "",
+  "target": "deal.invoice_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "金额",
+  "field_zh": "金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "国外费用承担人",
+  "field_zh": "国外费用承担人",
+  "field_en": "",
+  "target": "申请人承担",
+  "kind": "const",
+  "const_note": "按默认",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "国内费用承担人",
+  "field_zh": "国内费用承担人",
+  "field_en": "",
+  "target": "申请人承担",
+  "kind": "const",
+  "const_note": "按默认",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "单据种类、份数",
+  "field_zh": "单据种类、份数",
+  "field_en": "",
+  "target": "deal.documents_clause",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "托收委托书",
+  "side": "出口",
+  "section": "托收委托书填写说明",
+  "field": "付款指示",
+  "field_zh": "付款指示",
+  "field_en": "",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('D/P','D/A')"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "申请日期",
+  "field_zh": "申请日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "开证行名称",
+  "field_zh": "开证行名称",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "信用证编号",
+  "field_zh": "信用证编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "商业发票号码",
+  "field_zh": "商业发票号码",
+  "field_en": "",
+  "target": "deal.invoice_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "币别",
+  "field_zh": "币别",
+  "field_en": "",
+  "target": "deal.currency",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "金额",
+  "field_zh": "金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "押汇币别",
+  "field_zh": "押汇币别",
+  "field_en": "",
+  "target": "deal.currency",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "押汇金额",
+  "field_zh": "押汇金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "押汇期限",
+  "field_zh": "押汇期限",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "申请单位",
+  "field_zh": "申请单位",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "出口押汇申请书",
+  "side": "出口",
+  "section": "出口押汇申请书填写说明",
+  "field": "法人签名",
+  "field_zh": "法人签名",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "选择押汇（与仅交单二选一）"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "汇票号码(No.)",
+  "field_zh": "汇票号码",
+  "field_en": "No.",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "出票日期(Dated)",
+  "field_zh": "出票日期",
+  "field_en": "Dated",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "汇票金额(Exchange for)",
+  "field_zh": "汇票金额",
+  "field_en": "Exchange for",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "付款期限(at sight...)",
+  "field_zh": "付款期限",
+  "field_en": "at sight...",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "受款人(Pay to the Order of)",
+  "field_zh": "受款人",
+  "field_en": "Pay to the Order of",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "汇票金额(the sum of)",
+  "field_zh": "汇票金额",
+  "field_en": "the sum of",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "信用证号码(L/C No.)",
+  "field_zh": "信用证号码",
+  "field_en": "L/C No.",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "开证日期(Dated)",
+  "field_zh": "开证日期",
+  "field_en": "Dated",
+  "target": "deal.lc_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "付款人(Issued by)",
+  "field_zh": "付款人",
+  "field_en": "Issued by",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "被出票人(To)",
+  "field_zh": "被出票人",
+  "field_en": "To",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "汇票",
+  "side": "出口",
+  "section": "汇票填写说明",
+  "field": "右下方空白栏(Authorized Signature)",
+  "field_zh": "右下方空白栏",
+  "field_en": "Authorized Signature",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "cond": "payment in ('L/C','D/P','D/A')"
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "致(TO)",
+  "field_zh": "致",
+  "field_en": "TO",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "日期",
+  "field_zh": "日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "汇款方式",
+  "field_zh": "汇款方式",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "发电等级",
+  "field_zh": "发电等级",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "申报号码",
+  "field_zh": "申报号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "银行业务编号",
+  "field_zh": "银行业务编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "收电行/付款行",
+  "field_zh": "收电行/付款行",
+  "field_en": "",
+  "target": "银行",
+  "kind": "const",
+  "const_note": "由系统/银行填写",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "汇款币种及金额",
+  "field_zh": "汇款币种及金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "金额大写",
+  "field_zh": "金额大写",
+  "field_en": "",
+  "target": "deal.say_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "现汇金额",
+  "field_zh": "现汇金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "外汇账号",
+  "field_zh": "外汇账号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "购汇金额",
+  "field_zh": "购汇金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "购汇账号",
+  "field_zh": "购汇账号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "其他金额",
+  "field_zh": "其他金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "汇款人名称及地址",
+  "field_zh": "汇款人名称及地址",
+  "field_en": "",
+  "target": "seller",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "组织机构代码",
+  "field_zh": "组织机构代码",
+  "field_en": "",
+  "target": "buyer.reg_no",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "收款银行之代理行名称及地址",
+  "field_zh": "收款银行之代理行名称及地址",
+  "field_en": "",
+  "target": "seller.bank",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "收款人开户银行名称及地址",
+  "field_zh": "收款人开户银行名称及地址",
+  "field_en": "",
+  "target": "deal.freight_forwarder",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "收款人名称及地址",
+  "field_zh": "收款人名称及地址",
+  "field_en": "",
+  "target": "deal.freight_forwarder",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "收款人账号",
+  "field_zh": "收款人账号",
+  "field_en": "",
+  "target": "deal.freight_forwarder",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "汇款附言",
+  "field_zh": "汇款附言",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "国内外费用承担",
+  "field_zh": "国内外费用承担",
+  "field_en": "",
+  "target": "申请人承担",
+  "kind": "const",
+  "const_note": "按默认",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "收款人常驻国家（地区）名称及代码",
+  "field_zh": "收款人常驻国家（地区）名称及代码",
+  "field_en": "",
+  "target": "deal.freight_forwarder",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "付款方式",
+  "field_zh": "付款方式",
+  "field_en": "",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "最迟装运日期",
+  "field_zh": "最迟装运日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "交易编码",
+  "field_zh": "交易编码",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "相应币种及金额",
+  "field_zh": "相应币种及金额",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "交易附言",
+  "field_zh": "交易附言",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "是否为进口核销项下付款",
+  "field_zh": "是否为进口核销项下付款",
+  "field_en": "",
+  "target": "申请人承担",
+  "kind": "const",
+  "const_note": "按默认",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "外汇局批件/备案表号",
+  "field_zh": "外汇局批件/备案表号",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "报关单经营单位代码",
+  "field_zh": "报关单经营单位代码",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "报关单号",
+  "field_zh": "报关单号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "报关单币种及总金额",
+  "field_zh": "报关单币种及总金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "本次核注金额",
+  "field_zh": "本次核注金额",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "境内汇款申请书",
+  "side": "出口",
+  "section": "境内汇款申请书填写说明",
+  "field": "申请人姓名、电话",
+  "field_zh": "申请人姓名、电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller 付运费 / buyer 国内付款",
+   "cond": ""
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "TO",
+  "field_zh": "TO",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Date",
+  "field_zh": "Date",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Issue by airmail",
+  "field_zh": "Issue by airmail",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "With brief advice by teletransmission",
+  "field_zh": "With brief advice by teletransmission",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Issue by express delivery",
+  "field_zh": "Issue by express delivery",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Issue by teletransmission (which shall be the operative instrument)",
+  "field_zh": "Issue by teletransmission",
+  "field_en": "which shall be the operative instrument",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Credit No.",
+  "field_zh": "Credit No.",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Date and place of expiry",
+  "field_zh": "Date and place of expiry",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Applicant",
+  "field_zh": "Applicant",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Beneficiary (Full name and address)",
+  "field_zh": "Beneficiary",
+  "field_en": "Full name and address",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Advising Bank",
+  "field_zh": "Advising Bank",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Amount",
+  "field_zh": "Amount",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Parital shipments",
+  "field_zh": "Parital shipments",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Transhipment",
+  "field_zh": "Transhipment",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Loading on board/dispatch/taking in charge at/from",
+  "field_zh": "Loading on board/dispatch/taking in charge at/from",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "not later than",
+  "field_zh": "not later than",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "For transportation to",
+  "field_zh": "For transportation to",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "价格条款",
+  "field_zh": "价格条款",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Credit available with",
+  "field_zh": "Credit available with",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "sight payment",
+  "field_zh": "sight payment",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "acceptance",
+  "field_zh": "acceptance",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "negotiation",
+  "field_zh": "negotiation",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "deferred payment at",
+  "field_zh": "deferred payment at",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "against the documents detailed herein and beneficiary's draft(s) for__　　__% of invoice value at__　　__sight drawn on__　　__。",
+  "field_zh": "against the documents detailed herein and beneficiary's draft(s) for__　　__% of invoice value at__　　__sight drawn on__　　__。",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Documents required: (marked with X)",
+  "field_zh": "Documents required:",
+  "field_en": "marked with X",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Other documents, if any",
+  "field_zh": "Other documents, if any",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Description of goods",
+  "field_zh": "Description of goods",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Additional instructions",
+  "field_zh": "Additional instructions",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "不可撤销信用证开证申请书",
+  "side": "进口",
+  "section": "信用证开证申请书填写说明",
+  "field": "Other terms, if any",
+  "field_zh": "Other terms, if any",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C'"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "DATE",
+  "field_zh": "DATE",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "信用证号码",
+  "field_zh": "信用证号码",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "原证金额",
+  "field_zh": "原证金额",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "修改次数",
+  "field_zh": "修改次数",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "受益人",
+  "field_zh": "受益人",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "新效期",
+  "field_zh": "新效期",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "新装期",
+  "field_zh": "新装期",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "信用证修改申请书",
+  "side": "进口",
+  "section": "信用证修改申请书填写说明",
+  "field": "申请人签章",
+  "field_zh": "申请人签章",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='L/C' 且需修改"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "致(TO)",
+  "field_zh": "致",
+  "field_en": "TO",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "日期",
+  "field_zh": "日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "汇款方式",
+  "field_zh": "汇款方式",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "发电等级",
+  "field_zh": "发电等级",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "申报号码",
+  "field_zh": "申报号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "银行业务编号",
+  "field_zh": "银行业务编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "收电行/付款行",
+  "field_zh": "收电行/付款行",
+  "field_en": "",
+  "target": "银行",
+  "kind": "const",
+  "const_note": "由系统/银行填写",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "汇款币种及金额",
+  "field_zh": "汇款币种及金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "例如",
+  "field_zh": "例如",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "金额大写",
+  "field_zh": "金额大写",
+  "field_en": "",
+  "target": "deal.say_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "现汇金额",
+  "field_zh": "现汇金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "外汇账号",
+  "field_zh": "外汇账号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "购汇金额",
+  "field_zh": "购汇金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "购汇账号",
+  "field_zh": "购汇账号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "其他金额",
+  "field_zh": "其他金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "汇款人名称及地址",
+  "field_zh": "汇款人名称及地址",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "组织机构代码",
+  "field_zh": "组织机构代码",
+  "field_en": "",
+  "target": "buyer.reg_no",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "收款银行之代理行名称及地址",
+  "field_zh": "收款银行之代理行名称及地址",
+  "field_en": "",
+  "target": "seller.bank",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "收款人开户银行名称及地址",
+  "field_zh": "收款人开户银行名称及地址",
+  "field_en": "",
+  "target": "seller.bank",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "收款人开户银行在其代理行的账号",
+  "field_zh": "收款人开户银行在其代理行的账号",
+  "field_en": "",
+  "target": "seller.bank",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "收款人名称及地址",
+  "field_zh": "收款人名称及地址",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "收款人账号",
+  "field_zh": "收款人账号",
+  "field_en": "",
+  "target": "seller.account",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "汇款附言",
+  "field_zh": "汇款附言",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "国内外费用承担",
+  "field_zh": "国内外费用承担",
+  "field_en": "",
+  "target": "申请人承担",
+  "kind": "const",
+  "const_note": "按默认",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "付款方式",
+  "field_zh": "付款方式",
+  "field_en": "",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "最迟装运日期",
+  "field_zh": "最迟装运日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "收款人常驻国家（地区）名称及代码",
+  "field_zh": "收款人常驻国家（地区）名称及代码",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "交易编码",
+  "field_zh": "交易编码",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "相应币种及金额",
+  "field_zh": "相应币种及金额",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "交易附言",
+  "field_zh": "交易附言",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "外汇局批件/备案表号",
+  "field_zh": "外汇局批件/备案表号",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "报关单经营单位代码",
+  "field_zh": "报关单经营单位代码",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "报关单号",
+  "field_zh": "报关单号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "报关单币种及总金额",
+  "field_zh": "报关单币种及总金额",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "本次核注金额",
+  "field_zh": "本次核注金额",
+  "field_en": "",
+  "target": "const:银行",
+  "kind": "const",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "境外汇款申请书",
+  "side": "进口",
+  "section": "正文",
+  "field": "申请人姓名、电话",
+  "field_zh": "申请人姓名、电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "payment=='T/T'"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "保单号码",
+  "field_zh": "保单号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "受文者",
+  "field_zh": "受文者",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "出口港",
+  "field_zh": "出口港",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "货物名称",
+  "field_zh": "货物名称",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "装载于",
+  "field_zh": "装载于",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "损失金额和币别",
+  "field_zh": "损失金额和币别",
+  "field_en": "",
+  "target": "deal.currency",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "随附单据",
+  "field_zh": "随附单据",
+  "field_en": "",
+  "target": "deal.documents_clause",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "申请人",
+  "field_zh": "申请人",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "地址",
+  "field_zh": "地址",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "索赔申请书",
+  "side": "进口",
+  "section": "索赔申请书填写说明",
+  "field": "申请日期",
+  "field_zh": "申请日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer",
+   "cond": "货物出险"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "申请单位名称",
+  "field_zh": "申请单位名称",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "申请单位登记号",
+  "field_zh": "申请单位登记号",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "申请单位联系人",
+  "field_zh": "申请单位联系人",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "申请单位电话",
+  "field_zh": "申请单位电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "编号",
+  "field_zh": "编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "申请日期",
+  "field_zh": "申请日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "收货人",
+  "field_zh": "收货人",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "企业性质",
+  "field_zh": "企业性质",
+  "field_en": "",
+  "target": "外贸企业",
+  "kind": "const",
+  "const_note": "公司档案固定",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "发货人",
+  "field_zh": "发货人",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "货物名称(中/外文)",
+  "field_zh": "货物名称(中/外文)",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "H.S.编码",
+  "field_zh": "H.S.编码",
+  "field_en": "",
+  "target": "goods.hs_code",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "原产国(地区)",
+  "field_zh": "原产国(地区)",
+  "field_en": "",
+  "target": "goods.origin",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "数/重量",
+  "field_zh": "数/重量",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "货物总值",
+  "field_zh": "货物总值",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "包装种类及数量",
+  "field_zh": "包装种类及数量",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "运输工具名称号码",
+  "field_zh": "运输工具名称号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "合同号",
+  "field_zh": "合同号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "贸易方式",
+  "field_zh": "贸易方式",
+  "field_en": "",
+  "target": "一般贸易",
+  "kind": "const",
+  "const_note": "POCIB 统一按一般贸易申报",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "贸易国别(地区)",
+  "field_zh": "贸易国别(地区)",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "提单/运单号",
+  "field_zh": "提单/运单号",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "到货日期",
+  "field_zh": "到货日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "启运国家(地区)",
+  "field_zh": "启运国家(地区)",
+  "field_en": "",
+  "target": "seller.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "许可证/审批号",
+  "field_zh": "许可证/审批号",
+  "field_en": "",
+  "target": "无需填写",
+  "kind": "const",
+  "const_note": "POCIB 一般不涉及",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "卸毕日期",
+  "field_zh": "卸毕日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "启运口岸",
+  "field_zh": "启运口岸",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "入境口岸",
+  "field_zh": "入境口岸",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "索赔有效期至",
+  "field_zh": "索赔有效期至",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "经停口岸",
+  "field_zh": "经停口岸",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "目的地",
+  "field_zh": "目的地",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "集装箱规格、数量及号码",
+  "field_zh": "集装箱规格、数量及号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "合同订立的特殊条款以及其他要求",
+  "field_zh": "合同订立的特殊条款以及其他要求",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "货物存放地点",
+  "field_zh": "货物存放地点",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "用途",
+  "field_zh": "用途",
+  "field_en": "",
+  "target": "其他",
+  "kind": "const",
+  "const_note": "按系统默认",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "随附单据",
+  "field_zh": "随附单据",
+  "field_en": "",
+  "target": "deal.documents_clause",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "标记及号码",
+  "field_zh": "标记及号码",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "检验检疫费",
+  "field_zh": "检验检疫费",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "申请人郑重声明",
+  "field_zh": "申请人郑重声明",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "入境货物检验检疫申请",
+  "side": "进口",
+  "section": "入境货物检验检疫申请填写说明",
+  "field": "领取证单",
+  "field_zh": "领取证单",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "预录入编号",
+  "field_zh": "预录入编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "海关编号",
+  "field_zh": "海关编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "境内收货人",
+  "field_zh": "境内收货人",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "进境关别",
+  "field_zh": "进境关别",
+  "field_en": "",
+  "target": "口岸海关",
+  "kind": "const",
+  "const_note": "按运输口岸对应海关",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "进口日期",
+  "field_zh": "进口日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "申报日期",
+  "field_zh": "申报日期",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "备案号",
+  "field_zh": "备案号",
+  "field_en": "",
+  "target": "无需填写",
+  "kind": "const",
+  "const_note": "POCIB 一般不涉及",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "境外发货人",
+  "field_zh": "境外发货人",
+  "field_en": "",
+  "target": "seller",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "运输方式",
+  "field_zh": "运输方式",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "运输工具名称及航次号",
+  "field_zh": "运输工具名称及航次号",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "提运单号",
+  "field_zh": "提运单号",
+  "field_en": "",
+  "target": "deal.vessel",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "货物存放地点",
+  "field_zh": "货物存放地点",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "消费使用单位",
+  "field_zh": "消费使用单位",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "监管方式",
+  "field_zh": "监管方式",
+  "field_en": "",
+  "target": "一般贸易",
+  "kind": "const",
+  "const_note": "POCIB 统一按一般贸易申报",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "征免性质",
+  "field_zh": "征免性质",
+  "field_en": "",
+  "target": "一般征税",
+  "kind": "const",
+  "const_note": "POCIB 统一按一般征税",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "许可证号",
+  "field_zh": "许可证号",
+  "field_en": "",
+  "target": "无需填写",
+  "kind": "const",
+  "const_note": "POCIB 一般不涉及",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "启运港",
+  "field_zh": "启运港",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "合同协议号",
+  "field_zh": "合同协议号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "贸易国（地区）",
+  "field_zh": "贸易国（地区）",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "启运国（地区）",
+  "field_zh": "启运国（地区）",
+  "field_en": "",
+  "target": "seller.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "经停港",
+  "field_zh": "经停港",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "入境口岸",
+  "field_zh": "入境口岸",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "包装种类",
+  "field_zh": "包装种类",
+  "field_en": "",
+  "target": "deal.pack_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "件数",
+  "field_zh": "件数",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "毛重(千克)",
+  "field_zh": "毛重(千克)",
+  "field_en": "",
+  "target": "deal.gw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "净重(千克)",
+  "field_zh": "净重(千克)",
+  "field_en": "",
+  "target": "deal.nw_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "成交方式",
+  "field_zh": "成交方式",
+  "field_en": "",
+  "target": "{term}",
+  "kind": "const",
+  "const_note": "随贸易术语变化",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "运费",
+  "field_zh": "运费",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "保费",
+  "field_zh": "保费",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "杂费",
+  "field_zh": "杂费",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "随附单据及编号",
+  "field_zh": "随附单据及编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "标记唛码及备注",
+  "field_zh": "标记唛码及备注",
+  "field_en": "",
+  "target": "deal.shipping_mark",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "项号",
+  "field_zh": "项号",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "产品编号",
+  "field_zh": "产品编号",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "商品编号（H.S编码）",
+  "field_zh": "商品编号（H.S编码）",
+  "field_en": "",
+  "target": "deal.contract_no",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "商品名称、规格型号",
+  "field_zh": "商品名称、规格型号",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "数量及单位",
+  "field_zh": "数量及单位",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "单价",
+  "field_zh": "单价",
+  "field_en": "",
+  "target": "deal.unit_price",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "总价",
+  "field_zh": "总价",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "币制",
+  "field_zh": "币制",
+  "field_en": "",
+  "target": "deal.currency",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "原产国（地区）",
+  "field_zh": "原产国（地区）",
+  "field_en": "",
+  "target": "goods.origin",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "最终目的国（地区）",
+  "field_zh": "最终目的国（地区）",
+  "field_en": "",
+  "target": "buyer.country",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "境内目的地",
+  "field_zh": "境内目的地",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "征免",
+  "field_zh": "征免",
+  "field_en": "",
+  "target": "照章征税",
+  "kind": "const",
+  "const_note": "系统默认",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "报关人员",
+  "field_zh": "报关人员",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "报关人员证号",
+  "field_zh": "报关人员证号",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "电话",
+  "field_zh": "电话",
+  "field_en": "",
+  "target": "buyer.tel",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "申报单位",
+  "field_zh": "申报单位",
+  "field_en": "",
+  "target": "系统代填",
+  "kind": "const",
+  "const_note": "由申报系统带出",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "进口货物报关单",
+  "side": "进口",
+  "section": "进口货物报关单填写说明",
+  "field": "海关批注及签章",
+  "field_zh": "海关批注及签章",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "buyer"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "报表上方两行空白栏",
+  "field_zh": "报表上方两行空白栏",
+  "field_en": "",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Messrs",
+  "field_zh": "Messrs",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "No.",
+  "field_zh": "No.",
+  "field_en": "",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Date",
+  "field_zh": "Date",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Product No.",
+  "field_zh": "Product No.",
+  "field_en": "",
+  "target": "goods.code",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Description",
+  "field_zh": "Description",
+  "field_en": "",
+  "target": "goods.name_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Quantity",
+  "field_zh": "Quantity",
+  "field_en": "",
+  "target": "deal.qty",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Unit",
+  "field_zh": "Unit",
+  "field_en": "",
+  "target": "goods.unit",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Unit Price",
+  "field_zh": "Unit Price",
+  "field_en": "",
+  "target": "deal.unit_price",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Amount",
+  "field_zh": "Amount",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Total",
+  "field_zh": "Total",
+  "field_en": "",
+  "target": "deal.amount",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Say Total",
+  "field_zh": "Say Total",
+  "field_en": "",
+  "target": "deal.say_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "美元(小数：CENTS)",
+  "field_zh": "美元(小数：CENTS)",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "日元(小数：SEN)",
+  "field_zh": "日元(小数：SEN)",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "欧元(小数：CENTS)",
+  "field_zh": "欧元(小数：CENTS)",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "英镑(小数：PENCE)",
+  "field_zh": "英镑(小数：PENCE)",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "美元",
+  "field_zh": "美元",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Payment",
+  "field_zh": "Payment",
+  "field_en": "",
+  "target": "deal.payment",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "L/C AT 30 DAYS AFTER SIGHT",
+  "field_zh": "L/C AT 30 DAYS AFTER SIGHT",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Packing",
+  "field_zh": "Packing",
+  "field_en": "",
+  "target": "deal.pack_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Port of Shipment",
+  "field_zh": "Port of Shipment",
+  "field_en": "",
+  "target": "deal.port_load",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Port of Destination",
+  "field_zh": "Port of Destination",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Shipment",
+  "field_zh": "Shipment",
+  "field_en": "",
+  "target": "deal.contract_date",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Shipping Mark",
+  "field_zh": "Shipping Mark",
+  "field_en": "",
+  "target": "deal.shipping_mark",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "收货人名称的首字母缩写或简称",
+  "field_zh": "收货人名称的首字母缩写或简称",
+  "field_en": "",
+  "target": "buyer",
+  "kind": "subject",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "参考号",
+  "field_zh": "参考号",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "目的地",
+  "field_zh": "目的地",
+  "field_en": "",
+  "target": "deal.port_dest",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "包装件号",
+  "field_zh": "包装件号",
+  "field_en": "",
+  "target": "deal.pack_total",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Quality",
+  "field_zh": "Quality",
+  "field_en": "",
+  "target": "goods.desc_en",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Insurance",
+  "field_zh": "Insurance",
+  "field_en": "",
+  "target": "deal.insurance_cover",
+  "kind": "source",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Documents",
+  "field_zh": "Documents",
+  "field_en": "",
+  "target": "deal.documents_clause",
+  "kind": "derived",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "仲裁条款",
+  "field_zh": "仲裁条款",
+  "field_en": "",
+  "target": null,
+  "kind": "manual",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Manager Signature (BUYERS)",
+  "field_zh": "Manager Signature",
+  "field_en": "BUYERS",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ },
+ {
+  "doc": "合同（外销合同）",
+  "side": "出口",
+  "section": "合同填写说明",
+  "field": "Manager Signature (SELLERS)",
+  "field_zh": "Manager Signature",
+  "field_en": "SELLERS",
+  "target": null,
+  "kind": "preprinted",
+  "doc_rule": {
+   "actor": "seller",
+   "note": "合同只能由出口商起草"
+  }
+ }
+]

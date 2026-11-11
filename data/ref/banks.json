@@ -1,0 +1,85 @@
+{
+ "note": "POCIB 各国唯一指定银行（每个国家一家），用于托收行/代收行/开证行/通知行",
+ "banks": {
+  "China": {
+   "zh": "中国银行",
+   "en": "BANK OF CHINA",
+   "addr_zh": "上海市人民大道170号",
+   "addr_en": "170 People Avenue, Shanghai, China",
+   "tel": "86-21-52896588",
+   "fax": "86-21-52896599"
+  },
+  "Japan": {
+   "zh": "东京三菱银行",
+   "en": "THE BANK of TOKYO-MITSUBISHI, LTD.",
+   "addr_zh": "日本东京都立川市曙町2-10-22",
+   "addr_en": "2-10-22 Kayato Bldg 4F, Akebonocho Tachikawa Shi, Tokyo",
+   "tel": "81-3-932-1098",
+   "fax": "81-3-932-1099"
+  },
+  "Russia": {
+   "zh": "俄罗斯远东银行",
+   "en": "FAR EASTERN BANK",
+   "addr_zh": "圣彼得堡纸大街11栋1号楼",
+   "addr_en": "1st building, 11th tower, Zhi street, St Petersburg, Russia",
+   "tel": "7-812-3505320",
+   "fax": "7-812-3505321"
+  },
+  "Germany": {
+   "zh": "德国德意志银行",
+   "en": "Deutsche Bank",
+   "addr_zh": "德国莱比锡席勒街20号",
+   "addr_en": "Schillerweg 20, Leipzig, 04155 Germany",
+   "tel": "49-2871-23939-10",
+   "fax": "49-2871-23939-11"
+  },
+  "UK": {
+   "zh": "苏格兰皇家银行",
+   "en": "THE ROYAL BANK of SCOTLAND",
+   "addr_zh": "爱丁堡安德鲁广场42号",
+   "addr_en": "42 St.Andrew Square Edinburgh, EH2 2YE",
+   "tel": "44-31-556-8555",
+   "fax": "44-31-556-8556"
+  },
+  "Brazil": {
+   "zh": "巴西银行",
+   "en": "Banco Do Brazil",
+   "addr_zh": "巴西里约热内卢花都区214号",
+   "addr_en": "Avenida Rio Branco, 214 Rio de Janeiro, RJ Brazil",
+   "tel": "55-21-4250063",
+   "fax": "55-21-4250066"
+  },
+  "Australia": {
+   "zh": "澳洲联邦银行",
+   "en": "COMMONWEALTH BANK OF AUSTRALIA",
+   "addr_zh": "维多利亚省墨尔本亚拉格林贝尔大街9号",
+   "addr_en": "9 Bell Street, Yarra Glen, Melbourne, Victoria",
+   "tel": "61-3-52142568",
+   "fax": "61-3-52142569"
+  },
+  "America": {
+   "zh": "美国花旗银行",
+   "en": "Citibank",
+   "addr_zh": "纽约311西部街区186号",
+   "addr_en": "186 West 311th Street New York, NY 10025",
+   "tel": "1-212-2890045",
+   "fax": "1-212-2890046"
+  },
+  "Cuba": {
+   "zh": "古巴中央银行",
+   "en": "National Bank of Cuba",
+   "addr_zh": "古巴哈瓦那阿玛格拉卡乐街区402号",
+   "addr_en": "Calle Cuba # 402, e/ Amargura y Lamparilla, Havana CP 10100, Cuba",
+   "tel": "53-226-626515",
+   "fax": "53-226-626601"
+  },
+  "South Africa": {
+   "zh": "南非标准银行",
+   "en": "STANDARD BANK OF SOUTH AFRICA LTD.",
+   "addr_zh": "南非西开普省皮尔浩斯市恩格热特16号",
+   "addr_en": "16 Heerengracht, Suite 801 Pier House Cape Town 8001 Western Cape, South Africa",
+   "tel": "27-21-25456800",
+   "fax": "27-21-25456801"
+  }
+ }
+}

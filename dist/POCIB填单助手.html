@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>POCIB 辅助填单 · 原型</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --panel:#fff; --line:#e3e6ea; --ink:#1b1f24; --ink2:#5b6675;
+    --ink3:#8b95a3; --accent:#2f6fed; --accent-bg:#eaf1ff;
+    --ok:#1f8a53; --ok-bg:#e8f6ee; --warn:#a86400; --warn-bg:#fdf3e2;
+    --gray:#6b7684; --gray-bg:#eef0f3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+  header{background:#fff;border-bottom:1px solid var(--line);padding:14px 20px;
+         display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  header h1{font-size:16px;margin:0;font-weight:600}
+  .tabs{display:flex;gap:6px}
+  .hdr-right{margin-left:auto;display:flex;align-items:center;gap:18px}
+  .author{display:flex;align-items:center;gap:10px;padding-left:16px;
+          border-left:1px solid var(--line)}
+  .author .ava{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .author .ava img{width:44px;height:44px;border-radius:50%;object-fit:cover;
+    border:1px solid #d8dde4;box-shadow:0 1px 4px rgba(0,0,0,.07);
+    opacity:.92;transition:opacity .2s,transform .2s;cursor:default}
+  .author .ava img:hover{opacity:1;transform:scale(1.06)}
+  .author .by{font-size:10px;color:var(--ink3);white-space:nowrap;letter-spacing:.02em}
+  .author .warn{font-size:11px;line-height:1.45;color:#8a5a10;background:#fdf5e8;
+    border:1px solid #f2e3c9;border-radius:6px;padding:4px 9px;white-space:nowrap}
+  .author .warn b{color:#b4610a;font-weight:600}
+  .tab{padding:6px 14px;border-radius:8px;border:1px solid var(--line);background:#fff;
+       cursor:pointer;font-size:13px;color:var(--ink2)}
+  .tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  main{display:grid;grid-template-columns:330px 268px 1fr;gap:12px;padding:12px;align-items:start}
+  @media(max-width:1400px){main{grid-template-columns:310px 250px 1fr}}
+  @media(max-width:1050px){main{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .card h2{font-size:13px;margin:0;padding:10px 14px;border-bottom:1px solid var(--line);
+           font-weight:600;color:var(--ink2);background:#fafbfc;display:flex;
+           justify-content:space-between;align-items:center}
+  .card h2 span{font-weight:400;color:var(--ink3);font-size:12px}
+  .body{padding:12px 14px}
+  .grp{margin-bottom:14px}
+  .grp>label{display:block;font-size:12px;color:var(--ink3);margin-bottom:6px;
+             text-transform:uppercase;letter-spacing:.04em}
+  .row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .row .k{width:92px;flex:none;font-size:12.5px;color:var(--ink2)}
+  .row input,.row select{flex:1;min-width:0;padding:5px 8px;border:1px solid var(--line);
+        border-radius:6px;font:13px/1.4 inherit;color:var(--ink);background:#fff}
+  .row input:focus,.row select:focus{outline:2px solid var(--accent-bg);border-color:var(--accent)}
+  .row input[readonly]{background:#fafbfc;color:var(--ink3)}
+  .calc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .kv{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfcfd}
+  .kv .lab{font-size:11.5px;color:var(--ink3)}
+  .kv .val{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
+  .kv .val small{font-size:11px;font-weight:400;color:var(--ink3);margin-left:3px}
+  ol.flow{list-style:none;margin:0;padding:0}
+  ol.flow li{padding:5px 10px;border-bottom:1px solid #f2f4f6;display:flex;gap:7px;
+             cursor:pointer;align-items:flex-start;line-height:1.35}
+  ol.flow li:hover{background:#fafbfc}
+  ol.flow li.on{background:var(--accent-bg)}
+  ol.flow li .no{width:15px;flex:none;color:var(--ink3);font-size:11px;padding-top:1px}
+  ol.flow li .nm{font-size:12.5px;font-weight:500}
+  ol.flow li .ds{font-size:10.5px;color:var(--ink3);margin-top:0;
+               display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .who{margin-left:auto;font-size:10px;padding:0 6px;border-radius:20px;flex:none;
+       background:var(--gray-bg);color:var(--gray);white-space:nowrap;margin-top:1px}
+  .who.s{background:var(--accent-bg);color:var(--accent)}
+  .who.b{background:var(--ok-bg);color:var(--ok)}
+  table.f{width:100%;border-collapse:collapse;font-size:13px}
+  table.f th{text-align:left;font-weight:500;color:var(--ink3);font-size:11.5px;
+             padding:6px 8px;border-bottom:1px solid var(--line);background:#fafbfc}
+  table.f td{padding:6px 8px;border-bottom:1px solid #f3f5f7;vertical-align:top}
+  table.f td.v{font-variant-numeric:tabular-nums;word-break:break-all}
+  td.v{cursor:pointer;position:relative;transition:background .12s}
+  td.v:hover{background:#f5f9ff;box-shadow:inset 0 0 0 1px #dbe7fb}
+  td.v:active{background:#e9f2ff}
+  td.v:hover::after{content:"点击复制";position:absolute;right:4px;top:1px;font-size:9.5px;
+    color:#2f6fed;background:#eaf1ff;padding:0 4px;border-radius:3px;pointer-events:none}
+  #toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(8px);
+    background:#1b1f24;color:#fff;font-size:12.5px;padding:7px 15px;border-radius:20px;
+    opacity:0;pointer-events:none;transition:.18s;z-index:80;max-width:72vw;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    box-shadow:0 6px 20px rgba(0,0,0,.18)}
+  #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  .tag{font-size:10.5px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+  .t-auto{background:var(--ok-bg);color:var(--ok)}
+  .t-manual{background:var(--warn-bg);color:var(--warn)}
+  .t-empty{background:var(--gray-bg);color:var(--gray)}
+  .t-bank{background:#eaf1ff;color:#2f6fed}
+  .note{font-size:11.5px;color:var(--ink3);padding:8px 14px;border-top:1px solid var(--line);
+        background:#fafbfc}
+  .mini{font-size:12px;color:var(--accent);cursor:pointer;padding:2px 6px;border-radius:5px;
+        border:1px solid transparent;white-space:nowrap}
+  .mini:hover{background:var(--accent-bg);border-color:#d3e0fb}
+  .mini.ghost{color:var(--ink2);border-color:var(--line);background:#fff}
+  .mask{position:fixed;inset:0;background:rgba(20,26,34,.38);display:none;
+        align-items:center;justify-content:center;z-index:50;padding:24px}
+  .mask.on{display:flex}
+  .modal{background:#fff;border-radius:12px;width:min(880px,100%);max-height:88vh;
+         display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.22)}
+  .modal header{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;
+                align-items:center;gap:10px}
+  .modal header h3{margin:0;font-size:14px;font-weight:600}
+  .modal .mbody{padding:14px 16px;overflow:auto}
+  .modal footer{padding:10px 16px;border-top:1px solid var(--line);display:flex;
+                gap:8px;justify-content:flex-end;background:#fafbfc}
+  .frm{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+  @media(max-width:720px){.frm{grid-template-columns:1fr}}
+  .frm .f{display:flex;flex-direction:column;gap:3px}
+  .frm .f label{font-size:11.5px;color:var(--ink3)}
+  .frm .f input,.frm .f textarea{padding:5px 8px;border:1px solid var(--line);border-radius:6px;
+        font:13px/1.45 inherit}
+  .frm .f textarea{resize:vertical;min-height:56px}
+  .frm .wide{grid-column:1/-1}
+  .btn{padding:6px 14px;border-radius:7px;border:1px solid var(--line);background:#fff;
+       cursor:pointer;font-size:13px;color:var(--ink)}
+  .btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.dan{color:#c0392b;border-color:#f0cfca}
+  .coCard{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfcfd;
+          font-size:12px;color:var(--ink2);line-height:1.5}
+  .coCard b{color:var(--ink);font-weight:600}
+  .chip{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:20px;
+        background:#f0f2f5;color:var(--ink2);margin:0 6px 6px 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>POCIB 辅助填单 · 原型</h1>
+  <div class="hdr-right">
+    <div class="tabs">
+      <div class="tab on" data-case="A">案例A · D/A + FOB 出口</div>
+      <div class="tab" data-case="B">案例B · L/C + CIP 进口</div>
+    </div>
+    <div class="author">
+      <div class="ava">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb//gAQTGF2YzYyLjM2LjEwMQD/2wBDAAgICAkICQsLCwsLCw0MDQ0NDQ0NDQ0NDQ0ODg4REREODg4NDQ4OEBARERITEhERERETExQUFBgYFxccHB0iIin/xACkAAACAwEBAQEAAAAAAAAAAAAGAAcFBAMCAQgBAAIDAQEAAAAAAAAAAAAAAAQAAQMCBQYQAAIBAgUCBAIHBgUEAwEBAAECAxEEEgAhBTETQQYiUWEycRQjgUKRoVIVMwfwcrFigtHBQyRjkhY04cJTohEAAQMCBQIDBwMFAQEAAAAAAQIAEQMhEjFBBFFhIhORgQVxoTLR8LFCweGCFHIjYvFD/8AAEQgAoACgAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8AjjLn5lz6N81/cufmbDa7BtzvYbZThDkl3/RGoxO/2KNPVqDME4QScg5El3Xh3w8d0P0i4xJao1PLo9w45RD91V/5JO3A14lKJY4I1ihRIo0FFjjGFF+Q7k92NWPc5zRrHDGkUS9OONQkaD7qDge57k92JOfks4iHqfT29T/NT2zx61ZVVUnLQcfyzUICB11L1PcRx/G6r8znML2ad8NrF1fRjio3qQFFcPoeDlsrE3RMl0/SWmNlHIH+InyqOwxfYDzkvtBbJF9SgRDrUj7vZmr5mLfdDcjWgGaCXY6C32fc5jikuTHU/CgWg9sNCPxZjnPdBLclP2mCw5EcAmI9mNVT7K1yYSJ11o6tgP8Axg0L/wBdCNPYmnrmn3GPox4QYowRRYYYogP88jqdPkozEtYy+4SQOQrpdJwCVEDhgAcD6lFYqcS18rDg5TviRn623uEHdlwTKB6/VsTT3pntFsX0S/kuzdtG5tcL2qoGUsCzRuCy4oW1cKcFWUnCopnGZr0LiuFt3jJrWJCCgJopZ2LSn06mIa9u2ZlruLa9t7xcUEqyDvTlf6lNGH2jOh7GPcY2gljEiPoQR+Y9COxyNps8lzcJNbExSKa4l8uJe9aaYl79iMyhYWwhiXHhx01ppU/LKTDWJbR4ItrCQsTjFarXmnocnkUSwqFUaDPvEo7jPJ54oxVmA+3MqWteZJcABOVn2rkR8S+IIdtt3AYYyDpmv8QeMLexjZImDP7Zg3dN2n3KVnkYmp4yTt9spZxKsHVUqxYZvPuF417cPK3cnOLPzLnrCzEluXLlyuGT2E+x7badS5tf2neygskTOyWtsv3OrhIaSQ/EyjQAgVBzd+EkDpfXhWNWlkSFQiBEVQOo4RRoq16YoOwzHuZM8MALtMf+Kadj+KqPyXIm6GGmbklRAMnTgcB3UrrHQF380ywRs7V07AElidAoAqSSdABnvEsV7I3SZUEIlMUsgoJasCkbHprikoxKHkKAMANc1Mpklv4FwKYIA007uSkauUbpL1QCElNCYq8txrmx2y6EVtCskRdBMZRidzjfikMS4fNjJJcmnA9s8ost6ypjjAlVlGOixOGVpHFMUkoPmpqAB6VAyU2Ks6Kxr6io4J5dhwZD2HCLQDOK1sgaT3Jp5QFQmrKOfO/LOSTipRangnXN0JFUCowAUovf207V7DnMS5fcAD+dT880SH6RcSXGkiwHBGn/APS4Pb5IMPyNT93Nhd3DxxhIv30xwRj0NKl29kXzH3oO+XbII0gonlCsxofUhdSTyT3Pucw11O4W7QRRqpxSs01zNJT42SOpJ/w/CiLwFAGc9/aqsLvH5eoGKjnDJoaH1SZPJIP1KG5ySTwdSJyaVlQxL64WNKD5k1P/ANZqd3Vls5fKRhEfHY4hp+eVwxy33BreMdMUrqteQR8SH3HHypmr3Hf9wtisquSjnD7qwFR/5LqPcEZ2OlJ7mE6ETMyexIx/niIyKb3ciNEgoT1pMQP6emuLX54yudhr3N4v3BySX1P2ZHdy8TbjJIy9U0IB59RnDXNTeGsx/pXJe1SDVy0LqrHs9Q+cs8k7Vdix988cuXPUYbcuXLla3Lly5WtzIvhaTFtxX9E0g/8AIK3++Y6yQ+Ht0Tb7hklNIpsIJ7Iw4Y+3Zvx7ZH3KCukYuRfydlJWFV9bO9ut1XbN2l6jBVmWNWx6qYo4+oQuoAlJUdN9Svmw65KNu3C3iY3EoLyeRY48DURcPxcUVANEUVZj6CpzFniC2nvLrBJL/wDHl8pIrjSuJKsDr5D5W9M6J93nmMawgwNHdJI2uKqC2pzXzAvUDtoK5EV7P3INPskVcIQpJlJxC19PVkiqi9/lmRrZymviKXcb42lrj6yjEyohZ4l9WdgIozryeO2SFLmCwT/qZolkWrPik8sVeWd3oWb3oGbhVAzC3hq0uJN1VYGYvOMDEMesQzh5GD1/QjVIodffMonaY7QhYuj1FJJ6wM9GOvxM2J2XnnCTzWma93t/7WsaUyUhMnqRLmmvGnFzLsbPedvnl6hvLUSygLFC08PVSOv3kEhpJIfMVHAwr2Od8+4QWR6VQZDrgr5qE+UU5qx8qinvwMh8qPSQz28c4KMCzxx3CUNMTUwFcegGo8o+Fc47Se3s1dLdmGMA4jixKGFMKM1ZAKCgFS1NAVGRXtlybgJHEZkKxwYpbiUkipBqUXuBjIXTsMI1JzTT7st/NLqyoJI1YV+HzYmr2qFw4h2Omad58EDFVkKKFdlXBVEBoGONlUuxJ6ak6k1pmrguGioj2dxDGS80jAxzYErpi6btJ3JZiOdczDWRW7tNdXEnoys3tiwDIjv17Hb24cjEZccMQpU9QscNPwH4ZM7Gn7KnmUgvcSYm/wC2tephPoVjALA6gsAdcx1uswl6SaHA7yCo4PAp+L5I2m3O6r06QtiVc8JFyfJ4qLwJKuB8XjV6jFxmokfqOzep/Lt+WW4vMK9JNTUhj2GvA9ffPNcVBi5z0KNA0lrJEdykpnOAc2PVXiCfM++H9z1ggmuZUhhjeWSQ4URFLOxPYAZ5ZI9g8Ry+HWlkt7S1lnkGHrT9RjGndEVWUCp1Y1qdB2zeoqAOESdBMfF1CJvZmVl/Cy9mtlkub2O1lbXorEZsHsziRAW9cIIHqche/bHBskxhXc7S9dTR44VkDxn/AB/HGD6jqYh6Zs9z8feINziMRmS1jYUYWqGNmHoZGZ5AD3wsuQvNNJNeZqLH+IA/MPaijJIPvLc6rKyudxuI7a1ieaaQ0VF5PqSToFA1LEgAc5y5m/wBBtm02M0808P06W3N3MlQZbeyGqAjkYgOow58y1HGZr1fBRMScgHFNGMxpq413PwnuezRCW/axtVaoXq3sClyOQik1YjvhrkT+k25YqJoyQaaMKfYeD9mb/fN2uPEO4yXUtW6hwQxciKKvkiUce7erEk5ybb4YttzuKsVijDBZJWbDDiP3Y0BVpH+TIgGrEDNSqlamkFRpnkXTHrL2EoUYGIcHN9ttibcpHjW6tVaGLEEmmVCyg6KhPp76AHOK4kEEmMrU4THoRSoaupBIpoaEVr2zKSeC/DtoBHaOlxO3AjjkuJGP9McoAHzdFA5Oaa48ExxG66lwZQsDyyk4FwzfDEkKpphQHzEVFTm7b+1vDQUqm3cgYRhQRcAHM4jyAA5Vt5NvUzc/wDjweHLPdZlx2lxFaXV39RA7Rluihq1ahgQzsgBNGASgKnXOXePDd1tn7JW93O+U3Cs9352K286yp1EijRlr0gcSgHz0BWgyTbDPbSbxDZQzst5bKHMLocBdFWjxy11WQMDgatDXsMzAbW03OEfSYLa6U8iSBaqw5VlfHhIOhFeRnlJrA1/Fqp8WSSoE3M9b3GYtFmQU9uFJw8OCNgfxGbi6Symm3O1tWSnXB6xEs2BCjYgyuUrIYpGZcIINNDmXP2RNMcMkaBaecsowgdx6sfUD5VyRWW32e2xtHaQRW6MxcpEuFMR5OHgV9s6yQtKkCpoKmlSeAPf0GcVVoUtRQjAk5JmYtzbPPhykEASZPLi7drzZ9oXDdNbwx4scaTUxuR5cax0Z2POqqQvFc1EO8eHtzkK2lzb9WisRJjiR8PwqwlAGhOgw680OSrxl4aud0lsr2xhgmuLeYPIk2CkqKoEY+s8rKjVrGSFIdjzkDTwLdXI3C73G2FrKyTfREUrEq3Lvi64aMtHDFER5FUlmBNF0zYmlTNBVQ1UBQMCn+o3H7XnJwVHEBhMc6Ow8V7jd7dtmJIYscjLGSjmrl6nE5OrKpoSzaknsMxn+0FmBZ9CiitNcXmbjQeoGT9dkv8AxHZ21nLP1nhlQNdqslOjGGHUfqkgyPi0VWw9zQaZobnwpJaSyqmJ42llCg6Sta9YJFIdKBsILtpww00yT7Nr09vXStSiFQpIt2pBTmdTJeKyVLSQOnvYgqEuZG5JJp6Vz2z3ubU2U7wFsYQ+RqUxIwxKfwOeGehj8TuzxXn3sQ2McNy5cuVw3Lly5Wub99/hjZyRSS7U8kMoBK28j44ZP8Cu/nQnsSzLXnMMBrizlkXzxSASwyqahqMCkkbg+oqrA5m/wX45gvoYrDcZRHdKBHHK+iXIGi1bhZqaEGmM6jU0yNfxQ2mO1vra/iUKLtWjmoOZYgCHPuyGh/oyDRqVE1DSq3n5SdfqCyFpSU40W5cYRyNE6uhoy8GgPanBBGSXad0tmlMUzrHPID0wWwoU/RGNApHpy1NOKZDrm6jtVqxqT8K9z/oPfNFBDJuM5d/hr5j/AGRf505y7opUQhIxVD8B1cUpEqNkj4uf4d8mtSLeOdQQMRTAmGn/AHcIXyn3OI9s5JtxkuEkK1cuyiQ10JD1K1A+86roBoijiuQ7ZIOmOogYl3W2REFTRhq2tdVNKfnkh8TXF7YCKKIRW0IUxKsdWkVqVf64/ExU/WSAA10BpkM0v9opggmQJ0l34+zEQ44i3q52/wASw7mAXkWVXdF+9GRhKKB26egB7jP69sbu23C1iu7ZlkiuEWVXWnmDDk+44NdQRTP5astimjuIryQKVGOXp/eP1ZAL1oFVaqqD1qxoMmH8Nd6vdvvv2TUTWrwmbp188cqIS7W9eceEs0Z+KmIUPOFIxGoUiyT8HIMBIOZc+vIkQBd1QEgVZgoqeBUka+2cN7aNfCILIFRXxkjU8ChUioqOx989njtNxhXEqTx4ldSQDhdNQwrqrqfkRnndWqyIrF5VEJEtIm6Rfp+YK7JqUNKMopiGh0JzU9vxuN0baMsWMaAVZlALsa0CJWoHarUPIA1yJm8t1HXvpQ+Inp2+PqsfdgzEfkPn2yRXVsdwa4hkVVlEUTwOK4QcUmq9wC1FkXuKe2fzd/7Y9tf3Vvd2ZXDK0aRQ4T0irEFG6lC5B0xFhoOMyHDnW23uOZvhSCFRhEaULGulWpyzfBFGoqzEtwuQ7ctxsZN9YXcnQ/6WRIiHIEcrt5QSNGIKgGtVJJPGROLfoAFeSIqJW8qIodkGiqZW0GKTWir8KgV5zyvdtgv7iJJ4DKYwTJPC7RSIDwrsWMOFF0AP1lOWHGdCBPuIDXVbqYzeyhJDIFwISezKihl9PKRTTg6ds1+fU8a2yRyRRzC1d+lHIwLIG/T1aKCeDxXXXPnPY260qppAPygAsKqCFGdbty5cub3W3Lly5Wtzaz7zf3W3pYTytPDFKJYuoS0kRCspVHJxYCG+E1oQKUzVZcwQDEgWuOjmXgn2+GYaAqxIJerMadxqTnZHGkKBEFAP5qffPvLnIpoSoqCQCXJUSIJLsrDdp9sNUQSLUkiuF1xLhLKe9OcPqNDm33q9sRfw3FzcpLFLbKtGxuqMjvT6PFFiJqCtSxFTUsa58eHvC1/4iZzDhhgj0kuJASob9CKNXf2BAHc5I92/h7FtkcdNyEk5DyS4oFSKGGONmaaRwzMiVARSxqzMKZA3Io+JOMpVrAn6QWRSK8PygjSTDF593je0lRA7tOuEY+Y4j+rnztzhqcIpU10z38Flo9/tmU0ciXC1KhSsZIqNKroQ2oqGOuaSSyNrdfR7uQWpKhg7qzKVahDLgriU15SvyzNXhDw/tdlY9VLiO6uLpSv0uM1iiwspEUYNGXzYS+MBieQBTKpdCnRUlJKir7npDQmopYJsAyaeG/tZOvbwMpf95GlJYmPrgBV6H2GJexOafcd7aRenMy24Z0gMK9QN1JdFWQlBKAeaYAKa65MdvuVuIfiVjGTGxU1FV0yN3222K7tNeOqiVhExfCzMQsLRD4QT5QeeBi15zz2Q72Ob6i2mJFfLFIfdvI34SAHP5/8A4jbKtj4ha6wUS9jxq3CrJWklTx6H7TmdraAXNnNCaUkqQQRo9KMwof1qHqNPPkS8Z7f/AOw+GWmC1ubMmSg56kVVlj/zjgepGZBhw492Ta7Sa3FzHG11hcx4+mxijcAErGjDEaDUyFST7ZMtttBNcfWRv040MhqrKAagKTUDQat9lTmx8M7QPDNtt8N0yzPcuXIwlBbtMA2tWOLWimoXj2zIs5TCwNCcDc9lpqT6Dt75Za4j8dwpPsEiqBo8bR0FML4ipFO3xD7cwtbTrcRhxzww/S3cf6ZmvxhG/wCxcavRVuIw6kfH5iqkHkHQV9aZhc28aSEqoUnWq6VB9aaH7Rk3ZqIWQIvoenHV01gMM8Pply5c9RiNy5cuVrcuXLla/ccckzhI0aRm4VFLMfkqgk503G331ogkntbiFGOFWlieMMaVoC6ipp2zLfg6PaPC22Jue5zxQ3N6uOJW80q2/wB0RxqC/wBZ8TECnArpkM8a+KE8SXcXQWRLa3VhGH0Z3f4pCoJw6ABRWtPnkdNZS6mFKe0ZrPPR2FACZJudPqy/Y9ynhsLWwskLVt42JjZYmLE4nneUqwihDkopCmWZgcNAKkps9kMqyvdSI0LN1JFIKwOykENNiYzXBWnxTTlB+ntms8PwR2m02srMpa5jhleTQB2dQqIvGiCkaIPTQa58+JB9L26O2Yki9urG1VCdAklwjPp69NH9hnkKuTzJ/LNGQZhLYbRLN1JLWC9nw0xGGOUgHWgqOmldK0oT3zgt9vFltkZlKQyRpg6kVGDV0EbRqKSmtFQDzdgRnBFuNzZVtZjhVsfRnVFVJF5wyYRRJFHPCkajPy6vxL0gJh04g0uOuGNcIAVg2i0VcRqDpznENdtYpdW7Cab6PYhkEfSLmV3CgYZJB5EWTmoVnFDQnTNDvkl9tdxcX30nrRSrGrBF6fQFNFLgsFVgMXmJxtQHDUZ83UzCjlus8mER1J+sZxVdTrhp5m9FBOb7aRFdWk1nMomU1WQOukokHmr6/Z8Og7ZmIawjwRvLfSZIpZsSTTt046KMLOSDIlEUlXIUOgJEZUHSpyWXUn0K4vbdtY7mP6REDx1EILp/mAGRUW/7Hv7u1xRTQq4urUqVbpORj6bAVEb0GMUpUVYaHJvd2Mm8m3nAFuI/OpJxsxNQRhTTBQnlqnK1iDbzBu80kqzCfopMhVQUAdACcNQK1U6MNOTm3uL9LZbVQ7TyHC9zNgcySFhhChRU4S5ACgUJ475y2PgSOyurh+sGSeRpU+JTBiQqyooILYsRFTphoM5dl8O3237a30/97CzANjL1VpicQautAQw9OOc2LFOSUKsMMA5mRfyLgTq+fiSWKTwtdS60+pK4hRhILhFoQeGxYgRmGZQGpQivI9x6Zmfdton3awntRPFBDLcR3LEqzOjxENIgAIXC7ri9q5hKQAOVBxKpYK1ORX07Zu26Cs2MEHPgRY+dniorCLiQQ/OXUgkDQcn+eff0z6jjEjGmgFMRH9vn/YZ+3UwjTprQEin9Iz6KjtsVM1KhwpgxH6j06T5sEm8B+MufinEAfUDN9tmwXm5H6tDT1yGVBIkmHqCXRZcueJk6UtSoYECoIB9eK987QMSgCcM6xMOHqllknfHI7O1FGJjU0UUUfIAUA4AyxoZHCjvnsI4ZBiUaHutR/bPwRSIaxvyCNdDRhQio9RpxkpewrpHZhXa0fQw8haZu5d8D7pa3Nq+3sGlayWsOMKyvEzEnAOAwckCuuGlDm13ZY33PZJktneKG7uJZX6Sp0CbR0SruUojyMCRqMS6ZhjadxvNpu+rbgY8DKyv+7eOoJDHEKAEA1DBlIqMyzZ+Jra6iwTq0MvwsDhIYYal1x4G4qMJXFUZ87u6CqNQ2Im8HMHWRozqS8SfuH8+jDe9xunuHiS1WRoEUTx4GtoiO4ehE5JaUg6L5DTCM8Z4b7dbeDCelNcz3BpJG0sFtBb/uLWSOE0/6ghZJG4YYguigZCrvct1t7uSa0kt4bdixSCeOOZXLVJpjT6vXWoILsWLUFMkuweLLpiljLHhvbpmxSCJI4oUVT00WMUUkgcmoBNTXjIt3a7TdI766N5JGhQxIosvPheeQYJZWPAVJSBbqSalcdaBs7EuZpbiICC5W2aCa5mUqUkmZP3ViV+JS58zr98KEGhOdaszQgMHrEAryMKIzCobCxpioR5mAw66Gtc5by6i2+3N3KSscRFWCltSRpQetRmWsg26wS82pIp6GecLdzyYGXDcSryiHCwWP9yq8CNMJzUdS8s2aDqyoIzgOHEw0A1YfFqPMHGhB1pm4Xf7G4mPSm+utHWK5icFGKSCpwYv3hWgfyVK/epXOrdR05Le4jNHOJQw+8FUup9xSo+TZy1jgkuA2MTviH3gBX8TiyUbekl1akzSvJ1CyUbD8INOwFDXWopn40VpucWJOmkzLoRQMG9GA+IV+2mfeyPjsUPfHICPQ4tR+eUtYxcJKwmt1fA00c0QPpKqla/gB+efz3c47ZmiYFZFYoVPKspoa/IjM5+J7x4KpBIY5p55xGVpjCrE5dlJ+HXCMXvpmBImMkvUkJP32JqST6VOp1z1PZqDUWoads/fmx68QPV2FRawivP8AdjzmqJaRq8k59zStK1T9md23PbwyB5dads93cVsUJSOxFkjmNWMhOpzLMPCvhefcijOpCA9/nmfts2m32+FURRoMwzZeOktIsEEQULp+Wbi2/iPr9YufPV6deqTaBwyUKpp97h3Oe4Hwn7M6M+JFxKR+Hzz0gYILHD429wYTTlTyP9xm4Vg4qDUHI9nRBcNEfUement9x4far5fx/DytE3GbJrc1GBSEfzBXp5iXFPKQD5h9yooDqD2O+ybpOB5cILKzYTK4aWRioc9StAQoDa8AFhSmRaS5kHmXCy/mPnrndYG7umIiRlqpBZTTQ/zUehyPv9rt66lrNRSVFEJm6M5mbmOmj3SWtIAwgifV324GEOuOQoykYUFCdQa8g69l0IOtc+rC9Tbdxtrl1wiKcF1amIIfK9aH0avyyObpM4KM3meNVjk/qAIxn2b++agXUkhBZq6YfbD+n5Z8uUlJIOcwWdMueLmVbe6jilRmhjkumkkeCSaEQU6kcnVxdGNiXC1dSxCngUr6itIpdkaxunaJHt4nLhsLRyRsshAPbQkAagYQKZB9h8UyL0bO7b6khYhPXzxAfu8dQVZF+At8QQ61w5kCGSNneHrpIyfXIBIrNgqAfhOuFiKH0I9M1uXg8ORo7bg9xYhJ5+u9o5AkKpEpOOrSMQXYA9RUAY0q1WoDBpHudugKkKY5kQ1GIYemdKac6dxTMX7xu1xBey2No7GS8VbaWDpt1m6vm6ltKDTAV0eNioxsSutcmOy71Bc2t7CRLFLbx9d4ZUwSgQmpITv5RwODpm00VeF4mYm//PU9CbejziGKH43i+/Y9nLev00MQqpDkdSU/AiLQNiZvfQVNcxVZePd+ti6xShjI5bp4I1jVjzhCKH4FNX9znF4j3+bxJchtYbOKv0eM/Ea8ysoOsjD/ACoNK852bBZQmHr4AGxsMTGuFV050BcmvGgGa4enZ2k95eTyXt+5aQISABhWNCpOFE7CnFdWJJPOY6B0pmVQFwy+hEjE9yEWg+zSuYoHA+Qz1fZv/wBP6f3dFf8AT6v7ly5c9N0PXb/C3z/2Ge+ecS4UHvr+OemRjd5ObcuXN9tWxXG5sAgNPXMEhIkmGgSxaWMhqgaH++ekNlcXBokbH7Mzptn8PYQoM+vtk4svDW32YGGJaj2yOr2ghAgDE700VHOzgvYvBV9dupdSqHmuZLuNlsvD22SOFGPCcyMkSRCiqBmIf4kbo0cYgU85HTuKu7qJQTCZmHYUJpgnVxCu4iHcvpDxLPHiIkifiSM/EtezU+FhwcnMvhyyFvHfWyi4spxjSYaPFX7k60NCp8pfgEeamYvJrrkw8KeKrnYpGtyEmtZzUxyEhUkOmJWAOHH8LggqdCclb3bYk+InNIv1H1H4eKS4MHV3h2OIxkImB6eViqOtfcYRUH2+zNHDdXWxX6PJFHG0fxqqqglibQ0YD4T2PYgVyU3W7WzFmgtpoI6BmVZfKhrQ4MAxonrphB7AZrdws4tytxRiWIxwysxcgntiqfKeGHb5jPIZDr49+S48UW24mJYrdQkLdQhnVWVk6tRRVYFqj2GZylwNcW08gUidGt5SQDRqYG190b8Bn8szyIiyxSiSOWNsKpoV9Gxnkt7+nGmZCTxrPcbBBZjEs5Uq1yJMLxywCgI0/wCWLDVsQoSaZ0lCqqkpHEX0SLnyzhwSEifuXHl3bzxXF1GQzG2keORu6hHZf/z24zIOwKkO0W70FWDt/wD7bXMcXt5LdXc0is5afD1KVJkfCMRNOcTAt9uTbYn+kbMqA6oJovkakj8mGYIhRHBI8nOb0XG8RRwyJhctJE6hjQAYgQWoKnSug0yCDgZJ7zbZ3s57pvq1ijTyEVZi7gdjQAA8n8MjGer7OFqh0kD4Meto3PWJMbew59/b/XPI8aZsEw4Rh47fz6+uTVmLcugv1ly5c1PL/9k=" alt="作者头像">
+        <div class="by">作者：鹤与白鹭</div>
+      </div>
+      <div class="warn"><b>仅供 POCIB 学习</b><br>禁止商业用途</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- 左：交易剖面 -->
+  <section class="card">
+    <h2>交易剖面 <span>改数字看右边联动</span></h2>
+    <div class="body">
+      <div class="grp"><label>公司档案 <span style="text-transform:none;letter-spacing:0">（可录入，存为常用）</span></label>
+        <div class="row"><span class="k">我方</span><select id="myCo"></select>
+          <span class="mini" id="editMy">编辑</span></div>
+        <div class="coCard" id="mySum" style="margin:0 0 8px"></div>
+        <div class="row"><span class="k">对方</span><select id="cpCo"></select>
+          <span class="mini" id="editCp">编辑</span></div>
+        <div class="coCard" id="cpSum" style="margin:0 0 8px"></div>
+        <div class="row" style="gap:6px">
+          <span class="mini ghost" id="newCo">＋ 新建公司</span>
+          <span class="mini ghost" id="resetCo">恢复预置</span>
+        </div>
+      </div>
+      <div class="grp"><label>贸易与结算</label>
+        <div class="row"><span class="k">合同号</span><input id="contract"></div>
+        <div class="row"><span class="k">贸易术语</span><select id="term"></select></div>
+        <div class="row"><span class="k">结算方式</span><select id="payment"></select></div>
+        <div class="row"><span class="k">运输方式</span><select id="transport"><option>海运</option><option>空运</option></select></div>
+        <div class="row"><span class="k">装运港</span><select id="port_load"></select></div>
+        <div class="row" id="plCustom" style="display:none"><span class="k"></span>
+          <input id="plCustomTxt" placeholder="港口名, 国家"></div>
+        <div class="row"><span class="k">目的港</span><select id="port_dest"></select></div>
+        <div class="row" id="pdCustom" style="display:none"><span class="k"></span>
+          <input id="pdCustomTxt" placeholder="港口名, 国家"></div>
+      </div>
+      <div class="grp"><label>商品（可选预置，也可全手填）</label>
+        <div class="row"><span class="k">选择商品</span>
+          <select id="goodsPick"></select>
+          <span class="mini" id="editGd">编辑</span></div>
+        <div class="row" style="gap:6px;margin-top:-2px">
+          <span class="mini ghost" id="newGd">＋ 新建商品</span>
+          <span class="mini ghost" id="resetGd">恢复预置</span>
+        </div>
+        <div class="row"><span class="k">HS 编码</span><input id="hs"></div>
+        <div class="row"><span class="k">中文品名</span><input id="hs_zh"></div>
+        <div class="row"><span class="k">英文品名</span><input id="goods_name"></div>
+        <div class="row"><span class="k">成交数量</span><input id="qty" type="number"></div>
+        <div class="row"><span class="k">销售单位</span><input id="unit"></div>
+        <div class="row"><span class="k">每箱装量</span><input id="pack_qty" type="number"></div>
+        <div class="row"><span class="k">箱数单位</span><input id="pack_unit"></div>
+        <div class="row"><span class="k">单价</span><input id="unit_price" type="number" step="0.01"></div>
+        <div class="row"><span class="k">每箱毛重</span><input id="gw" type="number" step="0.01"></div>
+        <div class="row"><span class="k">每箱净重</span><input id="nw" type="number" step="0.01"></div>
+        <div class="row"><span class="k">每箱体积</span><input id="vol" type="number" step="0.00001"></div>
+      </div>
+      <div class="grp"><label>运费与保险</label>
+        <div class="row"><span class="k">运费 USD</span><input id="freight" type="number" step="0.01"></div>
+        <div class="row"><span class="k">加成 %</span><input id="markup" type="number"></div>
+        <div class="row"><span class="k">费率 ‰</span><input id="rate" type="number" step="0.01"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 中：流程 -->
+  <section class="card">
+    <h2>履约流程 <span id="flowHint"></span></h2>
+    <ol class="flow" id="flow"></ol>
+    <div class="note">单据清单由「结算方式 × 贸易术语 × 运输方式 × 商品编码」决定；执行方按术语判定（CIF/CIP 出口商投保，FOB/FCA/CFR/CPT 进口商投保）。</div>
+  </section>
+
+  <!-- 右：派生 + 单据字段 -->
+  <section class="card">
+    <h2>派生值 <span>自动计算</span></h2>
+    <div class="body"><div class="calc" id="calc"></div></div>
+    <h2>一致性校验 <span id="chkSum"></span></h2>
+    <div class="body" id="checks" style="padding-top:10px"></div>
+    <h2 id="docTitle">单据字段 <span>点左边环节</span></h2>
+    <div class="body" id="docChips" style="padding:8px 14px 0"></div>
+    <div style="padding:6px 14px 0;font-size:11.5px;color:#8b95a3">点任意一行的「值」即可复制该项</div>
+    <table class="f"><thead><tr><th style="width:38%">栏位</th><th>值</th><th style="width:64px">来源</th></tr></thead>
+      <tbody id="fields"></tbody></table>
+    <div class="note" id="docNote"></div>
+  </section>
+</main>
+
+<div class="mask" id="gdMask">
+  <div class="modal" style="width:min(760px,100%)">
+    <header><h3 id="gdModalTitle">编辑商品</h3>
+      <span style="margin-left:auto;font-size:12px;color:#8b95a3">16 个栏位 · 对应「国内工厂 → 商品基本资料」</span></header>
+    <div class="mbody"><div class="frm" id="gdForm"></div></div>
+    <footer>
+      <button class="btn dan" id="gdDel">删除</button>
+      <button class="btn" id="gdCancel">取消</button>
+      <button class="btn" id="gdAsNew">另存为新商品</button>
+      <button class="btn pri" id="gdSave">保存并应用</button>
+    </footer>
+  </div>
+</div>
+
+<div class="mask" id="coMask">
+  <div class="modal">
+    <header><h3 id="coModalTitle">编辑公司</h3>
+      <span style="margin-left:auto;font-size:12px;color:#8b95a3">23 个栏位 · 注册页 22 项 + 中文国名（中文单据要用）</span></header>
+    <div class="mbody"><div class="frm" id="coForm"></div></div>
+    <footer>
+      <button class="btn dan" id="coDel">删除</button>
+      <button class="btn" id="coCancel">取消</button>
+      <button class="btn" id="coAsNew">另存为新公司</button>
+      <button class="btn pri" id="coSave">保存并应用</button>
+    </footer>
+  </div>
+</div>
+
+<script>
+/* ---------------- 数据 ---------------- */
+/* 公司档案：预置两家真实公司，其余由用户录入并存为"常用公司" */
+const CO_DEFS = [
+ ["account","账号"],["country","国家（英文，如 Germany）"],["country_zh","国家（中文）"],
+ ["name_zh","公司全称（中）"],["name_en","公司全称（英）"],
+ ["short_zh","公司简称（中）"],["short_en","公司简称（英）"],
+ ["address_zh","公司地址（中）"],["address_en","公司地址（英）"],
+ ["legal_zh","法人代表（中）"],["legal_en","法人代表（英）"],
+ ["tel","电话"],["fax","传真"],["postcode","邮政编码"],
+ ["bank_zh","开户行（中）"],["bank_en","开户行（英）"],
+ ["account_no","本币账号"],["currency","币别"],
+ ["reg_inspection","报检登记号"],["reg_tax","税务登记号"],["credit_code","统一社会信用代码"],
+ ["intro_zh","公司介绍（中）"],["intro_en","公司介绍（英）"]
+];
+const CO_WIDE = new Set(["address_zh","address_en","intro_zh","intro_en"]);
+
+const PRESET = [
+ {account:"202405110116",country:"Germany",country_zh:"德国",
+  name_zh:"马哈鱼科技有限公司",name_en:"Shanghai Mihayou Network Technology Co.,Ltd",
+  short_zh:"马哈鱼科技",short_en:"MIHOYO CO.,LTD",
+  address_zh:"上海市徐汇区钦州路100号一号楼",
+  address_en:"Building 1, No. 100 Qinzhou Road, Xuhui District, Shanghai",
+  legal_zh:"鹤与白鹭",legal_en:"Kamisato Ayaka",tel:"121788519",fax:"111168271",postcode:"200233",
+  bank_zh:"德国德意志银行",bank_en:"Deutsche Bank",account_no:"6101000014043",currency:"EUR",
+  reg_inspection:"32000001404",reg_tax:"32010300001404",credit_code:"913320010000014040",
+  intro_zh:"上海马哈鱼网络科技股份有限公司 2011 年创立于上海，主营原创游戏开发。",
+  intro_en:"MiHoYo, officially Shanghai MiHoYo Network Technology Co., Ltd., founded in 2011 in Shanghai."},
+ {account:"202405110145",country:"America",country_zh:"美国",
+  name_zh:"君泪时代国际贸易有限公司",name_en:"Thy Tears Times International Trading Co., Ltd.",
+  short_zh:"君泪时代",short_en:"Thy Tears Times",
+  address_zh:"美国加利福尼亚州洛杉矶市商贸大道126号",
+  address_en:"126 Commerce Avenue, Los Angeles, California, USA",
+  legal_zh:"窦梓",legal_en:"Dou Zi",tel:"+1-213-5566789",fax:"+1-213-5566790",postcode:"90001",
+  bank_zh:"美国花旗银行",bank_en:"Citibank",account_no:"6101000014317",currency:"USD",
+  reg_inspection:"32000001431",reg_tax:"3201030001431",credit_code:"913320010000014310",
+  intro_zh:"君泪时代主营跨境商品进出口贸易，深耕中美供应链业务。",
+  intro_en:"Thy Tears Times mainly engages in cross-border import and export trade."}
+];
+
+
+/* 各国唯一指定银行（POCIB 每国一家），用于托收行/代收行/开证行/通知行 */
+const BANKS = {
+ "China":{zh:"中国银行",en:"BANK OF CHINA",addr_zh:"上海市人民大道170号",addr_en:"170 People Avenue, Shanghai, China",tel:"86-21-52896588",fax:"86-21-52896599"},
+ "Japan":{zh:"东京三菱银行",en:"THE BANK of TOKYO-MITSUBISHI, LTD.",addr_zh:"日本东京都立川市曙町2-10-22",addr_en:"2-10-22 Kayato Bldg 4F, Akebonocho Tachikawa Shi, Tokyo",tel:"81-3-932-1098",fax:"81-3-932-1099"},
+ "Russia":{zh:"俄罗斯远东银行",en:"FAR EASTERN BANK",addr_zh:"圣彼得堡纸大街11栋1号楼",addr_en:"1st building, 11th tower, Zhi street, St Petersburg, Russia",tel:"7-812-3505320",fax:"7-812-3505321"},
+ "Germany":{zh:"德国德意志银行",en:"Deutsche Bank",addr_zh:"德国莱比锡席勒街20号",addr_en:"Schillerweg 20, Leipzig, 04155 Germany",tel:"49-2871-23939-10",fax:"49-2871-23939-11"},
+ "UK":{zh:"苏格兰皇家银行",en:"THE ROYAL BANK of SCOTLAND",addr_zh:"爱丁堡安德鲁广场42号",addr_en:"42 St.Andrew Square Edinburgh, EH2 2YE",tel:"44-31-556-8555",fax:"44-31-556-8556"},
+ "Brazil":{zh:"巴西银行",en:"Banco Do Brazil",addr_zh:"巴西里约热内卢花都区214号",addr_en:"Avenida Rio Branco, 214 Rio de Janeiro, RJ Brazil",tel:"55-21-4250063",fax:"55-21-4250066"},
+ "Australia":{zh:"澳洲联邦银行",en:"COMMONWEALTH BANK OF AUSTRALIA",addr_zh:"维多利亚省墨尔本亚拉格林贝尔大街9号",addr_en:"9 Bell Street, Yarra Glen, Melbourne, Victoria",tel:"61-3-52142568",fax:"61-3-52142569"},
+ "America":{zh:"美国花旗银行",en:"Citibank",addr_zh:"纽约311西部街区186号",addr_en:"186 West 311th Street New York, NY 10025",tel:"1-212-2890045",fax:"1-212-2890046"},
+ "Cuba":{zh:"古巴中央银行",en:"National Bank of Cuba",addr_zh:"古巴哈瓦那阿玛格拉卡乐街区402号",addr_en:"Calle Cuba # 402, e/ Amargura y Lamparilla, Havana CP 10100, Cuba",tel:"53-226-626515",fax:"53-226-626601"},
+ "South Africa":{zh:"南非标准银行",en:"STANDARD BANK OF SOUTH AFRICA LTD.",addr_zh:"南非西开普省皮尔浩斯市恩格热特16号",addr_en:"16 Heerengracht, Suite 801 Pier House Cape Town 8001 Western Cape, South Africa",tel:"27-21-25456800",fax:"27-21-25456801"}
+};
+function BK(co){ return (co && BANKS[co.country]) || {zh:"",en:"",addr_zh:"",addr_en:"",tel:"",fax:""}; }
+
+const LS_KEY="pocib.companies.v1";
+let CO_LIST = (()=>{
+  try{ const raw=localStorage.getItem(LS_KEY); if(raw){const a=JSON.parse(raw); if(Array.isArray(a)&&a.length) return a;} }catch(e){}
+  return JSON.parse(JSON.stringify(PRESET));
+})();
+function coSave(){ try{localStorage.setItem(LS_KEY, JSON.stringify(CO_LIST));}catch(e){} }
+function CO(id){ return CO_LIST.find(x=>x.account===id) || CO_LIST[0] || {}; }
+
+/* 商品档案：预置 3 个真实商品，其余由用户录入并存为"常用商品" */
+const GD_DEFS = [
+ ["code","商品编号"],["name_zh","商品名称（中文）"],["name_en","商品名称（英文）"],
+ ["cat","商品属类"],["hs","H.S.编码"],["model","型号（Model）"],
+ ["unit","销售单位（英文，如 PC）"],["unit_zh","销售单位（中文，如 件）"],
+ ["pack","包装单位/种类（如 CARTON）"],
+ ["conv","单位换算：1个包装单位 = N 个销售单位"],
+ ["gw","毛重 KG / 包装单位"],["nw","净重 KG / 包装单位"],["vol","体积 CBM / 包装单位"],
+ ["transport","运输方式"],
+ ["spec_zh","规格型号（中文）"],["spec_en","规格型号（英文）"]
+];
+const GD_WIDE = new Set(["spec_zh","spec_en"]);
+
+const PRESET_GD = [
+ {code:"26006",name_zh:"德国咖啡机",name_en:"GERMAN COFFEE MACHINE",cat:"电器",hs:"8516711000",
+  model:"9751G",unit:"PC",unit_zh:"件",pack:"CARTON",conv:10,gw:22,nw:20,vol:0.23239,transport:"海运",
+  spec_zh:"额定功率：1000-1200瓦，额定电压：220-240伏，尺寸：33×19.4×36.3CM",
+  spec_en:"RATED POWER:1000-1200W,NOMINAL VOLTAGE:220-240V,SIZE:33×19.4×36.3CM"},
+ {code:"01007",name_zh:"龙眼罐头",name_en:"CANNED LONGANS",cat:"食品饮料",hs:"2008992000",
+  model:"—",unit:"CARTON",unit_zh:"箱",pack:"CARTON",conv:1,gw:11.2,nw:10.2,vol:0.011294,transport:"海运",
+  spec_zh:"每箱12听，每听850克",spec_en:"850Gx12TINS/CTN"},
+ {code:"08011",name_zh:"排球",name_en:"VOLLEYBALL",cat:"球类",hs:"9506621000",
+  model:"5#",unit:"PC",unit_zh:"个",pack:"CARTON",conv:30,gw:10,nw:9,vol:0.28,transport:"海运",
+  spec_zh:"材质：超细PU革，型号：5号国际标准，尺寸：19.2×18.2×14.4cm，包装：30个/箱",
+  spec_en:"MATERIAL:ULTRAFINE PU LEATHER,MODEL:5# INTERNATIONAL STANDARD,SIZE:19.2×18.2×14.4cm,PACKAGING:30PCS/CARTON"}
+];
+
+/* 港口主数据：来自 POCIB 海运部「航程及运费查询」，共 10 个港口 */
+const PORTS = [
+ ["Shanghai","China","上海","中国"],["Nagoya","Japan","名古屋","日本"],
+ ["Melbourne","Australia","墨尔本","澳大利亚"],["New York","America","纽约","美国"],
+ ["Liverpool","UK","利物浦","英国"],["Hamburg","Germany","汉堡","德国"],
+ ["St.Petersburg","Russia","圣彼得堡","俄罗斯"],["Capetown","South Africa","开普敦","南非"],
+ ["Santiagos","Cuba","圣地亚哥","古巴"],["Rio De Janeiro","Brazil","里约热内卢","巴西"]
+];
+const TERMS=["FOB","CFR","CIF","FCA","CPT","CIP","DAP","DPU"];
+const PAYS=["L/C","T/T","D/P","D/A"];
+
+function portOptionsHTML(){
+  const byCountry={};
+  PORTS.forEach(([en,cn,zh,cz])=>{ (byCountry[cz]=byCountry[cz]||[]).push([en,cn,zh]); });
+  return Object.keys(byCountry).map(cz=>
+    `<optgroup label="${cz}">`+byCountry[cz].map(([en,cn,zh])=>
+      `<option value="${en.toUpperCase()}, ${cn.toUpperCase()}">${zh}（${en}）</option>`).join("")+`</optgroup>`
+  ).join("") + `<option value="__custom__">＋ 其他（手动输入）</option>`;
+}
+
+function fillBaseSelects(){
+  $("term").innerHTML=TERMS.map(x=>`<option value="${x}">${x}</option>`).join("");
+  $("payment").innerHTML=PAYS.map(x=>`<option value="${x}">${x}</option>`).join("");
+  $("port_load").innerHTML=portOptionsHTML();
+  $("port_dest").innerHTML=portOptionsHTML();
+}
+
+function syncPort(side,val){
+  const sel=$(side==="load"?"port_load":"port_dest");
+  const row=$(side==="load"?"plCustom":"pdCustom");
+  const txt=$(side==="load"?"plCustomTxt":"pdCustomTxt");
+  const known=[...sel.options].some(o=>o.value===val);
+  if(val && !known){ sel.value="__custom__"; row.style.display=""; txt.value=val; }
+  else if(val){ sel.value=val; row.style.display="none"; }
+  else { sel.value=sel.options[0].value; row.style.display="none"; }
+}
+
+const LS_GD="pocib.goods.v1";
+let GD_LIST = (()=>{
+  try{ const raw=localStorage.getItem(LS_GD); if(raw){const a=JSON.parse(raw); if(Array.isArray(a)&&a.length) return a;} }catch(e){}
+  return JSON.parse(JSON.stringify(PRESET_GD));
+})();
+function gdSave(){ try{localStorage.setItem(LS_GD, JSON.stringify(GD_LIST));}catch(e){} }
+function GD(code){ return GD_LIST.find(x=>x.code===code) || null; }
+
+const CASES = {
+  A:{ my:"202405110116", cp:"202405110145", contract:"2026110302", term:"FOB", payment:"D/A", transport:"海运",
+      port_load:"HAMBURG, GERMANY", port_dest:"NEW YORK, AMERICA", currency:"USD",
+      goods:"GERMAN COFFEE MACHINE", qty:1000, unit:"PCS", pack_qty:10, pack_unit:"CARTON",
+      unit_price:76.22, gw:22, nw:20, vol:0.23239, freight:760, markup:110, rate:8.8,
+      invoice_no:"IV00000828", pack_no:"PL0000824", hs:"8516710000",
+      hs_zh:"德国咖啡机", desc:"RATED POWER:1000-1200W,NOMINAL VOLTAGE:220-240V,SIZE:33×19.4×36.3CM",
+      pay_text:"D/A AT 60 DAYS AFTER SIGHT", cert:"一般原产地证", role:"出口商", goods_no:"26006", lc_no:"",
+      lc_date:"", lc_expiry:"", ship_deadline:"", freight_amt:760, docs_clause:[],
+      issue_date:"2026-11-10", vat_no:"00000797", forwarder:"", forwarder_acct:"" },
+  B:{ my:"202405110116", cp:"202405110145", contract:"2026110301", term:"CIP", payment:"L/C", transport:"海运",
+      port_load:"NEW YORK, AMERICA", port_dest:"HAMBURG, GERMANY", currency:"USD",
+      goods:"CANNED LONGANS", qty:20000, unit:"CARTONS", pack_qty:1, pack_unit:"CARTON",
+      unit_price:7.63, gw:11.2, nw:10.2, vol:0.011294, freight:0, markup:110, rate:8.8,
+      invoice_no:"IV0000791", pack_no:"PL0000787", hs:"2008992000",
+      hs_zh:"龙眼罐头", desc:"850Gx12TINS/CTN",
+      pay_text:"L/C AT SIGHT", cert:"普惠制产地证", role:"进口商", goods_no:"01007", lc_no:"002/000149",
+      lc_date:"2026-11-03", lc_expiry:"20261221", ship_deadline:"20261203", freight_amt:26879.72,
+      docs_clause:["品质证书","健康证书"], issue_date:"2026-11-03", vat_no:"—", forwarder:"", forwarder_acct:"" }
+};
+
+/* 21 个环节（按结算方式过滤单据） */
+const FLOW = [
+ {s:1,n:"申请开证",by:"进口商",d:{"L/C":["不可撤销信用证开证申请书","合同"]}},
+ {s:2,n:"信用证修改申请",by:"进口商",d:{"L/C":["信用证修改申请书"]}},
+ {s:3,n:"订舱",by:"出口商",d:{all:["国际海运委托书","商业发票","装箱单"]}},
+ {s:4,n:"出口报检",by:"出口商",d:{all:["出境货物检验检疫申请","商业发票","装箱单","外销合同"],"L/C":["出境货物检验检疫申请","商业发票","装箱单","外销合同","信用证"]}},
+ {s:5,n:"申请产地证",by:"出口商",d:{all:["商业发票","装箱单","产地证"]}},
+ {s:6,n:"申请鉴定",by:"出口商",d:{all:["商业发票","装箱单","申请鉴定表"]}},
+ {s:7,n:"办理保险",by:"出口商",d:{all:["投保单"]}},
+ {s:8,n:"送货",by:"出口商",d:{all:[]}},
+ {s:9,n:"出口报关",by:"出口商",d:{all:["出口货物报关单","商业发票","装箱单"]}},
+ {s:10,n:"取回提单",by:"出口商",d:{all:["配舱回单"]}},
+ {s:11,n:"交单/寄单",by:"出口商",d:{"L/C":["信用证","汇票","商业发票","装箱单","海运提单","产地证"],"T/T":["商业发票","装箱单","海运提单","产地证"],"D/P":["托收委托书","汇票","商业发票","装箱单","海运提单","产地证"],"D/A":["托收委托书","汇票","商业发票","装箱单","海运提单","产地证"]}},
+ {s:12,n:"支付运费",by:"出口商",d:{all:["境内汇款申请书","国际货运代理专业发票"]}},
+ {s:13,n:"申请出口退税",by:"出口商",d:{all:["商业发票","增值税专用发票"]}},
+ {s:14,n:"付款",by:"进口商",d:{"L/C":["信用证"],"T/T":["境外汇款申请书"],"D/P":["对外付款/承兑通知书"],"D/A":["对外付款/承兑通知书"]}},
+ {s:15,n:"承兑",by:"进口商",d:{"L/C":["对外付款/承兑通知书"],"D/A":["对外付款/承兑通知书"]}},
+ {s:16,n:"取提货单",by:"进口商",d:{all:["海运提单"]}},
+ {s:17,n:"索赔",by:"进口商",d:{all:["货物运输保险单","索赔申请书","出险通知书"]}},
+ {s:18,n:"进口报检",by:"进口商",d:{all:["提货单","入境货物检验检疫申请","外销合同","商业发票","装箱单","产地证"]}},
+ {s:19,n:"进口报关",by:"进口商",d:{all:["提货单","进口货物报关单","外销合同","商业发票","装箱单"]}},
+ {s:20,n:"进口缴税",by:"进口商",d:{all:["进口关税缴款书","进口增值税缴款书"]}},
+ {s:21,n:"提货",by:"进口商",d:{all:["提货单"]}}
+];
+
+/* ---------------- 工具 ---------------- */
+const $=id=>document.getElementById(id);
+const n2=v=>(isFinite(v)?v:0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const n3=v=>(isFinite(v)?v:0).toLocaleString("en-US",{minimumFractionDigits:3,maximumFractionDigits:3});
+const n0=v=>Math.round(isFinite(v)?v:0).toLocaleString("en-US");
+const nW=v=>{const t=n2(v);return t.endsWith(".00")?t.slice(0,-3):t;};
+
+const ONES=["","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE","TEN","ELEVEN",
+"TWELVE","THIRTEEN","FOURTEEN","FIFTEEN","SIXTEEN","SEVENTEEN","EIGHTEEN","NINETEEN"];
+const TENS=["","","TWENTY","THIRTY","FORTY","FIFTY","SIXTY","SEVENTY","EIGHTY","NINETY"];
+function u3(n){let s="";if(n>99){s+=ONES[Math.floor(n/100)]+" HUNDRED";n%=100;if(n)s+=" AND ";}
+  if(n>19){s+=TENS[Math.floor(n/10)];n%=10;if(n)s+="-"+ONES[n];}else if(n)s+=ONES[n];return s;}
+function mWords(v,cur){
+  const i=Math.floor(v+1e-9), c=Math.round((v-i)*100);
+  let t=words(i);
+  if(c>0) t+=" AND CENTS "+words(c);
+  return (cur?cur+" ":"")+t+" ONLY";
+}
+function words(n){n=Math.floor(n);const g=[[1e9,"BILLION"],[1e6,"MILLION"],[1e3,"THOUSAND"]];
+  let out=[];for(const [v,name] of g){if(n>=v){out.push(u3(Math.floor(n/v))+" "+name);n%=v;}}
+  if(n)out.push(u3(n));return out.join(" ")||"ZERO";}
+
+/* ---------------- 渲染 ---------------- */
+let CASE="A", SEL=null;
+
+function loadCase(k){
+  CASE=k;const c=CASES[k];
+  for(const id of ["contract","term","payment","transport","port_load","port_dest",
+      "goods","qty","unit","pack_qty","pack_unit","unit_price","gw","nw","vol","freight","markup","rate"]){
+    const el=$(id); if(!el) continue;
+    el.value=c[id]!==undefined?c[id]:"";
+  }
+  renderCoUI(); renderGdUI();
+  syncPort("load",c.port_load); syncPort("dest",c.port_dest);
+  const gp=$("goodsPick"); if(gp){ gp.value=c.goods_no||""; $("hs").value=c.hs||""; $("hs_zh").value=c.hs_zh||""; $("goods_name").value=c.goods||""; }
+  renderFlow(); compute();
+}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  t.classList.add("on"); loadCase(t.dataset.case);
+});
+
+function derived(){
+  const c=CASES[CASE];
+  const qty=+$("qty").value||0, pq=+$("pack_qty").value||1, up=+$("unit_price").value||0;
+  const gw=+$("gw").value||0, nw=+$("nw").value||0, vol=+$("vol").value||0;
+  const fr=+$("freight").value||0, mk=(+$("markup").value||0)/100, rt=(+$("rate").value||0)/1000;
+  const packs=Math.ceil(qty/pq);
+  const amount=qty*up;
+  const ins=c.term==="CIF"||c.term==="CIP";
+  // 保费：只有非 CIF/CIP 需要算（CIF 已含）
+  let cif=amount, premium=0, insured=0;
+  if(ins){ cif=amount; insured=cif*mk; premium=insured*rt; }
+  else if(fr>0){ cif=(amount+fr)/(1-mk*rt); insured=cif*mk; premium=insured*rt; }
+  return {packs,total_gw:packs*gw,total_nw:packs*nw,total_vol:packs*vol,
+          amount,cif,premium,insured,mk,rt};
+}
+
+function check(){
+  const c=CASES[CASE], D=derived(), out=[];
+  const qty=+$("qty").value||0, up=+$("unit_price").value||0, pq=+$("pack_qty").value||1;
+  const mk=(+$("markup").value||0)/100, rt=(+$("rate").value||0)/1000;
+  const add=(ok,msg)=>out.push({ok,msg});
+
+  add(Math.abs(D.amount-qty*up)<0.01, `金额 = 数量 × 单价（${n2(qty)} × ${n2(up)} = ${n2(qty*up)}）`);
+  add(D.packs===Math.ceil(qty/pq), `件数 = ⌈数量 ÷ 装量⌉（⌈${qty}/${pq}⌉ = ${D.packs}）`);
+  if(c.term!=="CIF"&&c.term!=="CIP"){
+    add(D.cif>D.amount+(+$("freight").value||0), `CIF 应大于 FOB+运费（${n2(D.cif)} > ${n2(D.amount)}+${n2(+$("freight").value||0)}）`);
+  }
+  add(Math.abs(D.insured-D.cif*mk)<0.02, `保险金额 = CIF × ${(mk*100).toFixed(0)}%`);
+  add(Math.abs(D.premium-D.insured*rt)<0.02, `保险费 = 保险金额 × ${(rt*1000).toFixed(2)}‰`);
+  add(c.payment==="L/C"?!!c.lc_no:!c.lc_no, c.payment==="L/C"?"L/C 业务必须填信用证号":"非 L/C 业务信用证号应留空");
+  const g=GD(c.goods_no);
+  if(g) add(g.hs===c.hs, `报关单 HS 与商品资料一致（资料 ${g.hs} / 单据 ${c.hs||"空"}）`);
+  add(D.total_vol>0, `总体积已算出（${n3(D.total_vol)} CBM）`);
+  return out;
+}
+
+function renderChecks(){
+  const out=check(), bad=out.filter(x=>!x.ok).length;
+  $("chkSum").textContent = bad? `${out.length-bad}/${out.length} 通过` : `全部 ${out.length} 项通过`;
+  $("checks").innerHTML = out.map(x=>
+    `<div style="display:flex;gap:8px;padding:4px 0;font-size:12.5px;line-height:1.5">
+      <span style="flex:none;color:${x.ok?"#1f8a53":"#c0392b"}">${x.ok?"✓":"✕"}</span>
+      <span style="color:${x.ok?"#5b6675":"#c0392b"}">${x.msg}</span></div>`).join("");
+}
+
+function compute(){
+  const d=derived(), c=CASES[CASE];
+  $("calc").innerHTML=[
+    ["外包装件数", n2(d.packs), c.pack_unit+"S"],
+    ["总毛重", n2(d.total_gw), "KGS"],
+    ["总净重", n2(d.total_nw), "KGS"],
+    ["总体积", n3(d.total_vol), "CBM"],
+    ["发票金额", "USD "+n2(d.amount), ""],
+    ["CIF 金额", "USD "+n2(d.cif), ""],
+    ["保险金额", "USD "+n2(d.insured), (d.mk*100).toFixed(0)+"%"],
+    ["保险费", "USD "+n2(d.premium), (d.rt*1000).toFixed(2)+"‰"]
+  ].map(([l,v,u])=>`<div class="kv"><div class="lab">${l}</div>
+      <div class="val">${v}${u?`<small>${u}</small>`:""}</div></div>`).join("");
+  renderChecks();
+  if(SEL) renderFields(SEL);
+}
+
+function docsOf(f){
+  const c=CASES[CASE];
+  if(f.s===7 && !(c.term==="CIF"||c.term==="CIP")) return {d:["投保单"],by:"进口商"};
+  if(f.s===15 && c.payment==="T/T") return {d:[],by:"进口商"};
+  if(f.s===16 && c.term!==undefined && false) return {d:[],by:"进口商"};
+  const d=f.d[c.payment]||f.d.all||[];
+  return {d,by:f.by};
+}
+
+function renderFlow(){
+  const c=CASES[CASE];
+  $("flowHint").textContent=`${c.payment} · ${c.term} · ${c.transport}`;
+  $("flow").innerHTML=FLOW.map(f=>{
+    const {d,by}=docsOf(f);
+    const ds=d.length?d.join("、"):"无需单据";
+    const cls=by==="出口商"?"s":"b";
+    return `<li data-step="${f.s}"><div class="no">${f.s}</div>
+      <div><div class="nm">${f.n}</div><div class="ds">${ds}</div></div>
+      <span class="who ${cls}">${by}</span></li>`;
+  }).join("");
+  document.querySelectorAll("ol.flow li").forEach(li=>{
+    li.onclick=()=>{document.querySelectorAll("ol.flow li").forEach(x=>x.classList.remove("on"));
+      li.classList.add("on"); SEL=+li.dataset.step; renderFields(SEL);};
+  });
+  const first=document.querySelector("ol.flow li");
+  if(first){first.classList.add("on");SEL=+first.dataset.step;renderFields(SEL);}
+}
+
+/* 单据字段：给出了 8 张核心单据的字段级渲染；其余显示字段清单与"待确认" */
+let DOCI=0;
+function renderFields(step,di){
+  const f=FLOW.find(x=>x.s===step); if(!f) return;
+  const {d,by}=docsOf(f);
+  DOCI=(typeof di==="number")?di:(DOCI>=d.length?0:DOCI);
+  const chips=$("docChips");
+  chips.innerHTML = d.length>1 ? d.map((x,i)=>
+    `<span class="chip" data-i="${i}" style="cursor:pointer;${i===DOCI?"background:#2f6fed;color:#fff":""}">${x}</span>`
+  ).join("") : "";
+  chips.querySelectorAll(".chip").forEach(el=>el.onclick=()=>renderFields(step,+el.dataset.i));
+  const c=CASES[CASE], D=derived();
+  const my=CO(c.my), cp=CO(c.cp);
+  const seller=c.role==="出口商"?my:cp, buyer=c.role==="出口商"?cp:my;
+  const doc=d.length?d[DOCI]:"";
+  $("docTitle").innerHTML=`第 ${f.s} 步 · ${f.n} <span>${by}</span>`;
+
+  let rows=[], note="";
+  const G=(k,v,tag="auto")=>rows.push([k,v,tag]);
+
+  if(d.length===0){
+    $("fields").innerHTML=`<tr><td colspan="3" style="color:#8b95a3;padding:14px">
+      该环节在 ${c.payment} + ${c.term} 下无需提交单据</td></tr>`;
+    LAST_ROWS=[]; LAST_DOC=doc; LAST_STEP=f.s;
+    $("docNote").textContent=""; return;
+  }
+
+  // —— 商业发票 / 装箱单 ——
+  if(doc==="商业发票"){
+    G("出票人 Issuer",seller.name_en+" · "+seller.address_en,"主体");
+    G("受票人 To",buyer.name_en+" · "+buyer.address_en,"主体");
+    G("发票号 No.",c.invoice_no,"主体");
+    G("发票日期 Date","Nov.10,2026","自动");
+    G("合同号 S/C No.",c.contract,"自动");
+    G("信用证号 L/C No.",c.payment==="L/C"?c.lc_no:"（非 L/C，留空）",c.payment==="L/C"?"自动":"空");
+    G("支付条款",c.pay_text,"自动");
+    G("运输说明",`FROM ${c.port_load} TO ${c.port_dest}, ${c.term} ${c.port_dest.split(",")[0]}`,"自动");
+    G("唛头",c.shipping_mark||"N/M","自动");
+    G("货物描述",c.goods+"\n"+c.desc,"自动");
+    G("数量",n2(c.qty)+" "+c.unit,"自动");
+    G("单价","USD "+n2(+$("unit_price").value)+" / "+c.unit,"自动");
+    G("金额 U SD","USD "+n2(D.amount),"自动");
+    G("SAY TOTAL","SAY "+words(D.amount)+" ONLY","自动");
+  }
+  // —— 装箱单 ——
+  else if(doc==="装箱单"){
+    G("出单方 Issuer",seller.name_en,"主体");
+    G("受单方 To",buyer.name_en,"主体");
+    G("装箱单号",c.pack_no,"主体");
+    G("发票号",c.invoice_no,"自动");
+    G("外包装件数",n2(D.packs)+" "+c.pack_unit+"S","自动");
+    G("毛重 G.W",n2(D.total_gw)+" KGS","自动");
+    G("净重 N.W",n2(D.total_nw)+" KGS","自动");
+    G("箱外尺寸 Meas.",n3(D.total_vol)+" CBM","自动");
+    G("SAY TOTAL","SAY "+words(D.packs)+" "+c.pack_unit+"S ONLY","自动");
+  }
+  // —— 投保单 ——
+  else if(doc==="投保单"){
+    const who=(c.term==="CIF"||c.term==="CIP")?seller:buyer;
+    G("投保人 / 被保险人",who.name_en,"主体");
+    G("地址 / 邮编",who.address_en+" / "+who.postcode,"主体");
+    G("联系人",who.legal_en,"自动");
+    G("电话",who.tel,"主体");
+    G("贸易合同号",c.contract,"自动");
+    G("信用证号",c.payment==="L/C"?c.lc_no:"（留空）",c.payment==="L/C"?"自动":"空");
+    G("包装及数量",n2(D.packs)+" "+c.pack_unit+"S","自动");
+    G("保险货物项目",c.goods,"自动");
+    G("赔付地点",c.port_dest,"自动");
+    G("承保条件","一切险 + 战争险（CIC）","待确认");
+    G("加成",(+$("markup").value)+" %","自动");
+    G("CIF 金额","USD "+n2(D.cif),"自动");
+    G("保险金额","USD "+n2(D.insured),"自动");
+    G("费率",(+$("rate").value).toFixed(2)+" ‰","自动");
+    G("保险费","USD "+n2(D.premium),"自动");
+    G("起运日期","2026-11-15","待确认");
+    G("投保人签字",who.name_en,"自动");
+    note="CIF = (FOB + 运费) ÷ (1 − 加成率 × 费率)，保险费由 CIF 反推，不能用顺序公式。";
+  }
+  // —— 报关单 ——
+  else if(doc==="出口货物报关单"||doc==="进口货物报关单"){
+    const isOut=doc==="出口货物报关单";
+    G("境内收发货人",(isOut?seller:buyer).name_zh+"\n"+(isOut?seller:buyer).credit_code,"主体");
+    G(isOut?"出境关别":"进境关别",isOut?"汉堡海关":"纽约海关","码表");
+    G(isOut?"境外收货人":"境外发货人",(isOut?buyer:seller).name_en,"主体");
+    G("运输方式","(2) 水路运输","码表");
+    G("监管方式","(0110) 一般贸易","常量");
+    G("征免性质","(101) 一般征税","常量");
+    G("合同协议号",c.contract,"自动");
+    G("贸易国 / 运抵国","(USA) 美国","码表");
+    G("指运港","(USA309) 纽约(美国)","码表");
+    G("包装种类",c.pack_unit==="CARTON"?"纸箱":c.pack_unit,"码表");
+    G("件数",n2(D.packs),"自动");
+    G("毛重 / 净重",n2(D.total_gw)+" / "+n2(D.total_nw),"自动");
+    G("成交方式","(3) "+c.term,"码表");
+    G("运费","USD "+n2(+$("freight").value),"自动");
+    G("保费","USD "+n2(D.premium),"自动");
+    G("商品编号",c.hs,"主体");
+    G("商品名称",c.hs_zh,"主体");
+    G("数量及单位",n2(c.qty)+" 件","自动");
+    G("单价 / 总价",n2(+$("unit_price").value)+" / "+n2(D.amount),"自动");
+    note="报关单所有分类栏都是「代码+名称」，需要码表；商品名称用中文，发票用英文。";
+  }
+
+  // —— 不可撤销信用证开证申请书 ——
+  else if(doc==="不可撤销信用证开证申请书"){
+    const issBank=BK(buyer).en||buyer.bank_en||"", advBank=BK(seller).en||seller.bank_en||"";
+    const need=(c.docs_clause||[]);
+    G("TO（开证行）",issBank+"\n"+(BK(buyer).addr_en||""),"银行表");
+    G("DATE（申请开证日期）",c.lc_date||c.issue_date||"—","自动");
+    G("开证方式","☑ With brief advice by teletransmission（简电开）","待确认");
+    G("Credit NO.",c.lc_no?c.lc_no+"（开出后由银行给号）":"由银行填写","自动");
+    G("Date and place of expiry（有效期及地点）",(c.lc_expiry||"待填")+" / "+(c.port_dest||""),"待确认");
+    G("Applicant（开证申请人）",buyer.name_en+"\n"+buyer.address_en,"主体");
+    G("Beneficiary（受益人）",seller.name_en+"\n"+seller.address_en,"主体");
+    G("Advising Bank（通知行）",advBank+"\n"+(BK(seller).addr_en||""),"银行表");
+    G("Amount（金额）","["+c.currency+"] ["+n2(D.amount)+"]\nSAY "+words(D.amount)+" ONLY","自动");
+    G("Partial shipments",c.partial||"☑ not allowed","待确认");
+    G("Transhipment",c.trans||"☑ allowed","待确认");
+    G("Loading on board at/from（装运港）",c.port_load,"自动");
+    G("not later than（最迟装运期）",c.ship_deadline||"待填","待确认");
+    G("For transportation to（目的港）",c.port_dest,"自动");
+    G("价格条款",c.term,"自动");
+    G("Credit available with",c.credit_available||"ANY BANK BY NEGOTIATION","待确认");
+    G("兑付方式","☑ sight payment（即期付款）","待确认");
+    G("汇票条款","☑ draft(s) for 100 % of invoice value at sight drawn on "+issBank,"自动");
+    G("Documents required","☑ Signed commercial invoice in 2 originals and 2 copies，注明 L/C No. 与 Contract No. "+c.contract+"\n"+
+      "☑ Full set of clean on board B/L（或 Air Waybill），to order and blank endorsed，marked freight prepaid\n"+
+      ((c.term==="CIF"||c.term==="CIP")?"☑ Insurance Policy in 1 original and 1 copy for 110% of invoice value，covering ALL RISKS, WAR RISKS\n":"")+
+      "☑ Packing List in 2 originals and 2 copies，indicating quantity, gross and net weights\n"+
+      need.map(x=>"☑ Certificate of "+x+" in 1 original and 1 copy").join("\n"),"自动");
+    G("Description of goods",(c.goods_no||"")+"\n"+c.goods+"\n"+(c.desc||"")+"\nQuantity:"+c.qty+c.unit+"\nPRICE:"+c.currency+n2(+$("unit_price").value),"自动");
+    G("Additional instructions","1. ☑ All banking charges outside the opening bank are for beneficiary's account.\n2. ☑ Documents must be presented within 21 days after shipment but within the validity of this credit.\n3. ☑ Third party as shipper is not acceptable. Short Form/Bank B/L is not acceptable.\n4. ☑ All documents must be forwarded in ONE lot.","待确认");
+    G("Other terms, if any","（可留空）","空");
+    note="开证行取进口商开户行，通知行取出口商开户行；有效期与最迟装运期必须是 8 位日期且落在开证日之后。";
+  }
+  // —— 托收委托书 ——
+  else if(doc==="托收委托书"){
+    G("致",BK(seller).zh||seller.bank_zh||"","银行表");
+    G("日期",c.issue_date||"—","自动");
+    G("托收行（Remitting Bank）",(BK(seller).zh||seller.bank_zh)+"\n"+(BK(seller).addr_zh||""),"银行表");
+    G("代收行（Collecting Bank）",(BK(buyer).en||buyer.bank_en)+"\n"+(BK(buyer).addr_en||""),"银行表");
+    G("委托人（Principal）",seller.name_zh+" "+seller.address_zh+" "+seller.tel,"主体");
+    G("付款人（Drawee）",buyer.name_en+"\n"+buyer.address_en+"\n"+buyer.tel,"主体");
+    G("托收方式",c.payment==="D/A"?"付款交单 D/P □　承兑交单 D/A ☑":"付款交单 D/P ☑　承兑交单 D/A □","自动");
+    G("发票号码",c.invoice_no,"自动");
+    G("金额","["+c.currency+"] ["+n2(D.amount)+"]","自动");
+    G("国外费用承担人","☑ 付款人　□ 委托人","待确认");
+    G("国内费用承担人","□ 付款人　☑ 委托人","待确认");
+    G("单据种类与份数","汇票 1　商业发票 4　海运提单 1　装箱单 4　"+(c.cert==="一般原产地证"?"一般原产地证 2":"普惠制产地证 2")+
+      ((c.term==="CIF"||c.term==="CIP")?"　保险单 1":"")+
+      (c.docs_clause&&c.docs_clause.length?"　"+c.docs_clause.join("、")+" 各 1":""),"待确认");
+    G("付款指示","开户行："+(BK(seller).zh||seller.bank_zh||"")+"\n账号："+(seller.account_no||"")+
+      "\n联系人："+(seller.legal_zh||"")+"\n电话："+(seller.tel||"")+"　传真："+(seller.fax||""),"主体");
+    G("公司签章",seller.name_zh+"（加盖公章）","主体");
+    note="托收行填出口地银行中文名+中文地址；代收行填进口地银行英文名+英文地址；份数须与合同单据条款一致。";
+  }
+  // —— 汇票 ——
+  else if(doc==="汇票"){
+    const isLC=c.payment==="L/C";
+    const tenor=isLC?"at sight":(c.payment==="D/A"||c.payment==="D/P")?(c.payment==="D/A"?((c.pay_days||60)+" days after sight"):"at sight"):"at sight";
+    const drawee=isLC?(BK(buyer).en||buyer.bank_en||""):buyer.name_en;
+    const payee=isLC?(BK(seller).en||seller.bank_en||""):seller.name_en;
+    G("汇票号码 No.",c.draft_no||"系统生成（如 S00000454）","自动");
+    G("出票日期 Dated",c.issue_date||"—","自动");
+    G("汇票金额 Exchange for",c.currency+" "+n2(D.amount),"自动");
+    G("付款期限 At",tenor+"　Sight of this FIRST of Exchange","自动");
+    G("受款人 Pay to the Order of",payee+(isLC?"":"（非 L/C 填出口商）"),"自动");
+    G("金额大写 the sum of","SAY "+words(D.amount)+" ONLY","自动");
+    G("信用证号码 L/C No.",isLC?(c.lc_no||""):"（非 L/C，不填）",isLC?"自动":"空");
+    G("开证日期 Dated",isLC?(c.lc_date||""):"（非 L/C，不填）",isLC?"自动":"空");
+    G("付款人 Issued by",drawee,"自动");
+    G("被出票人 To",drawee+"\n"+(isLC?(BK(buyer).addr_en||""):buyer.address_en),"自动");
+    G("出票人签章 Authorized Signature",seller.name_en+"\n"+(seller.legal_en||""),"主体");
+    note="百科原文：付款人(Issued by) —— L/C 下为进口地开证银行；非 L/C 则填进口商。右下签章为出票人（出口商）。";
+  }
+
+  // —— 境内汇款申请书（支付运费） ——
+  else if(doc==="境内汇款申请书"){
+    // 运费付款方：CIF/CFR/CIP/CPT 由出口商付；FOB/FCA 由进口商付
+    const payBySeller=["CIF","CFR","CIP","CPT"].includes(c.term);
+    const payer=payBySeller?seller:buyer;
+    const orgCode=(payer.credit_code||"").slice(8,17);
+    const frt=c.freight_amt||0;
+    G("致 TO",BK(payer).zh||"","银行表");
+    G("日期",c.issue_date||"—","自动");
+    G("汇款方式","☑ 电汇 T/T　□ 票汇 D/D　□ 信汇 M/T","自动");
+    G("发电等级","☑ 普通 Normal　□ 加急 Urgent","自动");
+    G("申报号码 / 银行业务编号 / 收电行","由银行填写（无需自己填）","空");
+    G("汇款币种及金额","["+c.currency+"] ["+n2(frt)+"]","自动");
+    G("金额大写",mWords(frt,c.currency),"自动");
+    G("现汇金额 / 外汇账号",n2(frt)+" / "+(payer.account_no||""),"主体");
+    G("购汇金额 / 购汇账号","[ ] 不购汇","空");
+    G("汇款人名称及地址",payer.name_zh+"\n"+payer.address_zh,"主体");
+    G("组织机构代码",orgCode+"（取统一社会信用代码第 9-17 位）","自动");
+    G("收款银行之代理行","可留空（中转行才填）","空");
+    G("收款人开户银行名称及地址",BK(payer).zh+"\n"+BK(payer).addr_zh,"银行表");
+    G("收款人名称及地址",c.forwarder||"（货代公司中文名称，待填）","待确认");
+    G("收款人账号",c.forwarder_acct||"（国际货运代理专用发票上的账号）","待确认");
+    G("汇款附言","FREIGHT FOR "+c.contract,"自动");
+    G("国内外费用承担","☑ 汇款人 OUR　□ 收款人 BEN　□ 共同 SHA","待确认");
+    G("收款人常驻国家（地区）","收款人所在国 + 代码（如 美国 502）","待确认");
+    G("交易编码",c.freight_code||"201013（运费，按国际收支交易编码表）","待确认");
+    G("相应币种及金额","["+c.currency+"] ["+n2(frt)+"]","自动");
+    G("交易附言","FREIGHT","待确认");
+    G("申请人姓名 / 电话",payer.name_zh+" / "+(payer.tel||""),"主体");
+    G("申请人签章",payer.name_zh+"\n"+(payer.legal_zh||""),"主体");
+    note="运费金额须与「国际货运代理专用发票」一致；现汇+购汇=汇款金额；收款人只填货代公司中文名。";
+  }
+  // —— 国际海运 / 空运委托书 ——
+  else if(doc==="国际海运委托书"||doc==="国际空运委托书"){
+    const sea=doc==="国际海运委托书";
+    const isLC=c.payment==="L/C";
+    G("SHIPPER 发货人",seller.name_en+"　TEL "+seller.tel,"主体");
+    G("ADDRESS 地址",seller.address_en,"主体");
+    G("DATE 日期",c.issue_date||"—","自动");
+    G("CONSIGNEE 收货人",isLC?"TO ORDER":buyer.name_en,isLC?"自动":"待确认");
+    G("CONSIGNEE 地址",isLC?"（留空，不填）":buyer.address_en,isLC?"空":"待确认");
+    G("ALSO NOTIFY 通知人",buyer.name_en,"主体");
+    G("通知人地址",buyer.address_en,"主体");
+    G(sea?"PORT OF LOADING 装运港":"AIRPORT OF DEPARTURE 始发站",c.port_load,"自动");
+    G(sea?"PORT OF DESTINATION 目的港":"AIRPORT OF DESTINATION 到达站",c.port_dest,"自动");
+    G(sea?"OCEAN VESSEL 船名":"航班号",sea?"订舱后自动生成":"订舱后自动生成","待确认");
+    G("货物名称及描述",c.goods+"\n"+(c.desc||""),"自动");
+    G("唛头 MARKS",c.shipping_mark||"N/M","待确认");
+    G("NO. OF PACKAGE 件数",n0(D.packs)+" "+c.pack_unit+"S","自动");
+    G("GROSS WEIGHT 毛重",nW(D.total_gw)+" KGS","自动");
+    G("NET WEIGHT 净重",nW(D.total_nw)+" KGS","自动");
+    G("Meas. 体积",n3(D.total_vol)+" CBM","自动");
+    G("TOTAL 合计",`[${n0(D.packs)}] [${nW(D.total_gw)}] [${nW(D.total_nw)}] [${n3(D.total_vol)}]\n[${c.pack_unit}S] [KGS] [KGS] [CBM]`,"自动");
+    G("柜型及数量","□ 货柜　☑ 拼箱　　（20'/40'/40HQ 按需勾选）","待确认");
+    G("运费 FREIGHT",c.currency+" "+n2(c.freight_amt||0)+"　☑ PREPAID　□ COLLECT","待确认");
+    G("DOCUMENT 发票/装箱单号","INVOICE "+(c.invoice_no||"")+"\nPACKING LIST "+(c.pack_no||""),"自动");
+    G("CONSIGNOR 委托人名称地址",seller.name_en+"\n"+seller.address_en,"主体");
+    G("INSTRUCTION BY 经手人签章",seller.name_en+"\n"+(seller.legal_en||""),"主体");
+    note="船名与运费由订舱后系统生成，先留空；L/C 方式下收货人填 TO ORDER、地址电话不填。";
+  }
+  // —— 其他单据：字段清单 + 来源标注 ——
+  else {
+    rows = genericRows(doc,c,D,seller,buyer);
+    note="这张单据的字段级渲染还没做，先列字段与来源。";
+  }
+
+  LAST_ROWS=rows; LAST_DOC=doc; LAST_STEP=f.s;
+  $("fields").innerHTML=rows.map(([k,v,t])=>{
+    const cls=t==="待确认"?"t-manual":(t==="银行表"?"t-bank":(v==="—"?"t-empty":"t-auto"));
+    const raw=(v==null?"":String(v));
+    const shown=raw?raw.replace(/\n/g,"<br>"):"—";
+    return `<tr><td>${k}</td><td class="v" data-c="${encodeURIComponent(raw)}">${shown}</td>
+      <td><span class="tag ${cls}">${t}</span></td></tr>`;
+  }).join("");
+  $("docNote").textContent=note;
+}
+
+let LAST_ROWS=[], LAST_DOC="", LAST_STEP=0;
+
+function toast(msg){
+  const t=$("toast"); if(!t) return;
+  t.textContent=msg; t.classList.add("on");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("on"),1600);
+}
+function copyOne(txt){
+  const show=(s)=>{
+    let m=s.replace(/\s+/g," ").trim();
+    if(m.length>34) m=m.slice(0,34)+"…";
+    toast(`已复制：${m}`);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>show(txt)).catch(()=>{fallbackCopy(txt);show(txt);});
+  } else { fallbackCopy(txt); show(txt); }
+}
+function fallbackCopy(txt){
+  const ta=document.createElement("textarea");
+  ta.value=txt; ta.style.position="fixed"; ta.style.left="-9999px";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+function genericRows(doc,c,D,seller,buyer){
+  const map={
+   "托收委托书":[["托收行 (Remitting Bank)",(seller.bank_zh||"")+" / "+(seller.bank_en||"")+" / "+(seller.address_en||""),"主体"],
+      ["代收行 (Collecting Bank)",(buyer.bank_zh||"")+" / "+(buyer.bank_en||""),"主体"],
+      ["委托人 (Principal)",seller.name_zh+" "+seller.address_zh+" "+seller.tel,"主体"],
+      ["付款人 (Drawee)",buyer.name_en+" / "+buyer.address_en+" / "+buyer.tel,"主体"],
+      ["托收方式",c.payment==="D/A"?"☑ 承兑交单 D/A":"☑ 付款交单 D/P","自动"],
+      ["发票号码",c.invoice_no,"自动"],["金额","USD "+n2(D.amount),"自动"],
+      ["国外费用承担人","付款人","待确认"],["国内费用承担人","委托人","待确认"]],
+   "汇票":[["号码","S00000454（系统生成）","自动"],["出票日期","2026-11-11","自动"],
+      ["金额","USD "+n2(D.amount),"自动"],
+      ["大写","SAY "+words(D.amount)+" ONLY","自动"],
+      ["付款期限",c.payment==="D/A"?"at 60 days after sight":"at sight","自动"],
+      ["受款人 (Pay to the Order of)",seller.name_en,"主体"],
+      ["出票人 / 签章",seller.name_en+" / "+seller.legal_en,"主体"],
+      ["付款人 (To)",buyer.name_en,"主体"]],
+   "出境货物检验检疫申请":[["申请单位",seller.name_zh,"主体"],
+      ["申请单位登记号",seller.reg_inspection,"主体"],
+      ["联系人 / 电话",seller.legal_zh+" / "+seller.tel,"主体"],
+      ["发货人（中/外）",seller.name_zh+" / "+seller.name_en,"主体"],
+      ["收货人（中/外）",buyer.name_zh+" / "+buyer.name_en,"主体"],
+      ["货物名称（中/外文）",c.hs_zh+" "+c.goods,"自动"],
+      ["H.S.编码",c.hs,"主体"],["产地",seller.country_zh,"码表"],
+      ["数/重量",n2(c.qty)+" 件","自动"],["货物总值","USD "+n2(D.amount),"自动"],
+      ["包装种类及数量",n2(D.packs)+" 纸箱","自动"],
+      ["启运地 / 到达口岸","汉堡 / 纽约","码表"],
+      ["贸易方式","一般贸易","常量"]],
+   "产地证":[["证书编号",c.cert=== "一般原产地证"?"GZ0000217":"GP/000/0650","自动"],
+      ["1.Exporter",seller.name_en+" "+seller.address_en+" "+seller.country,"主体+拼接"],
+      ["2.Consignee",buyer.name_en+" "+buyer.address_en+" "+buyer.country,"主体+拼接"],
+      ["4.Country of destination",buyer.country,"主体"],
+      ["运输方式及路线","FROM "+c.port_load+" TO "+c.port_dest,"自动"]]
+  };
+  const key=Object.keys(map).find(k=>doc.includes(k)||k.includes(doc));
+  if(key) return map[key];
+  return [["单据",doc,"—"],["说明","字段清单见 spec/字段总览.csv","—"],
+          ["字段数","—","—"]];
+}
+
+/* ---------------- 公司档案 UI ---------------- */
+function coOptions(sel,id){
+  sel.innerHTML=CO_LIST.map(x=>
+    `<option value="${x.account}"${x.account===id?" selected":""}>${(x.short_zh||x.name_zh||x.account)}（${x.country_zh||x.country||"—"}）</option>`).join("");
+}
+function renderCoUI(){
+  const c=CASES[CASE];
+  coOptions($("myCo"),c.my); coOptions($("cpCo"),c.cp);
+  const m=CO(c.my), q=CO(c.cp);
+  $("mySum").innerHTML=`<b>${m.name_en||"—"}</b><br>${m.country||""} · ${m.tel||""} · ${m.bank_en||""}`;
+  $("cpSum").innerHTML=`<b>${q.name_en||"—"}</b><br>${q.country||""} · ${q.tel||""} · ${q.bank_en||""}`;
+}
+
+let EDIT_ID=null;
+function openCo(id,asNew){
+  EDIT_ID = asNew? null : id;
+  const src = asNew? {} : CO(id||CASES[CASE].my);
+  $("coModalTitle").textContent = asNew? "新建公司" : "编辑公司档案";
+  $("coDel").style.display = asNew? "none":"";
+  $("coForm").innerHTML = CO_DEFS.map(([k,lab])=>{
+    const wide=CO_WIDE.has(k);
+    const v=(src[k]||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+    const isTa = k.startsWith("intro")||k.startsWith("address");
+    return `<div class="f ${wide?"wide":""}"><label>${lab}</label>`+
+      (isTa? `<textarea data-k="${k}">${v}</textarea>` : `<input data-k="${k}" value="${v}">`)+`</div>`;
+  }).join("");
+  $("coMask").classList.add("on");
+}
+function collectCo(){
+  const o={};
+  $("coForm").querySelectorAll("[data-k]").forEach(el=>o[el.dataset.k]=el.value.trim());
+  return o;
+}
+function applyCo(obj){
+  const c=CASES[CASE];
+  if(obj.account===c.my||obj.account===c.cp){ /* 覆盖已引用 */ }
+  renderCoUI(); compute();
+}
+function saveCo(asNew){
+  const o=collectCo();
+  if(!o.account){ alert("请先填「账号」"); return; }
+  const bk=BANKS[o.country];
+  if(bk){ o.bank_zh=bk.zh; o.bank_en=bk.en; }   // 每国银行唯一，自动校正
+  if(asNew && CO_LIST.some(x=>x.account===o.account)){ alert("账号已存在，换一个再存"); return; }
+  if(!asNew){
+    const i=CO_LIST.findIndex(x=>x.account===EDIT_ID);
+    if(i>=0) CO_LIST[i]=o;
+    else { const j=CO_LIST.findIndex(x=>x.account===o.account); if(j>=0) CO_LIST[j]=o; else CO_LIST.push(o); }
+  } else CO_LIST.push(o);
+  coSave(); applyCo(o);
+  $("coMask").classList.remove("on");
+}
+function delCo(){
+  if(!EDIT_ID) return;
+  if(CO_LIST.length<=1){ alert("至少保留一家公司"); return; }
+  if(!confirm("删除该公司？已保存的交易会退回使用第一家。")) return;
+  CO_LIST=CO_LIST.filter(x=>x.account!==EDIT_ID);
+  coSave();
+  const c=CASES[CASE];
+  if(c.my===EDIT_ID) c.my=CO_LIST[0].account;
+  if(c.cp===EDIT_ID) c.cp=CO_LIST[0].account;
+  applyCo({}); $("coMask").classList.remove("on");
+}
+
+/* ---------------- 商品档案 UI ---------------- */
+function gdOptions(sel,code){
+  sel.innerHTML=GD_LIST.map(x=>
+    `<option value="${x.code}"${x.code===code?" selected":""}>${x.code} ${x.name_zh||x.name_en||""}</option>`).join("")
+    + `<option value=""${!code?" selected":""}>自定义（手填）</option>`;
+}
+function renderGdUI(){
+  const c=CASES[CASE];
+  gdOptions($("goodsPick"), c.goods_no);
+}
+let GEDIT=null;
+function openGd(code,asNew){
+  GEDIT = asNew? null : code;
+  const src = asNew? {} : (GD(code)||{});
+  $("gdModalTitle").textContent = asNew? "新建商品" : "编辑商品档案";
+  $("gdDel").style.display = asNew? "none":"";
+  $("gdForm").innerHTML = GD_DEFS.map(([k,lab])=>{
+    const wide=GD_WIDE.has(k);
+    const v=String(src[k]===undefined?"":src[k]).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+    const isTa = GD_WIDE.has(k);
+    return `<div class="f ${wide?"wide":""}"><label>${lab}</label>`+
+      (isTa? `<textarea data-k="${k}">${v}</textarea>` : `<input data-k="${k}" value="${v}">`)+`</div>`;
+  }).join("");
+  $("gdMask").classList.add("on");
+}
+function saveGd(asNew){
+  const o={};
+  $("gdForm").querySelectorAll("[data-k]").forEach(el=>{
+    const k=el.dataset.k; let v=el.value.trim();
+    if(["conv","gw","nw","vol"].includes(k)) v=v===""?0:Number(v);
+    o[k]=v;
+  });
+  if(!o.code){ alert("请先填「商品编号」"); return; }
+  if(asNew && GD_LIST.some(x=>x.code===o.code)){ alert("商品编号已存在，换一个再存"); return; }
+  if(!asNew){
+    const i=GD_LIST.findIndex(x=>x.code===GEDIT);
+    if(i>=0) GD_LIST[i]=o;
+    else { const j=GD_LIST.findIndex(x=>x.code===o.code); if(j>=0) GD_LIST[j]=o; else GD_LIST.push(o); }
+  } else GD_LIST.push(o);
+  gdSave();
+  // 应用到当前交易
+  CASES[CASE].goods_no=o.code;
+  Object.assign(CASES[CASE],{hs:o.hs,hs_zh:o.name_zh,goods:o.name_en,unit:o.unit,
+    pack_qty:o.conv,pack_unit:o.pack,gw:o.gw,nw:o.nw,vol:o.vol,desc:o.spec_en,cat:o.cat});
+  $("hs").value=o.hs||""; $("hs_zh").value=o.name_zh||"";
+  $("goods_name").value=o.name_en||""; $("unit").value=o.unit||"";
+  $("pack_qty").value=o.conv||""; $("pack_unit").value=o.pack||"";
+  $("gw").value=o.gw||""; $("nw").value=o.nw||""; $("vol").value=o.vol||"";
+  $("gdMask").classList.remove("on");
+  renderGdUI(); renderFlow(); compute();
+}
+function delGd(){
+  if(!GEDIT) return;
+  if(GD_LIST.length<=1){ alert("至少保留一个商品"); return; }
+  if(!confirm("删除该商品？")) return;
+  GD_LIST=GD_LIST.filter(x=>x.code!==GEDIT);
+  gdSave(); if(CASES[CASE].goods_no===GEDIT) CASES[CASE].goods_no="";
+  $("gdMask").classList.remove("on"); renderGdUI(); compute();
+}
+
+/* 商品选择：预置值一键带入，之后可任意改 */
+document.addEventListener("change",e=>{
+  if(e.target.id!=="goodsPick") return;
+  const g=GD(e.target.value); if(!g) return;
+  CASES[CASE].goods_no=e.target.value;
+  $("hs").value=g.hs; $("hs_zh").value=g.name_zh; $("goods_name").value=g.name_en;
+  $("unit").value=g.unit; $("pack_qty").value=g.conv; $("pack_unit").value=g.pack;
+  $("gw").value=g.gw; $("nw").value=g.nw; $("vol").value=g.vol;
+  Object.assign(CASES[CASE],{hs:g.hs,hs_zh:g.name_zh,goods:g.name_en,unit:g.unit,
+    pack_qty:g.conv,pack_unit:g.pack,gw:g.gw,nw:g.nw,vol:g.vol,desc:g.spec_en,cat:g.cat});
+  renderFlow(); compute();
+});
+
+/* 输入联动 */
+["qty","unit_price","pack_qty","gw","nw","vol","freight","markup","rate"]
+  .forEach(id=>$(id).addEventListener("input",()=>{if(CASES[CASE])CASES[CASE][id]=+$(id).value;compute();}));
+["contract","hs","hs_zh","goods_name","unit","pack_unit"].forEach(id=>{
+  const el=$(id); if(el) el.addEventListener("input",()=>{
+    const k=id==="goods_name"?"goods":id; CASES[CASE][k]=el.value; compute();
+  });
+});
+["term","payment"].forEach(id=>$(id).addEventListener("change",()=>{
+  CASES[CASE][id]=$(id).value;renderFlow();compute();}));
+
+$("editMy").onclick=()=>openCo(CASES[CASE].my,false);
+$("editCp").onclick=()=>openCo(CASES[CASE].cp,false);
+$("newCo").onclick=()=>openCo(null,true);
+$("resetCo").onclick=()=>{ if(!confirm("恢复为内置的两家公司？自定义的会丢失。")) return;
+  CO_LIST=JSON.parse(JSON.stringify(PRESET)); coSave(); renderCoUI(); compute(); };
+$("coCancel").onclick=()=>$("coMask").classList.remove("on");
+$("coSave").onclick=()=>saveCo(false);
+$("coAsNew").onclick=()=>saveCo(true);
+$("coDel").onclick=delCo;
+$("coMask").onclick=e=>{ if(e.target.id==="coMask") $("coMask").classList.remove("on"); };
+$("fields").onclick=(e)=>{
+  const td=e.target.closest("td.v"); if(!td) return;
+  const raw=decodeURIComponent(td.getAttribute("data-c")||"");
+  if(!raw){ toast("该项为空，未复制"); return; }
+  copyOne(raw);
+};
+$("editGd").onclick=()=>openGd(CASES[CASE].goods_no||null,false);
+$("newGd").onclick=()=>openGd(null,true);
+$("resetGd").onclick=()=>{ if(!confirm("恢复为内置的三个商品？自定义的会丢失。")) return;
+  GD_LIST=JSON.parse(JSON.stringify(PRESET_GD)); gdSave(); renderGdUI(); compute(); };
+$("gdCancel").onclick=()=>$("gdMask").classList.remove("on");
+$("gdSave").onclick=()=>saveGd(false);
+$("gdAsNew").onclick=()=>saveGd(true);
+$("gdDel").onclick=delGd;
+$("gdMask").onclick=e=>{ if(e.target.id==="gdMask") $("gdMask").classList.remove("on"); };
+$("myCo").onchange=e=>{ CASES[CASE].my=e.target.value; renderCoUI(); compute(); };
+$("cpCo").onchange=e=>{ CASES[CASE].cp=e.target.value; renderCoUI(); compute(); };
+
+fillBaseSelects();
+
+$("port_load").onchange=e=>{
+  if(e.target.value==="__custom__"){ $("plCustom").style.display=""; $("plCustomTxt").focus(); }
+  else { $("plCustom").style.display="none"; CASES[CASE].port_load=e.target.value; compute(); }
+};
+$("plCustomTxt").oninput=e=>{ CASES[CASE].port_load=e.target.value; compute(); };
+$("port_dest").onchange=e=>{
+  if(e.target.value==="__custom__"){ $("pdCustom").style.display=""; $("pdCustomTxt").focus(); }
+  else { $("pdCustom").style.display="none"; CASES[CASE].port_dest=e.target.value; compute(); }
+};
+$("pdCustomTxt").oninput=e=>{ CASES[CASE].port_dest=e.target.value; compute(); };
+loadCase("A");
+</script>
+<div id="toast"></div>
+</body>
+</html>

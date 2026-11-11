@@ -1,0 +1,16 @@
+# 抓取的百科原始页面与截图（POCIB 官方内容，不公开）
+data/raw/
+data/img/
+data/parsed/
+data/ref/*.html
+
+# 构建产物
+dist/*.zip
+node_modules/
+__pycache__/
+*.pyc
+
+# 临时文件
+*.raw
+_f*.png
+app/_*.js
