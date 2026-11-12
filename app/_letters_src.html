@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>POCIB 外贸函电生成器</title>
+<style>
+  :root{
+    --navy:#1b1f24; --blue:#2f6fed; --blue2:#2563d4; --sky:#2f6fed;
+    --bg:#f6f7f9; --card:#fff; --line:#e3e6ea; --grey:#5b6675;
+    --grey2:#8b95a3; --ink:#1b1f24; --green:#1f8a53;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+    background:var(--bg); color:var(--ink); font-size:13.5px; line-height:1.6;
+  }
+  header{
+    background:#fff; color:var(--ink); border-bottom:1px solid var(--line);
+    padding:11px 20px; display:flex; align-items:center; gap:12px;
+  }
+  header .logo{width:34px;height:34px;border-radius:9px;background:#eaf1ff;color:var(--blue);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;
+    letter-spacing:.5px}
+  header h1{font-size:15px;font-weight:600;line-height:1.3}
+  header .sub{font-size:11.5px;color:var(--grey2);margin-top:1px}
+
+  /* 嵌入主程序时隐藏自带标题栏（标题由外层统一显示） */
+  header{display:none !important}
+  .wrap{max-width:1180px;margin:0 auto;padding:14px 16px 60px}
+
+  .hint{
+    background:#f2f6fd;border:1px solid #dfe8f6;border-radius:10px;
+    padding:11px 14px;font-size:12.5px;color:#40506a;margin-bottom:12px;
+  }
+  .hint b{color:var(--blue)}
+  .hint ol{margin:6px 0 0 18px}
+  .hint li{margin:2px 0}
+
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;margin-bottom:12px;
+  }
+  .card h2{
+    font-size:13px;color:var(--grey);margin-bottom:10px;display:flex;
+    align-items:center;gap:7px;font-weight:600;
+  }
+  .card h2::before{content:"";width:3px;height:13px;background:var(--blue);border-radius:2px}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 16px}
+  .fld label{display:block;font-size:11.5px;color:var(--grey);font-weight:600;margin-bottom:4px}
+  .fld input,.fld select,.fld textarea{
+    width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;
+    font-size:13px;font-family:inherit;background:#fff;outline:none;transition:.15s;color:var(--ink);
+  }
+  .fld input:focus,.fld select:focus,.fld textarea:focus{
+    border-color:var(--sky);box-shadow:0 0 0 3px rgba(47,111,237,.12)}
+  .money{position:relative}
+  .money .cur{position:absolute;left:11px;top:50%;transform:translateY(-50%);
+    font-size:12px;font-weight:700;color:var(--grey2);pointer-events:none}
+  .money input{padding-left:44px}
+
+  .actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+  .btn{padding:9px 18px;border:none;border-radius:7px;font-size:13px;font-weight:600;
+    cursor:pointer;font-family:inherit;transition:.16s}
+  .btn-main{background:var(--blue);color:#fff;flex:1;min-width:200px}
+  .btn-main:hover{background:var(--blue2)}
+  .btn-copy{background:var(--green);color:#fff;flex:1;min-width:160px}
+  .btn-copy:hover{filter:brightness(1.08)}
+  .btn-g{background:#f0f3f8;color:var(--grey)}
+  .btn-g:hover{background:#e8ecf2}
+
+  .langbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .langbar .lab{font-size:12px;color:var(--grey);font-weight:600}
+  .vbtn{padding:6px 14px;border-radius:7px;border:1px solid var(--line);background:#fff;
+    font-size:12px;cursor:pointer;font-family:inherit;color:var(--grey);font-weight:600}
+  .vbtn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+  .vbtn:not(.on):hover{border-color:var(--sky);color:var(--blue)}
+  .langbar .spacer{flex:1}
+
+  .toc{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+  .toc button{
+    padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:#fff;
+    font-size:12px;cursor:pointer;font-family:inherit;color:var(--grey)}
+  .toc button:hover{border-color:#c9d6ee;color:var(--blue)}
+  .toc button.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+
+  .out{
+    background:#fbfcfd;border:1px solid var(--line);border-radius:10px;
+    padding:18px 20px;font-family:"Consolas","Monaco","Courier New",monospace;
+    font-size:13px;line-height:1.65;white-space:pre-wrap;word-break:break-word;
+    color:#22303f;max-height:70vh;overflow-y:auto;
+  }
+  .out .title{color:var(--blue);font-weight:700}
+  .out .dir{color:#0A5FBF;font-weight:600;font-size:12.5px}
+  .out .sep{color:#B8C4D2;letter-spacing:2px}
+
+  .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--navy);color:#fff;padding:11px 22px;border-radius:9px;font-size:13px;
+    box-shadow:0 8px 26px rgba(11,31,58,.3);opacity:0;transition:.28s;pointer-events:none;z-index:99}
+  .toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+
+  /* ===== 手机端适配 ===== */
+  @media(max-width:800px){
+    .grid,.grid3{grid-template-columns:1fr}
+    .wrap{padding:14px 12px 60px}
+    header{padding:14px 16px;flex-wrap:wrap;gap:8px}
+    .card{padding:16px 16px 8px;border-radius:12px}
+    .card h2{font-size:16px}
+    /* 输入框加大，方便手指点击 */
+    .fld input,.fld select,.fld textarea{padding:11px 12px;font-size:16px;border-radius:9px}
+    .fld label{font-size:12.5px;margin-bottom:6px}
+    .btn{padding:14px 18px;font-size:15px;min-width:0;width:100%}
+    .btn-main,.btn-copy{flex:1 1 100%}
+    .actions{gap:10px}
+    /* 预算表改为横向滚动，避免挤成一团 */
+    #bResult{overflow-x:auto;-webkit-overflow-scrolling:touch;
+      border-radius:10px;background:#fff}
+    .mtb{min-width:600px;font-size:12px}
+    .mtb-h3{width:112px}.mtb-h4{width:104px}.mtb-h1{width:40px}
+    /* 函电正文在手机上更易读 */
+    .out{padding:16px 16px;font-size:13px;line-height:1.6}
+    .toc button{padding:8px 14px;font-size:13px}
+    .vbtn{padding:8px 16px;font-size:13px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PO</div>
+  <div>
+    <h1>POCIB 外贸函电生成器</h1>
+    <div class="sub">全套函电一键生成 · 中英切换 · 运费与预算计算</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hint">
+    <b>使用说明：</b>
+    <ol>
+      <li><b>生成函电</b>：填好表单 → 点「生成全套函电」，一次生成 9 封；右上角切换 <b>英文 / 中文 / 中英对照</b>，点目录跳转，可一键复制</li>
+      <li><b>商品运费</b>：填包装数量、毛重、体积 → 选集装箱种类（普柜/冻柜/空运）→ 填入查询到的运费单价 → 点「计算商品运费」</li>
+      <li><b>进出口预算</b>：选 FOB / CPT / CIF 方式 → 填数量、单价、工厂价、汇率及各项费率 → 点「计算预算」，自动输出出口/进口预算表</li>
+    </ol>
+  </div>
+
+  <!-- ============ 表单 ============ -->
+  <div class="card">
+    <h2>基础信息</h2>
+    <div style="font-size:11.5px; color:#a86400; line-height:1.7; margin-bottom:10px">
+      函电中：<b>上方抬头</b>写进口商名称+地址（收信人），<b>下方落款</b>写出口商名称+地址（写信人）。
+      地址按你填的原样输出，<b>不会自动加港口或国家</b>。
+    </div>
+    <div class="grid">
+      <div class="fld"><label>出口商公司名称（我方 Seller）→ 用于函电下方落款</label>
+        <input autocomplete="off" id="expCo" name="pocib-seller-co" value="Golden Bridge Import &amp; Export Company"></div>
+      <div class="fld"><label>出口商地址（英文）→ 用于函电下方落款</label>
+        <input autocomplete="off" id="expAddr" name="pocib-seller-addr" value="12 Bell Street, Yarra Glen"></div>
+      <div class="fld"><label>进口商公司名称（对方 Buyer）→ 用于函电上方抬头</label>
+        <input autocomplete="off" id="impCo" name="pocib-buyer-co" value="Silvertree International"></div>
+      <div class="fld"><label>进口商地址（英文）→ 用于函电上方抬头</label>
+        <input autocomplete="off" id="impAddr" name="pocib-buyer-addr" value="25 Eersterivier Road"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>商品与价格（币种固定 USD）</h2>
+    <div class="grid3">
+      <div class="fld"><label>商品名称</label>
+        <input id="goods" value="Vacuum Cleaner"></div>
+      <div class="fld"><label>规格描述</label>
+        <input id="spec" value="PASTED POWER:1600W, CAPACITY: 6L, SUCTION POWER=1800W"></div>
+      <div class="fld"><label>数量</label><input id="qty" value="300"></div>
+      <div class="fld"><label>单位</label><input id="unit" value="SETS"></div>
+      <div class="fld"><label>单价</label>
+        <div class="money"><span class="cur">USD</span><input id="price" value="76.22"></div></div>
+      <div class="fld"><label>合同金额（随数量/单价自动计算）</label>
+        <div class="money"><span class="cur">USD</span><input id="amount" value="22,866.00"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>交易条件</h2>
+    <div class="grid3">
+      <div class="fld"><label>贸易术语</label>
+        <select id="term">
+          <option>FOB</option><option>FCA</option><option>FAS</option><option>CPT</option>
+          <option>CFR</option><option selected>CIF</option><option>CIP</option>
+          <option>DAP</option><option>DPU</option>
+        </select></div>
+      <div class="fld"><label>装运港（选择）</label>
+        <select id="portLoad">
+          <option selected>澳大利亚 Melbourne</option><option>巴西 Rio de Janeiro</option>
+          <option>古巴 Santiago</option><option>德国 Hamburg</option>
+          <option>英国 London</option><option>日本 Nagoya</option>
+          <option>中国 Shanghai</option><option>俄罗斯 St.Petersburg</option>
+          <option>美国 New York</option><option>南非 Cape Town</option>
+        </select></div>
+      <div class="fld"><label>卸货港（选择）</label>
+        <select id="portDisc">
+          <option>澳大利亚 Melbourne</option><option>巴西 Rio de Janeiro</option>
+          <option>古巴 Santiago</option><option>德国 Hamburg</option>
+          <option>英国 London</option><option>日本 Nagoya</option>
+          <option>中国 Shanghai</option><option>俄罗斯 St.Petersburg</option>
+          <option>美国 New York</option><option selected>南非 Cape Town</option>
+        </select></div>
+      <div class="fld"><label>运输方式</label>
+        <select id="ship"><option>海运</option><option>空运</option></select></div>
+      <div class="fld"><label>支付方式</label>
+        <select id="pay">
+          <option value="LCSIGHT">L/C AT SIGHT 即期信用证</option>
+          <option value="LC30">L/C AT 30 DAYS AFTER SIGHT 见票后30天</option>
+          <option value="LC45">L/C AT 45 DAYS AFTER SIGHT 见票后45天</option>
+          <option value="LC60">L/C AT 60 DAYS AFTER SIGHT 见票后60天</option>
+          <option value="LC90">L/C AT 90 DAYS AFTER SIGHT 见票后90天</option>
+          <option value="TT30">T/T 电汇（前 30% 后 70%）</option>
+          <option value="TT50">T/T 电汇（前 50% 后 50%）</option>
+          <option value="TT">T/T 电汇（全额预付）</option>
+          <option value="DP">D/P 付款交单</option>
+          <option value="DA">D/A 承兑交单</option>
+        </select></div>
+      <div class="fld"></div>
+    </div>
+  </div>
+
+  <!-- ============ 运费计算 ============ -->
+  <div class="card" id="freightCard">
+    <h2>商品运费计算（集装箱种类：普柜 / 冻柜 / 空运）</h2>
+    <div class="grid3">
+      <div class="fld"><label>运输方式</label>
+        <select id="fShipMode">
+          <option selected value="sea">海运（显示普柜 / 冻柜价格）</option>
+          <option value="air">空运（显示空运价格）</option>
+        </select></div>
+      <div class="fld"><label>包装数量</label><input id="fQty" value="500"></div>
+      <div class="fld"><label>单包装毛重（KG）</label><input id="fWt" value="26"></div>
+      <div class="fld"><label>单包装体积（立方米）</label><input id="fVol" value="0.15"></div>
+    </div>
+
+    <div id="grpSea">
+      <div class="grid3" style="margin-top:12px">
+        <div class="fld"><label>集装箱类型</label>
+          <select id="fBoxType">
+            <option selected value="pg">普柜</option>
+            <option value="rf">冻柜</option>
+          </select></div>
+      </div>
+      <div id="grpPG">
+      <div style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
+        <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">普柜价格</div>
+        <div class="grid3">
+          <div class="fld"><label>20普 单价（USD）</label><input id="r20" value="1032"></div>
+          <div class="fld"><label>40普 单价（USD）</label><input id="r40" value="2383"></div>
+          <div class="fld"><label>40普高 单价（USD）</label><input id="r40h" value="2440"></div>
+          <div class="fld"><label>拼箱体积（USD/立方米）</label><input id="rLCLv" value="91"></div>
+          <div class="fld"><label>拼箱重量（USD/吨）</label><input id="rLCLw" value="123"></div>
+        </div>
+      </div>
+      </div>
+      <div id="grpRF" style="display:none">
+      <div style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
+        <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">冻柜价格</div>
+        <div class="grid3">
+          <div class="fld"><label>20冻 单价（USD）</label><input id="rr20" value="1666"></div>
+          <div class="fld"><label>40冻 单价（USD）</label><input id="rr40" value="3724"></div>
+          <div class="fld"><label>40冻高 单价（USD）</label><input id="rr40h" value="3775"></div>
+          <div class="fld"><label>拼箱体积（USD/立方米）</label><input id="rrLCLv" value="154"></div>
+          <div class="fld"><label>拼箱重量（USD/吨）</label><input id="rrLCLw" value="173"></div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div id="grpAir" style="display:none">
+      <div style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
+        <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">空运价格</div>
+        <div class="grid3">
+          <div class="fld"><label>最小空运费（USD）</label><input id="rMin" value="700.9"></div>
+          <div class="fld"><label>小于45KG（USD/KG）</label><input id="ra45" value="53.6"></div>
+          <div class="fld"><label>45-100KG（USD/KG）</label><input id="ra100" value="50.9"></div>
+          <div class="fld"><label>100-300KG（USD/KG）</label><input id="ra300" value="46.9"></div>
+          <div class="fld"><label>300KG以上（USD/KG）</label><input id="ra300p" value="45"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-main" onclick="calcFreight()">计算商品运费</button>
+    </div>
+    <div style="margin-top:12px; background:#f2f6fd; border:1px solid #dfe8f6; border-radius:10px; padding:12px 14px; font-size:12.5px; color:#40506a; line-height:1.85">
+      <b style="color:var(--blue)">运费单价查询说明：</b>
+      <ol style="margin:6px 0 0 18px">
+        <li><b>海运（普柜 20GP/40GP、冻柜 20RF/40RF）</b>：<br>
+          My City 城市中心 → 国际货运有限公司【海运部】→ 访问网站 → 常用查询 → 航程及运费查询；
+          输入装运港、卸货港，下拉选择柜型，查询得到对应海运费单价。</li>
+        <li><b>空运（空运费单价）</b>：<br>
+          My City 城市中心 → 国际货运有限公司【空运部】→ 访问网站 → 常用查询 → 空运航线及运费查询；
+          输入起运机场、目的机场，查询空运费。</li>
+      </ol>
+      <div style="margin-top:6px; font-size:11.5px; color:#a86400">查到单价后填入上方对应分组，再点「计算商品运费」即可。</div>
+    </div>
+    <div id="fResult" style="display:none; margin-top:14px">
+      <div style="background:#f7faff; border:1px solid #e0e9f7; border-radius:10px; padding:13px 16px; font-size:12.5px; line-height:1.95">
+        <div>总毛重：<b id="foWt"></b> 吨　　总体积：<b id="foVol"></b> 立方米</div>
+        <div id="foDetail"></div>
+        <div id="foFinal" style="font-size:15px; color:#2f6fed; font-weight:700; margin-top:6px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 预算计算 ============ -->
+  <div class="card" id="budgetCard">
+    <h2>进出口预算计算（按 FOB / CPT / CIF 方式自动计算）</h2>
+    <div style="font-size:11.5px; color:#a86400; margin-bottom:10px">
+      贸易术语、支付方式、运输方式均跟随上方「交易条件」自动同步，无需重复选择。</div>
+
+    <!-- 来源信息（只读展示，跟随交易条件） -->
+    <div style="border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#f7faff">
+      <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">自动同步信息</div>
+      <div class="grid3">
+        <div class="fld"><label>贸易术语（跟随交易条件）</label>
+          <select id="bMode">
+            <option value="FOB">FOB</option><option value="FCA">FCA</option><option value="FAS">FAS</option>
+            <option value="CPT">CPT</option><option value="CFR">CFR</option>
+            <option selected value="CIF">CIF</option>
+            <option value="CIP">CIP</option><option value="DAP">DAP</option><option value="DPU">DPU</option>
+          </select></div>
+        <div class="fld"><label>支付方式</label><input id="bPayDisp" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>运输方式</label><input id="bShipDisp" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>出口汇率（对美元）</label><input id="bExRate" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>进口汇率（对美元）</label><input id="bImRate" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>出口报关费（本币）</label><input id="bX6" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>进口报关费（本币）</label><input id="bY5" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+      </div>
+    </div>
+
+    <!-- 需填写项 -->
+    <div class="grid3" style="margin-top:12px">
+      <div class="fld"><label>出口国</label>
+        <select id="bExCountry"></select></div>
+      <div class="fld"><label>进口国</label>
+        <select id="bImCountry"></select></div>
+      <div class="fld"><label>交易数量</label><input id="bQty" value="5000"></div>
+      <div class="fld"><label>成交单价（USD）</label><input id="bPrice" value="21"></div>
+      <div class="fld"><label>工厂价格（本币/单位）</label><input id="bFactory" value="21.53"></div>
+      <div class="fld"><label>市场价格本币（进口国）</label><input id="bMarket" value="54.68"></div>
+      <div class="fld"><label>出口商预期盈亏率（%）</label><input id="bExpRate" value="19.67"></div>
+      <div class="fld"><label>参考报价单价（USD，自动）</label>
+        <input id="bQuoteU" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+      <div class="fld"><label>参考报价总价（USD，自动）</label>
+        <input id="bQuoteT" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+    </div>
+
+    <!-- 隐藏的原控件（供联动逻辑读写，不在界面显示） -->
+    <div style="display:none">
+      <select id="bPay"><option value="LC">LC</option><option value="TT">TT</option><option value="OTHER">OTHER</option></select>
+      <select id="bShip"><option value="sea">sea</option><option value="air">air</option></select>
+    </div>
+
+    <!-- 运费 -->
+    <div style="margin-top:14px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
+      <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">运费（按贸易术语自动判定方向）</div>
+      <div class="grid3">
+        <div class="fld"><label id="lbExFreight">出口运费（USD）</label>
+          <input id="bExFreight" value="0"></div>
+        <div class="fld"><label id="lbImFreight">进口运费（USD）</label>
+          <input id="bImFreight" value="2440"></div>
+        <div class="fld" style="display:flex; align-items:flex-end">
+          <button class="btn btn-g" onclick="autoFreight()" style="width:100%">一键填入运费</button></div>
+      </div>
+      <div id="freightTip" style="font-size:11.5px; color:#a86400; margin-top:6px"></div>
+    </div>
+
+    <!-- 出口信息 -->
+    <div style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
+      <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">出口信息</div>
+      <div class="grid3">
+        <div class="fld"><label>出口税率（默认 0）</label>
+          <input id="bX1" readonly value="0" style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>消费税率（%）</label><input id="bX2" value="0"></div>
+        <div class="fld"><label>增值税率（%）</label><input id="bX3" value="13"></div>
+        <div class="fld"><label>退税率（%）</label><input id="bX4" value="13"></div>
+        <div class="fld"><label>商检费率</label>
+          <select id="bX5"><option selected value="0">0</option><option value="0.25">0.25%</option></select></div>
+        <div class="fld"><label>出口报关费（本币，自动）</label>
+          <input id="bX6" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>其他费用（本币）</label><input id="bX7" value="7"></div>
+        <div class="fld"><label>L/C 手续费率（自动）</label>
+          <input id="bX8" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>其他付款费率（自动）</label>
+          <input id="bX9" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+      </div>
+      <div style="font-size:11.5px; color:#a86400; margin-top:6px">
+        注：出口税率固定为 0；出口报关费按出口国自动填入；支付方式为 L/C 时银行费率 0.13%，T/T 及其他方式 0.1%；
+        非 T/T 支付时「其他费用」自动按出口国的原/普惠制产地证价格填入。</div>
+    </div>
+
+    <!-- 进口信息 -->
+    <div style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
+      <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">进口信息</div>
+      <div class="grid3">
+        <div class="fld"><label>进口税率（%）</label><input id="bY1" value="6"></div>
+        <div class="fld"><label>消费税率（%，与出口同步）</label><input id="bY2" value="0"></div>
+        <div class="fld"><label>增值税率（%，与出口同步）</label><input id="bY3" value="13"></div>
+        <div class="fld"><label>进口商检费率</label>
+          <select id="bY4"><option selected value="0">0</option><option value="0.25">0.25%</option></select></div>
+        <div class="fld"><label>信用证开证费（本币，自动）</label>
+          <input id="bY7" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>进口其他付款费率（自动）</label>
+          <input id="bY8" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+      </div>
+      <div style="font-size:11.5px; color:#a86400; margin-top:6px">
+        注：进口报关费与信用证开证费按进口国自动填入；进口其他付款费率按支付方式自动切换。</div>
+    </div>
+
+    <!-- 共用信息 -->
+    <div style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
+      <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">共用信息</div>
+      <div class="grid3">
+        <div class="fld"><label>投保加成</label>
+          <select id="bZ1">
+            <option value="1.1">110%</option>
+            <option value="1.2">120%</option>
+            <option selected value="1.3">130%</option>
+          </select></div>
+        <div class="fld"><label>保险费率（按运输方式自动）</label>
+          <input id="bZ2" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-main" onclick="calcBudget()">计算预算</button>
+    </div>
+
+    <div id="bResult" style="display:none; margin-top:14px"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-main" onclick="genAll()">⚡ 生成全套函电</button>
+    <button class="btn btn-g" onclick="resetAll()">恢复示例</button>
+  </div>
+
+  <!-- ============ 结果 ============ -->
+  <div class="card" id="resultCard" style="display:none; margin-top:18px">
+    <div class="langbar">
+      <span class="lab">语言：</span>
+      <span id="langbtns"></span>
+      <span class="spacer"></span>
+      <button class="btn btn-g" onclick="copyCurrent()">复制本篇</button>
+      <button class="btn btn-copy" onclick="copyAll()">复制全套</button>
+    </div>
+    <div class="toc" id="toc"></div>
+    <div class="out" id="out"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================== 表单 ================== */
+const IDS = ["expCo","expAddr","impCo","impAddr","goods","spec","qty","unit",
+             "price","amount","term","portLoad","portDisc","ship","pay"];
+const DEF = {};
+function C(){
+  const o = {}; IDS.forEach(k => o[k] = (document.getElementById(k).value||"").trim());
+  return o;
+}
+function money(v){
+  const s = String(v==null?"":v).trim();
+  if(!s) return "USD 0.00";
+  if(/^USD/i.test(s)) return "USD " + s.replace(/^USD\s*/i,"");
+  return "USD " + s;
+}
+/* 数量 × 单价 → 合同金额 自动计算 */
+function calcAmount(){
+  const q = parseFloat(document.getElementById("qty").value);
+  const p = parseFloat(document.getElementById("price").value);
+  if(q > 0 && p > 0){
+    const v = (q * p).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById("amount").value = v;
+  }
+}
+function resetAll(){
+  IDS.forEach(k=>document.getElementById(k).value=DEF[k]);
+  document.getElementById("resultCard").style.display="none";
+  if(typeof resetBudget==="function") resetBudget();
+}
+/* 预算区重置（在预算脚本中实现） */
+function resetBudget(){
+  BIDS.forEach(k=>document.getElementById(k).value=BDEF[k]);
+  document.getElementById("bExCountry").value="澳大利亚";
+  document.getElementById("bImCountry").value="巴西";
+  document.getElementById("fShipMode").value="sea";
+  syncBudget(); syncFreightCard();
+  document.getElementById("bResult").style.display="none";
+}
+
+/* ================== 短语 ================== */
+function ph(c){
+  const isSea = c.ship==="海运";
+  const ship = isSea?"by sea":"by air";
+  const shipCN = isSea?"海运":"空运";
+  /* 港口选项形如「俄罗斯 St.Petersburg」，英文函电只取英文城市名，中文函电保留全称 */
+  const portRaw = String(c.portLoad||"").trim();
+  const portEN  = portRaw.replace(/^[^A-Za-z]*/,"").trim() || portRaw;
+  const term    = (c.term+" "+portEN).trim();      /* 英文用：CIP St.Petersburg */
+  const termCN  = (c.term+" "+portRaw).trim();     /* 中文用：CIP 俄罗斯 St.Petersburg */
+  const P = {
+    "LCSIGHT":["by 100% irrevocable letter of credit at sight",
+             "100% 不可撤销即期信用证","the relevant L/C","信用证"],
+    "LC30":  ["by irrevocable letter of credit at 30 days after sight",
+             "见票后 30 天付款的不可撤销信用证","the relevant L/C","信用证"],
+    "LC45":  ["by irrevocable letter of credit at 45 days after sight",
+             "见票后 45 天付款的不可撤销信用证","the relevant L/C","信用证"],
+    "LC60":  ["by irrevocable letter of credit at 60 days after sight",
+             "见票后 60 天付款的不可撤销信用证","the relevant L/C","信用证"],
+    "LC90":  ["by irrevocable letter of credit at 90 days after sight",
+             "见票后 90 天付款的不可撤销信用证","the relevant L/C","信用证"],
+    "TT":    ["by 100% T/T in advance","100% 电汇预付","the full payment","全部货款"],
+    "TT30":  ["by T/T, 30% deposit and the balance of 70% to be paid before shipment",
+             "30% 定金预付，余款 70% 于装运前付清","the deposit payment","定金"],
+    "TT50":  ["by T/T, 50% deposit and the balance of 50% to be paid before shipment",
+             "50% 定金预付，余款 50% 于装运前付清","the deposit payment","定金"],
+    "DP":    ["by documents against payment (D/P) at sight",
+             "即期付款交单（D/P）","the payment against documents","付款赎单款项"],
+    "DA":    ["by documents against acceptance (D/A)",
+             "承兑交单（D/A）","the acceptance of drafts","承兑手续"]
+  };
+  const q = P[c.pay] || P["LCSIGHT"];
+  return {isSea, ship, shipCN, term, termCN, portEN,
+          isLC: /^LC/.test(c.pay),
+          payEN:q[0], payCN:q[1], balEN:q[2], balCN:q[3]};
+}
+function todayEN(){
+  const d=new Date(),M=["January","February","March","April","May","June","July",
+    "August","September","October","November","December"];
+  return M[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear();
+}
+function todayCN(){
+  const d=new Date();
+  return d.getFullYear()+" 年 "+(d.getMonth()+1)+" 月 "+d.getDate()+" 日";
+}
+
+/* ================== 语言 ================== */
+let LANG = "both";
+function setLang(l){ LANG=l; renderLang(); renderOut(); }
+function renderLang(){
+  document.getElementById("langbtns").innerHTML =
+    [["en","英文"],["cn","中文"],["both","中英对照"]].map(([v,t])=>
+      `<button class="vbtn ${v===LANG?'on':''}" onclick="setLang('${v}')">${t}</button>`).join("");
+}
+
+/* ================== 九封函电 ================== */
+function letters(c){
+  const p = ph(c), T = p.term, TCN = p.termCN;
+  /* 港口选项形如「澳大利亚 Melbourne」，函电中只取英文城市名 */
+  const pLoad  = c.portLoad.replace(/^[^A-Za-z]*/,"").trim()  || c.portLoad;
+  const pDisc  = c.portDisc.replace(/^[^A-Za-z]*/,"").trim()  || c.portDisc;
+  const qtyU  = `${c.qty} ${c.unit}`;
+  const unit1 = c.unit.replace(/S$/,"").replace(/s$/,"");
+  const dEN = todayEN(), dCN = todayCN();
+  const no  = "POCIB-" + (c.goods||"GOODS").slice(0,3).toUpperCase();
+
+  function hdr(from, dateTxt){
+    /* 抬头写收信方（对方），落款写写信方（我方） */
+    return {
+      toCo:   from==="seller" ? c.impCo   : c.expCo,
+      toAddr: from==="seller" ? c.impAddr : c.expAddr,
+      myCo:   from==="seller" ? c.expCo   : c.impCo,
+      myAddr: from==="seller" ? c.expAddr : c.impAddr,
+      dateTxt
+    };
+  }
+  function en(h, subject, body){
+    return `${h.dateTxt}\n\n${h.toCo}\n${h.toAddr}\n\nDear Sirs,\n\n${body}\n\nYours faithfully,\n${h.myCo}\n${h.myAddr}`;
+  }
+  function cn(h, subject, body){
+    return `${h.dateTxt}\n\n${h.toCo}\n${h.toAddr}\n\n敬启者：\n\n${body}\n\n此致\n${h.myCo}\n${h.myAddr}`;
+  }
+
+  const L = [];
+
+  /* 一、建立业务关系 */
+  {
+    const hE = hdr("seller", dEN), hC = hdr("seller", dCN);
+    L.push({t:"建立业务关系",
+      en:en(hE,"Establishing Business Relations",
+        `We have learned your name and address through the official website of the Canton Fair and are writing to explore the possibility of entering into direct business relations with your esteemed company. We are an experienced and reliable manufacturer-exporter with many years of practice in ${c.goods.toLowerCase()}. Our products are well known for their superior quality and stable performance, and have been exported to many countries and regions. We sincerely hope to establish long-term, stable and mutually beneficial business relations with your company on the basis of equality and mutual benefit.`),
+      cn:cn(hC,"建立业务关系",
+        `我方通过广交会官方网站得知贵公司的名称与地址，特此致函，希望与贵公司探讨建立直接业务关系的可能性。我方是一家经验丰富、信誉可靠的工贸一体化出口商，从事${c.goods}的经营已有多年。我方产品以品质优良、性能稳定著称，已远销多个国家和地区。我方诚挚希望在平等互利的基础上，与贵公司建立长期稳定的合作关系。`),
+      from:"seller"});
+  }
+
+  /* 二、询盘 */
+  {
+    const hE = hdr("buyer", dEN), hC = hdr("buyer", dCN);
+    L.push({t:"询盘",
+      en:en(hE,`Inquiry for ${c.goods}`,
+        `We are one of the leading importers in our country and are interested in purchasing ${qtyU} of ${c.goods}. We would be grateful if you could quote us your most competitive price on ${T} basis, and let us know the earliest possible date of shipment and your terms of payment. As the market here is highly competitive, a reasonable price is essential to the conclusion of business. If your quotation meets our requirements, we shall place regular orders with you in the future.`),
+      cn:cn(hC,`询盘 —— ${c.goods}`,
+        `我方是本国主要进口商之一，有意购买 ${c.qty} ${c.unit} 的${c.goods}。如蒙贵方按 ${TCN} 条件报出最具竞争力的价格，并告知最早装运期与付款方式，我方将不胜感激。由于本地市场竞争激烈，合理的价格是达成交易的关键。若贵方报价符合我方要求，今后我方将定期向贵方下单。`),
+      from:"buyer"});
+  }
+
+  /* 三、发盘 */
+  {
+    const hE = hdr("seller", dEN), hC = hdr("seller", dCN);
+    L.push({t:"发盘",
+      en:en(hE,`Firm Offer for ${c.goods}`,
+        `We thank you for your inquiry and are pleased to make you a firm offer as follows:\n\nProduct Name: ${c.goods}\nDescription: ${c.spec}\nQuantity: ${qtyU}\nUnit Price: ${money(c.price)} per ${unit1} ${T}\nTotal Amount: ${money(c.amount)}\nValidity: within 15 days\nPayment: ${p.payEN.charAt(0).toUpperCase()+p.payEN.slice(1)}\nShipment: ${p.ship}, before the end of the current month\n\nThe above offer is firm and subject to your reply reaching us within 15 days. We trust the terms will be acceptable to you and await your early confirmation.`),
+      cn:cn(hC,`发盘 —— ${c.goods}`,
+        `感谢贵方询盘，我方乐于报出以下实盘：\n\n商品名称：${c.goods}\n规格：${c.spec}\n数量：${c.qty} ${c.unit}\n单价：${money(c.price)} / 每${unit1} ${TCN}\n总金额：${money(c.amount)}\n有效期：15 天内\n付款方式：${p.payCN}\n装运：${p.shipCN}，本月月底前\n\n上述报盘为实盘，以贵方答复在 15 天内送达我方为条件。相信上述条款能为贵方接受，静候贵方早日确认。`),
+      from:"seller"});
+  }
+
+  /* 四、还盘 */
+  {
+    const hE = hdr("buyer", dEN), hC = hdr("buyer", dCN);
+    L.push({t:"还盘",
+      en:en(hE,`Counter-offer for ${c.goods}`,
+        `Thank you for your offer. While we appreciate the quality of your products, we regret that your price is higher than the prevailing market level. Similar articles of the same quality are obtainable here at a price about 5% lower than your quotation. We therefore counter-offer as follows: ${qtyU} of ${c.goods} at ${money((parseFloat(String(c.price).replace(/,/g,""))*0.95).toFixed(2))} per ${unit1} ${T}, other terms remaining unchanged. If this concession can be granted, we shall be pleased to confirm the order immediately.`),
+      cn:cn(hC,`还盘 —— ${c.goods}`,
+        `感谢贵方报盘。尽管我方认可贵方产品的品质，但遗憾的是贵方价格高于市场普遍水平。本地市场上同品质商品的价格比贵方报价约低 5%。为此我方还盘如下：${c.qty} ${c.unit} 的${c.goods}，单价 ${money((parseFloat(String(c.price).replace(/,/g,""))*0.95).toFixed(2))} ${TCN}，其余条件不变。若贵方同意作出让步，我方将立即确认订单。`),
+      from:"buyer"});
+  }
+
+  /* 五、接受 */
+  {
+    const hE = hdr("seller", dEN), hC = hdr("seller", dCN);
+    L.push({t:"接受",
+      en:en(hE,`Acceptance of Your Counter-offer`,
+        `We have carefully considered your counter-offer. With a view to promoting the business between us and in consideration of our long-term cooperation, we have decided to accept your price of ${money(c.price)} per ${unit1} ${T} for ${qtyU}, amounting to ${money(c.amount)}. Shipment will be effected ${p.ship} before the end of the current month, and payment shall be made ${p.payEN}. We are enclosing our Sales Contract for your countersignature and look forward to the smooth execution of this transaction.`),
+      cn:cn(hC,`接受贵方还盘`,
+        `我方已认真考虑贵方的还盘。鉴于促进双方业务往来并顾及今后的长期合作，我方决定接受贵方 ${money(c.price)} ${TCN} 的价格，数量 ${c.qty} ${c.unit}，总金额 ${money(c.amount)}。货物将于本月月底前以${p.shipCN}方式装运，货款按${p.payCN}支付。现随函附上销售合同请贵方会签，期待本笔交易顺利执行。`),
+      from:"seller"});
+  }
+
+  /* 六、催开信用证 / 催收定金（按支付方式自动切换） */
+  {
+    const hE = hdr("seller", dEN), hC = hdr("seller", dCN);
+    L.push({t: p.isLC ? "催开信用证" : "催收定金",
+      en:en(hE, p.isLC ? "Urgent Establishment of L/C" : "Urgent Payment of Deposit",
+        p.isLC
+        ? `We would like to remind you to expedite the establishment of the relative L/C in our favour in accordance with the contract terms. Timely establishment of the L/C is essential to ensure that we can arrange production and shipment smoothly within the agreed time limit. We await your prompt arrangement.`
+        : `We are writing to remind you that the deposit payment for Contract No. ${no} is now due. Please arrange the payment as soon as possible so that we can immediately start mass production, material preparation and production scheduling to ensure that the goods can be completed and shipped within the agreed time limit.`),
+      cn:cn(hC, p.isLC ? "催开信用证" : "催收定金",
+        p.isLC
+        ? `特函提醒贵方尽快按合同条款开立以我方为受益人的相关信用证。及时开证是确保我方在约定期限内顺利安排生产与装运的关键。静候贵方尽快办理。`
+        : `特函提醒贵方，第 ${no} 号合同项下定金现已到期。请尽快安排付款，以便我方立即开始批量生产、备料及排产，确保货物能在约定期限内完成并装运。`),
+      from:"seller"});
+  }
+
+  /* 七、指定船公司 */
+  {
+    const hE = hdr("buyer", dEN), hC = hdr("buyer", dCN);
+    L.push({t:"指定船公司",
+      en:en(hE,"Designation of Shipping Company",
+        `We hereby formally appoint INTERNATIONAL TRANSPORTATION CO., LTD. as the exclusive shipping company for this transaction. Please contact them directly to complete shipping space booking, cargo inspection and all other relevant shipment procedures. We hope you will arrange all shipment matters in strict accordance with our requirements.`),
+      cn:cn(hC,"指定船公司",
+        `我方现正式指定 INTERNATIONAL TRANSPORTATION CO., LTD. 为本次交易的唯一承运人。请直接与其联系办理订舱、货物检验及其他相关装运手续。希望贵方严格按照我方要求安排一切装运事宜。`),
+      from:"buyer"});
+  }
+
+  /* 八、装运通知 */
+  {
+    const hE = hdr("seller", dEN), hC = hdr("seller", dCN);
+    L.push({t:"装运通知",
+      en:en(hE,"Shipping Advice",
+        `We are pleased to inform you that the goods under Contract No. ${no} were shipped on board today from ${pLoad}. The shipment was made ${p.ship} by INTERNATIONAL TRANSPORTATION CO., LTD. against your order for ${qtyU} of ${c.goods}, and is expected to arrive at ${pDisc} in due course. The relative shipping documents, including the Bill of Lading, Commercial Invoice, Packing List and Insurance Policy, have been dispatched to you through our bank. Please take delivery of the goods in time and arrange ${p.balEN} accordingly.`),
+      cn:cn(hC,"装运通知",
+        `高兴地通知贵方，第 ${no} 号合同项下货物已于今日在${pLoad}装船。本批货物由 INTERNATIONAL TRANSPORTATION CO., LTD. 承运，以${p.shipCN}方式发运，数量为 ${c.qty} ${c.unit} 的${c.goods}，预计将于近期抵达${pDisc}。相关装运单据（包括提单、商业发票、装箱单及保险单）已通过银行寄送贵方。请及时提货，并相应安排${p.balCN}。`),
+      from:"seller"});
+  }
+
+  /* 九、催收尾款 */
+  {
+    const hE = hdr("seller", dEN), hC = hdr("seller", dCN);
+    L.push({t:"催收尾款",
+      en:en(hE,"Request for Settlement of Balance",
+        `According to the shipping documents, the goods have arrived at ${pDisc}, your port. We would like to remind you to settle the balance payment of ${money(c.amount)} under Contract No. ${no} at your earliest convenience. Your prompt remittance will help us maintain the smooth flow of our cooperation. We appreciate your kind attention.`),
+      cn:cn(hC,"催收尾款",
+        `据装运单据显示，货物已抵达贵方${pDisc}港。特函提请贵方尽快结算第 ${no} 号合同项下 ${money(c.amount)} 的尾款。贵方的及时汇付将有助于双方合作的顺畅进行。感谢贵方的关注。`),
+      from:"seller"});
+  }
+
+  return L;
+}
+
+/* ================== 生成 / 渲染 ================== */
+let LETTERS = [], cur = 0;
+const CN_NUM = ["一","二","三","四","五","六","七","八","九","十"];
+
+function dirTxt(l){ return l.from==="seller" ? "出口商☞进口商" : "进口商☞出口商"; }
+function fullTitle(i){ return `${CN_NUM[i]}、${LETTERS[i].t}（${dirTxt(LETTERS[i])}）`; }
+
+function genAll(){
+  LETTERS = letters(C());
+  cur = 0;
+  document.getElementById("resultCard").style.display = "block";
+  renderLang(); renderToc(); renderOut();
+  toast("已生成 " + LETTERS.length + " 封函电");
+}
+function renderToc(){
+  document.getElementById("toc").innerHTML = LETTERS.map((l,i)=>
+    `<button class="${i===cur?'on':''}" onclick="pickL(${i})">${CN_NUM[i]}、${l.t}</button>`).join("");
+}
+/* 点击目录 → 自动跳转到对应函电 */
+function pickL(i){
+  cur = i; renderToc();
+  const el = document.getElementById("out");
+  const tgt = document.getElementById("ltr"+i);
+  if(tgt) el.scrollTop = tgt.offsetTop - el.offsetTop - 8;
+}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function renderOut(){
+  const el = document.getElementById("out");
+  if(!LETTERS.length){ el.innerHTML = '<div class="empty">请先点击「生成全套函电」</div>'; return; }
+
+  let html = "";
+  const sep = `<span class="sep">${"－".repeat(56)}</span>`;
+  LETTERS.forEach((l,i)=>{
+    html += `<span class="title" id="ltr${i}">${CN_NUM[i]}、${l.t}</span><span class="dir">（${dirTxt(l)}）</span>\n\n`;
+    if(LANG === "both"){
+      html += esc(l.en) + "\n\n" + `<span class="sep">${"·".repeat(46)}</span>` + "\n\n" + esc(l.cn) + "\n\n" + sep + "\n\n";
+    } else {
+      html += esc(LANG==="en" ? l.en : l.cn) + "\n\n" + sep + "\n\n";
+    }
+  });
+  el.innerHTML = html;
+}
+
+/* ================== 复制 ================== */
+function copyCurrent(){
+  if(!LETTERS.length) return toast("请先生成函电");
+  const l = LETTERS[cur];
+  const head = fullTitle(cur) + "\n\n";
+  const txt = head + (LANG==="both" ? (l.en+"\n\n"+"－".repeat(56)+"\n\n"+l.cn)
+            : (LANG==="en" ? l.en : l.cn));
+  doCopy(txt, `已复制「${l.t}」`);
+}
+function copyAll(){
+  if(!LETTERS.length) return toast("请先生成函电");
+  let out = "";
+  LETTERS.forEach((l,i)=>{
+    out += fullTitle(i) + "\n\n";
+    out += (LANG==="both" ? (l.en+"\n\n"+"－".repeat(56)+"\n\n"+l.cn)
+          : (LANG==="en" ? l.en : l.cn)) + "\n\n";
+    out += "－".repeat(56) + "\n\n";
+  });
+  doCopy(out, "已复制全套函电（"+LETTERS.length+" 封）");
+}
+function doCopy(txt,msg){
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(()=>toast(msg)).catch(()=>fb(txt,msg));
+  } else fb(txt,msg);
+}
+function fb(txt,msg){
+  const ta=document.createElement("textarea");
+  ta.value=txt; ta.style.position="fixed"; ta.style.left="-9999px";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); toast(msg); }catch(e){ toast("复制失败，请手动选择"); }
+  document.body.removeChild(ta);
+}
+let tt=null;
+function toast(m){
+  const el=document.getElementById("toast");
+  el.textContent=m; el.classList.add("on");
+  clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("on"),1900);
+}
+
+/* ================== 商品运费计算 ================== */
+function fv(id){
+  const v=parseFloat(document.getElementById(id).value);
+  return isNaN(v)?0:v;
+}
+function calcFreight(){
+  const qty=fv("fQty"), wt=fv("fWt"), vol=fv("fVol");
+  const isAir = document.getElementById("fShipMode").value==="air";
+  const type = isAir ? "air" : "sea";   /* 海运默认按整柜比价（普柜/冻柜取低者） */
+  if(qty<=0||wt<=0||vol<=0){ toast("请填写包装数量、单包装毛重和体积"); return; }
+  const tonW = qty*wt/1000;          /* 总毛重（吨） */
+  const totV = qty*vol;              /* 总体积（立方米） */
+  document.getElementById("foWt").textContent = tonW.toFixed(3);
+  document.getElementById("foVol").textContent = totV.toFixed(3);
+  let rows=[], final=0;
+  const row=(name,price,cnt)=>rows.push(
+    `<tr><td style="padding:2px 14px 2px 0">${name}</td><td style="padding:2px 14px 2px 0">单价 ${price.toFixed(2)}</td>`+
+    `<td style="padding:2px 14px 2px 0">个数 ${cnt}</td><td style="padding:2px 14px 2px 0">总价 <b>${price*cnt.toFixed? (price*cnt).toFixed(2):(price*cnt)}</b></td></tr>`);
+  if(type==="sea"){
+    /* 海运：按所选「集装箱类型」计算（普柜 / 冻柜），取该类型下最省的装箱方案 */
+    const isPG = document.getElementById("fBoxType").value==="pg";
+    const gname = isPG ? "普柜" : "冻柜";
+    const specs = isPG
+      ? [["20普", fv("r20"),25,33],["40普", fv("r40"),29,67],["40普高", fv("r40h"),29,76]]
+      : [["20冻", fv("rr20"),21,27],["40冻", fv("rr40"),26,58],["40冻高", fv("rr40h"),26,66]];
+    const lv = isPG ? fv("rLCLv") : fv("rrLCLv");
+    const lw = isPG ? fv("rLCLw") : fv("rrLCLw");
+    const prices=[];
+    specs.forEach(([n,price,wCap,vCap])=>{
+      const cnt=Math.ceil(Math.max(tonW/wCap, totV/vCap));
+      prices.push(price*cnt);
+      rows.push(`<tr><td style="padding:2px 14px 2px 0">${gname} ${n}</td><td style="padding:2px 14px 2px 0">单价 ${price.toFixed(2)}</td>`+
+        `<td style="padding:2px 14px 2px 0">个数 ${cnt}</td><td style="padding:2px 14px 2px 0">总价 <b>${(price*cnt).toFixed(2)}</b></td></tr>`);
+    });
+    const lcl=Math.max(lv*totV, lw*tonW);
+    prices.push(lcl);
+    rows.push(`<tr><td style="padding:2px 14px 2px 0">${gname} 拼箱</td><td style="padding:2px 14px 2px 0">体积 ${lv}×${totV.toFixed(2)} / 重量 ${lw}×${tonW.toFixed(3)} 取大</td>`+
+      `<td style="padding:2px 14px 2px 0">—</td><td style="padding:2px 14px 2px 0">总价 <b>${lcl.toFixed(2)}</b></td></tr>`);
+    /* 最终运费 = 该柜型下各方案中的较小值 */
+    final=Math.min(...prices);
+  } else {
+    /* 空运：计费重量 = MAX(总毛重KG, 总体积×167) */
+    const chg=Math.max(tonW*1000, totV*167);
+    const min=fv("rMin");
+    const brackets=[[`小于45KG`,fv("ra45"),45],[`45-100KG`,fv("ra100"),100],[`100-300KG`,fv("ra300"),300],[`300KG以上`,fv("ra300p"),Infinity]];
+    for(const [n,rate,up] of brackets){
+      if(chg<up){ rows.push(`<tr><td style="padding:2px 14px 2px 0">适用 ${n}</td>`+
+        `<td style="padding:2px 14px 2px 0">费率 ${rate} USD/KG</td><td style="padding:2px 14px 2px 0">计费重量 ${chg.toFixed(2)} KG</td>`+
+        `<td style="padding:2px 14px 2px 0">总价 <b>${Math.max(min,rate*chg).toFixed(2)}</b></td></tr>`); break; }
+    }
+    const rate = chg<45?fv("ra45"): chg<100?fv("ra100"): chg<300?fv("ra300"): fv("ra300p");
+    final=Math.max(min, rate*chg);
+  }
+  document.getElementById("foDetail").innerHTML =
+    `<table style="border-collapse:collapse;margin-top:4px">${rows.join("")}</table>`;
+  document.getElementById("foFinal").textContent = "最终运费：USD " + final.toFixed(2);
+  document.getElementById("fResult").style.display = "block";
+}
+
+/* ================== 进出口预算计算 ================== */
+/* 常用数据（来自预算表「常用数据」表）：对美元汇率 / 报关费 / 信用证开证费 / 币种 / 产地证价 */
+const COUNTRIES = {
+  "澳大利亚":{rate:1.0345, customs:16,  lcOpen:49,   cur:"AUD", cert:7},
+  "巴西":    {rate:0.5243, customs:27,  lcOpen:82,   cur:"BRL", cert:11},
+  "古巴":    {rate:1,      customs:14,  lcOpen:43,   cur:"CUP", cert:7},
+  "德国":    {rate:1.3222, customs:9,   lcOpen:29,   cur:"EUR", cert:3},
+  "英国":    {rate:1.6221, customs:6,   lcOpen:19,   cur:"GBP", cert:2},
+  "日本":    {rate:0.0125, customs:1550,lcOpen:4640, cur:"JPY", cert:678},
+  "中国":    {rate:0.1554, customs:100, lcOpen:300,  cur:"CNY", cert:44},
+  "俄罗斯":  {rate:0.0341, customs:340, lcOpen:1030, cur:"RUB", cert:145},
+  "美国":    {rate:1,      customs:12,  lcOpen:38,   cur:"USD", cert:4},
+  "南非":    {rate:0.1294, customs:92,  lcOpen:280,  cur:"ZAR", cert:40},
+};
+const bv=id=>{ const v=parseFloat(document.getElementById(id).value); return isNaN(v)?0:v; };
+/* 解析百分比字段："0.13%" / "0.13" → 0.0013 */
+const bp=id=>{
+  const s=String(document.getElementById(id).value||"").trim().replace("%","");
+  const v=parseFloat(s); return isNaN(v)?0:v/100;
+};
+const setv=(id,v)=>{ document.getElementById(id).value=v; };
+/* 保险费率：界面显示 8.8% / 4.3%，实际为 8.8‰ / 4.3‰（0.0088 / 0.0043），故 /1000 */
+const insRateVal=()=>{
+  const s=String(document.getElementById("bZ2").value||"").replace("%","").trim();
+  const v=parseFloat(s); return isNaN(v)?0:v/1000;
+};
+const fmt=(n,d=2)=>Number(n).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* 初始化国家下拉 */
+function initCountries(){
+  const list=Object.keys(COUNTRIES);
+  ["bExCountry","bImCountry"].forEach(id=>{
+    document.getElementById(id).innerHTML = list.map(c=>`<option>${c}</option>`).join("");
+  });
+  document.getElementById("bExCountry").value="澳大利亚";
+  document.getElementById("bImCountry").value="巴西";
+}
+
+/* 国家/支付/运输/术语 → 自动联动填值 */
+function syncBudget(){
+  const exC=document.getElementById("bExCountry").value;
+  const imC=document.getElementById("bImCountry").value;
+  const pay=document.getElementById("bPay").value;
+  const ship=document.getElementById("bShip").value;
+  const mode=document.getElementById("bMode").value;
+
+  /* 汇率：预算表「对美元汇率」原值 */
+  setv("bExRate", COUNTRIES[exC].rate);
+  setv("bImRate", COUNTRIES[imC].rate);
+  /* 报关费 */
+  setv("bX6", COUNTRIES[exC].customs);
+  setv("bY5", COUNTRIES[imC].customs);
+  /* 信用证开证费：仅 L/C 时发生 */
+  setv("bY7", pay==="LC" ? COUNTRIES[imC].lcOpen : 0);
+  /* 银行费用费率：L/C → 0.13%，T/T 及其他 → 0.1% */
+  setv("bX8", pay==="LC" ? "0.13%" : "0");
+  setv("bX9", pay==="LC" ? "0" : "0.1%");
+  setv("bY8", pay==="LC" ? "0" : "0.1%");
+  /* 其他费用：非 T/T 支付 → 自动填出口国原/普惠制产地证价格；T/T → 手填不变 */
+  const x7el=document.getElementById("bX7");
+  if(pay!=="TT"){
+    x7el.value=COUNTRIES[exC].cert;
+    x7el.readOnly=true; x7el.style.background="#f7f8fa"; x7el.style.color="#8b95a3";
+  } else {
+    x7el.readOnly=false; x7el.style.background="#ffffff"; x7el.style.color="";
+  }
+  /* 保险费率：海运 8.8%，空运 4.3%（数值为千分比，计算时按 8.8‰ / 4.3‰） */
+  setv("bZ2", ship==="sea" ? "8.8%" : "4.3%");
+  /* 出口税率固定 0 */
+  setv("bX1", 0);
+
+  /* 运费方向：FOB 由进口方付运费；CPT/CIF/DAP/DPU 由出口方付 */
+  const isFOB = ["FOB","FCA","FAS"].includes(mode);
+  document.getElementById("lbExFreight").innerHTML = isFOB
+    ? '出口运费（USD）<span style="color:#8b95a3">— 本方式由买方承担，无需填写</span>'
+    : '出口运费（USD）';
+  document.getElementById("lbImFreight").innerHTML = isFOB
+    ? '进口运费（USD）'
+    : '进口运费（USD）<span style="color:#8b95a3">— 本方式由卖方承担，无需填写</span>';
+  document.getElementById("bExFreight").disabled = isFOB;
+  document.getElementById("bImFreight").disabled = !isFOB;
+  document.getElementById("bExFreight").style.background = isFOB ? "#f7f8fa" : "#ffffff";
+  document.getElementById("bImFreight").style.background = isFOB ? "#ffffff" : "#f7f8fa";
+  /* 保留已填写的运费值（切换术语不丢数据，由 calcBudget 决定是否计入） */
+
+  document.getElementById("freightTip").textContent = isFOB
+    ? "当前贸易术语为 FOB/FCA/FAS：运费由进口方承担，请填「进口运费」，可点「一键填入运费」用上方运费计算结果自动填入。"
+    : "当前贸易术语为 CPT/CFR、CIF/CIP 或 DAP/DPU：运费由出口方承担，请填「出口运费」。";
+}
+
+/* 运费卡：运输方式联动隐藏价格分组；海运时按柜型显示普柜/冻柜 */
+function syncFreightCard(){
+  const air = document.getElementById("fShipMode").value==="air";
+  document.getElementById("grpSea").style.display = air ? "none" : "block";
+  document.getElementById("grpAir").style.display = air ? "block" : "none";
+  const isPG = document.getElementById("fBoxType").value==="pg";
+  document.getElementById("grpPG").style.display = isPG ? "block" : "none";
+  document.getElementById("grpRF").style.display = isPG ? "none" : "block";
+}
+
+/* 一键填入运费：取上方「商品运费计算」的最终运费 */
+function autoFreight(){
+  const el=document.getElementById("foFinal");
+  const m = el && el.textContent.match(/([\d,]+\.?\d*)/);
+  if(!m){ toast("请先在上方「商品运费计算」中计算出运费"); return; }
+  const v = parseFloat(m[1].replace(/,/g,""));
+  const mode=document.getElementById("bMode").value;
+  if(["FOB","FCA","FAS"].includes(mode)) setv("bImFreight", v); else setv("bExFreight", v);
+  toast("已填入运费 USD " + fmt(v));
+}
+
+function calcBudget(){
+  /* --- 读取参数 --- */
+  const mode=document.getElementById("bMode").value;
+  const N=bv("bQty"), UP=bv("bPrice"), fac=bv("bFactory");
+  const xr=bv("bExRate")||1, ir=bv("bImRate")||1;
+  const buyerPay = ["FOB","FCA","FAS"].includes(mode);
+  const frt = buyerPay ? bv("bImFreight") : bv("bExFreight");
+  const mkt=bv("bMarket"), expR=bp("bExpRate");   /* 盈亏率按百分比输入 */
+  const x1=bv("bX1"),x2=bp("bX2"),x3=bp("bX3"),x4=bp("bX4"),x5=bp("bX5"),
+        x6=bv("bX6"),x7=bv("bX7"),x8=bp("bX8"),x9=bp("bX9");
+  const y1=bp("bY1"),y2=bp("bY2"),y3=bp("bY3"),y4=bp("bY4"),y5=bv("bY5"),
+        y6=0,y7=bv("bY7"),y8=bp("bY8");
+  const insUp=bv("bZ1"), insRate=insRateVal();
+  /* 是否含运费的术语（卖方承担运费），是否含保费的术语（CIF/CIP/DAP/DPU） */
+  const sellerFrt = !buyerPay;
+  const withIns = mode==="CIF" || mode==="CIP" || mode==="DAP" || mode==="DPU";
+  const midTerm = mode==="CFR" || mode==="CPT";   /* 卖方运费、买方保费 */
+
+  /* ================= 出口预算（本币 / 美元 双列） ================= */
+  /* 收购价 = 工厂价 × 数量 */
+  const exF7 = fac*N,                     exG7 = exF7*xr;
+  /* 出口退税 = 收购价×退税率/(1+增值税率) */
+  const exF8 = (exF7*x4)/(1+x3),         exG8 = exF8*xr;
+  /* 实际采购成本 */
+  const exF9 = exF7-exF8,                exG9 = exF9*xr;
+  /* 报价（成交总额）= 数量×单价，本币 = 美元/汇率 */
+  const exG26 = N*UP,                    exF26 = exG26/xr;
+  /* 商检费 = 报价×商检费率 */
+  const exF10= exF26*x5,                 exG10= exF10*xr;
+  /* 报关费、出口税=报价×出口税率/(1+税率)、银行费用、其他付款费 */
+  const exF11= x6,                       exG11= exF11*xr;
+  const exF12= exF26*x1/(1+x1),          exG12= exF12*xr;
+  const exF13= exF26*x8,                 exG13= exF13*xr;
+  const exF14= exF26*x9,                 exG14= exF14*xr;
+  const exF15= x7,                       exG15= exF15*xr;
+  /* 国内费用合计 */
+  const exF16= exF15+exF14+exF13+exF12+exF11+exF10;
+  const exG16= exG15+exG14+exG13+exG12+exG11+exG10;
+
+  /* 出口运费（本币）：仅卖方承担运费的术语（CFR/CPT/CIF/CIP/DAP/DPU）有值 */
+  const exF18= sellerFrt? frt/xr : 0,    exG18= sellerFrt? frt : 0;
+  /* 成本合计：FOB 方式 = 实际采购成本+国内费用（无运费/保费） */
+  const exF17= exF9+exF16,               exG17= exG9+exG16;      /* FOB 出口总成本 */
+  /* CFR/CPT 成本 = 出口总成本 + 出口运费（仅按运费决定） */
+  const exF19s= exF17+exF18,             exG19s= exG17+exG18;
+  /* 投保金额 = 报价 × 投保加成（按手册：以对外报价为基数，仅 CIF/CIP/DAP/DPU 投保） */
+  const exF21= withIns? exF26*insUp : 0, exG21= withIns? exG26*insUp : 0;
+  const exF20= exF21*insRate,            exG20= exG21*insRate;
+  const exF22= exF19s+exF20,             exG22= exG19s+exG20;   /* CIF/CIP/DAP/DPU 成本 */
+
+  /* 按方式取成本总额（分母）：FOB 不含运费保费，CFR/CPT 含运费，CIF/CIP/DAP/DPU 含运费+保费 */
+  const costF = buyerPay? exF17 : midTerm? exF19s : exF22;
+  const costG = buyerPay? exG17 : midTerm? exG19s : exG22;
+
+  /* 预期盈亏额 / 率（出口） */
+  const exPftF= exF26-costF,  exPftG= exG26-costG;
+  const exPftRF= costF? exPftF/costF : 0, exPftRG= costG? exPftG/costG : 0;
+
+  /* 出口商参考报价总（本币）：FOB 不含运费，CFR/CPT 含运费，CIF/CIP/DAP/DPU 含运费+保费 */
+  const baseF = exF9 + x6 + x7 + (sellerFrt?exF18:0);
+  const denom = withIns
+    ? (x8? 1-(1+expR)*(x5+x8+insUp*insRate) : 1-(1+expR)*(x5+x9+insUp*insRate))
+    : (x8? 1-(1+expR)*(x5+x8)             : 1-(1+expR)*(x5+x9));
+  const exC27 = denom? baseF*(1+expR)/denom : 0;
+  const exC28 = N? exC27/N : 0;
+
+  /* ================= 进口预算 ================= */
+  /* 成交价 = 数量×单价（本币）= 美元/汇率 */
+  const imK7 = N*UP,                     imJ7 = imK7/ir;
+  /* 进口运费：进口商在 FOB/FCA/FAS 时承担运费；其余术语由出口商承担，进口预算不计运费 */
+  const impFrt = buyerPay ? frt : 0;
+  const imK8 = impFrt,                   imJ8 = imK8/ir;
+  /* CFR/CPT 价 = 成交价 + 进口运费 */
+  const imK9 = imK7+imK8,                imJ9 = imK9/ir;
+  /* 投保金额 = CFR价×投保加成/(1-加成×费率)；进口商承担保险（非 CIF/CIP/DAP/DPU 时自己投保） */
+  const impIns = !withIns;
+  const imK11= impIns? imK9*insUp/(1-insUp*insRate) : 0, imJ11= imK11/ir;
+  const imK10= impIns? imK11*insRate : 0,               imJ10= imK10/ir;
+  /* CIF/CIP 成交价 = CFR价 + 保费 */
+  const imK12= imK9+imK10,               imJ12= imK12/ir;
+  /* 进口关税 */
+  const imK13= imK12*y1,                 imJ13= imK13/ir;
+  /* 完税成本 */
+  const imK14= imK12+imK13,              imJ14= imK14/ir;
+  /* 商检费（按成交价） */
+  const imK15= imK7*y4,                  imJ15= imK15/ir;
+  /* 报关费 */
+  /* 报关费：配置值是进口国本币金额（如巴西 27），美元 = 本币 × 汇率 */
+  const imJ16= y5,                       imK16= imJ16*ir;
+  /* 消费税、增值税 */
+  const imK17= imK14*y2/(1-y2),          imJ17= imK17/ir;
+  const imK18= (imK14+imK17)*y3,         imJ18= imK18/ir;
+  const imK19= y6,                       imJ19= imK19/ir;
+  const imK20= imK15+imK16+imK17+imK18+imK19;
+  const imJ20= imJ15+imJ16+imJ17+imJ18+imJ19;
+  /* 银行费用 = 开证费 + 信用证付款费 + 其他付款手续费 */
+  /* 信用证开证费：同样是进口国本币金额 */
+  const imJ22= y7,                       imK22= imJ22*ir;
+  const imK23= imK7*x8,                  imJ23= imK23/ir;
+  const imK24= imK7*y8,                  imJ24= imK24/ir;
+  const imK21= imK22+imK23+imK24,        imJ21= imJ22+imJ23+imJ24;
+  /* 总成本 */
+  const imK25= imK14+imK20+imK21,        imJ25= imJ14+imJ20+imJ21;
+  /* 市场销货收入 */
+  /* 国内市场营销收入：市场价格按进口国本币计价 */
+  const imJ26= mkt*N,                    imK26= imJ26*ir;
+  const imK27= imK26-imK25,              imJ27= imJ26-imJ25;
+  const imK28= imK25? imK27/imK25:0,     imJ28= imJ25? imJ27/imJ25:0;
+
+  /* --- 渲染（POCIB 手册「出口成本预算表」版式） --- */
+  const bankR = x8 || x9;                       /* 银行/付款费率（公式自动切换） */
+  const denomFOB = 1-(1+expR)*(x5+bankR);
+  const denomCIF = 1-(1+expR)*(x5+bankR+insUp*insRate);
+  const qFOB = denomFOB? (exF9+x6+x7)*(1+expR)/denomFOB : 0;
+  const qCFR = denomFOB? (exF9+x6+x7+exF18)*(1+expR)/denomFOB : 0;
+  const qCIF = denomCIF? (exF9+x6+x7+exF18)*(1+expR)/denomCIF : 0;
+  /* 币种缩写（大写英文） */
+  const exCur = COUNTRIES[document.getElementById("bExCountry").value].cur;
+  const imCur = COUNTRIES[document.getElementById("bImCountry").value].cur;
+
+  /* ===== 预算表：与「2_预算表.xlsx」一致的四列模板 =====
+     序号 | 项目 | 本币 | 美元 */
+  const manTable=(title,rows,cur)=>{
+    let h=`<table class="mtb"><tr><th colspan="4" class="mtb-title">${title}</th></tr>`;
+    h+=`<tr class="mtb-head"><td class="mtb-h1">序号</td><td class="mtb-h2">项目</td>`
+      +`<td class="mtb-h3">本币（${cur}）</td><td class="mtb-h4">美元（USD）</td></tr>`;
+    rows.forEach(r=>{
+      const em=r[4]?' class="mtb-em"':"";
+      h+=`<tr${em}><td class="mtb-no">${r[0]||""}</td><td class="mtb-n">${r[1]}</td>`
+        +`<td class="mtb-v">${r[2]==null?"":r[2]}</td><td class="mtb-v2">${r[3]==null?"":r[3]}</td></tr>`;
+    });
+    return h+`</table>`;
+  };
+
+  const costLabel = buyerPay ? "FOB/FCA/FAS" : midTerm ? "CFR/CPT" : "CIF/CIP";
+
+  /* ---------- 出口预算表 ---------- */
+  const expRows=[
+    ["", "汇率", fmt(xr,4), ""],
+    ["1", "采购成本", fmt(exF7), fmt(exG7)],
+    ["", "出口退税", fmt(exF8), fmt(exG8)],
+    ["", "实际采购成本", fmt(exF9), fmt(exG9), 1],
+    ["2", "商检费", fmt(exF10), fmt(exG10)],
+    ["", "报关费", fmt(exF11), fmt(exG11)],
+    ["", "出口税", fmt(exF12), fmt(exG12)],
+    ["", "银行费用", fmt(exF13+exF14), fmt(exG13+exG14)],
+    ["", "其他", fmt(exF15), fmt(exG15)],
+    ["", "国内费用", fmt(exF16), fmt(exG16), 1],
+  ];
+  /* 三条成本口径并存，只有当前术语那一条有值，其余为 0（与 POCIB 系统一致） */
+  const fobC  = buyerPay ? exF17 : 0,   fobCg  = buyerPay ? exG17 : 0;
+  const cfrC  = midTerm  ? exF19s : 0,  cfrCg  = midTerm  ? exG19s : 0;
+  const cifC  = withIns  ? exF22 : 0,   cifCg  = withIns  ? exG22 : 0;
+
+  /* 阶梯式裁剪：低于当前术语的成本行保留并填 0，高于当前术语的行直接不显示 */
+  expRows.push(["3", "出口总成本C（FOB/FCA成本）　C=A+B", fmt(fobC), fmt(fobCg), buyerPay?1:0]);
+  expRows.push(["", "出口运费F", fmt(exF18), fmt(exG18)]);
+  /* 仅当术语不低于 CFR/CPT 时才出现（FOB/FCA/FAS 时整行去掉） */
+  if(!buyerPay){
+    expRows.push(["", "CFR/CPT成本（=C+F）", fmt(cfrC), fmt(cfrCg), midTerm?1:0]);
+  }
+  /* 仅当术语为 CIF/CIP/DAP/DPU 时才出现 */
+  if(withIns){
+    expRows.push(["", "出口保费I", fmt(exF20), fmt(exG20)]);
+    expRows.push(["", "总保费率", fmt(insRate*1000)+" ‰", ""]);
+    expRows.push(["", "投保加成", fmt(insUp*100)+" %", ""]);
+    expRows.push(["", "投保金额", fmt(exF21), fmt(exG21)]);
+    expRows.push(["", "出口总成本C（CIF/CIP成本）（=C+F+I）", fmt(cifC), fmt(cifCg), 1]);
+  }
+  expRows.push(["4", "报价（数量×单价）", fmt(exF26), fmt(exG26), 1]);
+  expRows.push(["", "预期盈亏额", fmt(exPftF), fmt(exPftG)]);
+  expRows.push(["", "预期盈亏率", (exPftRF*100).toFixed(2)+" %", (exPftRG*100).toFixed(2)+" %"]);
+  if(buyerPay){
+    expRows.push(["", "对外报价（FOB/FCA）(=C+P)", fmt(qFOB), fmt(qFOB*xr)]);
+  } else if(midTerm){
+    expRows.push(["", "对外报价（CFR/CPT）(=C+F+P)", fmt(qCFR), fmt(qCFR*xr)]);
+  } else {
+    expRows.push(["", "对外报价（CIF/CIP）(=C+F+I+P)", fmt(qCIF), fmt(qCIF*xr)]);
+  }
+
+  /* ---------- 进口预算表 ---------- */
+  const impRows=[
+    ["", "汇率", fmt(ir,4), ""],
+    ["1", "成交价", fmt(imJ7), fmt(imK7)],
+  ];
+  if(buyerPay) impRows.push(["3", "进口运费F", fmt(imJ8), fmt(imK8)]);
+  if(impIns)   impRows.push(["4", "进口保费I", fmt(imJ10), fmt(imK10)]);
+  impRows.push(["", "CIF/CIP价格", fmt(imJ12), fmt(imK12)]);
+  if(impIns)   impRows.push(["", "投保金额", fmt(imJ11), fmt(imK11)]);
+  impRows.push(["5", "进口关税", fmt(imJ13), fmt(imK13)]);
+  impRows.push(["6", "完税成本", fmt(imJ14), fmt(imK14), 1]);
+  impRows.push(["2", "商检费", fmt(imJ15), fmt(imK15)]);
+  impRows.push(["", "报关费", fmt(imJ16), fmt(imK16)]);
+  impRows.push(["", "消费税", fmt(imJ17), fmt(imK17)]);
+  impRows.push(["", "增值税", fmt(imJ18), fmt(imK18)]);
+  impRows.push(["", "其他", fmt(imJ19), fmt(imK19)]);
+  impRows.push(["", "国内费用", fmt(imJ20), fmt(imK20), 1]);
+  impRows.push(["", "银行费用", fmt(imJ21), fmt(imK21), 1]);
+  impRows.push(["", "信用证费用", fmt(imJ22), fmt(imK22)]);
+  impRows.push(["", "信用证付款手续费", fmt(imJ23), fmt(imK23)]);
+  impRows.push(["", "D/A、D/P付款手续费", "0.00", "0.00"]);
+  impRows.push(["", "T/T付款手续费", fmt(imJ24), fmt(imK24)]);
+  impRows.push(["10", "总成本", fmt(imJ25), fmt(imK25), 1]);
+  impRows.push(["11", "国内市场销售收入", fmt(imJ26), fmt(imK26)]);
+  impRows.push(["12", "预期盈亏额", fmt(imJ27), fmt(imK27)]);
+  impRows.push(["", "预期盈亏率", (imJ28*100).toFixed(2)+" %", (imK28*100).toFixed(2)+" %"]);
+
+  let html=`<style>
+    .mtb{width:100%;border-collapse:collapse;font-size:12.5px;border:1px solid #6E8AAE;
+      background:#fff;table-layout:fixed}
+    .mtb-title{background:#f7f8fa;color:#2f6fed;font-size:15px;font-weight:700;
+      letter-spacing:4px;padding:9px 0;border:1px solid #6E8AAE;text-align:center}
+    .mtb-head td{background:#DCE5F0;color:#243B57;font-weight:700;font-size:12px;
+      text-align:center;padding:6px 4px;border:1px solid #6E8AAE}
+    .mtb-h1{width:46px}.mtb-h2{width:auto}.mtb-h3{width:150px}.mtb-h4{width:130px}
+    .mtb-no{text-align:center;color:#5B6676;font-size:12px;padding:4px 2px;
+      border:1px solid #B9C8DB;background:#F7FAFD}
+    .mtb-n{padding:4px 10px;border:1px solid #B9C8DB;color:#22303F;vertical-align:middle}
+    .mtb-v,.mtb-v2{padding:4px 10px;border:1px solid #B9C8DB;text-align:right;
+      font-family:Consolas,monospace;white-space:nowrap;vertical-align:middle}
+    .mtb-em td{font-weight:700;color:#2f6fed;background:#f2f6fd}
+    .mtb-cap{font-size:11.5px;color:#5B6676;margin-top:8px;line-height:1.8}
+  </style>`;
+  html+=`<div style="font-size:12.5px;color:#1b1f24;margin-bottom:8px">
+    贸易方式：<b>${mode}</b>　　交易数量：<b>${fmt(N,0)}</b>　　成交单价：<b>USD ${fmt(UP)}</b></div>`;
+  html+=manTable("出 口 预 算",expRows,exCur);
+  html+=`<div class="mtb-cap">汇率 = 1 单位本币折合美元；美元 = 本币 × 汇率。`
+    +`按所选贸易术语（${mode}）裁剪，不涉及的运费/保费等科目不予列出。</div>`;
+  html+=`<div style="height:16px"></div>`;
+  html+=manTable("进 口 预 算",impRows,imCur);
+  html+=`<div class="mtb-cap">报关费、信用证费用按进口国本币计；成交价按美元计；`
+    +`美元 = 本币 × 汇率。按所选贸易术语（${mode}）裁剪。</div>`;
+  document.getElementById("bResult").innerHTML = html;
+  document.getElementById("bResult").style.display = "block";
+  refQuote(mode,N,UP,xr);
+}
+
+/* ---- 出口商参考报价单价 / 总价（随预期盈亏率实时更新，不需点计算） ---- */
+function refQuote(mode,N,UP,xr){
+  N = (N===undefined)? bv("bQty") : N;
+  UP= (UP===undefined)? bv("bPrice") : UP;
+  xr= (xr===undefined)? (bv("bExRate")||1) : xr;
+  mode = mode || document.getElementById("bMode").value;
+  const expR=bp("bExpRate");
+  const fac=bv("bFactory");
+  const x5=bp("bX5"),x6=bv("bX6"),x7=bv("bX7"),x8=bp("bX8"),x9=bp("bX9");
+  const insUp=bv("bZ1"), insRate=insRateVal();
+  const buyerPay=["FOB","FCA","FAS"].includes(mode);
+  const withIns = mode==="CIF"||mode==="CIP"||mode==="DAP"||mode==="DPU";
+  /* 与 calcBudget 保持一致 */
+  const x3=bp("bX3"), x4=bp("bX4");
+  const exF7=fac*N, exF8=(exF7*x4)/(1+x3), exF9=exF7-exF8;
+  const exF18= buyerPay? 0 : (bv("bExFreight")/xr);
+  const bankR=x8||x9;
+  const baseF = exF9 + x6 + x7 + exF18;
+  const denom = withIns
+    ? (x8? 1-(1+expR)*(x5+x8+insUp*insRate) : 1-(1+expR)*(x5+x9+insUp*insRate))
+    : (x8? 1-(1+expR)*(x5+x8)             : 1-(1+expR)*(x5+x9));
+  const tot = denom? baseF*(1+expR)/denom : 0;   /* 本币总报价 */
+  const unit= tot? (tot/N)*xr : 0;               /* 折算为 USD 单价 */
+  const qU=document.getElementById("bQuoteU"), qT=document.getElementById("bQuoteT");
+  if(qU) qU.value = "USD " + fmt(unit);
+  if(qT) qT.value = "USD " + fmt(unit*N);
+}
+
+/* ================== 初始化 ================== */
+IDS.forEach(k=>{
+  const el=document.getElementById(k);
+  DEF[k]=el.value;
+  el.addEventListener("input",()=>{
+    if(k==="qty"||k==="price") calcAmount();
+    if(LETTERS.length) genAll();
+  });
+  el.addEventListener("change",()=>{ if(LETTERS.length) genAll(); });
+});
+renderLang();
+
+/* ---- 贸易术语同步统一由 syncFromTerms() 处理（选项一一对应，无需映射） ---- */
+
+/* ---- 交易条件（贸易术语 / 运输方式 / 支付方式）→ 下游全部自动跟随 ---- */
+function syncFromTerms(){
+  const term=document.getElementById("term").value;
+  const ship=document.getElementById("ship").value;
+  const pay =document.getElementById("pay").value;
+
+  /* 1) 贸易术语：预算区与交易条件保持完全一致（选项一一对应） */
+  const bMode=document.getElementById("bMode");
+  if(bMode.value!==term) bMode.value=term;
+
+  /* 2) 运输方式 → 预算区运输方式 + 商品运费计算 + 保险费率 */
+  const isAir = ship==="空运";
+  const bShip=document.getElementById("bShip");
+  bShip.value = isAir ? "air" : "sea";
+  const fShipMode=document.getElementById("fShipMode");
+  if(fShipMode.value !== bShip.value) fShipMode.value=bShip.value;
+  syncFreightCard();
+
+  /* 3) 支付方式 → 预算区支付方式 */
+  const bPay=document.getElementById("bPay");
+  bPay.value = /^LC/.test(pay) ? "LC" : (/^TT/.test(pay) ? "TT" : "OTHER");
+
+  /* 4) 只读展示字段 */
+  document.getElementById("bPayDisp").value  = pay + "（" + (bPay.value==="LC" ? "L/C 费率 0.13%" :
+                                                                bPay.value==="TT" ? "T/T 费率 0.1%" : "其他 费率 0.1%") + "）";
+  document.getElementById("bShipDisp").value = isAir ? "空运（保险费率 0.43%）" : "海运（保险费率 0.88%）";
+
+  /* 5) 装运港 → 出口国、卸货港 → 进口国 */
+  syncPortsToCountry();
+
+  /* 6) 重算自动填值 */
+  syncBudget();
+  if(document.getElementById("fResult").style.display==="block") calcFreight();
+  if(document.getElementById("bResult").style.display==="block") calcBudget();
+}
+
+/* ---- 装运港 → 出口国；卸货港 → 进口国（按港口选项的国家名自动带出） ---- */
+function syncPortsToCountry(){
+  const cut = s => { const m=String(s||"").match(/^([\u4e00-\u9fa5]+)/); return m?m[1]:""; };
+  const exCo = cut(document.getElementById("portLoad").value);
+  const imCo = cut(document.getElementById("portDisc").value);
+  const exSel=document.getElementById("bExCountry"), imSel=document.getElementById("bImCountry");
+  if(exCo && [...exSel.options].some(o=>o.value===exCo) && exSel.value!==exCo) exSel.value=exCo;
+  if(imCo && [...imSel.options].some(o=>o.value===imCo) && imSel.value!==imCo) imSel.value=imCo;
+}
+
+["term","ship","pay"].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener("change",syncFromTerms);
+  el.addEventListener("input",syncFromTerms);
+});
+["portLoad","portDisc"].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener("change",()=>{ syncPortsToCountry(); syncBudget(); });
+  el.addEventListener("input",()=>{ syncPortsToCountry(); syncBudget(); });
+});
+
+/* ---- 预算区贸易术语改选 → 反向同步回交易条件 ---- */
+document.getElementById("bMode").addEventListener("change",()=>{
+  const t=document.getElementById("term");
+  if(t.value!==document.getElementById("bMode").value) t.value=document.getElementById("bMode").value;
+  syncFromTerms();
+});
+
+/* ---- 数量 / 单价 / 合同金额：商品与价格 ↔ 预算区 同步 ---- */
+function linkQtyPrice(){
+  const q1=document.getElementById("qty"), q2=document.getElementById("bQty");
+  const p1=document.getElementById("price"), p2=document.getElementById("bPrice");
+  /* 数量：双向（商品与价格 ⇄ 预算区交易数量） */
+  q1.addEventListener("input",()=>{ q2.value=q1.value; refQuote(); });
+  q2.addEventListener("input",()=>{ q1.value=q2.value; calcAmount(); refQuote(); });
+  /* 单价：双向 */
+  p1.addEventListener("input",()=>{ p2.value=p1.value; refQuote(); });
+  p2.addEventListener("input",()=>{ p1.value=p2.value; calcAmount(); refQuote(); });
+  /* 合同金额：手改金额 → 按 金额÷数量 反推单价，同步两边 */
+  document.getElementById("amount").addEventListener("input",()=>{
+    const amt=parseFloat(String(document.getElementById("amount").value).replace(/,/g,""));
+    const q=parseFloat(q1.value);
+    if(amt>0 && q>0){
+      const up=(amt/q).toFixed(2);
+      p1.value=up; p2.value=up;
+    }
+  });
+}
+
+initCountries();
+syncBudget();
+syncFreightCard();
+linkQtyPrice();
+syncFromTerms();
+/* 初始同步：数量 / 单价 */
+document.getElementById("bQty").value = document.getElementById("qty").value;
+document.getElementById("bPrice").value = document.getElementById("price").value;
+refQuote();
+/* 预期盈亏率 / 贸易术语 / 运费 变化 → 参考报价实时更新 */
+["bExpRate","bFactory","bX5","bX7","bZ1","bX8","bX9","bExFreight","bImFreight","bMode"].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener("input",refQuote);
+  el.addEventListener("change",refQuote);
+});
+document.getElementById("fShipMode").addEventListener("change",()=>{
+  syncFreightCard();
+  if(document.getElementById("fResult").style.display==="block") calcFreight();
+});
+/* 集装箱类型切换：显示对应柜型价格并重算 */
+document.getElementById("fBoxType").addEventListener("change",()=>{
+  syncFreightCard();
+  if(document.getElementById("fResult").style.display==="block") calcFreight();
+});
+
+/* 预算区表单 id（用于「恢复示例」重置） */
+const BIDS=["bMode","bQty","bPrice","bFactory","bMarket","bExpRate","bPay","bShip",
+            "bExFreight","bImFreight","bX2","bX3","bX4","bX7","bY1","bZ1"];
+const BDEF={};
+BIDS.forEach(k=>{ BDEF[k]=document.getElementById(k).value; });
+
+/* 选择变化 → 自动联动 */
+["bExCountry","bImCountry","bPay","bShip","bMode"].forEach(id=>{
+  document.getElementById(id).addEventListener("change",()=>{ syncBudget(); });
+});
+
+/* 消费税 / 增值税：出口 ↔ 进口 双向同步 */
+function linkTax(a,b){
+  const ea=document.getElementById(a), eb=document.getElementById(b);
+  ea.addEventListener("input",()=>{ eb.value=ea.value; });
+  eb.addEventListener("input",()=>{ ea.value=eb.value; });
+}
+linkTax("bX2","bY2");   /* 消费税率 */
+linkTax("bX3","bY3");   /* 增值税率 */
+
+/* 预算输入变化 → 实时重算（若已计算过） */
+BIDS.concat(["bExCountry","bImCountry","bPay","bShip","bX1","bX6","bX8","bX9","bY5","bY7","bY8","bZ1","bZ2"]).forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener("input",()=>{ if(document.getElementById("bResult").style.display==="block") calcBudget(); });
+  el.addEventListener("change",()=>{ if(document.getElementById("bResult").style.display==="block") calcBudget(); });
+});
+
+</script>
+</body>
+</html>
