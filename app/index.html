@@ -136,6 +136,36 @@
   .coCard b{color:var(--ink);font-weight:600}
   .chip{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:20px;
         background:#f0f2f5;color:var(--ink2);margin:0 6px 6px 0}
+  /* ---- 识图取数 ---- */
+  .ocrStep{font-size:12px;color:var(--ink2);line-height:1.75;background:#f7f9fc;
+           border:1px solid #e6ecf4;border-radius:8px;padding:9px 12px;margin-bottom:10px}
+  .ocrStep b{color:var(--ink)}
+  .ocrStep ol{margin:4px 0 0;padding-left:18px}
+  .ocrStep li{margin:1px 0}
+  .ocrStep code{background:#eef2f8;border-radius:4px;padding:1px 5px;font-size:11.5px;color:#2f6fed}
+  .ocrHint{margin-top:5px;color:var(--ink3);font-size:11.5px}
+  #ocrPaste{width:100%;min-height:78px;resize:vertical;border:1px solid var(--line);border-radius:8px;
+            padding:8px 10px;font:12px/1.6 ui-monospace,Consolas,monospace;color:var(--ink);background:#fff}
+  #ocrPaste:focus{outline:2px solid var(--accent-bg);border-color:var(--accent)}
+  #ocrPaste.hot{border-color:var(--accent);background:#f7fbff}
+  .ocrBar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:9px 0 4px;font-size:12.5px}
+  .ocrBar .k{color:var(--ink3);font-size:12px}
+  .ocrBar label{display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--ink2)}
+  .ocrMsg{color:var(--ink3);font-size:12px}
+  .ocrMsg.err{color:#c0392b}
+  .ocrMsg.ok{color:var(--ok)}
+  table.ocrt td{padding:4px 6px;vertical-align:middle}
+  table.ocrt input[type=text]{width:100%;padding:4px 7px;border:1px solid var(--line);
+        border-radius:5px;font:12.5px/1.4 inherit;color:var(--ink)}
+  table.ocrt input[type=text]:focus{outline:2px solid var(--accent-bg);border-color:var(--accent)}
+  table.ocrt tr.off input[type=text]{color:var(--ink3);background:#fafbfc;text-decoration:line-through}
+  .conf{font-size:10.5px;padding:1px 6px;border-radius:9px;white-space:nowrap}
+  .conf.hi{background:#e8f6ee;color:#1f8a4c}
+  .conf.mid{background:#fff5e5;color:#b9761a}
+  .conf.lo{background:#fdeceb;color:#c0392b}
+  .conf.dr{background:#eef1fb;color:#4a5b9e}
+  .ocrExtra{font-size:11.5px;color:var(--ink3);margin-top:8px;line-height:1.7}
+  .ocrExtra i{font-style:normal;color:var(--ink2)}
 </style>
 </head>
 <body>
@@ -181,6 +211,10 @@
           <span class="mini ghost" id="impData" title="导入别人分享的数据包">导入数据</span>
           <span class="mini ghost" id="expHtml" title="生成一个已经包含这些公司和商品的新 HTML">导出含数据HTML</span>
         </div>
+        <div class="row" style="gap:6px;margin-top:2px">
+          <span class="mini" id="ocrCo" title="截 POCIB 窗口，自动认字并填进公司档案"
+                style="border-color:#d3e0fb;background:#f5f9ff">📷 截图识别公司信息</span>
+        </div>
         <div class="coCard" style="margin:6px 0 0;font-size:11px;line-height:1.6;color:#8b95a3">
           公司和商品存在<b style="color:#5b6675">本浏览器</b>里，不会写进 HTML 文件。
           要连数据一起发给别人，用上面的「导出含数据HTML」。
@@ -205,6 +239,8 @@
         <div class="row" style="gap:6px;margin-top:-2px">
           <span class="mini ghost" id="newGd">＋ 新建商品</span>
           <span class="mini ghost" id="resetGd">恢复预置</span>
+          <span class="mini" id="ocrGd" title="截 POCIB 商品信息页，自动认字并填进商品档案"
+                style="border-color:#d3e0fb;background:#f5f9ff">📷 截图识别商品</span>
         </div>
         <div class="row"><span class="k">HS 编码</span><input id="hs"></div>
         <div class="row"><span class="k">中文品名</span><input id="hs_zh"></div>
@@ -272,6 +308,51 @@
   </div>
   <iframe id="lettersFrame" title="外贸函电与预算"></iframe>
 </section>
+
+<div class="mask" id="ocrMask">
+  <div class="modal" style="width:min(920px,100%)">
+    <header><h3 id="ocrTitle">识图取数</h3>
+      <span style="margin-left:auto;font-size:12px;color:#8b95a3">截图 → 识别 → 逐项核对 → 填入</span></header>
+    <div class="mbody">
+      <div class="ocrStep">
+        <b>三步拿到数据</b>
+        <ol>
+          <li>在 POCIB 里打开「基本资料」或「商品信息」页面，窗口<b>保持打开不要最小化</b></li>
+          <li>双击 <code>识图取数.bat</code>，它会自己截窗口、认字，最后提示「已复制到剪贴板」</li>
+          <li>回到这里，点下面的输入框按 <b>Ctrl+V</b> 粘贴，再点「解析」</li>
+        </ol>
+        <div class="ocrHint">也可以自己截图（Win+Shift+S）后运行 <code>python 识图取数/extract.py --file 截图.png</code>；
+          识别结果会存成 JSON 文件，用「选择识别结果文件」载入同样可以。</div>
+      </div>
+      <textarea id="ocrPaste" placeholder="在这里 Ctrl+V 粘贴识别结果（JSON）…&#10;也可以把识别生成的 .json 文件直接拖进来"></textarea>
+      <div class="ocrBar">
+        <button class="btn" id="ocrPick">选择识别结果文件</button>
+        <button class="btn pri" id="ocrParse">解析</button>
+        <span style="flex:1"></span>
+        <span class="ocrMsg" id="ocrMsg"></span>
+      </div>
+      <div id="ocrResult" style="display:none">
+        <div class="ocrBar" style="border-top:1px solid var(--line);padding-top:10px">
+          <span class="k">这些信息填入到</span>
+          <label><input type="radio" name="ocrTarget" value="my" checked> 我方公司档案</label>
+          <label><input type="radio" name="ocrTarget" value="cp"> 对方公司档案</label>
+          <label><input type="radio" name="ocrTarget" value="new"> 存为新公司</label>
+          <label><input type="radio" name="ocrTarget" value="goods"> 商品档案</label>
+        </div>
+        <div style="max-height:44vh;overflow:auto;border:1px solid var(--line);border-radius:8px">
+          <table class="f ocrt" id="ocrTable"></table>
+        </div>
+        <div class="ocrExtra" id="ocrExtra"></div>
+      </div>
+    </div>
+    <footer>
+      <button class="btn" id="ocrCancel">取消</button>
+      <span style="flex:1"></span>
+      <button class="btn" id="ocrOnlyHigh" disabled>只填置信 ≥ 0.85</button>
+      <button class="btn pri" id="ocrApply" disabled>填入选中的项</button>
+    </footer>
+  </div>
+</div>
 
 <div class="mask" id="gdMask">
   <div class="modal" style="width:min(760px,100%)">
@@ -1169,7 +1250,214 @@ function importData(){
   inp.click();
 }
 
-/* 生成一个已经内嵌当前数据的 HTML */
+/* ---------------- 识图取数（截图 → OCR → 核对 → 填入） ---------------- */
+const OCR_LABEL = {};
+CO_DEFS.forEach(([k,l])=>{ OCR_LABEL[k]=l; });
+GD_DEFS.forEach(([k,l])=>{ OCR_LABEL[k]=l; });
+const OCR_KEYS_CO = CO_DEFS.map(x=>x[0]);
+const OCR_KEYS_GD = GD_DEFS.map(x=>x[0]);
+const OCR_NUM = new Set(["conv","gw","nw","vol"]);
+/* POCIB 每个国家只用一种本币，识别不到「币别」时按国别推导 */
+const CURR_OF = {"China":"CNY","Japan":"JPY","Russia":"RUB","Germany":"EUR","UK":"GBP",
+  "Brazil":"BRL","Australia":"AUD","America":"USD","Cuba":"CUP","South Africa":"ZAR"};
+const CZ_OF = {"China":"中国","Japan":"日本","Russia":"俄罗斯","Germany":"德国","UK":"英国",
+  "Brazil":"巴西","Australia":"澳大利亚","America":"美国","Cuba":"古巴","South Africa":"南非"};
+
+let OCR_DATA = null, OCR_DEFAULT = "my";
+
+function escOcr(s){
+  return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function setOcrMsg(t, cls){
+  const el=$("ocrMsg"); el.textContent=t||""; el.className="ocrMsg "+(cls||"");
+}
+function openOcr(target){
+  OCR_DEFAULT = target || "my";
+  $("ocrMask").classList.add("on");
+  $("ocrPaste").value="";
+  $("ocrResult").style.display="none";
+  $("ocrApply").disabled=true; $("ocrOnlyHigh").disabled=true;
+  setOcrMsg("");
+  setTimeout(()=>$("ocrPaste").focus(),60);
+}
+function ocrKindOf(d){
+  if(d.kind==="goods" || d.kind==="company") return d.kind;
+  const hasCo = d.fields.some(f=>["account","bank_zh","name_zh","credit_code"].includes(f.key));
+  return hasCo ? "company" : "goods";
+}
+function parseOcr(){
+  const raw=($("ocrPaste").value||"").trim();
+  if(!raw){ setOcrMsg("先把识别结果粘贴进来","err"); return; }
+  let d;
+  try{ d=JSON.parse(raw); }catch(e){ setOcrMsg("不是合法的识别结果（JSON 解析失败）："+e.message,"err"); return; }
+  if(!d || !Array.isArray(d.fields)){ setOcrMsg("格式不对：缺少 fields 数组","err"); return; }
+
+  d.kind = ocrKindOf(d);
+  const get=k=>{ const f=d.fields.find(x=>x.key===k); return f?f.value:""; };
+  if(d.kind==="company"){
+    const c=get("country");
+    if(c && !get("country_zh") && CZ_OF[c])
+      d.fields.push({key:"country_zh",label:"国家（中文）",value:CZ_OF[c],conf:0.99,derived:true});
+    if(c && !get("currency") && CURR_OF[c])
+      d.fields.push({key:"currency",label:"币别",value:CURR_OF[c],conf:0.9,derived:true});
+  }
+  OCR_DATA=d;
+  document.querySelectorAll('input[name="ocrTarget"]').forEach(r=>{
+    const want = d.kind==="goods" ? "goods" : OCR_DEFAULT;
+    r.checked = (r.value===want);
+    r.disabled = d.kind==="goods" ? (r.value!=="goods") : (r.value==="goods");
+  });
+  renderOcr();
+  $("ocrResult").style.display="";
+  $("ocrApply").disabled = d.fields.length===0;
+  $("ocrOnlyHigh").disabled = d.fields.length===0;
+  if(!d.fields.length){
+    setOcrMsg("没认出任何字段：确认截的是「基本资料」或「商品信息」页，窗口别最小化，再试一次","err");
+    return;
+  }
+  const hi=d.fields.filter(f=>f.value&&f.conf>=0.85).length;
+  setOcrMsg("识别到 "+d.fields.length+" 项（其中高置信 "+hi+" 项），核对后再填","ok");
+}
+function renderOcr(){
+  const d=OCR_DATA;
+  const order = d.kind==="goods" ? OCR_KEYS_GD : OCR_KEYS_CO;
+  const idx = k=>{ const i=order.indexOf(k); return i<0?900:order.indexOf(k); };
+  const list = d.fields.slice().sort((a,b)=>idx(a.key)-idx(b.key));
+  const rows = list.map((f,i)=>{
+    const lab = OCR_LABEL[f.key] || f.label || f.key;
+    const on = !!(f.value && f.conf>=0.6);
+    const cls = f.derived ? "dr" : (f.conf>=0.85?"hi":f.conf>=0.6?"mid":"lo");
+    const nm  = f.derived ? "推导" : (f.conf>=0.85?"高":f.conf>=0.6?"中":"低");
+    return `<tr data-i="${i}" data-conf="${f.conf}" class="${on?"":"off"}">
+      <td style="width:28px"><input type="checkbox"${on?" checked":""}></td>
+      <td style="width:146px;color:var(--ink2);font-size:12px">${escOcr(lab)}</td>
+      <td><input type="text" data-k="${escOcr(f.key)}" value="${escOcr(f.value)}"></td>
+      <td style="width:62px;text-align:right"><span class="conf ${cls}">${nm}${f.derived?"":" "+f.conf.toFixed(2)}</span></td>
+    </tr>`;
+  }).join("");
+  $("ocrTable").innerHTML =
+    `<tr><th></th><th>字段</th><th>识别值（可直接改）</th><th style="text-align:right">置信</th></tr>`+rows;
+  $("ocrTable").querySelectorAll("tr[data-i]").forEach(tr=>{
+    const cb=tr.querySelector('input[type=checkbox]');
+    const inp=tr.querySelector('input[type=text]');
+    cb.onchange=()=>tr.classList.toggle("off", !cb.checked);
+    inp.oninput=()=>{ if(!cb.checked){ cb.checked=true; tr.classList.remove("off"); } };
+  });
+  const ex=(d.extras||[]).filter(e=>e.text&&e.text.length>1);
+  $("ocrExtra").innerHTML = ex.length
+    ? `<b>没归类的文字</b>（不影响填入，需要就手工复制）：<br>`+
+      ex.slice(0,10).map(e=>`<i>· ${escOcr(e.text.slice(0,120))}</i>`).join("<br>")
+    : "";
+}
+function collectOcr(onlyHigh){
+  const out={};
+  $("ocrTable").querySelectorAll("tr[data-i]").forEach(tr=>{
+    const cb=tr.querySelector('input[type=checkbox]');
+    const inp=tr.querySelector('input[type=text]');
+    if(!cb || !inp) return;
+    const conf=parseFloat(tr.dataset.conf||"0");
+    if(onlyHigh && conf<0.85) return;
+    if(!cb.checked) return;
+    const k=inp.dataset.k, v=inp.value.trim();
+    if(!k || v==="") return;
+    out[k] = OCR_NUM.has(k) ? (isFinite(parseFloat(v))?parseFloat(v):0) : v;
+  });
+  return out;
+}
+function applyOcr(onlyHigh){
+  const vals=collectOcr(onlyHigh);
+  const n=Object.keys(vals).length;
+  if(!n){ setOcrMsg("没有可填的项：先勾选并把值填上","err"); return; }
+  const kind=OCR_DATA.kind;
+  const target=(document.querySelector('input[name="ocrTarget"]:checked')||{}).value||"my";
+
+  if(kind==="goods" || target==="goods"){
+    const code=vals.code||"";
+    if(!code){ setOcrMsg("商品档案必须有「商品编号」，先补上再填","err"); return; }
+    let g=GD_LIST.find(x=>x.code===code);
+    if(!g){ g={}; GD_LIST.push(g); }
+    const keep=Object.assign({},g);
+    Object.assign(g, vals);
+    if(!g.name_zh && !keep.name_zh) g.name_zh=code;
+    gdSave();
+    if(!CASES[CASE].goods_no || CASES[CASE].goods_no===code){
+      CASES[CASE].goods_no=code;
+      Object.assign(CASES[CASE],{hs:g.hs,hs_zh:g.name_zh,goods:g.name_en,unit:g.unit,
+        pack_qty:g.conv,pack_unit:g.pack,gw:g.gw,nw:g.nw,vol:g.vol,desc:g.spec_en,cat:g.cat});
+      $("hs").value=g.hs||""; $("hs_zh").value=g.name_zh||""; $("goods_name").value=g.name_en||"";
+      $("unit").value=g.unit||""; $("pack_qty").value=(g.conv==null?"":g.conv);
+      $("pack_unit").value=g.pack||""; $("gw").value=(g.gw==null?"":g.gw);
+      $("nw").value=(g.nw==null?"":g.nw); $("vol").value=(g.vol==null?"":g.vol);
+    }
+    renderGdUI(); renderFlow(); compute();
+    $("ocrMask").classList.remove("on");
+    toast("已写入商品档案「"+code+"」，共 "+n+" 项");
+    return;
+  }
+
+  if(target==="new"){
+    const acc=vals.account||"";
+    if(!acc){ setOcrMsg("新公司必须有「账号」，先补上再存","err"); return; }
+    const exist=CO_LIST.findIndex(x=>x.account===acc);
+    if(exist>=0){
+      if(!confirm("账号 "+acc+" 已存在，覆盖那家公司？")) return;
+      Object.assign(CO_LIST[exist], vals);
+    } else {
+      CO_LIST.push(Object.assign({}, vals));
+    }
+    coSave(); renderCoUI(); compute();
+    $("ocrMask").classList.remove("on");
+    toast("已保存公司档案（账号 "+acc+"），共 "+n+" 项");
+    return;
+  }
+
+  const id=CASES[CASE][target==="cp"?"cp":"my"];
+  const co=CO(id);
+  const accBefore=co.account||"";
+  Object.assign(co, vals);
+  if(!co.account){ co.account=accBefore||id; }
+  coSave(); renderCoUI(); compute();
+  $("ocrMask").classList.remove("on");
+  toast((target==="cp"?"对方":"我方")+"公司已更新 "+n+" 项，单据字段已联动");
+}
+
+$("ocrCo").onclick=()=>openOcr("my");
+$("ocrGd").onclick=()=>openOcr("goods");
+$("ocrCancel").onclick=()=>$("ocrMask").classList.remove("on");
+$("ocrMask").onclick=e=>{ if(e.target.id==="ocrMask") $("ocrMask").classList.remove("on"); };
+$("ocrParse").onclick=parseOcr;
+$("ocrApply").onclick=()=>applyOcr(false);
+$("ocrOnlyHigh").onclick=()=>applyOcr(true);
+$("ocrPaste").addEventListener("input",()=>{
+  const v=($("ocrPaste").value||"").trim();
+  if(v.startsWith("{")){ try{ JSON.parse(v); setOcrMsg("看起来是完整的识别结果，点「解析」","ok"); }catch(e){} }
+});
+$("ocrPick").onclick=()=>{
+  const inp=document.createElement("input");
+  inp.type="file"; inp.accept=".json,application/json";
+  inp.onchange=()=>{
+    const f=inp.files&&inp.files[0]; if(!f) return;
+    const rd=new FileReader();
+    rd.onload=()=>{ $("ocrPaste").value=String(rd.result); parseOcr(); };
+    rd.readAsText(f,"utf-8");
+  };
+  inp.click();
+};
+["dragover","dragenter"].forEach(ev=>$("ocrPaste").addEventListener(ev,e=>{
+  e.preventDefault(); $("ocrPaste").classList.add("hot");
+}));
+["dragleave","drop"].forEach(ev=>$("ocrPaste").addEventListener(ev,e=>{
+  e.preventDefault(); $("ocrPaste").classList.remove("hot");
+}));
+$("ocrPaste").addEventListener("drop",e=>{
+  const f=e.dataTransfer.files&&e.dataTransfer.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{ $("ocrPaste").value=String(rd.result); parseOcr(); };
+  rd.readAsText(f,"utf-8");
+});
+
+/* ---------------- 生成一个已经内嵌当前数据的 HTML ---------------- */
 function exportHtmlWithData(){
   try{
     const clone=document.documentElement.cloneNode(true);
