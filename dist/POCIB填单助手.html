@@ -176,6 +176,15 @@
           <span class="mini ghost" id="newCo">＋ 新建公司</span>
           <span class="mini ghost" id="resetCo">恢复预置</span>
         </div>
+        <div class="row" style="gap:6px;margin-top:2px">
+          <span class="mini ghost" id="expData" title="导出公司和商品为 json，别人导入即可">导出数据</span>
+          <span class="mini ghost" id="impData" title="导入别人分享的数据包">导入数据</span>
+          <span class="mini ghost" id="expHtml" title="生成一个已经包含这些公司和商品的新 HTML">导出含数据HTML</span>
+        </div>
+        <div class="coCard" style="margin:6px 0 0;font-size:11px;line-height:1.6;color:#8b95a3">
+          公司和商品存在<b style="color:#5b6675">本浏览器</b>里，不会写进 HTML 文件。
+          要连数据一起发给别人，用上面的「导出含数据HTML」。
+        </div>
       </div>
       <div class="grp"><label>贸易与结算</label>
         <div class="row"><span class="k">合同号</span><input id="contract"></div>
@@ -1110,6 +1119,82 @@ function delGd(){
   $("gdMask").classList.remove("on"); renderGdUI(); compute();
 }
 
+/* ---------------- 数据导入 / 导出 ---------------- */
+function downloadFile(name, content, type){
+  const blob=new Blob([content],{type:type||"application/octet-stream"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },600);
+}
+
+function exportData(){
+  const pack={
+    _app:"POCIB填单助手", _ver:"1.4", _when:new Date().toISOString().slice(0,10),
+    companies:CO_LIST, goods:GD_LIST
+  };
+  downloadFile("pocib-数据包.json", JSON.stringify(pack,null,1), "application/json");
+  toast("已导出公司 "+CO_LIST.length+" 家、商品 "+GD_LIST.length+" 个");
+}
+
+function importData(){
+  const inp=document.createElement("input");
+  inp.type="file"; inp.accept=".json,application/json";
+  inp.onchange=()=>{
+    const f=inp.files&&inp.files[0]; if(!f) return;
+    const rd=new FileReader();
+    rd.onload=()=>{
+      try{
+        const d=JSON.parse(rd.result);
+        let c=0,g=0;
+        (d.companies||[]).forEach(x=>{
+          const i=CO_LIST.findIndex(y=>y.account===x.account);
+          if(i>=0){ CO_LIST[i]=x; } else { CO_LIST.push(x); c++; }
+        });
+        (d.goods||[]).forEach(x=>{
+          const i=GD_LIST.findIndex(y=>y.code===x.code);
+          if(i>=0){ GD_LIST[i]=x; } else { GD_LIST.push(x); g++; }
+        });
+        coSave(); gdSave(); renderCoUI(); renderGdUI(); compute();
+        toast("导入完成：新增公司 "+c+" 家、商品 "+g+" 个");
+      }catch(e){ alert("文件格式不对："+e.message); }
+    };
+    rd.readAsText(f,"utf-8");
+  };
+  inp.click();
+}
+
+/* 生成一个已经内嵌当前数据的 HTML */
+function exportHtmlWithData(){
+  try{
+    const clone=document.documentElement.cloneNode(true);
+    // 清掉运行时状态
+    const ifr=clone.querySelector("#lettersFrame"); if(ifr) ifr.removeAttribute("srcdoc");
+    const main=clone.querySelector("main"); if(main) main.style.display="";
+    const lw=clone.querySelector("#letterWrap"); if(lw) lw.classList.remove("on");
+    if(clone.querySelector("body")) clone.querySelector("body").classList.remove("letter-mode");
+    clone.querySelectorAll(".mode").forEach((m,i)=>m.classList.toggle("on", i===0));
+    Array.from(clone.querySelectorAll(".tab")).forEach((m,i)=>m.classList.toggle("on", i===0));
+    const mask=clone.querySelector("#coMask"); if(mask) mask.classList.remove("on");
+    const gmask=clone.querySelector("#gdMask"); if(gmask) gmask.classList.remove("on");
+    // 注入种子脚本：先合并进 localStorage，再让主程序读取
+    const seed=document.createElement("script");
+    seed.textContent =
+      "try{(function(){var C="+JSON.stringify(CO_LIST)+",\n"+
+      "G="+JSON.stringify(GD_LIST)+";\n"+
+      "var k1='pocib.companies.v1',k2='pocib.goods.v1';\n"+
+      "function merge(key,arr,id){var cur=[];try{cur=JSON.parse(localStorage.getItem(key))||[];}catch(e){}\n"+
+      "  if(!cur.length){localStorage.setItem(key,JSON.stringify(arr));return;}\n"+
+      "  arr.forEach(function(x){if(!cur.some(function(y){return y[id]===x[id];}))cur.push(x);});\n"+
+      "  localStorage.setItem(key,JSON.stringify(cur));}\n"+
+      "merge(k1,C,'account');merge(k2,G,'code');})();}catch(e){}";
+    clone.querySelector("head").appendChild(seed);
+    const html="<!DOCTYPE html>\n"+clone.outerHTML;
+    downloadFile("POCIB填单助手-含数据.html", html, "text/html;charset=utf-8");
+    toast("已生成，含公司 "+CO_LIST.length+" 家、商品 "+GD_LIST.length+" 个");
+  }catch(e){ alert("生成失败："+e.message); }
+}
+
 /* 商品选择：预置值一键带入，之后可任意改 */
 document.addEventListener("change",e=>{
   if(e.target.id!=="goodsPick") return;
@@ -1150,6 +1235,9 @@ $("fields").onclick=(e)=>{
   if(!raw){ toast("该项为空，未复制"); return; }
   copyOne(raw);
 };
+$("expData").onclick=exportData;
+$("impData").onclick=importData;
+$("expHtml").onclick=exportHtmlWithData;
 $("amtPrefix").onchange=e=>{ CASES[CASE].amt_prefix=e.target.value; compute(); };
 $("editGd").onclick=()=>openGd(CASES[CASE].goods_no||null,false);
 $("newGd").onclick=()=>openGd(null,true);
