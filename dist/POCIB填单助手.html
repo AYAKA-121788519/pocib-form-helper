@@ -463,6 +463,7 @@ const CASES = {
       unit_price:7.63, gw:11.2, nw:10.2, vol:0.011294, freight:0, markup:110, rate:8.8,
       invoice_no:"IV0000791", pack_no:"PL0000787", hs:"2008992000",
       hs_zh:"龙眼罐头", desc:"850Gx12TINS/CTN",
+      shipping_mark:"MIHOYO CO.,LTD\nCANNED LONGANS\n850Gx12TINS/CTN\nH.S CODE:2008992000\nG.W.:11.2KGS\nN.W.:10.2KGS NO.1-UP\nMADE IN USA",
       pay_text:"L/C AT SIGHT", cert:"普惠制产地证", role:"进口商", goods_no:"01007", lc_no:"002/000149",
       lc_date:"2026-11-03", lc_expiry:"20261221", ship_deadline:"20261203", freight_amt:26879.72,
       docs_clause:["品质证书","健康证书"], issue_date:"2026-11-03", vat_no:"—", forwarder:"", forwarder_acct:"" }
@@ -722,7 +723,11 @@ function renderFields(step,di){
     G("受单方 To",buyer.name_en+"\n"+buyer.address_en,"主体");
     G("装箱单号",c.pack_no||"（由系统生成后回填）","待确认");
     G("发票号",c.invoice_no||"（由系统生成后回填）","待确认");
-    G("外包装件数",n0(D.packs)+" "+uq(D.packs,c.pack_unit),"自动");
+    G("装箱日期 Date",c.issue_date||"—","自动");
+    G("唛头 Marks and Numbers",c.shipping_mark||"N/M","自动");
+    G("货物描述 Description of goods",c.goods+"\n"+(c.desc||""),"自动");
+    G("数量（销售数量）",n0(c.qty)+" "+uq(c.qty,c.unit),"自动");
+    G("外包装件数 Package",n0(D.packs)+" "+uq(D.packs,c.pack_unit),"自动");
     G("毛重 G.W",nW(D.total_gw)+" KGS","自动");
     G("净重 N.W",nW(D.total_nw)+" KGS","自动");
     G("箱外尺寸 Meas.",n3(D.total_vol)+" CBM","自动");
