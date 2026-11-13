@@ -227,7 +227,21 @@
   <!-- 右：派生 + 单据字段 -->
   <section class="card">
     <h2>派生值 <span>自动计算</span></h2>
-    <div class="body"><div class="calc" id="calc"></div></div>
+    <div class="body">
+      <div class="calc" id="calc"></div>
+      <div class="kv" style="margin-top:8px">
+        <div class="lab" style="display:flex;align-items:center;gap:6px">金额大写（随金额实时变化）
+          <select id="amtPrefix" style="padding:1px 5px;font-size:11px;border:1px solid var(--line);
+                  border-radius:4px;color:var(--ink2);background:#fff">
+            <option>USD</option><option>US DOLLARS</option>
+            <option>U.S.DOLLARS</option><option>UNITED STATES DOLLARS</option>
+          </select>
+        </div>
+        <div class="val" id="amtWords" style="font-size:11.5px;font-weight:500;line-height:1.65;
+             word-break:break-word;letter-spacing:.2px"></div>
+        <div class="lab" id="amtHint" style="margin-top:3px;font-size:10.5px"></div>
+      </div>
+    </div>
     <h2>一致性校验 <span id="chkSum"></span></h2>
     <div class="body" id="checks" style="padding-top:10px"></div>
     <h2 id="docTitle">单据字段 <span>点左边环节</span></h2>
@@ -488,9 +502,47 @@ function mWords(v,cur){
   if(c>0) t+=" AND CENTS "+words(c);
   return (cur?cur+" ":"")+t+" ONLY";
 }
-function words(n){n=Math.floor(n);const g=[[1e9,"BILLION"],[1e6,"MILLION"],[1e3,"THOUSAND"]];
-  let out=[];for(const [v,name] of g){if(n>=v){out.push(u3(Math.floor(n/v))+" "+name);n%=v;}}
-  if(n)out.push(u3(n));return out.join(" ")||"ZERO";}
+function words(n){
+  n=Math.floor(Math.abs(n));
+  if(n===0) return "ZERO";
+  const g=[[1e9,"BILLION"],[1e6,"MILLION"],[1e3,"THOUSAND"]];
+  let out=[], rest=n, started=false;
+  for(const [v,name] of g){
+    if(rest>=v){ out.push(u3(Math.floor(rest/v))+" "+name); rest%=v; started=true; }
+  }
+  if(rest>0) out.push((started && rest<100) ? "AND "+u3(rest) : u3(rest));
+  return out.join(" ");
+}
+
+/* 金额大写：按 POCIB 规则
+   整数 →  前缀 + 英文 + " ONLY"（不写 cents）
+   小数 →  前缀 + 整数英文 + " CENTS " + 小数部分英文（结尾不加 ONLY）
+   例：89615 → USD EIGHTY NINE THOUSAND SIX HUNDRED AND FIFTEEN ONLY
+       1007.5 → USD ONE THOUSAND AND SEVEN CENTS FIFTY                     */
+const AMT_PREFIXES=["USD","US DOLLARS","U.S.DOLLARS","UNITED STATES DOLLARS"];
+function amtWords(v,prefix){
+  const val=Math.round((isFinite(v)?v:0)*100)/100;
+  const i=Math.floor(val+1e-9);
+  const cents=Math.round((val-i)*100);
+  const p=prefix||"USD";
+  if(cents<=0) return p+" "+words(i)+" ONLY";
+  return p+" "+words(i)+" CENTS "+words(cents);
+}
+
+/* 单位复数：PCS 已是复数保持不变；SET→SETS、BOTTLE→BOTTLES、BOX→BOXES */
+const PLURAL_MAP={PC:"PCS",SET:"SETS",BOTTLE:"BOTTLES",CARTON:"CARTONS",PACKAGE:"PACKAGES",
+  DOZEN:"DOZENS",UNIT:"UNITS",BOX:"BOXES",PIECE:"PIECES",CASE:"CASES",BAG:"BAGS",
+  ROLL:"ROLLS",PAIR:"PAIRS",DRUM:"DRUMS",TON:"TONS",KG:"KGS",SETT:"SETS"};
+function plur(u){
+  const k=String(u||"").toUpperCase();
+  if(!k) return "";
+  if(PLURAL_MAP[k]) return PLURAL_MAP[k];
+  if(/S$/.test(k)) return k;                       /* 已是复数（PCS/CARTONS） */
+  if(/(X|Z|CH|SH)$/.test(k)) return k+"ES";
+  if(/[^AEIOU]Y$/.test(k)) return k.slice(0,-1)+"IES";
+  return k+"S";
+}
+function uq(n,u){ return (Math.abs(n-1)<1e-9) ? String(u||"").toUpperCase() : plur(u); }
 
 /* ---------------- 渲染 ---------------- */
 let CASE="A", SEL=null;
@@ -504,6 +556,7 @@ function loadCase(k){
   }
   renderCoUI(); renderGdUI();
   syncPort("load",c.port_load); syncPort("dest",c.port_dest);
+  if($("amtPrefix")) $("amtPrefix").value=c.amt_prefix||"USD";
   const gp=$("goodsPick"); if(gp){ gp.value=c.goods_no||""; $("hs").value=c.hs||""; $("hs_zh").value=c.hs_zh||""; $("goods_name").value=c.goods||""; }
   renderFlow(); compute();
 }
@@ -560,7 +613,7 @@ function renderChecks(){
 function compute(){
   const d=derived(), c=CASES[CASE];
   $("calc").innerHTML=[
-    ["外包装件数", n2(d.packs), c.pack_unit+"S"],
+    ["外包装件数", n0(d.packs), plur(c.pack_unit)],
     ["总毛重", n2(d.total_gw), "KGS"],
     ["总净重", n2(d.total_nw), "KGS"],
     ["总体积", n3(d.total_vol), "CBM"],
@@ -570,6 +623,13 @@ function compute(){
     ["保险费", "USD "+n2(d.premium), (d.rt*1000).toFixed(2)+"‰"]
   ].map(([l,v,u])=>`<div class="kv"><div class="lab">${l}</div>
       <div class="val">${v}${u?`<small>${u}</small>`:""}</div></div>`).join("");
+  const pref=c.amt_prefix||"USD";
+  if($("amtWords")){
+    $("amtWords").textContent=amtWords(d.amount,pref);
+    $("amtHint").textContent=(Math.abs(d.amount-Math.floor(d.amount))<1e-9)
+       ? "整数金额，结尾带 ONLY，不写 cents"
+       : "含小数，格式为「前缀 + 整数 + CENTS + 小数」，结尾不加 ONLY";
+  }
   renderChecks();
   if(SEL) renderFields(SEL);
 }
@@ -631,32 +691,34 @@ function renderFields(step,di){
 
   // —— 商业发票 / 装箱单 ——
   if(doc==="商业发票"){
-    G("出票人 Issuer",seller.name_en+" · "+seller.address_en,"主体");
-    G("受票人 To",buyer.name_en+" · "+buyer.address_en,"主体");
-    G("发票号 No.",c.invoice_no,"主体");
-    G("发票日期 Date","Nov.10,2026","自动");
+    G("出票人 Issuer",seller.name_en+"\n"+seller.address_en,"主体");
+    G("受票人 To",buyer.name_en+"\n"+buyer.address_en,"主体");
+    G("发票号 No.",c.invoice_no||"（由系统生成后回填）","待确认");
+    G("发票日期 Date",c.issue_date||"—","自动");
     G("合同号 S/C No.",c.contract,"自动");
     G("信用证号 L/C No.",c.payment==="L/C"?c.lc_no:"（非 L/C，留空）",c.payment==="L/C"?"自动":"空");
-    G("支付条款",c.pay_text,"自动");
+    G("支付条款",c.pay_text,"待确认");
     G("运输说明",`FROM ${c.port_load} TO ${c.port_dest}, ${c.term} ${c.port_dest.split(",")[0]}`,"自动");
     G("唛头",c.shipping_mark||"N/M","自动");
     G("货物描述",c.goods+"\n"+c.desc,"自动");
-    G("数量",n2(c.qty)+" "+c.unit,"自动");
-    G("单价","USD "+n2(+$("unit_price").value)+" / "+c.unit,"自动");
-    G("金额 U SD","USD "+n2(D.amount),"自动");
-    G("SAY TOTAL","SAY "+words(D.amount)+" ONLY","自动");
+    G("数量",n0(c.qty)+" "+uq(c.qty,c.unit),"自动");
+    G("单价",c.currency+" "+n2(+$("unit_price").value)+" / "+uq(1,c.unit),"自动");
+    G("金额 Amount",c.currency+" "+n2(D.amount),"自动");
+    G("金额大写 SAY TOTAL",amtWords(D.amount,c.amt_prefix||"USD"),"自动");
+    note="支付条款须跟随合同 Payment 栏原文；发票号由系统生成后回填；运输说明随装运港/目的港（含国家）自动变化。";
   }
   // —— 装箱单 ——
   else if(doc==="装箱单"){
-    G("出单方 Issuer",seller.name_en,"主体");
-    G("受单方 To",buyer.name_en,"主体");
-    G("装箱单号",c.pack_no,"主体");
-    G("发票号",c.invoice_no,"自动");
-    G("外包装件数",n2(D.packs)+" "+c.pack_unit+"S","自动");
-    G("毛重 G.W",n2(D.total_gw)+" KGS","自动");
-    G("净重 N.W",n2(D.total_nw)+" KGS","自动");
+    G("出单方 Issuer",seller.name_en+"\n"+seller.address_en,"主体");
+    G("受单方 To",buyer.name_en+"\n"+buyer.address_en,"主体");
+    G("装箱单号",c.pack_no||"（由系统生成后回填）","待确认");
+    G("发票号",c.invoice_no||"（由系统生成后回填）","待确认");
+    G("外包装件数",n0(D.packs)+" "+uq(D.packs,c.pack_unit),"自动");
+    G("毛重 G.W",nW(D.total_gw)+" KGS","自动");
+    G("净重 N.W",nW(D.total_nw)+" KGS","自动");
     G("箱外尺寸 Meas.",n3(D.total_vol)+" CBM","自动");
-    G("SAY TOTAL","SAY "+words(D.packs)+" "+c.pack_unit+"S ONLY","自动");
+    G("件数大写 SAY TOTAL","SAY "+words(D.packs)+" "+uq(D.packs,c.pack_unit)+" ONLY","自动");
+    note="装箱单号与发票号均由系统生成后回填；件数大写须与合计件数一致。";
   }
   // —— 投保单 ——
   else if(doc==="投保单"){
@@ -667,8 +729,11 @@ function renderFields(step,di){
     G("电话",who.tel,"主体");
     G("贸易合同号",c.contract,"自动");
     G("信用证号",c.payment==="L/C"?c.lc_no:"（留空）",c.payment==="L/C"?"自动":"空");
-    G("包装及数量",n2(D.packs)+" "+c.pack_unit+"S","自动");
+    G("包装及数量",n0(D.packs)+" "+uq(D.packs,c.pack_unit),"自动");
     G("保险货物项目",c.goods,"自动");
+    G("起运地（港口 + 国家）",c.port_load,"自动");
+    G("目的地（港口 + 国家）",c.port_dest,"自动");
+    G("航行路线","自 "+c.port_load+"  经（空白）  到达 "+c.port_dest,"自动");
     G("赔付地点",c.port_dest,"自动");
     G("承保条件","一切险 + 战争险（CIC）","待确认");
     G("加成",(+$("markup").value)+" %","自动");
@@ -678,7 +743,7 @@ function renderFields(step,di){
     G("保险费","USD "+n2(D.premium),"自动");
     G("起运日期","2026-11-15","待确认");
     G("投保人签字",who.name_en,"自动");
-    note="CIF = (FOB + 运费) ÷ (1 − 加成率 × 费率)，保险费由 CIF 反推，不能用顺序公式。";
+    note="起运地/目的地须带国家（如 HAMBURG, GERMANY）；CIF = (FOB + 运费) ÷ (1 − 加成率 × 费率)，保险费由 CIF 反推，不能用顺序公式。";
   }
   // —— 报关单 ——
   else if(doc==="出口货物报关单"||doc==="进口货物报关单"){
@@ -819,8 +884,10 @@ function renderFields(step,di){
     G("DATE 日期",c.issue_date||"—","自动");
     G("CONSIGNEE 收货人",isLC?"TO ORDER":buyer.name_en,isLC?"自动":"待确认");
     G("CONSIGNEE 地址",isLC?"（留空，不填）":buyer.address_en,isLC?"空":"待确认");
+    G("CONSIGNEE 电话",isLC?"（留空，不填）":(buyer.tel||"—"),isLC?"空":"主体");
     G("ALSO NOTIFY 通知人",buyer.name_en,"主体");
     G("通知人地址",buyer.address_en,"主体");
+    G("通知人电话",buyer.tel||"—","主体");
     G(sea?"PORT OF LOADING 装运港":"AIRPORT OF DEPARTURE 始发站",c.port_load,"自动");
     G(sea?"PORT OF DESTINATION 目的港":"AIRPORT OF DESTINATION 到达站",c.port_dest,"自动");
     G(sea?"OCEAN VESSEL 船名":"航班号",sea?"订舱后自动生成":"订舱后自动生成","待确认");
@@ -928,8 +995,8 @@ function renderCoUI(){
   const c=CASES[CASE];
   coOptions($("myCo"),c.my); coOptions($("cpCo"),c.cp);
   const m=CO(c.my), q=CO(c.cp);
-  $("mySum").innerHTML=`<b>${m.name_en||"—"}</b><br>${m.country||""} · ${m.tel||""} · ${m.bank_en||""}`;
-  $("cpSum").innerHTML=`<b>${q.name_en||"—"}</b><br>${q.country||""} · ${q.tel||""} · ${q.bank_en||""}`;
+  $("mySum").innerHTML=`<b>${m.name_en||"—"}</b><br>${m.country||""} / ${m.tel||""} / ${m.bank_en||""}`;
+  $("cpSum").innerHTML=`<b>${q.name_en||"—"}</b><br>${q.country||""} / ${q.tel||""} / ${q.bank_en||""}`;
 }
 
 let EDIT_ID=null;
@@ -1083,6 +1150,7 @@ $("fields").onclick=(e)=>{
   if(!raw){ toast("该项为空，未复制"); return; }
   copyOne(raw);
 };
+$("amtPrefix").onchange=e=>{ CASES[CASE].amt_prefix=e.target.value; compute(); };
 $("editGd").onclick=()=>openGd(CASES[CASE].goods_no||null,false);
 $("newGd").onclick=()=>openGd(null,true);
 $("resetGd").onclick=()=>{ if(!confirm("恢复为内置的三个商品？自定义的会丢失。")) return;
