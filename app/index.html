@@ -366,7 +366,11 @@ const PRESET_GD = [
  {code:"08011",name_zh:"排球",name_en:"VOLLEYBALL",cat:"球类",hs:"9506621000",
   model:"5#",unit:"PC",unit_zh:"个",pack:"CARTON",conv:30,gw:10,nw:9,vol:0.28,transport:"海运",
   spec_zh:"材质：超细PU革，型号：5号国际标准，尺寸：19.2×18.2×14.4cm，包装：30个/箱",
-  spec_en:"MATERIAL:ULTRAFINE PU LEATHER,MODEL:5# INTERNATIONAL STANDARD,SIZE:19.2×18.2×14.4cm,PACKAGING:30PCS/CARTON"}
+  spec_en:"MATERIAL:ULTRAFINE PU LEATHER,MODEL:5# INTERNATIONAL STANDARD,SIZE:19.2×18.2×14.4cm,PACKAGING:30PCS/CARTON"},
+ {code:"01009",name_zh:"三年陈酿白葡萄酒",name_en:"WHITE WINE (3 YEARS)",cat:"食品饮料",hs:"2204210000",
+  model:"",unit:"BOTTLE",unit_zh:"瓶",pack:"CARTON",conv:24,gw:24.36,nw:16.8,vol:0.04779,transport:"海运",
+  spec_zh:"酒精度：10%vol，净含量：700ml，包装：24瓶/箱",
+  spec_en:"Alcohol: 10% vol, Net content: 700ml, Packaging: 24 bottles/carton"}
 ];
 
 /* 港口主数据：来自 POCIB 海运部「航程及运费查询」，共 10 个港口 */
@@ -408,8 +412,14 @@ function syncPort(side,val){
 
 const LS_GD="pocib.goods.v1";
 let GD_LIST = (()=>{
-  try{ const raw=localStorage.getItem(LS_GD); if(raw){const a=JSON.parse(raw); if(Array.isArray(a)&&a.length) return a;} }catch(e){}
-  return JSON.parse(JSON.stringify(PRESET_GD));
+  let list=null;
+  try{ const raw=localStorage.getItem(LS_GD); if(raw){const a=JSON.parse(raw); if(Array.isArray(a)&&a.length) list=a;} }catch(e){}
+  if(!list) return JSON.parse(JSON.stringify(PRESET_GD));
+  // 版本升级：把新增的预置商品补进去，已有的和用户自建的都不动
+  let added=0;
+  PRESET_GD.forEach(g=>{ if(!list.some(x=>x.code===g.code)){ list.push(JSON.parse(JSON.stringify(g))); added++; } });
+  if(added){ try{ localStorage.setItem(LS_GD, JSON.stringify(list)); }catch(e){} }
+  return list;
 })();
 function gdSave(){ try{localStorage.setItem(LS_GD, JSON.stringify(GD_LIST));}catch(e){} }
 function GD(code){ return GD_LIST.find(x=>x.code===code) || null; }
