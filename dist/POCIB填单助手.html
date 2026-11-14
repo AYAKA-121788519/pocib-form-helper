@@ -805,6 +805,33 @@ function packZh(c){
   return PACK_ZH[normUnit(c.pack_unit)]||c.pack_unit||"箱";
 }
 
+/* 以重量作为销售单位的（吨、千克），产地证 9 栏要填毛重而不是件数 */
+const WT_UNITS=["KG","KGS","MT","MTS","TNE","TON","TONS","T"];
+function isWeightUnit(u){ return WT_UNITS.indexOf(String(u||"").trim().toUpperCase())>=0; }
+
+/* 包装数量英文大写 + 括号阿拉伯数字：EIGHT HUNDRED (800)　—— 产地证 7 栏口径
+   POCIB 例文写「NINETY NINE (99)」不带连字符，故把 words() 的连字符去掉 */
+function packWords(n){
+  n=Math.max(0,Math.round(+n||0));
+  return words(n).replace(/-/g," ")+" ("+String(n)+")";
+}
+/* 包装数量 + 包装种类 + OF + 品名 + 规格（7 栏整段成文） */
+function goodsDescField(c,D){
+  return packWords(D.packs)+" "+uq(D.packs,c.pack_unit)+" OF "+c.goods
+       + (c.desc? "\n"+c.desc : "");
+}
+/* 9 栏「毛重或其它数量」：以重量为销售单位填毛重，否则填销售数量 */
+function gwOrQty(c,D){
+  if(isWeightUnit(c.unit)){
+    const g=Math.round(+D.total_gw||0), w=Math.round(+D.total_nw||0);
+    if(!(+D.gw1) && w>0) return "N.W. "+String(w)+" KGS";   /* 只有净重须注明 N.W. */
+    const kg=g||w;
+    return String(kg)+(kg<=1?"KG":"KGS");                     /* ≤1 公斤填单数 KG */
+  }
+  const n=Math.round(+c.qty||0);
+  return String(n)+uq(n,c.unit);
+}
+
 /* POCIB 重量体积口径（两种商品结构分别算）：
    ① 销售单位 = 包装单位（食品类）：数量即箱数，直接乘单箱值
    ② 销售单位 ≠ 包装单位（玩具/服装/吨装货）：先算单件净重，箱数进位取整，
@@ -1234,6 +1261,11 @@ function renderFields(step,di){
     }else if(doc.indexOf("检验检疫")>=0){
       note="联系人与发/收货人的中英文分栏填；货物存放地点在海运方式下取订舱后「配舱回单」上的存放地，空运不填；"
           +"数量与包装件数会跟随商品的销售单位、包装单位自动变化。";
+    }else if(doc.indexOf("产地证")>=0){
+      note="7 栏＝「包装数量英文大写（阿拉伯数字）+ 包装种类 + OF + 商品名称(英文) + 规格型号(英文)」；"
+          +"包装数量与装箱单的「外包装件数」一致。8 栏填 \"P\"（引号要带上）。"
+          +"9 栏按商品的正常销售单位填，以重量为销售单位的改填毛重（只有净重则注 N.W.）；"
+          +"10 栏的发票号与发票日期照商业发票抄，系统不自动给。";
     }else{
       note="栏位名取自 POCIB 该单据，值按主体 / 自动 / 码表标注来源，标「待确认」的自行核对。";
     }
@@ -1311,11 +1343,17 @@ function genericRows(doc,c,D,seller,buyer){
         ? "空运方式无需填写（留空）"
         : "参考订舱生成的「配舱回单」上的货物存放地","待确认"],
       ["贸易方式","一般贸易","常量"]],
-   "产地证":[["证书编号",c.cert=== "一般原产地证"?"GZ0000217":"GP/000/0650","自动"],
-      ["1.Exporter",seller.name_en+" "+seller.address_en+" "+seller.country,"主体+拼接"],
-      ["2.Consignee",buyer.name_en+" "+buyer.address_en+" "+buyer.country,"主体+拼接"],
-      ["4.Country of destination",buyer.country,"主体"],
-      ["运输方式及路线","FROM "+c.port_load+" TO "+c.port_dest,"自动"]]
+   "产地证":[["证书编号",c.cert==="一般原产地证"?"GZ0000217":"GP/000/0650","自动"],
+      ["1.Exporter's name, address, country",seller.name_en+", "+seller.address_en+", "+seller.country,"主体+拼接"],
+      ["2.Consignee's name, address, country",buyer.name_en+", "+buyer.address_en+", "+buyer.country,"主体+拼接"],
+      ["3.Means of transport and route",
+        (c.transport==="空运"?"BY AIR":"BY SEA")+" FROM "+c.port_load+" TO "+c.port_dest,"自动"],
+      ["4.Country/region of destination",buyer.country,"主体"],
+      ["6.Marks and numbers of packages",c.shipping_mark||"N/M","待确认"],
+      ["7.Number and kind of packages; description of goods",goodsDescField(c,D),"自动"],
+      ["8.Origin criterion",'"P"',"自动"],
+      ["9.Gross weight or other quantity",gwOrQty(c,D),"自动"],
+      ["10.Number and date of invoices","INVOICE NO.: （照商业发票的发票号填）\nINVOICE DATE: （照商业发票的发票日期填）","待确认"]]
   };
   const key=Object.keys(map).find(k=>doc.includes(k)||k.includes(doc));
   if(key) return map[key];

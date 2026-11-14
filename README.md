@@ -118,6 +118,32 @@ git clone https://gitee.com/crane-and-egret/pocib-form-helper.git
 
 **数量与包装件数**跟随商品档案里的中文单位（排球是「个」、罐头是「箱」），不再写死「件」「纸箱」；商品档案没有中文单位时按常见英文单位回退映射。
 
+## 产地证第 6–10 栏（v1.13）
+
+普惠制 / 一般原产地证的 6–10 栏按 POCIB 填制说明成文：
+
+| 栏位 | 填法 | 来源 |
+|---|---|---|
+| 6. Marks and numbers of packages | 唛头原文，没唛头填 N/M | 合同唛头，待确认 |
+| 7. Number and kind of packages; description of goods | `英文大写件数（阿拉伯数字）包装种类 OF 商品名称(英文)` + 换行 + 规格型号(英文) | 自动 |
+| 8. Origin criterion | `"P"`（引号带上） | 常量 |
+| 9. Gross weight or other quantity | 按销售单位填数量，如 `2000PCS`；以重量为销售单位的填毛重，如 `2625KGS` | 自动 |
+| 10. Number and date of invoices | 不给值，提示照商业发票抄 | 待确认 |
+
+**第 7 栏**的件数与装箱单的「外包装件数」同源（`D.packs`，进过位），单位是商品的包装单位：
+
+```
+NINETY NINE (99) CARTONS OF 24K Gold Pendant Necklace
+24K Pure gold, Gold Weight: 9.50g, Length: 40CM, Packaging: 1pc/box, 10boxes/carton
+```
+
+英文大写沿用 `words()`，但去掉连字符——POCIB 例文写的是 `NINETY NINE`，不是 `NINETY-NINE`；括号内的数字不加千位分隔符。
+
+**第 9 栏**先判断销售单位：
+
+- 件 / 辆 / 套等非重量单位 → `数量 + 单位复数`，如 `2000PCS`、`500UNITS`
+- 吨 / 千克等重量单位 → 填毛重 `2625KGS`；只有净重时填 `N.W. 500 KGS`；毛重 ≤ 1 公斤用单数 `1KG`
+
 ## 把数据带走
 
 公司和商品存在浏览器的 localStorage 里，**不在 HTML 文件内部**，所以直接把 HTML 发给别人，对方看不到你新增的内容。
