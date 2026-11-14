@@ -187,7 +187,11 @@
   details.ocrManual summary:hover{color:var(--accent)}
   details.ocrManual[open] summary{margin-bottom:7px}
   .ocrBody{display:flex;gap:11px;align-items:flex-start}
-  .ocrShot{flex:none;width:216px;margin:0;border:1px solid var(--line);border-radius:8px;
+  .ocrExWrap{margin-top:6px;font-size:11.5px;color:var(--ink3);line-height:1.7}
+  .ocrExWrap summary{cursor:pointer;user-select:none}
+  .ocrExWrap summary:hover{color:var(--accent)}
+  .ocrExWrap i{font-style:normal;color:var(--ink2)}
+  .ocrShot{flex:none;width:clamp(190px,24%,300px);margin:0;border:1px solid var(--line);border-radius:8px;
            overflow:hidden;background:#f4f6f9;display:none}
   .ocrShot img{display:block;width:100%;max-height:300px;object-fit:contain;object-position:top;
                cursor:zoom-in;background:#fff}
@@ -1297,6 +1301,11 @@ const OCR_LABEL = {};      // 商品口径的字段名
 const OCR_LABEL_CO = {};   // 公司口径（同名字段含义不同，例如 name_zh）
 CO_DEFS.forEach(([k,l])=>{ OCR_LABEL[k]=l; OCR_LABEL_CO[k]=l; });
 GD_DEFS.forEach(([k,l])=>{ OCR_LABEL[k]=l; });
+// 核对表用短标签，长说明留给档案表单
+const OCR_LABEL_GD = {code:"商品编号",name_zh:"商品名称（中）",name_en:"商品名称（英）",
+  cat:"商品属类",hs:"H.S.编码",model:"型号",unit:"销售单位",unit_zh:"销售单位（中）",
+  pack:"包装单位/种类",conv:"单位换算（个/箱）",gw:"毛重 KG",nw:"净重 KG",vol:"体积 CBM",
+  transport:"运输方式",spec_zh:"规格型号（中）",spec_en:"规格型号（英）"};
 const OCR_KEYS_CO = CO_DEFS.map(x=>x[0]);
 const OCR_KEYS_GD = GD_DEFS.map(x=>x[0]);
 const OCR_NUM = new Set(["conv","gw","nw","vol"]);
@@ -1309,7 +1318,7 @@ const CZ_OF = {"China":"中国","Japan":"日本","Russia":"俄罗斯","Germany":
 let OCR_DATA = null, OCR_DEFAULT = "my";
 /* 本机识图服务的端口范围，与 serve.py 保持一致 */
 const OCR_PORTS = [17861,17862,17863,17864,17865,17866,17867,17868,17869,17870,17871,17872];
-const OCR_SVC = {port:0, busy:false};
+const OCR_SVC = {port:0, busy:false, picked:false};
 
 function escOcr(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
@@ -1370,7 +1379,12 @@ async function ensureSvc(force){
 function showWins(wins){
   const sel=$("ocrWin");
   if(!wins || !wins.length){ sel.style.display="none"; return; }
-  sel.innerHTML=wins.map(w=>`<option value="${w.hwnd}">${escOcr(w.title)}　${w.w}×${w.h}</option>`).join("");
+  const want = OCR_DEFAULT==="goods" ? "goods" : "company";
+  wins = wins.slice().sort((a,b)=>((b.kind===want)-(a.kind===want)));
+  sel.innerHTML=wins.map((w,i)=>{
+    const tag = i===0 ? "　（默认）" : "";
+    return `<option value="${w.hwnd}"${i===0?" selected":""}>${escOcr(w.title)}　${w.w}×${w.h}${tag}</option>`;
+  }).join("");
   sel.style.display = wins.length>1 ? "" : "none";
   $("ocrSeeShot").style.display="";
 }
@@ -1410,9 +1424,14 @@ async function ocrGrab(){
   btn.disabled=true; btn.textContent="识别中…";
   setSvc("wait", "正在截取并识别 POCIB 窗口…");
   $("ocrOff").style.display="none";
-  const hwnd=$("ocrWin").value||"";
+  // 没手动选过就重新取一次窗口列表：换页面后自动跟着「最近用的那个」
+  let hwnd="";
+  if(!OCR_SVC.picked){ try{ await loadWins(); }catch(e){} }
+  // 没手动选过就不指定窗口，让服务端按「公司/商品」入口 + 最近使用来挑
+  hwnd = OCR_SVC.picked ? ($("ocrWin").value||"") : "";
   try{
-    const r=await fetch(svcBase()+"/capture?hwnd="+encodeURIComponent(hwnd)+"&t="+Date.now(),
+    const want = OCR_DEFAULT==="goods" ? "goods" : "company";
+    const r=await fetch(svcBase()+"/capture?hwnd="+encodeURIComponent(hwnd)+"&kind="+want+"&t="+Date.now(),
                         {cache:"no-store"});
     const d=await r.json();
     if(!d.ok){
@@ -1444,6 +1463,7 @@ async function openOcr(target){
   $("ocrApply").disabled=true; $("ocrOnlyHigh").disabled=true;
   $("ocrSum").textContent=""; setOcrMsg("");
   $("ocrShotBox").style.display="none";
+  OCR_SVC.picked=false;
   $("ocrManual").open=false;
   $("ocrOff").style.display="none";
   $("ocrGrab").disabled=true;
@@ -1457,7 +1477,7 @@ async function openOcr(target){
 }
 
 function ocrKindOf(d){  if(d.kind==="goods" || d.kind==="company") return d.kind;
-  const hasCo = d.fields.some(f=>["account","bank_zh","name_zh","credit_code"].includes(f.key));
+  const hasCo = d.fields.some(f=>["account","credit_code","bank_zh","reg_tax"].includes(f.key));
   return hasCo ? "company" : "goods";
 }
 /* 把一份识别结果（服务返回的，或手工解析的）送进核对表 */
@@ -1502,7 +1522,8 @@ function renderOcr(){
   const idx = k=>{ const i=order.indexOf(k); return i<0?900:order.indexOf(k); };
   const list = d.fields.slice().sort((a,b)=>idx(a.key)-idx(b.key));
   const rows = list.map((f,i)=>{
-    const lab = (d.kind==="goods" ? OCR_LABEL[f.key] : (OCR_LABEL_CO[f.key]||OCR_LABEL[f.key]))
+    const lab = (d.kind==="goods" ? (OCR_LABEL_GD[f.key]||OCR_LABEL[f.key])
+                                  : (OCR_LABEL_CO[f.key]||OCR_LABEL[f.key]))
                 || f.label || f.key;
     const on = !!(f.value && f.conf>=0.6);
     const cls = f.derived ? "dr" : (f.conf>=0.85?"hi":f.conf>=0.6?"mid":"lo");
@@ -1524,8 +1545,8 @@ function renderOcr(){
   });
   const ex=(d.extras||[]).filter(e=>e.text&&e.text.length>1);
   $("ocrExtra").innerHTML = ex.length
-    ? `<b>没归类的文字</b>（不影响填入，需要就手工复制）：<br>`+
-      ex.slice(0,10).map(e=>`<i>· ${escOcr(e.text.slice(0,120))}</i>`).join("<br>")
+    ? `<details class="ocrExWrap"><summary>还有 ${ex.length} 段没归类的文字（多半是商品图片上的字，不影响填入）</summary>`+
+      ex.slice(0,12).map(e=>`<i>· ${escOcr(e.text.slice(0,120))}</i>`).join("<br>")+`</details>`
     : "";
 }
 function collectOcr(onlyHigh){
@@ -1552,7 +1573,8 @@ function applyOcr(onlyHigh){
 
   if(kind==="goods" || target==="goods"){
     const code=vals.code||"";
-    if(!code){ setOcrMsg("商品档案必须有「商品编号」，先补上再填","err"); return; }
+    if(!code){ setOcrMsg("商品档案必须有「商品编号」，先补上再填","err");
+               toast("商品档案必须有「商品编号」"); return; }
     let g=GD_LIST.find(x=>x.code===code);
     if(!g){ g={}; GD_LIST.push(g); }
     const keep=Object.assign({},g);
@@ -1576,7 +1598,8 @@ function applyOcr(onlyHigh){
 
   if(target==="new"){
     const acc=vals.account||"";
-    if(!acc){ setOcrMsg("新公司必须有「账号」，先补上再存","err"); return; }
+    if(!acc){ setOcrMsg("新公司必须有「账号」，先补上再存","err");
+              toast("新公司必须有「账号」"); return; }
     const exist=CO_LIST.findIndex(x=>x.account===acc);
     if(exist>=0){
       if(!confirm("账号 "+acc+" 已存在，覆盖那家公司？")) return;
@@ -1605,7 +1628,7 @@ $("ocrGd").onclick=()=>openOcr("goods");
 $("ocrCancel").onclick=()=>$("ocrMask").classList.remove("on");
 $("ocrMask").onclick=e=>{ if(e.target.id==="ocrMask") $("ocrMask").classList.remove("on"); };
 $("ocrGrab").onclick=()=>ocrGrab();
-$("ocrWin").onchange=()=>ocrGrab();
+$("ocrWin").onchange=()=>{ OCR_SVC.picked=true; ocrGrab(); };
 $("ocrRetry").onclick=async()=>{
   $("ocrOff").style.display="none";
   const ok=await ensureSvc(true);

@@ -125,7 +125,14 @@ class Api(BaseHTTPRequestHandler):
         wins = EX.candidate_windows()
         scored = [w for w in wins if w["score"] > 0]
         use = scored if scored else wins
-        return [{k: w[k] for k in ("hwnd", "title", "w", "h", "kind")} for w in use[:8]]
+        out = []
+        for w in use[:8]:
+            item = {k: w[k] for k in ("hwnd", "title", "w", "h", "kind")}
+            out.append(item)
+        # candidate_windows 已按「最近用过」排序（z 序），第一个就是默认目标
+        if out:
+            out[0]["recent"] = True
+        return out
 
     def _capture(self, q):
         def one(k, default=""):
@@ -139,6 +146,13 @@ class Api(BaseHTTPRequestHandler):
         if kind not in ("auto", "company", "goods"):
             kind = "auto"
         engine = one("engine", "") or (STATE.get("engine") or "auto")
+        if not hwnd and kind != "auto":
+            # 从「公司」入口进来就优先找公司页，从「商品」进来就优先找商品页
+            for w in EX.candidate_windows():
+                if w["kind"] == kind:
+                    hwnd = w["hwnd"]
+                    break
+
         t0 = time.time()
         with LOCK:
             try:

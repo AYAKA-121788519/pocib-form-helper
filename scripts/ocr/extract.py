@@ -55,8 +55,10 @@ def candidate_windows():
             continue
         out.append({"hwnd": w["hwnd"], "title": t,
                     "w": x1 - x0, "h": y1 - y0,
-                    "kind": guess_kind(t), "score": title_score(t)})
-    out.sort(key=lambda x: (-x["score"], x["w"] * x["h"]))
+                    "kind": guess_kind(t), "score": title_score(t),
+                    "z": w.get("z", 9999)})
+    # 同分时按 z 序：最近用过的窗口排前面（同名商品页开多个时靠这个分）
+    out.sort(key=lambda x: (-x["score"], x["z"], -x["w"] * x["h"]))
     return out
 
 

@@ -6,7 +6,10 @@
 「)」「】」，也会在汉字之间塞空格，所以匹配前统一去掉标点和空格。
 """
 import difflib
+import os
 import re
+
+_DBG = bool(os.environ.get("POCIB_OCR_DEBUG"))
 
 CJK = r"\u4e00-\u9fff"
 
@@ -248,7 +251,27 @@ MULTILINE = {"address_zh", "address_en", "intro_zh", "intro_en", "spec_zh", "spe
 LATIN_KEYS = {"country", "bank_en", "name_en", "short_en", "legal_en", "address_en",
               "intro_en", "unit", "pack", "transport"}
 DIGIT_KEYS = {"account", "account_no", "reg_inspection", "reg_tax", "credit_code",
-              "tel", "fax", "postcode", "hs", "conv", "gw", "nw", "vol"}
+              "tel", "fax", "postcode", "hs", "conv", "gw", "nw", "vol", "code"}
+
+
+def _latin(s):
+    return re.fullmatch(r"[a-z. ]+", s) is not None
+
+
+def _edge_ok(cn, n, at_start):
+    """英文候选靠前后缀命中时也要卡词边界：NETWT 不能靠前缀 net 命中。"""
+    if not _latin(cn):
+        return True
+    if at_start:
+        return re.match(re.escape(cn) + r"(?![a-z])", n) is not None
+    return re.search(r"(?<![a-z])" + re.escape(cn) + r"$", n) is not None
+
+
+def _word_in(cn, n):
+    """英文候选词要按词边界出现（NETWT 里的 net 不算），中文照旧按子串。"""
+    if not _latin(cn):
+        return cn in n
+    return re.search(r"(?<![a-z])" + re.escape(cn) + r"(?![a-z])", n) is not None
 
 
 def match_label(label, table):
@@ -263,13 +286,18 @@ def match_label(label, table):
                 continue
             if n == cn:
                 s = 1.0
-            elif n.startswith(cn):
+            elif n.startswith(cn) and _edge_ok(cn, n, True):
                 # 「毛重（KG/包装单位）」这类带单位的标签，靠前缀命中
                 s = 0.93 - min(0.08, 0.01 * (len(n) - len(cn)))
-            elif n.endswith(cn):
+            elif n.endswith(cn) and _edge_ok(cn, n, False):
                 s = 0.86 - min(0.08, 0.01 * (len(n) - len(cn)))
             elif cn in n:
-                s = 0.78 - min(0.08, 0.01 * (len(n) - len(cn)))
+                # 包含命中要防「水印/正文里的英文片段」误中：候选词太短、标签比候选长太多、
+                # 或英文候选只作为更长单词的一部分出现（NETWT 里的 net），都不认
+                if len(n) > max(len(cn) + 4, len(cn) * 2.2) or not _word_in(cn, n):
+                    s = 0.0
+                else:
+                    s = 0.78 - min(0.08, 0.01 * (len(n) - len(cn)))
             else:
                 s = difflib.SequenceMatcher(None, n, cn).ratio() * 0.85
             # 中文/英文标记必须一致，避免 name_zh 抢走 name_en
@@ -367,7 +395,8 @@ def extract(res, kind="auto", table=None, min_score=0.58):
             if f["key"] not in MULTILINE:
                 continue
             gap = cy - (f["box"][1] + f["box"][3])
-            if gap < -6 or gap > rowh * 2.8:
+            # 行高偏小的表格里，OCR 框常带上下留白，容差要放到接近一个行高
+            if gap < -max(6, rowh * 0.85) or gap > rowh * 2.8:
                 continue
             if abs(f["box"][0] - cx) > 120:
                 continue
@@ -405,11 +434,75 @@ def extract(res, kind="auto", table=None, min_score=0.58):
                     if not txt:
                         continue
                     tgt = find_target(cell, last_row_h)
+                    if _DBG:
+                        print("[dbg] 无标签 cell x=%d y=%d %r -> %s" %
+                              (cell[0]["x"], cell[0]["y"], txt[:24],
+                               tgt["key"] if tgt else "extras"), flush=True)
                     if tgt is not None:
                         tgt["value"] = norm_value(tgt["value"] + " " + txt)
                         tgt["conf"] = guess_conf(tgt["key"], tgt["value"]) if tgt["value"] else 0.5
                         tgt["box"][3] = int(r["cy"] + r["h"] / 2 - tgt["box"][1])
                         continue
                     if len(txt) >= 2:
+                        # 商品页左边是商品图片，图片上的字认出来也是垃圾，直接丢
+                        if kind == "goods" and cell[0]["x"] < width * 0.30:
+                            continue
                         extras.append({"text": txt, "box": _box(cell)})
+    _polish(fields, kind)
     return {"fields": fields, "extras": extras, "kind": kind}
+
+
+# ---------- 取值规整 ----------
+
+_NUM_RE = re.compile(r"-?\d+(?:\.\d+)?")
+
+
+def _split_zh(s):
+    """「TIN（听）」→ ("TIN", "听")；没有括号就返回 (原文, "")。"""
+    t = squeeze(s or "")
+    m = re.match(r"^([^（(]*)[（(]([^）)]*)[）)]?$", t)
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+    return t, ""
+
+
+def _first_num(s):
+    m = _NUM_RE.search(s or "")
+    return m.group(0) if m else ""
+
+
+def _polish(fields, kind):
+    """把客户端的书写习惯转成程序内部口径（单位拆中英、换算只留数字、重量体积只留数值）。"""
+    by = {f["key"]: f for f in fields}
+
+    if "unit" in by:
+        en, zh = _split_zh(by["unit"]["value"])
+        by["unit"]["value"] = en.upper()
+        if zh and "unit_zh" not in by:
+            fields.append({"key": "unit_zh", "label": "销售单位（中）", "value": zh,
+                           "conf": by["unit"]["conf"], "box": list(by["unit"]["box"])})
+    if "pack" in by:
+        en, _zh = _split_zh(by["pack"]["value"])
+        by["pack"]["value"] = en.upper()
+    if "conv" in by:
+        v = by["conv"]["value"]
+        m = re.search(r"[=＝]\s*(\d+)", v)
+        if m:
+            by["conv"]["value"] = m.group(1)
+        else:
+            n = _first_num(v)
+            if n:
+                by["conv"]["value"] = n
+    for k in ("gw", "nw", "vol"):
+        if k in by:
+            n = _first_num(by[k]["value"])
+            if n:
+                by[k]["value"] = n
+    if kind == "goods":
+        for k in ("name_en", "spec_en"):
+            if k in by:
+                # 英文栏里粘上中文（相邻列溢出），切掉
+                v = by[k]["value"]
+                cut = re.search(r"[\u4e00-\u9fff]", v)
+                if cut and cut.start() > 0:
+                    by[k]["value"] = v[:cut.start()].strip()

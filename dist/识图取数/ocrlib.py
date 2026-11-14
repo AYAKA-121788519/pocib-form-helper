@@ -72,11 +72,19 @@ def list_windows():
                 style = 0
             out.append({"hwnd": hwnd, "title": buf.value,
                         "rect": (r.left, r.top, r.right, r.bottom),
-                        "style": style})
+                        "style": style, "z": len(out)})  # 越小越靠前（越近用过）
         return True
 
     u32.EnumWindows(cb, 0)
     return out
+
+
+def foreground():
+    """当前活动窗口的句柄（用户刚点过的那一个）。"""
+    try:
+        return int(u32.GetForegroundWindow())
+    except Exception:
+        return 0
 
 
 def find_window(title_part):
