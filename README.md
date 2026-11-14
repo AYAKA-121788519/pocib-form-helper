@@ -126,6 +126,7 @@ git clone https://gitee.com/crane-and-egret/pocib-form-helper.git
 |---|---|---|
 | 6. Marks and numbers of packages | 唛头原文，没唛头填 N/M | 合同唛头，待确认 |
 | 7. Number and kind of packages; description of goods | `英文大写件数（阿拉伯数字）包装种类 OF 商品名称(英文)` + 换行 + 规格型号(英文) | 自动 |
+| H.S. Code（7、8 栏之间） | 商品 HS 编码 | 主体 |
 | 8. Origin criterion | `"P"`（引号带上） | 常量 |
 | 9. Gross weight or other quantity | 按销售单位填数量，如 `2000PCS`；以重量为销售单位的填毛重，如 `2625KGS` | 自动 |
 | 10. Number and date of invoices | 不给值，提示照商业发票抄 | 待确认 |

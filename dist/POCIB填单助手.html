@@ -1263,7 +1263,7 @@ function renderFields(step,di){
           +"数量与包装件数会跟随商品的销售单位、包装单位自动变化。";
     }else if(doc.indexOf("产地证")>=0){
       note="7 栏＝「包装数量英文大写（阿拉伯数字）+ 包装种类 + OF + 商品名称(英文) + 规格型号(英文)」；"
-          +"包装数量与装箱单的「外包装件数」一致。8 栏填 \"P\"（引号要带上）。"
+          +"包装数量与装箱单的「外包装件数」一致。7、8 栏之间填商品的 H.S. 编码。8 栏填 \"P\"（引号要带上）。"
           +"9 栏按商品的正常销售单位填，以重量为销售单位的改填毛重（只有净重则注 N.W.）；"
           +"10 栏的发票号与发票日期照商业发票抄，系统不自动给。";
     }else{
@@ -1351,6 +1351,7 @@ function genericRows(doc,c,D,seller,buyer){
       ["4.Country/region of destination",buyer.country,"主体"],
       ["6.Marks and numbers of packages",c.shipping_mark||"N/M","待确认"],
       ["7.Number and kind of packages; description of goods",goodsDescField(c,D),"自动"],
+      ["H.S. Code（商品HS编码）",c.hs,"主体"],
       ["8.Origin criterion",'"P"',"自动"],
       ["9.Gross weight or other quantity",gwOrQty(c,D),"自动"],
       ["10.Number and date of invoices","INVOICE NO.: （照商业发票的发票号填）\nINVOICE DATE: （照商业发票的发票日期填）","待确认"]]
