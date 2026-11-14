@@ -789,6 +789,22 @@ function boxField(d){
 /* 单位归一：CARTONS / CARTON 视为同一单位 */
 function normUnit(u){ return String(u||"").trim().toUpperCase().replace(/S$/,""); }
 
+/* 数量 / 包装单位中文化：优先取商品档案里的中文单位，其次按常见英文单位映射 */
+const UNIT_ZH={PC:"件",UNIT:"辆",SET:"套",PAIR:"双",DOZEN:"打",BOTTLE:"瓶",TIN:"听",
+  CAN:"罐",BAG:"袋",BOX:"盒",BOXE:"盒",CARTON:"箱",CASE:"箱",ROLL:"卷",M:"米",
+  M2:"平方米",M3:"立方米",KG:"千克",MT:"吨",TON:"吨",PACKAGE:"件",PIECE:"件",
+  BALE:"包",DRUM:"桶",SACK:"袋",PALLET:"托盘"};
+const PACK_ZH={CARTON:"纸箱",CASE:"木箱",BOX:"木箱",BOXE:"木箱",BAG:"袋",BALE:"包",
+  DRUM:"桶",SACK:"麻袋",PALLET:"托盘"};
+function unitZh(c){
+  const g=GD(c.goods_no);
+  if(g&&g.unit_zh) return g.unit_zh;
+  return UNIT_ZH[normUnit(c.unit)]||c.unit||"件";
+}
+function packZh(c){
+  return PACK_ZH[normUnit(c.pack_unit)]||c.pack_unit||"箱";
+}
+
 /* POCIB 重量体积口径（两种商品结构分别算）：
    ① 销售单位 = 包装单位（食品类）：数量即箱数，直接乘单箱值
    ② 销售单位 ≠ 包装单位（玩具/服装/吨装货）：先算单件净重，箱数进位取整，
@@ -1056,15 +1072,15 @@ function renderFields(step,di){
     G("合同协议号",c.contract,"自动");
     G("贸易国 / 运抵国","(USA) 美国","码表");
     G("指运港","(USA309) 纽约(美国)","码表");
-    G("包装种类",c.pack_unit==="CARTON"?"纸箱":c.pack_unit,"码表");
-    G("件数",n2(D.packs),"自动");
+    G("包装种类",packZh(c),"码表");
+    G("件数",n0(D.packs)+" "+packZh(c),"自动");
     G("毛重 / 净重",n2(D.total_gw)+" / "+n2(D.total_nw),"自动");
     G("成交方式","(3) "+c.term,"码表");
     G("运费","USD "+n2(+$("freight").value),"自动");
     G("保费","USD "+n2(D.premium),"自动");
     G("商品编号",c.hs,"主体");
     G("商品名称",c.hs_zh,"主体");
-    G("数量及单位",n2(c.qty)+" 件","自动");
+    G("数量及单位",n0(c.qty)+" "+unitZh(c),"自动");
     G("单价 / 总价",n2(+$("unit_price").value)+" / "+n2(D.amount),"自动");
     note="报关单所有分类栏都是「代码+名称」，需要码表；商品名称用中文，发票用英文。";
   }
@@ -1178,12 +1194,13 @@ function renderFields(step,di){
   else if(doc==="国际海运委托书"||doc==="国际空运委托书"){
     const sea=doc==="国际海运委托书";
     const isLC=c.payment==="L/C";
-    G("SHIPPER 发货人",seller.name_en+"　TEL "+seller.tel,"主体");
-    G("ADDRESS 地址",seller.address_en,"主体");
-    G("DATE 日期",c.issue_date||"—","自动");
+    G("SHIPPER 发货人",seller.name_en,"主体");
+    G("SHIPPER TEL 发货人电话",seller.tel||"—","主体");
+    G("ADDRESS 发货人地址",seller.address_en,"主体");
+    G("DATE 委托日期","（须晚于合同签订日，自行填写）","待确认");
     G("CONSIGNEE 收货人",isLC?"TO ORDER":buyer.name_en,isLC?"自动":"待确认");
-    G("CONSIGNEE 地址",isLC?"（留空，不填）":buyer.address_en,isLC?"空":"待确认");
-    G("CONSIGNEE 电话",isLC?"（留空，不填）":(buyer.tel||"—"),isLC?"空":"主体");
+    G("CONSIGNEE 收货人地址",isLC?"（留空，不填）":buyer.address_en,isLC?"空":"待确认");
+    G("CONSIGNEE 收货人电话",isLC?"（留空，不填）":(buyer.tel||"—"),isLC?"空":"主体");
     G("ALSO NOTIFY 通知人",buyer.name_en,"主体");
     G("通知人地址",buyer.address_en,"主体");
     G("通知人电话",buyer.tel||"—","主体");
@@ -1192,22 +1209,34 @@ function renderFields(step,di){
     G(sea?"OCEAN VESSEL 船名":"航班号",sea?"订舱后自动生成":"订舱后自动生成","待确认");
     G("货物名称及描述",c.goods+"\n"+(c.desc||""),"自动");
     G("唛头 MARKS",c.shipping_mark||"N/M","待确认");
-    G("NO. OF PACKAGE 件数",n0(D.packs)+" "+c.pack_unit+"S","自动");
+    G("NO. OF PACKAGE 件数",n0(D.packs)+" "+uq(D.packs,c.pack_unit),"自动");
     G("GROSS WEIGHT 毛重",nW(D.total_gw)+" KGS","自动");
     G("NET WEIGHT 净重",nW(D.total_nw)+" KGS","自动");
     G("Meas. 体积",n3(D.total_vol)+" CBM","自动");
-    G("TOTAL 合计",`[${n0(D.packs)}] [${nW(D.total_gw)}] [${nW(D.total_nw)}] [${n3(D.total_vol)}]\n[${c.pack_unit}S] [KGS] [KGS] [CBM]`,"自动");
+    G("TOTAL 合计",`[${n0(D.packs)}] [${nW(D.total_gw)}] [${nW(D.total_nw)}] [${n3(D.total_vol)}]\n`
+      +`[${uq(D.packs,c.pack_unit)}] [KGS] [KGS] [CBM]`,"自动");
     G("柜型及数量",boxField(D),"自动");
     G("运费 FREIGHT",c.currency+" "+n2(c.freight_amt||0)+"　☑ PREPAID　□ COLLECT","待确认");
-    G("DOCUMENT 发票/装箱单号","INVOICE "+(c.invoice_no||"")+"\nPACKING LIST "+(c.pack_no||""),"自动");
-    G("CONSIGNOR 委托人名称地址",seller.name_en+"\n"+seller.address_en,"主体");
+    G("DOCUMENT 发票/装箱单号",
+      "INVOICE No.：到商业发票上找\nPACKING LIST No.：到装箱单上找","待确认");
+    G("CONSIGNOR 委托人",seller.name_en,"主体");
+    G("CONSIGNOR 委托人地址",seller.address_en,"主体");
     G("INSTRUCTION BY 经手人签章",seller.name_en+"\n"+(seller.legal_en||""),"主体");
-    note="船名与运费由订舱后系统生成，先留空；L/C 方式下收货人填 TO ORDER、地址电话不填。";
+    note="船名与运费由订舱后系统生成，先留空；L/C 方式下收货人填 TO ORDER、地址电话不填。"
+        +"发票号与装箱单号不在本系统生成，需翻商业发票和装箱单抄过来；委托日期须晚于合同签订日。";
   }
   // —— 其他单据：字段清单 + 来源标注 ——
   else {
     rows = genericRows(doc,c,D,seller,buyer);
-    note="这张单据的字段级渲染还没做，先列字段与来源。";
+    const mapped = !(rows.length && rows[0][0]==="单据");
+    if(!mapped){
+      note="这张单据的字段级渲染还没做，先列字段与来源。";
+    }else if(doc.indexOf("检验检疫")>=0){
+      note="联系人与发/收货人的中英文分栏填；货物存放地点在海运方式下取订舱后「配舱回单」上的存放地，空运不填；"
+          +"数量与包装件数会跟随商品的销售单位、包装单位自动变化。";
+    }else{
+      note="栏位名取自 POCIB 该单据，值按主体 / 自动 / 码表标注来源，标「待确认」的自行核对。";
+    }
   }
 
   LAST_ROWS=rows; LAST_DOC=doc; LAST_STEP=f.s;
@@ -1264,14 +1293,23 @@ function genericRows(doc,c,D,seller,buyer){
       ["付款人 (To)",buyer.name_en,"主体"]],
    "出境货物检验检疫申请":[["申请单位",seller.name_zh,"主体"],
       ["申请单位登记号",seller.reg_inspection,"主体"],
-      ["联系人 / 电话",seller.legal_zh+" / "+seller.tel,"主体"],
-      ["发货人（中/外）",seller.name_zh+" / "+seller.name_en,"主体"],
-      ["收货人（中/外）",buyer.name_zh+" / "+buyer.name_en,"主体"],
+      ["联系人",seller.legal_zh,"主体"],
+      ["联系电话",seller.tel,"主体"],
+      ["发货人（中文）",seller.name_zh,"主体"],
+      ["发货人（英文）",seller.name_en,"主体"],
+      ["收货人（中文）",buyer.name_zh,"主体"],
+      ["收货人（英文）",buyer.name_en,"主体"],
       ["货物名称（中/外文）",c.hs_zh+" "+c.goods,"自动"],
       ["H.S.编码",c.hs,"主体"],["产地",seller.country_zh,"码表"],
-      ["数/重量",n2(c.qty)+" 件","自动"],["货物总值","USD "+n2(D.amount),"自动"],
-      ["包装种类及数量",n2(D.packs)+" 纸箱","自动"],
-      ["启运地 / 到达口岸","汉堡 / 纽约","码表"],
+      ["数量",n0(c.qty)+" "+unitZh(c),"自动"],
+      ["重量",n2(D.total_gw)+" KGS","自动"],
+      ["货物总值","USD "+n2(D.amount),"自动"],
+      ["包装种类及数量",n0(D.packs)+" "+packZh(c),"自动"],
+      ["启运地",c.port_load,"自动"],
+      ["到达口岸",c.port_dest,"自动"],
+      ["货物存放地点",c.transport==="空运"
+        ? "空运方式无需填写（留空）"
+        : "参考订舱生成的「配舱回单」上的货物存放地","待确认"],
       ["贸易方式","一般贸易","常量"]],
    "产地证":[["证书编号",c.cert=== "一般原产地证"?"GZ0000217":"GP/000/0650","自动"],
       ["1.Exporter",seller.name_en+" "+seller.address_en+" "+seller.country,"主体+拼接"],
