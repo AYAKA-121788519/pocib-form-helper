@@ -63,11 +63,16 @@
         border-radius:6px;font:13px/1.4 inherit;color:var(--ink);background:#fff}
   .row input:focus,.row select:focus{outline:2px solid var(--accent-bg);border-color:var(--accent)}
   .row input[readonly]{background:#fafbfc;color:var(--ink3)}
+  .row input[type=checkbox]{flex:none;width:15px;height:15px;padding:0;margin:0;accent-color:#1b5fae}
+  .ckline{flex:1;display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink2);cursor:pointer}
   .calc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .kv{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfcfd}
   .kv .lab{font-size:11.5px;color:var(--ink3)}
   .kv .val{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
   .kv .val small{font-size:11px;font-weight:400;color:var(--ink3);margin-left:3px}
+  .kv.kbox{background:#f6f9fe;border-color:#dae5f6}
+  .kv.kbox .val{color:#1b5fae}
+  .kbsub{float:right;font-size:10px;color:#8b95a3;font-weight:400}
   ol.flow{list-style:none;margin:0;padding:0}
   ol.flow li{padding:5px 10px;border-bottom:1px solid #f2f4f6;display:flex;gap:7px;
              cursor:pointer;align-items:flex-start;line-height:1.35}
@@ -284,6 +289,9 @@
         <div class="row"><span class="k">每箱毛重</span><input id="gw" type="number" step="0.01"></div>
         <div class="row"><span class="k">每箱净重</span><input id="nw" type="number" step="0.01"></div>
         <div class="row"><span class="k">每箱体积</span><input id="vol" type="number" step="0.00001"></div>
+        <div class="row"><span class="k">货物属性</span>
+          <label class="ckline"><input type="checkbox" id="reefer">
+            <span>冷藏 / 冷冻货（自动改用冻柜）</span></label></div>
       </div>
       <div class="grp"><label>运费与保险</label>
         <div class="row"><span class="k">运费 USD</span><input id="freight" type="number" step="0.01"></div>
@@ -694,6 +702,7 @@ function loadCase(k){
   renderCoUI(); renderGdUI();
   syncPort("load",c.port_load); syncPort("dest",c.port_dest);
   if($("amtPrefix")) $("amtPrefix").value=c.amt_prefix||"USD";
+  if($("reefer")) $("reefer").checked=!!c.reefer;
   const gp=$("goodsPick"); if(gp){ gp.value=c.goods_no||""; $("hs").value=c.hs||""; $("hs_zh").value=c.hs_zh||""; $("goods_name").value=c.goods||""; }
   renderFlow(); compute();
 }
@@ -701,6 +710,70 @@ document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
   t.classList.add("on"); loadCase(t.dataset.case);
 });
+
+/* ---------------- 集装箱选型 ----------------
+   口径取自 POCIB「集装箱规格」页：限重按 TNE（公吨，1 TNE = 1000 KGS），限体积按 CBM */
+const BOXES=[
+  {k:"20GP", zh:"20'普柜",   en:"20'GP",  pd:"普柜",   cbm:33, tne:25, rf:0},
+  {k:"40GP", zh:"40'普柜",   en:"40'GP",  pd:"普柜",   cbm:67, tne:29, rf:0},
+  {k:"40HQ", zh:"40'高柜",   en:"40'HQ",  pd:"高柜",   cbm:76, tne:29, rf:0},
+  {k:"20RF", zh:"20'冻柜",   en:"20'RF",  pd:"冻柜",   cbm:27, tne:21, rf:1},
+  {k:"40RF", zh:"40'冻柜",   en:"40'RF",  pd:"冻柜",   cbm:58, tne:26, rf:1},
+  {k:"40RQ", zh:"40'冻柜高", en:"40'RQ",  pd:"冻柜高", cbm:66, tne:26, rf:1}
+];
+/* 低于这个量走拼箱更划算（也符合实训里「LCL」的用法） */
+const LCL_MAX_CBM=10, LCL_MAX_TNE=2;
+
+/* 体积 + 重量 → 柜型组合：柜数最少 → 柜型种类最少 → 装载率最高
+   （同柜数能用一种柜解决就别混装，订舱和堆场都省事） */
+function planBox(vol,tne,rf){
+  if(!(vol>0)) return null;
+  const types=BOXES.filter(b=>!!b.rf===!!rf);
+  const wt=Math.max(+tne||0,0);
+  // 单独用某种柜装完所需的柜数（体积与限重取大者），就是该柜型的搜索上限
+  const top=types.map(b=>Math.min(40,Math.max(1,
+    Math.ceil(vol/b.cbm), Math.ceil(wt/b.tne))));
+  let best=null;
+  const cur=types.map(()=>0);
+  const walk=(i,cbm,w,n)=>{
+    if(i===types.length){
+      if(n===0||cbm+1e-9<vol||w+1e-9<wt) return;
+      const util=vol/cbm, mix=cur.filter(x=>x>0).length;
+      const better = !best || n<best.n
+        || (n===best.n && mix<best.mix)
+        || (n===best.n && mix===best.mix && util>best.util+1e-9);
+      if(better) best={n,util,cbm,w,mix,cfg:cur.slice()};
+      return;
+    }
+    const t=types[i];
+    for(let k=0;k<=top[i];k++){
+      cur[i]=k;
+      // 剩余柜型全按上限估算，仍装不下就剪掉这条分支
+      let cap=cbm+t.cbm*k, capW=w+t.tne*k;
+      for(let j=i+1;j<types.length;j++){ cap+=types[j].cbm*top[j]; capW+=types[j].tne*top[j]; }
+      if(cap+1e-9<vol||capW+1e-9<wt) continue;
+      walk(i+1,cbm+t.cbm*k,w+t.tne*k,n+k);
+    }
+    cur[i]=0;
+  };
+  walk(0,0,0,0);
+  if(!best) return null;
+  const list=types.map((t,i)=>({...t,n:best.cfg[i]})).filter(x=>x.n>0)
+                 .sort((a,b)=>b.cbm-a.cbm);
+  return {list, n:best.n, cbm:best.cbm, tne:best.w, util:best.util,
+          lcl: vol<=LCL_MAX_CBM && wt<=LCL_MAX_TNE};
+}
+function boxLabel(b){ return !b?"—":b.list.map(x=>`${x.n}×${x.zh}`).join(" + "); }
+function boxEnLabel(b){ return !b?"":b.list.map(x=>`${x.n}×${x.en}`).join(" + "); }
+/* 海运委托书「柜型及数量」栏的成文口径 */
+function boxField(d){
+  const b=d.box;
+  if(!b) return "—";
+  if(b.lcl) return `□ 货柜　☑ 拼箱　　LCL ${n3(d.total_vol)} CBM / ${n0(d.total_gw)} KGS`
+                 +`　（整箱折算 ${boxLabel(b)}）`;
+  return `☑ 货柜　□ 拼箱　　${boxEnLabel(b)}（${b.list.map(x=>x.pd).join("+")}）`
+       +`　柜容 ${n0(b.cbm)} CBM / ${b.tne} TNE`;
+}
 
 function derived(){
   const c=CASES[CASE];
@@ -714,8 +787,10 @@ function derived(){
   let cif=amount, premium=0, insured=0;
   if(ins){ cif=amount; insured=cif*mk; premium=insured*rt; }
   else if(fr>0){ cif=(amount+fr)/(1-mk*rt); insured=cif*mk; premium=insured*rt; }
-  return {packs,total_gw:packs*gw,total_nw:packs*nw,total_vol:packs*vol,
-          amount,cif,premium,insured,mk,rt};
+  const total_gw=packs*gw, total_vol=packs*vol;
+  return {packs,total_gw,total_nw:packs*nw,total_vol,
+          amount,cif,premium,insured,mk,rt,
+          box:planBox(total_vol, total_gw/1000, !!c.reefer)};
 }
 
 function check(){
@@ -735,6 +810,12 @@ function check(){
   const g=GD(c.goods_no);
   if(g) add(g.hs===c.hs, `报关单 HS 与商品资料一致（资料 ${g.hs} / 单据 ${c.hs||"空"}）`);
   add(D.total_vol>0, `总体积已算出（${n3(D.total_vol)} CBM）`);
+  const b=D.box;
+  if(b && !b.lcl){
+    add(b.cbm+1e-9>=D.total_vol && b.tne+1e-9>=D.total_gw/1000,
+      `柜型 ${boxLabel(b)} 够装：体积 ${n3(D.total_vol)}/${n0(b.cbm)} CBM，`
+      +`限重 ${nW(D.total_gw/1000)}/${b.tne} TNE，装载率 ${(b.util*100).toFixed(1)}%`);
+  }
   return out;
 }
 
@@ -749,6 +830,13 @@ function renderChecks(){
 
 function compute(){
   const d=derived(), c=CASES[CASE];
+  const b=d.box;
+  const boxVal = !b ? "—" : (b.lcl ? "拼箱 LCL" : boxLabel(b));
+  const boxSub = !b ? "" : (b.lcl ? `整箱需 ${boxLabel(b)}` : `${b.n} 只柜`);
+  const utilVal = (!b||b.lcl) ? "—" : (b.util*100).toFixed(1)+"%";
+  // 体积没装满但限重快到了，说明是重货，别让「装载率低」误导
+  const heavy = b && !b.lcl && (d.total_gw/1000)/b.tne > 0.9 && b.util < 0.75;
+  const utilSub = (!b||b.lcl) ? "" : (heavy ? "受限重约束" : `余 ${n3(b.cbm-d.total_vol)} CBM`);
   $("calc").innerHTML=[
     ["外包装件数", n0(d.packs), plur(c.pack_unit)],
     ["总毛重", n2(d.total_gw), "KGS"],
@@ -757,8 +845,12 @@ function compute(){
     ["发票金额", "USD "+n2(d.amount), ""],
     ["CIF 金额", "USD "+n2(d.cif), ""],
     ["保险金额", "USD "+n2(d.insured), (d.mk*100).toFixed(0)+"%"],
-    ["保险费", "USD "+n2(d.premium), (d.rt*1000).toFixed(2)+"‰"]
-  ].map(([l,v,u])=>`<div class="kv"><div class="lab">${l}</div>
+    ["保险费", "USD "+n2(d.premium), (d.rt*1000).toFixed(2)+"‰"],
+    ["柜型", boxVal, ""],
+    ["装载率", utilVal, ""]
+  ].map(([l,v,u])=>`<div class="kv${(l==="柜型"||l==="装载率")?" kbox":""}">
+      <div class="lab">${l}${l==="柜型"?`<span class="kbsub">${boxSub}</span>`:""}
+        ${l==="装载率"?`<span class="kbsub">${utilSub}</span>`:""}</div>
       <div class="val">${v}${u?`<small>${u}</small>`:""}</div></div>`).join("");
   const pref=c.amt_prefix||"USD";
   if($("amtWords")){
@@ -1039,7 +1131,7 @@ function renderFields(step,di){
     G("NET WEIGHT 净重",nW(D.total_nw)+" KGS","自动");
     G("Meas. 体积",n3(D.total_vol)+" CBM","自动");
     G("TOTAL 合计",`[${n0(D.packs)}] [${nW(D.total_gw)}] [${nW(D.total_nw)}] [${n3(D.total_vol)}]\n[${c.pack_unit}S] [KGS] [KGS] [CBM]`,"自动");
-    G("柜型及数量","□ 货柜　☑ 拼箱　　（20'/40'/40HQ 按需勾选）","待确认");
+    G("柜型及数量",boxField(D),"自动");
     G("运费 FREIGHT",c.currency+" "+n2(c.freight_amt||0)+"　☑ PREPAID　□ COLLECT","待确认");
     G("DOCUMENT 发票/装箱单号","INVOICE "+(c.invoice_no||"")+"\nPACKING LIST "+(c.pack_no||""),"自动");
     G("CONSIGNOR 委托人名称地址",seller.name_en+"\n"+seller.address_en,"主体");
@@ -1699,7 +1791,12 @@ document.addEventListener("change",e=>{
   $("unit").value=g.unit; $("pack_qty").value=g.conv; $("pack_unit").value=g.pack;
   $("gw").value=g.gw; $("nw").value=g.nw; $("vol").value=g.vol;
   Object.assign(CASES[CASE],{hs:g.hs,hs_zh:g.name_zh,goods:g.name_en,unit:g.unit,
-    pack_qty:g.conv,pack_unit:g.pack,gw:g.gw,nw:g.nw,vol:g.vol,desc:g.spec_en,cat:g.cat});
+    pack_qty:g.conv,pack_unit:g.pack,unit:g.unit,gw:g.gw,nw:g.nw,vol:g.vol,desc:g.spec_en,cat:g.cat});
+  // 品名或属类带「冷冻/冷藏」字样的，自动切冻柜
+  if(/冷冻|冷藏|生鲜|水产|海鲜|速冻|肉类|冷鲜|frozen|chilled|reefer/i
+       .test((g.cat||"")+(g.name_zh||"")+(g.name_en||""))){
+    CASES[CASE].reefer=true; if($("reefer")) $("reefer").checked=true;
+  }
   renderFlow(); compute();
 });
 
@@ -1711,6 +1808,7 @@ document.addEventListener("change",e=>{
     const k=id==="goods_name"?"goods":id; CASES[CASE][k]=el.value; compute();
   });
 });
+if($("reefer")) $("reefer").onchange=e=>{ CASES[CASE].reefer=e.target.checked; compute(); };
 ["term","payment"].forEach(id=>$(id).addEventListener("change",()=>{
   CASES[CASE][id]=$(id).value;renderFlow();compute();}));
 
