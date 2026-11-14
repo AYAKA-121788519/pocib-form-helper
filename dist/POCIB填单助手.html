@@ -65,6 +65,12 @@
   .row input[readonly]{background:#fafbfc;color:var(--ink3)}
   .row input[type=checkbox]{flex:none;width:15px;height:15px;padding:0;margin:0;accent-color:#1b5fae}
   .ckline{flex:1;display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink2);cursor:pointer}
+  .caplist{font-size:11.5px;color:var(--ink2);line-height:1.9}
+  .caprow{display:flex;align-items:baseline;gap:6px;border-bottom:1px dashed #f0f2f5;padding:1px 0}
+  .caprow:last-child{border-bottom:0}
+  .caprow>span{width:66px;flex:none;color:var(--ink3);font-size:11px}
+  .caprow>b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+  .caprow>i{font-style:normal;color:#8b95a3;font-size:10.5px;margin-left:auto;text-align:right}
   .calc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .kv{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfcfd}
   .kv .lab{font-size:11.5px;color:var(--ink3)}
@@ -297,6 +303,11 @@
         <div class="row"><span class="k">运费 USD</span><input id="freight" type="number" step="0.01"></div>
         <div class="row"><span class="k">加成 %</span><input id="markup" type="number"></div>
         <div class="row"><span class="k">费率 ‰</span><input id="rate" type="number" step="0.01"></div>
+      </div>
+      <div class="grp"><label>单柜装载上限（报价数量用）</label>
+        <div id="capList" class="caplist"></div>
+        <div class="note" style="padding:2px 0 0;font-size:10.5px">
+          按体积与限重分别算可装箱数，取小者取整；销售单位≠包装单位时再乘单位换算。</div>
       </div>
     </div>
   </section>
@@ -775,22 +786,67 @@ function boxField(d){
        +`　柜容 ${n0(b.cbm)} CBM / ${b.tne} TNE`;
 }
 
+/* 单位归一：CARTONS / CARTON 视为同一单位 */
+function normUnit(u){ return String(u||"").trim().toUpperCase().replace(/S$/,""); }
+
+/* POCIB 重量体积口径（两种商品结构分别算）：
+   ① 销售单位 = 包装单位（食品类）：数量即箱数，直接乘单箱值
+   ② 销售单位 ≠ 包装单位（玩具/服装/吨装货）：先算单件净重，箱数进位取整，
+      毛重 = 总净重 + 箱数 × 皮重（不是箱数 × 单箱毛重，零头箱只算皮重） */
+function calcWeights(qty,pq,gw,nw,vol,unit,packUnit){
+  qty=+qty||0; pq=+pq||1; gw=+gw||0; nw=+nw||0; vol=+vol||0;
+  const sameUnit = normUnit(unit)===normUnit(packUnit) && Math.abs(pq-1)<1e-9;
+  const tare=Math.max(0, gw-nw);
+  let packs,total_nw,total_gw,total_vol;
+  if(sameUnit){
+    packs=Math.ceil(qty-1e-9);
+    total_nw=qty*nw; total_gw=qty*gw; total_vol=qty*vol;
+  }else{
+    packs=Math.ceil(qty/pq-1e-9);
+    total_nw=qty*(nw/pq);
+    total_gw=total_nw+packs*tare;
+    total_vol=packs*vol;
+  }
+  return {packs,total_nw,total_gw,total_vol,sameUnit,tare};
+}
+
 function derived(){
   const c=CASES[CASE];
   const qty=+$("qty").value||0, pq=+$("pack_qty").value||1, up=+$("unit_price").value||0;
   const gw=+$("gw").value||0, nw=+$("nw").value||0, vol=+$("vol").value||0;
   const fr=+$("freight").value||0, mk=(+$("markup").value||0)/100, rt=(+$("rate").value||0)/1000;
-  const packs=Math.ceil(qty/pq);
   const amount=qty*up;
   const ins=c.term==="CIF"||c.term==="CIP";
   // 保费：只有非 CIF/CIP 需要算（CIF 已含）
   let cif=amount, premium=0, insured=0;
   if(ins){ cif=amount; insured=cif*mk; premium=insured*rt; }
   else if(fr>0){ cif=(amount+fr)/(1-mk*rt); insured=cif*mk; premium=insured*rt; }
-  const total_gw=packs*gw, total_vol=packs*vol;
-  return {packs,total_gw,total_nw:packs*nw,total_vol,
+
+  const W=calcWeights(qty,pq,gw,nw,vol,c.unit,c.pack_unit);
+  return {packs:W.packs,total_gw:W.total_gw,total_nw:W.total_nw,total_vol:W.total_vol,
+          sameUnit:W.sameUnit,tare:W.tare,gw1:gw,nw1:nw,vol1:vol,
           amount,cif,premium,insured,mk,rt,
-          box:planBox(total_vol, total_gw/1000, !!c.reefer)};
+          box:planBox(W.total_vol, W.total_gw/1000, !!c.reefer)};
+}
+
+/* 每柜最多装多少箱 / 折多少销售数量（报价数量核算） */
+function capOf(box,vol1,gw1){
+  if(!(vol1>0)&&!(gw1>0)) return 0;
+  const byV=vol1>0? box.cbm/vol1 : Infinity;
+  const byW=gw1>0? box.tne*1000/gw1 : Infinity;
+  const n=Math.floor(Math.min(byV,byW)+1e-9);
+  return n>0? n : 0;
+}
+function renderCap(d){
+  const c=CASES[CASE], el=$("capList");
+  if(!el) return;
+  const rf=!!c.reefer, pq=+$("pack_qty").value||1;
+  el.innerHTML=BOXES.filter(b=>!!b.rf===rf).map(b=>{
+    const n=capOf(b,d.vol1,d.gw1);
+    const sale=(!d.sameUnit&&n>0)? `<i>= ${n0(n*pq)} ${c.unit||""}</i>` : "";
+    return `<div class="caprow"><span>${b.zh}</span>
+      <b>${n>0? n0(n)+" "+c.pack_unit : "—"}</b>${sale}</div>`;
+  }).join("");
 }
 
 function check(){
@@ -800,7 +856,15 @@ function check(){
   const add=(ok,msg)=>out.push({ok,msg});
 
   add(Math.abs(D.amount-qty*up)<0.01, `金额 = 数量 × 单价（${n2(qty)} × ${n2(up)} = ${n2(qty*up)}）`);
-  add(D.packs===Math.ceil(qty/pq), `件数 = ⌈数量 ÷ 装量⌉（⌈${qty}/${pq}⌉ = ${D.packs}）`);
+  if(D.sameUnit){
+    add(true, `销售单位与包装单位相同（${c.unit}），件数直接取数量 ${n0(D.packs)}，`
+      +`毛净重体积按「数量 × 单箱值」算`);
+  }else{
+    add(D.packs===Math.ceil(qty/pq-1e-9),
+      `件数 = ⌈数量 ÷ 装量⌉（⌈${n2(qty)} ÷ ${pq}⌉ = ${n0(D.packs)} ${c.pack_unit}）`);
+    add(Math.abs(D.total_gw-(D.total_nw+D.packs*D.tare))<0.02,
+      `总毛重 = 总净重 + 件数×皮重（${nW(D.total_nw)} + ${n0(D.packs)}×${nW(D.tare)} = ${nW(D.total_gw)}）`);
+  }
   if(c.term!=="CIF"&&c.term!=="CIP"){
     add(D.cif>D.amount+(+$("freight").value||0), `CIF 应大于 FOB+运费（${n2(D.cif)} > ${n2(D.amount)}+${n2(+$("freight").value||0)}）`);
   }
@@ -836,7 +900,8 @@ function compute(){
   const utilVal = (!b||b.lcl) ? "—" : (b.util*100).toFixed(1)+"%";
   // 体积没装满但限重快到了，说明是重货，别让「装载率低」误导
   const heavy = b && !b.lcl && (d.total_gw/1000)/b.tne > 0.9 && b.util < 0.75;
-  const utilSub = (!b||b.lcl) ? "" : (heavy ? "受限重约束" : `余 ${n3(b.cbm-d.total_vol)} CBM`);
+  const utilSub = !b ? "" : (b.lcl ? `≤${LCL_MAX_CBM} CBM 走拼箱`
+    : (heavy ? "受限重约束" : `余 ${n3(b.cbm-d.total_vol)} CBM`));
   $("calc").innerHTML=[
     ["外包装件数", n0(d.packs), plur(c.pack_unit)],
     ["总毛重", n2(d.total_gw), "KGS"],
@@ -860,6 +925,7 @@ function compute(){
        : "含小数，格式为「前缀 + 整数 + CENTS + 小数」，结尾不加 ONLY";
   }
   renderChecks();
+  renderCap(d);
   if(SEL) renderFields(SEL);
 }
 
