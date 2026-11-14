@@ -130,6 +130,7 @@
   .btn{padding:6px 14px;border-radius:7px;border:1px solid var(--line);background:#fff;
        cursor:pointer;font-size:13px;color:var(--ink)}
   .btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
   .btn.dan{color:#c0392b;border-color:#f0cfca}
   .coCard{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfcfd;
           font-size:12px;color:var(--ink2);line-height:1.5}
@@ -166,6 +167,32 @@
   .conf.dr{background:#eef1fb;color:#4a5b9e}
   .ocrExtra{font-size:11.5px;color:var(--ink3);margin-top:8px;line-height:1.7}
   .ocrExtra i{font-style:normal;color:var(--ink2)}
+  /* 一键取数 */
+  .ocrHead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:8px 11px;
+           border:1px solid #e6ecf4;border-radius:8px;background:#f8fafd;margin-bottom:10px}
+  .ocrHead .dot{width:8px;height:8px;border-radius:50%;background:#c9d2dd;flex:none}
+  .ocrHead .dot.on{background:#22a05a;box-shadow:0 0 0 3px #e4f5ec}
+  .ocrHead .dot.wait{background:#e0a020;box-shadow:0 0 0 3px #fcf3e0}
+  .ocrHead .txt{font-size:12.5px;color:var(--ink2)}
+  .ocrHead .txt b{color:var(--ink)}
+  .ocrHead select{border:1px solid var(--line);border-radius:6px;padding:3px 6px;font-size:12px;
+                  color:var(--ink);background:#fff;max-width:230px}
+  .ocrOff{border:1px solid #f0e2c8;background:#fffdf6;border-radius:8px;padding:9px 12px;
+          font-size:12px;color:var(--ink2);line-height:1.8;margin-bottom:10px}
+  .ocrOff b{color:var(--ink)}
+  .ocrOff ol{margin:3px 0 6px;padding-left:18px}
+  .ocrOff code{background:#f5f0e2;border-radius:4px;padding:1px 5px;font-size:11.5px;color:#8a6410}
+  details.ocrManual{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
+  details.ocrManual summary{cursor:pointer;font-size:12px;color:var(--ink3);user-select:none}
+  details.ocrManual summary:hover{color:var(--accent)}
+  details.ocrManual[open] summary{margin-bottom:7px}
+  .ocrBody{display:flex;gap:11px;align-items:flex-start}
+  .ocrShot{flex:none;width:216px;margin:0;border:1px solid var(--line);border-radius:8px;
+           overflow:hidden;background:#f4f6f9;display:none}
+  .ocrShot img{display:block;width:100%;max-height:300px;object-fit:contain;object-position:top;
+               cursor:zoom-in;background:#fff}
+  .ocrShot figcaption{font-size:11px;color:var(--ink3);padding:4px 8px;border-top:1px solid var(--line);
+                      background:#fbfcfd;line-height:1.5}
 </style>
 </head>
 <body>
@@ -310,40 +337,55 @@
 </section>
 
 <div class="mask" id="ocrMask">
-  <div class="modal" style="width:min(920px,100%)">
+  <div class="modal" style="width:min(940px,100%)">
     <header><h3 id="ocrTitle">识图取数</h3>
-      <span style="margin-left:auto;font-size:12px;color:#8b95a3">截图 → 识别 → 逐项核对 → 填入</span></header>
+      <span style="margin-left:auto;font-size:12px;color:#8b95a3">截窗口 → 识别 → 逐项核对 → 填入</span></header>
     <div class="mbody">
-      <div class="ocrStep">
-        <b>三步拿到数据</b>
-        <ol>
-          <li>在 POCIB 里打开「基本资料」或「商品信息」页面，窗口<b>保持打开不要最小化</b></li>
-          <li>双击 <code>识图取数.bat</code>，它会自己截窗口、认字，最后提示「已复制到剪贴板」</li>
-          <li>回到这里，点下面的输入框按 <b>Ctrl+V</b> 粘贴，再点「解析」</li>
-        </ol>
-        <div class="ocrHint">也可以自己截图（Win+Shift+S）后运行 <code>python 识图取数/extract.py --file 截图.png</code>；
-          识别结果会存成 JSON 文件，用「选择识别结果文件」载入同样可以。</div>
-      </div>
-      <textarea id="ocrPaste" placeholder="在这里 Ctrl+V 粘贴识别结果（JSON）…&#10;也可以把识别生成的 .json 文件直接拖进来"></textarea>
-      <div class="ocrBar">
-        <button class="btn" id="ocrPick">选择识别结果文件</button>
-        <button class="btn pri" id="ocrParse">解析</button>
+      <div class="ocrHead">
+        <span class="dot" id="ocrDot"></span>
+        <span class="txt" id="ocrSvcTxt">正在检测本机识别服务…</span>
         <span style="flex:1"></span>
-        <span class="ocrMsg" id="ocrMsg"></span>
+        <select id="ocrWin" style="display:none" title="要截哪个窗口"></select>
+        <button class="btn" id="ocrSeeShot" style="display:none">看截图</button>
+        <button class="btn pri" id="ocrGrab" disabled>截取窗口</button>
       </div>
-      <div id="ocrResult" style="display:none">
-        <div class="ocrBar" style="border-top:1px solid var(--line);padding-top:10px">
-          <span class="k">这些信息填入到</span>
-          <label><input type="radio" name="ocrTarget" value="my" checked> 我方公司档案</label>
-          <label><input type="radio" name="ocrTarget" value="cp"> 对方公司档案</label>
-          <label><input type="radio" name="ocrTarget" value="new"> 存为新公司</label>
-          <label><input type="radio" name="ocrTarget" value="goods"> 商品档案</label>
-        </div>
-        <div style="max-height:44vh;overflow:auto;border:1px solid var(--line);border-radius:8px">
-          <table class="f ocrt" id="ocrTable"></table>
-        </div>
-        <div class="ocrExtra" id="ocrExtra"></div>
+      <div class="ocrOff" id="ocrOff" style="display:none">
+        <b>一键取数要先启动识别服务</b>，只需一次，之后一直可用：
+        <ol>
+          <li>打开 <code>识图取数</code> 文件夹，双击 <code>识图服务.bat</code></li>
+          <li>看到「服务已启动」后回到这里，点右边「重新检测」</li>
+        </ol>
+        不想装/没 Python？双击 <code>识图取数.bat</code> 识别一次，再展开下面的手动粘贴，Ctrl+V 即可。
+        <div style="margin-top:6px"><button class="btn" id="ocrRetry">重新检测</button></div>
       </div>
+      <div class="ocrBar" style="margin:-2px 0 8px"><span class="ocrMsg" id="ocrSum"></span></div>
+      <div class="ocrBody">
+        <figure class="ocrShot" id="ocrShotBox">
+          <img id="ocrShotImg" alt="截取到的窗口">
+          <figcaption id="ocrShotCap">截取到的窗口（点图看大图）</figcaption>
+        </figure>
+        <div id="ocrResult" style="display:none;flex:1;min-width:0">
+          <div class="ocrBar" style="border-top:1px solid var(--line);padding-top:2px">
+            <span class="k">这些信息填入到</span>
+            <label><input type="radio" name="ocrTarget" value="my" checked> 我方公司档案</label>
+            <label><input type="radio" name="ocrTarget" value="cp"> 对方公司档案</label>
+            <label><input type="radio" name="ocrTarget" value="new"> 存为新公司</label>
+            <label><input type="radio" name="ocrTarget" value="goods"> 商品档案</label>
+          </div>
+          <div style="max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:8px">
+            <table class="f ocrt" id="ocrTable"></table>
+          </div>
+          <div class="ocrExtra" id="ocrExtra"></div>
+        </div>
+      </div>
+      <details class="ocrManual" id="ocrManual">
+        <summary>手动方式：粘贴 / 拖入识别结果（备用）</summary>
+        <textarea id="ocrPaste" placeholder="Ctrl+V 粘贴识别结果（JSON），或把 .json 文件直接拖进来"></textarea>
+        <div class="ocrBar">
+          <button class="btn" id="ocrParse">解析</button>
+          <span class="ocrMsg" id="ocrMsg"></span>
+        </div>
+      </details>
     </div>
     <footer>
       <button class="btn" id="ocrCancel">取消</button>
@@ -1251,8 +1293,9 @@ function importData(){
 }
 
 /* ---------------- 识图取数（截图 → OCR → 核对 → 填入） ---------------- */
-const OCR_LABEL = {};
-CO_DEFS.forEach(([k,l])=>{ OCR_LABEL[k]=l; });
+const OCR_LABEL = {};      // 商品口径的字段名
+const OCR_LABEL_CO = {};   // 公司口径（同名字段含义不同，例如 name_zh）
+CO_DEFS.forEach(([k,l])=>{ OCR_LABEL[k]=l; OCR_LABEL_CO[k]=l; });
 GD_DEFS.forEach(([k,l])=>{ OCR_LABEL[k]=l; });
 const OCR_KEYS_CO = CO_DEFS.map(x=>x[0]);
 const OCR_KEYS_GD = GD_DEFS.map(x=>x[0]);
@@ -1264,35 +1307,161 @@ const CZ_OF = {"China":"中国","Japan":"日本","Russia":"俄罗斯","Germany":
   "Brazil":"巴西","Australia":"澳大利亚","America":"美国","Cuba":"古巴","South Africa":"南非"};
 
 let OCR_DATA = null, OCR_DEFAULT = "my";
+/* 本机识图服务的端口范围，与 serve.py 保持一致 */
+const OCR_PORTS = [17861,17862,17863,17864,17865,17866,17867,17868,17869,17870,17871,17872];
+const OCR_SVC = {port:0, busy:false};
 
 function escOcr(s){
   return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
     .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 function setOcrMsg(t, cls){
-  const el=$("ocrMsg"); el.textContent=t||""; el.className="ocrMsg "+(cls||"");
+  const el=$("ocrMsg"); if(!el) return;
+  el.textContent=t||""; el.className="ocrMsg "+(cls||"");
 }
-function openOcr(target){
+/* 顶上那行状态，始终可见（错误提示也走这里） */
+function ocrInfo(t, cls){
+  const el=$("ocrSum");
+  el.textContent=t||""; el.className="ocrMsg "+(cls||"");
+  setOcrMsg(t, cls);
+}
+function svcBase(){ return "http://127.0.0.1:"+OCR_SVC.port; }
+
+function setSvc(state, html){
+  const dot=$("ocrDot");
+  dot.className="dot"+(state?" "+state:"");
+  $("ocrSvcTxt").innerHTML=html;
+}
+function showOff(msg){
+  setSvc("", "本机识别服务未启动");
+  $("ocrOff").style.display="";
+  $("ocrGrab").disabled=true;
+  $("ocrSeeShot").style.display="none";
+  if(msg) ocrInfo(msg,"err");
+}
+
+/* 探一个端口：是我们自己的服务才认 */
+function probePort(p){
+  return new Promise(resolve=>{
+    const ctl=new AbortController();
+    const timer=setTimeout(()=>ctl.abort(),700);
+    fetch("http://127.0.0.1:"+p+"/ping",{signal:ctl.signal,cache:"no-store"})
+      .then(r=>r.json())
+      .then(j=>resolve(j&&j.app==="pocib-ocr"?j:null))
+      .catch(()=>resolve(null))
+      .finally(()=>clearTimeout(timer));
+  });
+}
+async function ensureSvc(force){
+  if(OCR_SVC.port && !force){
+    const j=await probePort(OCR_SVC.port);
+    if(j) return true;
+    OCR_SVC.port=0;
+  }
+  setSvc("wait", "正在检测本机识别服务…");
+  for(const p of OCR_PORTS){
+    const j=await probePort(p);
+    if(j){ OCR_SVC.port=p; return true; }
+  }
+  OCR_SVC.port=0;
+  return false;
+}
+
+function showWins(wins){
+  const sel=$("ocrWin");
+  if(!wins || !wins.length){ sel.style.display="none"; return; }
+  sel.innerHTML=wins.map(w=>`<option value="${w.hwnd}">${escOcr(w.title)}　${w.w}×${w.h}</option>`).join("");
+  sel.style.display = wins.length>1 ? "" : "none";
+  $("ocrSeeShot").style.display="";
+}
+async function loadWins(){
+  try{
+    const r=await fetch(svcBase()+"/windows",{cache:"no-store"});
+    const d=await r.json();
+    showWins((d&&d.wins)||[]);
+  }catch(e){}
+}
+
+function showShot(d){
+  if(!d || !d.shot) return;
+  OCR_SVC.shot=d.shot;
+  $("ocrShotImg").src=svcBase()+d.shot;
+  $("ocrShotBox").style.display="block";
+  $("ocrSeeShot").style.display="";
+  const src=(d.source&&d.source.title)||"窗口";
+  $("ocrShotCap").textContent="「"+src+"」 "+
+    ((d.size&&d.size[0])?d.size[0]+"×"+d.size[1]+" ":"")+
+    (d.elapse?d.elapse+"s":"")+"　点图看大图";
+}
+
+function openShot(){
+  if(!OCR_SVC.shot || !OCR_SVC.port) return;
+  window.open(svcBase()+OCR_SVC.shot, "_blank");
+}
+
+async function ocrGrab(){
+  if(OCR_SVC.busy) return;
+  if(!OCR_SVC.port){
+    const ok=await ensureSvc(true);
+    if(!ok){ showOff("本机识别服务没响应：先双击 识图取数/识图服务.bat"); return; }
+  }
+  OCR_SVC.busy=true;
+  const btn=$("ocrGrab"), old=btn.textContent;
+  btn.disabled=true; btn.textContent="识别中…";
+  setSvc("wait", "正在截取并识别 POCIB 窗口…");
+  $("ocrOff").style.display="none";
+  const hwnd=$("ocrWin").value||"";
+  try{
+    const r=await fetch(svcBase()+"/capture?hwnd="+encodeURIComponent(hwnd)+"&t="+Date.now(),
+                        {cache:"no-store"});
+    const d=await r.json();
+    if(!d.ok){
+      if(d.wins && d.wins.length) showWins(d.wins);
+      setSvc("on", "服务在线（端口 "+OCR_SVC.port+"）");
+      ocrInfo((d.error||"没取到数据")+(d.hint?"　"+d.hint:""),"err");
+      $("ocrManual").open=true;
+      return;
+    }
+    useOcrData(d);
+    showShot(d);
+  }catch(e){
+    OCR_SVC.port=0;
+    showOff("连不上识别服务了（是不是黑窗口被关了？）："+e.message);
+  }finally{
+    OCR_SVC.busy=false; btn.disabled=false; btn.textContent=old;
+    if(OCR_SVC.port && $("ocrResult").style.display!=="none")
+      setSvc("on", "服务在线（端口 "+OCR_SVC.port+"）　要换页面就点「截取窗口」重来一次");
+    else if(OCR_SVC.port)
+      setSvc("on", "服务在线（端口 "+OCR_SVC.port+"）");
+  }
+}
+
+async function openOcr(target){
   OCR_DEFAULT = target || "my";
   $("ocrMask").classList.add("on");
   $("ocrPaste").value="";
   $("ocrResult").style.display="none";
   $("ocrApply").disabled=true; $("ocrOnlyHigh").disabled=true;
-  setOcrMsg("");
-  setTimeout(()=>$("ocrPaste").focus(),60);
+  $("ocrSum").textContent=""; setOcrMsg("");
+  $("ocrShotBox").style.display="none";
+  $("ocrManual").open=false;
+  $("ocrOff").style.display="none";
+  $("ocrGrab").disabled=true;
+  $("ocrWin").style.display="none";
+  setSvc("wait", "正在检测本机识别服务…");
+  const ok=await ensureSvc(false);
+  if(!ok){ showOff(); setTimeout(()=>$("ocrPaste").focus(),60); return; }
+  setSvc("on", "服务在线（端口 "+OCR_SVC.port+"）");
+  await loadWins();
+  await ocrGrab();
 }
-function ocrKindOf(d){
-  if(d.kind==="goods" || d.kind==="company") return d.kind;
+
+function ocrKindOf(d){  if(d.kind==="goods" || d.kind==="company") return d.kind;
   const hasCo = d.fields.some(f=>["account","bank_zh","name_zh","credit_code"].includes(f.key));
   return hasCo ? "company" : "goods";
 }
-function parseOcr(){
-  const raw=($("ocrPaste").value||"").trim();
-  if(!raw){ setOcrMsg("先把识别结果粘贴进来","err"); return; }
-  let d;
-  try{ d=JSON.parse(raw); }catch(e){ setOcrMsg("不是合法的识别结果（JSON 解析失败）："+e.message,"err"); return; }
-  if(!d || !Array.isArray(d.fields)){ setOcrMsg("格式不对：缺少 fields 数组","err"); return; }
-
+/* 把一份识别结果（服务返回的，或手工解析的）送进核对表 */
+function useOcrData(d){
   d.kind = ocrKindOf(d);
   const get=k=>{ const f=d.fields.find(x=>x.key===k); return f?f.value:""; };
   if(d.kind==="company"){
@@ -1313,11 +1482,19 @@ function parseOcr(){
   $("ocrApply").disabled = d.fields.length===0;
   $("ocrOnlyHigh").disabled = d.fields.length===0;
   if(!d.fields.length){
-    setOcrMsg("没认出任何字段：确认截的是「基本资料」或「商品信息」页，窗口别最小化，再试一次","err");
+    ocrInfo("没认出任何字段：确认 POCIB 窗口停在「基本资料」或「商品信息」页、别最小化，再截一次","err");
     return;
   }
   const hi=d.fields.filter(f=>f.value&&f.conf>=0.85).length;
-  setOcrMsg("识别到 "+d.fields.length+" 项（其中高置信 "+hi+" 项），核对后再填","ok");
+  ocrInfo("识别到 "+d.fields.length+" 项（其中高置信 "+hi+" 项），核对后再填","ok");
+}
+function parseOcr(){
+  const raw=($("ocrPaste").value||"").trim();
+  if(!raw){ ocrInfo("先把识别结果粘贴进来","err"); return; }
+  let d;
+  try{ d=JSON.parse(raw); }catch(e){ ocrInfo("不是合法的识别结果（JSON 解析失败）："+e.message,"err"); return; }
+  if(!d || !Array.isArray(d.fields)){ ocrInfo("格式不对：缺少 fields 数组","err"); return; }
+  useOcrData(d);
 }
 function renderOcr(){
   const d=OCR_DATA;
@@ -1325,7 +1502,8 @@ function renderOcr(){
   const idx = k=>{ const i=order.indexOf(k); return i<0?900:order.indexOf(k); };
   const list = d.fields.slice().sort((a,b)=>idx(a.key)-idx(b.key));
   const rows = list.map((f,i)=>{
-    const lab = OCR_LABEL[f.key] || f.label || f.key;
+    const lab = (d.kind==="goods" ? OCR_LABEL[f.key] : (OCR_LABEL_CO[f.key]||OCR_LABEL[f.key]))
+                || f.label || f.key;
     const on = !!(f.value && f.conf>=0.6);
     const cls = f.derived ? "dr" : (f.conf>=0.85?"hi":f.conf>=0.6?"mid":"lo");
     const nm  = f.derived ? "推导" : (f.conf>=0.85?"高":f.conf>=0.6?"中":"低");
@@ -1426,24 +1604,25 @@ $("ocrCo").onclick=()=>openOcr("my");
 $("ocrGd").onclick=()=>openOcr("goods");
 $("ocrCancel").onclick=()=>$("ocrMask").classList.remove("on");
 $("ocrMask").onclick=e=>{ if(e.target.id==="ocrMask") $("ocrMask").classList.remove("on"); };
+$("ocrGrab").onclick=()=>ocrGrab();
+$("ocrWin").onchange=()=>ocrGrab();
+$("ocrRetry").onclick=async()=>{
+  $("ocrOff").style.display="none";
+  const ok=await ensureSvc(true);
+  if(!ok){ showOff("还是没连上：确认那个黑窗口还在，且显示「POCIB 识图服务已启动」"); return; }
+  setSvc("on","服务在线（端口 "+OCR_SVC.port+"）");
+  await loadWins();
+  await ocrGrab();
+};
+$("ocrSeeShot").onclick=openShot;
+$("ocrShotImg").onclick=openShot;
 $("ocrParse").onclick=parseOcr;
 $("ocrApply").onclick=()=>applyOcr(false);
 $("ocrOnlyHigh").onclick=()=>applyOcr(true);
 $("ocrPaste").addEventListener("input",()=>{
   const v=($("ocrPaste").value||"").trim();
-  if(v.startsWith("{")){ try{ JSON.parse(v); setOcrMsg("看起来是完整的识别结果，点「解析」","ok"); }catch(e){} }
+  if(v.startsWith("{")){ try{ JSON.parse(v); ocrInfo("看起来是完整的识别结果，点「解析」","ok"); }catch(e){} }
 });
-$("ocrPick").onclick=()=>{
-  const inp=document.createElement("input");
-  inp.type="file"; inp.accept=".json,application/json";
-  inp.onchange=()=>{
-    const f=inp.files&&inp.files[0]; if(!f) return;
-    const rd=new FileReader();
-    rd.onload=()=>{ $("ocrPaste").value=String(rd.result); parseOcr(); };
-    rd.readAsText(f,"utf-8");
-  };
-  inp.click();
-};
 ["dragover","dragenter"].forEach(ev=>$("ocrPaste").addEventListener(ev,e=>{
   e.preventDefault(); $("ocrPaste").classList.add("hot");
 }));

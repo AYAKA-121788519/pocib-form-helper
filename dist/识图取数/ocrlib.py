@@ -66,8 +66,13 @@ def list_windows():
             u32.GetWindowTextW(hwnd, buf, n + 1)
             r = RECT()
             u32.GetWindowRect(hwnd, ctypes.byref(r))
+            try:
+                style = u32.GetWindowLongW(hwnd, -16)  # GWL_STYLE
+            except Exception:
+                style = 0
             out.append({"hwnd": hwnd, "title": buf.value,
-                        "rect": (r.left, r.top, r.right, r.bottom)})
+                        "rect": (r.left, r.top, r.right, r.bottom),
+                        "style": style})
         return True
 
     u32.EnumWindows(cb, 0)
@@ -127,7 +132,31 @@ class Img:
             rows.append(bytes(out))
         return Img(nw, nh, rows)
 
-    def save(self, path):
+    def trim_border(self, thr=8):
+        """裁掉 PrintWindow 常见的外圈黑边（只裁四周，不动页面内容）。"""
+        rows = self.rows
+        top = 0
+        while top < self.h and max(rows[top]) <= thr:
+            top += 1
+        bot = self.h
+        while bot > top and max(rows[bot - 1]) <= thr:
+            bot -= 1
+        if bot <= top:
+            return self
+        step = max(1, (bot - top) // 40)
+        ys = list(range(top, bot, step))
+        left = 0
+        while left < self.w and all(max(rows[y][left * 3:left * 3 + 3]) <= thr for y in ys):
+            left += 1
+        right = self.w
+        while right > left and all(max(rows[y][(right - 1) * 3:right * 3]) <= thr for y in ys):
+            right -= 1
+        if (left, top, right, bot) == (0, 0, self.w, self.h):
+            return self
+        return self.crop(left, top, right, bot)
+
+    def to_png(self):
+        """编码成 PNG 字节流（返回图片预览用，不落盘）。"""
         raw = bytearray()
         for row in self.rows:
             raw.append(0)
@@ -137,10 +166,13 @@ class Img:
             return (struct.pack(">I", len(data)) + tag + data +
                     struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF))
 
-        data = (b"\x89PNG\r\n\x1a\n"
+        return (b"\x89PNG\r\n\x1a\n"
                 + chunk(b"IHDR", struct.pack(">IIBBBBB", self.w, self.h, 8, 2, 0, 0, 0))
                 + chunk(b"IDAT", zlib.compress(bytes(raw), 6))
                 + chunk(b"IEND", b""))
+
+    def save(self, path):
+        data = self.to_png()
         with open(path, "wb") as f:
             f.write(data)
         return path
