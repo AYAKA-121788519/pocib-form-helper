@@ -1194,31 +1194,38 @@ function renderFields(step,di){
     const payBySeller=["CIF","CFR","CIP","CPT"].includes(c.term);
     const payer=payBySeller?seller:buyer;
     const orgCode=(payer.credit_code||"").slice(8,17);
-    const frt=c.freight_amt||0;
+    const frt=+$("freight").value||0;      // 跟随左栏「运费 USD」，不取案例里的死数
+    const cur=c.currency||"USD";
     G("致 TO",BK(payer).zh||"","银行表");
     G("日期",c.issue_date||"—","自动");
     G("汇款方式","☑ 电汇 T/T　□ 票汇 D/D　□ 信汇 M/T","自动");
     G("发电等级","☑ 普通 Normal　□ 加急 Urgent","自动");
     G("申报号码 / 银行业务编号 / 收电行","由银行填写（无需自己填）","空");
-    G("汇款币种及金额","["+c.currency+"] ["+n2(frt)+"]","自动");
-    G("金额大写",mWords(frt,c.currency),"自动");
-    G("现汇金额 / 外汇账号",n2(frt)+" / "+(payer.account_no||""),"主体");
-    G("购汇金额 / 购汇账号","[ ] 不购汇","空");
+    G("汇款币种及金额","["+cur+"] ["+n2(frt)+"]","自动");
+    G("金额大写",amtWords(frt,cur),"自动");
+    G("现汇金额",n2(frt),"自动");
+    G("外汇账号",payer.account_no||"（公司档案未填本币账号）","主体");
+    G("购汇金额","[ ] 不购汇","空");
+    G("购汇账号","[ ] 不购汇","空");
     G("汇款人名称及地址",payer.name_zh+"\n"+payer.address_zh,"主体");
     G("组织机构代码",orgCode+"（取统一社会信用代码第 9-17 位）","自动");
     G("收款银行之代理行","可留空（中转行才填）","空");
     G("收款人开户银行名称及地址",BK(payer).zh+"\n"+BK(payer).addr_zh,"银行表");
-    G("收款人名称及地址",c.forwarder||"（货代公司中文名称，待填）","待确认");
+    G("收款人名称及地址","国际货运有限公司\nTwo United Nations Plaza, 25th Floor, New York, NY 10017","常量");
     G("收款人账号",c.forwarder_acct||"（国际货运代理专用发票上的账号）","待确认");
     G("汇款附言","FREIGHT FOR "+c.contract,"自动");
     G("国内外费用承担","☑ 汇款人 OUR　□ 收款人 BEN　□ 共同 SHA","待确认");
-    G("收款人常驻国家（地区）","收款人所在国 + 代码（如 美国 502）","待确认");
+    G("收款人常驻国家（地区）","美国 502","常量");
     G("交易编码",c.freight_code||"201013（运费，按国际收支交易编码表）","待确认");
-    G("相应币种及金额","["+c.currency+"] ["+n2(frt)+"]","自动");
+    G("相应币种及金额","["+cur+"] ["+n2(frt)+"]","自动");
     G("交易附言","FREIGHT","待确认");
-    G("申请人姓名 / 电话",payer.name_zh+" / "+(payer.tel||""),"主体");
-    G("申请人签章",payer.name_zh+"\n"+(payer.legal_zh||""),"主体");
-    note="运费金额须与「国际货运代理专用发票」一致；现汇+购汇=汇款金额；收款人只填货代公司中文名。";
+    G("申请人姓名",payer.legal_zh||payer.name_zh,"主体");
+    G("申请人电话",payer.tel||"—","主体");
+    G("申请人签章（公司）",payer.name_zh,"主体");
+    G("申请人签章（人）",payer.legal_zh||"（公司档案未填法人代表）","主体");
+    note="「汇款币种及金额」「金额大写」「现汇金额」「相应币种及金额」四处都跟着左栏的「运费 USD」走，"
+        +"改运费这里会同步；实际付多少以「国际货运代理专业发票」为准，两者不一致时先核对再填。"
+        +"现汇 + 购汇 = 汇款金额；收款人名称与地址、常驻国家（美国 502）是固定的，只有账号要抄货代发票。";
   }
   // —— 国际海运 / 空运委托书 ——
   else if(doc==="国际海运委托书"||doc==="国际空运委托书"){
@@ -1246,7 +1253,7 @@ function renderFields(step,di){
     G("TOTAL 合计",`[${n0(D.packs)}] [${nW(D.total_gw)}] [${nW(D.total_nw)}] [${n3(D.total_vol)}]\n`
       +`[${uq(D.packs,c.pack_unit)}] [KGS] [KGS] [CBM]`,"自动");
     G("柜型及数量",boxField(D),"自动");
-    G("运费 FREIGHT",c.currency+" "+n2(c.freight_amt||0)+"　☑ PREPAID　□ COLLECT","待确认");
+    G("运费 FREIGHT",c.currency+" "+n2(+$("freight").value||0)+"　☑ PREPAID　□ COLLECT","待确认");
     G("DOCUMENT 发票/装箱单号",
       "INVOICE No.：到商业发票上找\nPACKING LIST No.：到装箱单上找","待确认");
     G("CONSIGNOR 委托人",seller.name_en,"主体");
