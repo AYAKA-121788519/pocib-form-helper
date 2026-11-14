@@ -1107,9 +1107,12 @@ function renderFields(step,di){
     G("保费","USD "+n2(D.premium),"自动");
     G("商品编号",c.hs,"主体");
     G("商品名称",c.hs_zh,"主体");
+    G("规格型号（中文）",(GD(c.goods_no)||{}).spec_zh||"（商品档案没填中文规格，需手填）","主体");
     G("数量及单位",n0(c.qty)+" "+unitZh(c),"自动");
     G("单价 / 总价",n2(+$("unit_price").value)+" / "+n2(D.amount),"自动");
-    note="报关单所有分类栏都是「代码+名称」，需要码表；商品名称用中文，发票用英文。";
+    G("申报单位",(isOut?seller:buyer).name_zh+"\n"+(isOut?seller:buyer).credit_code,"主体");
+    note="报关单所有分类栏都是「代码+名称」，需要码表；商品名称与规格型号用中文，发票用英文。"
+        +"申报单位与境内收发货人一致，填公司名称 + 海关 10 位编码。";
   }
 
   // —— 不可撤销信用证开证申请书 ——
