@@ -266,6 +266,7 @@
         <div class="row"><span class="k">合同号</span><input id="contract"></div>
         <div class="row"><span class="k">贸易术语</span><select id="term"></select></div>
         <div class="row"><span class="k">结算方式</span><select id="payment"></select></div>
+        <div class="row"><span class="k">支付条款</span><input id="payText" placeholder="T/T 100% IN ADVANCE"></div>
         <div class="row"><span class="k">运输方式</span><select id="transport"><option>海运</option><option>空运</option></select></div>
         <div class="row"><span class="k">装运港</span><select id="port_load"></select></div>
         <div class="row" id="plCustom" style="display:none"><span class="k"></span>
@@ -713,6 +714,7 @@ function loadCase(k){
   renderCoUI(); renderGdUI();
   syncPort("load",c.port_load); syncPort("dest",c.port_dest);
   if($("amtPrefix")) $("amtPrefix").value=c.amt_prefix||"USD";
+  if($("payText")) $("payText").value=c.pay_text||"";
   if($("reefer")) $("reefer").checked=!!c.reefer;
   const gp=$("goodsPick"); if(gp){ gp.value=c.goods_no||""; $("hs").value=c.hs||""; $("hs_zh").value=c.hs_zh||""; $("goods_name").value=c.goods||""; }
   renderFlow(); compute();
@@ -830,6 +832,27 @@ function gwOrQty(c,D){
   }
   const n=Math.round(+c.qty||0);
   return String(n)+uq(n,c.unit);
+}
+
+/* 合同号前 8 位即签订日期：2026110302 → 2026-11-03 */
+function contractDate(c){
+  const m=String(c.contract||"").match(/^(\d{4})(\d{2})(\d{2})/);
+  return m? m[1]+"-"+m[2]+"-"+m[3] : "";
+}
+/* 从支付条款里拆定金 / 尾款比例：
+   「40% IN ADVANCE AND 60% WITHIN 30DAYS AFTER SHIPMENT DATE」→ {pre:40,post:60} */
+function paySplit(txt){
+  const ps=[...String(txt||"").toUpperCase().matchAll(/(\d{1,3})\s*%/g)].map(m=>+m[1]);
+  if(ps.length>=2 && ps[0]+ps[1]===100) return {pre:ps[0],post:ps[1]};
+  return null;
+}
+/* 国别代码（海关 3 位），境外汇款申请书「收款人常驻国家（地区）」用 */
+const COUNTRY_CODE={China:"142",Japan:"116",Russia:"344",Germany:"304",UK:"303",
+  France:"305",Italy:"307",Netherlands:"338",Brazil:"410",Australia:"601",
+  America:"502",Canada:"501",India:"111",Korea:"133",Spain:"312",Belgium:"301"};
+function countryCode(name){
+  const k=Object.keys(COUNTRY_CODE).find(x=>x.toLowerCase()===String(name||"").toLowerCase());
+  return k? COUNTRY_CODE[k] : "";
 }
 
 /* POCIB 重量体积口径（两种商品结构分别算）：
@@ -1186,6 +1209,72 @@ function renderFields(step,di){
     G("被出票人 To",drawee+"\n"+(isLC?(BK(buyer).addr_en||""):buyer.address_en),"自动");
     G("出票人签章 Authorized Signature",seller.name_en+"\n"+(seller.legal_en||""),"主体");
     note="百科原文：付款人(Issued by) —— L/C 下为进口地开证银行；非 L/C 则填进口商。右下签章为出票人（出口商）。";
+  }
+
+  // —— 境外汇款申请书（T/T 付汇，进口商填） ——
+  else if(doc==="境外汇款申请书"){
+    const bBank=BK(buyer), sBank=BK(seller);
+    const cur=c.currency||"USD", pre=c.amt_prefix||"USD";
+    const r2=v=>Math.round((+v||0)*100)/100;
+    const amt=r2(D.amount);
+    const sp=paySplit(c.pay_text);              // 部分前 T/T + 部分后 T/T
+    const dep=sp? r2(amt*sp.pre/100) : null;    // 定金：先四舍五入
+    const bal=sp? r2(amt-dep) : null;           // 尾款：合同金额 − 定金（不是另乘比例）
+    const cDate=contractDate(c), iDate=c.issue_date||"";
+    const dateOk=!cDate||!iDate||iDate>=cDate;
+    const cc=countryCode(seller.country);
+    // POCIB 例文写「U.S.DOLLARS EIGHTY NINE THOUSAND …」，连字符去掉
+    const amtW=v=>amtWords(v,pre).replace(/-/g," ");
+
+    G("致 TO",bBank.en||buyer.bank_en||"","银行表");
+    G("日期",iDate||"待填",dateOk?"自动":"待确认");
+    G("汇款方式","☑ 电汇 T/T　□ 票汇 D/D　□ 信汇 M/T","自动");
+    G("发电等级","☑ 普通 Normal　□ 加急 Urgent","待确认");
+    G("申报号码","（由银行编制）","空");
+    G("银行业务编号","（由银行填写）","空");
+    G("收电行 / 付款行","（由银行填写）","空");
+    if(sp){
+      G("汇款币种及金额（定金 "+sp.pre+"%）","["+cur+"] ["+n2(dep)+"]","自动");
+      G("汇款币种及金额（尾款 "+sp.post+"%）","["+cur+"] ["+n2(bal)+"]","自动");
+      G("金额大写（定金）",amtW(dep),"自动");
+      G("金额大写（尾款）",amtW(bal),"自动");
+      G("现汇金额","定金 "+n2(dep)+"\n尾款 "+n2(bal),"自动");
+    }else{
+      G("汇款币种及金额","["+cur+"] ["+n2(amt)+"]","自动");
+      G("金额大写",amtW(amt),"自动");
+      G("现汇金额",n2(amt),"自动");
+    }
+    G("外汇账号",buyer.account_no||"（公司档案未填外币账号）","主体");
+    G("购汇金额","0.00（全额走现汇；现汇 + 购汇 = 汇款金额）","空");
+    G("购汇账号","（购汇金额为 0，本栏不填）","空");
+    G("其他金额","（不填）","空");
+    G("汇款人名称及地址",buyer.name_en+"\n"+buyer.address_en,"主体");
+    G("组织机构代码",(buyer.credit_code||"").slice(8,17)+"（统一社会信用代码第 9-17 位）","自动");
+    G("收款银行之代理行名称及地址","（无中转行，可不填）","空");
+    G("收款人开户银行名称及地址",(sBank.en||seller.bank_en||"")+"\n"+(sBank.addr_en||""),"银行表");
+    G("收款人开户银行在其代理行的账号","（可不填）","空");
+    G("收款人名称及地址",seller.name_en+"\n"+seller.address_en,"主体");
+    G("收款人账号",seller.account_no||"（向出口商索取外币账号）","主体");
+    G("汇款附言","PAYMENT FOR GOODS UNDER S/C "+c.contract,"自动");
+    G("国内外费用承担","☑ 汇款人 OUR　□ 收款人 BEN　□ 共同 SHA","待确认");
+    G("付款方式", sp? "☑ 预付货款（定金）\n☑ 货到付款（尾款）"
+                    : (/IN\s*ADVANCE/i.test(c.pay_text)? "☑ 预付货款" : "☑ 货到付款"),"待确认");
+    G("最迟装运日期","（POCIB 不需要填写）","空");
+    G("收款人常驻国家（地区）名称及代码",(seller.country||"")+(cc?" "+cc:""),"码表");
+    G("交易编码","101010（一般贸易收入/支出）","常量");
+    G("相应币种及金额", sp? "["+cur+"] ["+n2(dep)+"]\n["+cur+"] ["+n2(bal)+"]"
+                          : "["+cur+"] ["+n2(amt)+"]","自动");
+    G("交易附言","PAYMENT FOR GOODS","待确认");
+    G("外汇局批件 / 备案表号","（不填）","空");
+    G("报关单经营单位代码","（POCIB 不需要填写）","空");
+    G("报关单号","（POCIB 不需要填写）","空");
+    G("报关单币种及总金额","（POCIB 不需要填写）","空");
+    G("本次核注金额","（POCIB 不需要填写）","空");
+    G("申请人姓名、电话",buyer.name_en+"\nTEL "+(buyer.tel||""),"主体");
+    note="汇款人＝进口商，收款人＝出口商。支付条款写成「40% IN ADVANCE AND 60% …」这类两段式时，"
+        +"定金 = 合同金额 × 百分比（先四舍五入到分），尾款 = 合同金额 − 定金，两笔分两次提交："
+        +"定金选「预付货款」，尾款选「货到付款」。现汇 + 购汇 = 汇款金额，本笔全额走现汇故购汇填 0。"
+        +"日期不能早于合同签订日（合同号前 8 位即签订日期）；交易编码 POCIB 固定 101010。";
   }
 
   // —— 境内汇款申请书（支付运费） ——
@@ -1963,7 +2052,20 @@ document.addEventListener("change",e=>{
 });
 if($("reefer")) $("reefer").onchange=e=>{ CASES[CASE].reefer=e.target.checked; compute(); };
 ["term","payment"].forEach(id=>$(id).addEventListener("change",()=>{
-  CASES[CASE][id]=$(id).value;renderFlow();compute();}));
+  CASES[CASE][id]=$(id).value;
+  // 结算方式一换，支付条款若还是别的口径的文字就换成该方式的默认写法
+  if(id==="payment"){
+    const c=CASES[CASE], v=c.payment;
+    if(String(c.pay_text||"").toUpperCase().indexOf(v)<0){
+      c.pay_text = v==="T/T"?"T/T 100% IN ADVANCE"
+                 : v==="L/C"?"L/C AT SIGHT"
+                 : v==="D/P"?"D/P AT SIGHT" : "D/A AT 60 DAYS AFTER SIGHT";
+      if($("payText")) $("payText").value=c.pay_text;
+    }
+  }
+  renderFlow();compute();}));
+if($("payText")) $("payText").addEventListener("input",()=>{
+  CASES[CASE].pay_text=$("payText").value; compute();});
 
 $("editMy").onclick=()=>openCo(CASES[CASE].my,false);
 $("editCp").onclick=()=>openCo(CASES[CASE].cp,false);
