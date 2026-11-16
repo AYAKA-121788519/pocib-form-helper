@@ -850,6 +850,21 @@ function portZh(v){
   const hit=PORTS.find(([en,cn])=>u===en.toUpperCase()+", "+cn.toUpperCase());
   return hit? hit[2] : s;
 }
+/* 港口短名：命中码表给中文名，自定义港取逗号前那一段（HAMBURG, GERMANY → HAMBURG） */
+function portShort(v){
+  const s=String(v||"").trim();
+  if(!s) return "";
+  const u=s.toUpperCase();
+  const hit=PORTS.find(([en,cn])=>u===en.toUpperCase()+", "+cn.toUpperCase());
+  return hit? hit[2] : s.split(",")[0].trim();
+}
+/* 港口所在国：{en,zh,code}，取不到返回三个空串 */
+function portCountry(v){
+  const u=String(v||"").toUpperCase();
+  const hit=PORTS.find(([en,cn])=>u.endsWith(", "+cn.toUpperCase()));
+  if(!hit) return {en:"",zh:"",code:""};
+  return {en:hit[1], zh:hit[3], code:countryCode(hit[1])};
+}
 /* 中文国别：公司档案有 country_zh 就用它，否则从港口串里取国家 */
 function countryZhOf(co,portVal){
   if(co && co.country_zh) return co.country_zh;
@@ -1164,15 +1179,28 @@ function renderFields(step,di){
   // —— 报关单 ——
   else if(doc==="出口货物报关单"||doc==="进口货物报关单"){
     const isOut=doc==="出口货物报关单";
-    G("境内收发货人",(isOut?seller:buyer).name_zh+"\n"+(isOut?seller:buyer).credit_code,"主体");
-    G(isOut?"出境关别":"进境关别",isOut?"汉堡海关":"纽约海关","码表");
-    G(isOut?"境外收货人":"境外发货人",(isOut?buyer:seller).name_en,"主体");
+    const me=isOut?seller:buyer;            /* 境内收发货人 */
+    const other=isOut?buyer:seller;         /* 境外收发货人 */
+    /* 进口：启运国/经停港看出口方口岸（合同装运港），入境口岸看合同目的港
+       出口：运抵国/指运港看合同目的港，离境口岸看合同装运港 */
+    const fkPort=isOut?c.port_dest:c.port_load;
+    const myPort=isOut?c.port_load:c.port_dest;
+    const fkC=portCountry(fkPort), myC=portCountry(myPort);
+    const fkZh=fkC.zh||countryZhOf(other,fkPort);
+    const fkCode=fkC.code||countryCode(other.country||"");
+    const fkCell=(fkCode?"("+fkCode+") ":"")+(fkZh||"（按《国别代码表》选）");
+    const tx=v=>{ const c=portCountry(v); return portShort(v)+(c.zh?"（"+c.zh+"）":""); };
+    G("境内收发货人",me.name_zh+"\n"+me.credit_code,"主体");
+    G(isOut?"出境关别":"进境关别",portShort(myPort)+"海关","码表");
+    G(isOut?"境外收货人":"境外发货人",other.name_en,"主体");
     G("运输方式","(2) 水路运输","码表");
     G("监管方式","(0110) 一般贸易","常量");
     G("征免性质","(101) 一般征税","常量");
     G("合同协议号",c.contract,"自动");
-    G("贸易国 / 运抵国","(USA) 美国","码表");
-    G("指运港","(USA309) 纽约(美国)","码表");
+    G("贸易国（地区）",fkCell,"码表");
+    G(isOut?"运抵国（地区）":"启运国（地区）",fkCell,"码表");
+    G(isOut?"指运港":"经停港",tx(fkPort),"码表");
+    G(isOut?"离境口岸":"入境口岸",tx(myPort),"码表");
     G("包装种类",packZh(c),"码表");
     G("件数",n0(D.packs)+" "+packZh(c),"自动");
     G("毛重 / 净重",n2(D.total_gw)+" / "+n2(D.total_nw),"自动");
@@ -1184,8 +1212,10 @@ function renderFields(step,di){
     G("规格型号（中文）",(GD(c.goods_no)||{}).spec_zh||"（商品档案没填中文规格，需手填）","主体");
     G("数量及单位",n0(c.qty)+" "+unitZh(c),"自动");
     G("单价 / 总价",n2(+$("unit_price").value)+" / "+n2(D.amount),"自动");
-    G("申报单位",(isOut?seller:buyer).name_zh+"\n"+(isOut?seller:buyer).credit_code,"主体");
+    G("申报单位",me.name_zh+"\n"+me.credit_code,"主体");
     note="报关单所有分类栏都是「代码+名称」，需要码表；商品名称与规格型号用中文，发票用英文。"
+        +"贸易国取对方国家（进口＝购自国，出口＝售予国），启运/运抵国与贸易国同源；"
+        +"经停港（进口）取合同装运港、入境口岸取合同目的港，出口反过来看指运港与离境口岸。"
         +"申报单位与境内收发货人一致，填公司名称 + 海关 10 位编码。";
   }
 
