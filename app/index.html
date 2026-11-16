@@ -1391,7 +1391,9 @@ function renderFields(step,di){
     G("通知人电话",buyer.tel||"—","主体");
     G(sea?"PORT OF LOADING 装运港":"AIRPORT OF DEPARTURE 始发站",c.port_load,"自动");
     G(sea?"PORT OF DESTINATION 目的港":"AIRPORT OF DESTINATION 到达站",c.port_dest,"自动");
-    G(sea?"OCEAN VESSEL 船名":"航班号",sea?"订舱后自动生成":"订舱后自动生成","待确认");
+    G(sea?"OCEAN VESSEL 船名":"航班号",
+      sea?"参考订舱生成的「配舱回单」上的船名（只填船名，不带航次）"
+        :"参考空运进仓通知单上的航班号（只填航班号，不带航次）","待确认");
     G("货物名称及描述",c.goods+"\n"+(c.desc||""),"自动");
     G("唛头 MARKS",c.shipping_mark||"N/M","待确认");
     G("NO. OF PACKAGE 件数",n0(D.packs)+" "+uq(D.packs,c.pack_unit),"自动");
@@ -1510,8 +1512,8 @@ function genericRows(doc,c,D,seller,buyer){
       ["数/重量",n0(c.qty)+" "+unitZh(c),"自动"],
       ["货物总值",(c.currency||"USD")+" "+n2(D.amount),"自动"],
       ["包装种类及数量",n0(D.packs)+" "+packZh(c),"自动"],
-      ["运输工具名称号码",isAir ? "参考航空运单（AWB）上的航班号"
-                                : "参考提货单（B/L）上的船名航次","待确认"],
+      ["运输工具名称号码",isAir ? "参考航空运单（AWB）上的航班号（只填航班号，不带航次）"
+                                : "参考提货单（B/L）上的船名（只填船名，不带航次）","待确认"],
       ["合同号",c.contract,"自动"],
       ["贸易方式","一般贸易","常量"],
       ["贸易国别（地区）",countryZhOf(seller,c.port_load),"码表"],
@@ -1548,6 +1550,8 @@ function genericRows(doc,c,D,seller,buyer){
       ["重量",n2(D.total_gw)+" KGS","自动"],
       ["货物总值","USD "+n2(D.amount),"自动"],
       ["包装种类及数量",n0(D.packs)+" "+packZh(c),"自动"],
+      ["运输工具名称号码",isAir ? "参考空运进仓通知单上的航班号（只填航班号，不带航次）"
+                                : "参考订舱生成的「配舱回单」上的船名（只填船名，不带航次）","待确认"],
       ["启运地",c.port_load,"自动"],
       ["到达口岸",c.port_dest,"自动"],
       ["货物存放地点",c.transport==="空运"
