@@ -138,6 +138,17 @@
         font:13px/1.45 inherit}
   .frm .f textarea{resize:vertical;min-height:56px}
   .frm .wide{grid-column:1/-1}
+  /* 多币种账号 */
+  .accBox{border:1px solid var(--line);border-radius:8px;padding:9px 10px;background:#fbfcfd}
+  .accBox .hd{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink3);margin-bottom:7px}
+  .accBox .hd b{font-size:12px;color:var(--ink2);font-weight:600}
+  .accBox .add{margin-left:auto;border:1px solid var(--line);background:#fff;border-radius:6px;
+        padding:2px 9px;font-size:12px;cursor:pointer;color:var(--ink2)}
+  .accRow{display:grid;grid-template-columns:150px 1fr 24px;gap:8px;align-items:center;margin-bottom:6px}
+  .accRow select,.accRow input{padding:5px 8px;border:1px solid var(--line);border-radius:6px;
+        font:13px/1.45 inherit;background:#fff}
+  .accRow .del{border:0;background:none;color:#c0392b;cursor:pointer;font-size:15px;line-height:1;padding:0}
+  .accBox .tip{font-size:11px;color:var(--ink3);line-height:1.5;margin-top:4px}
   .btn{padding:6px 14px;border-radius:7px;border:1px solid var(--line);background:#fff;
        cursor:pointer;font-size:13px;color:var(--ink)}
   .btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -437,7 +448,7 @@
 <div class="mask" id="coMask">
   <div class="modal">
     <header><h3 id="coModalTitle">编辑公司</h3>
-      <span style="margin-left:auto;font-size:12px;color:#8b95a3">23 个栏位 · 注册页 22 项 + 中文国名（中文单据要用）</span></header>
+      <span style="margin-left:auto;font-size:12px;color:#8b95a3">23 个栏位 + 多币种账号 · 注册页 22 项 + 中文国名</span></header>
     <div class="mbody"><div class="frm" id="coForm"></div></div>
     <footer>
       <button class="btn dan" id="coDel">删除</button>
@@ -503,6 +514,31 @@ const BANKS = {
  "South Africa":{zh:"南非标准银行",en:"STANDARD BANK OF SOUTH AFRICA LTD.",addr_zh:"南非西开普省皮尔浩斯市恩格热特16号",addr_en:"16 Heerengracht, Suite 801 Pier House Cape Town 8001 Western Cape, South Africa",tel:"27-21-25456800",fax:"27-21-25456801"}
 };
 function BK(co){ return (co && BANKS[co.country]) || {zh:"",en:"",addr_zh:"",addr_en:"",tel:"",fax:""}; }
+
+/* 账户列表币种（对应「我的资金 → 账户列表」里能开的户） */
+const CUR_LIST=[
+  ["USD","美元"],["EUR","欧元"],["GBP","英镑"],["JPY","日元"],["RMB","人民币"],
+  ["AUD","澳大利亚元"],["CAD","加拿大元"],["RUB","卢布"],["BRL","巴西里尔"],
+  ["ZAR","兰特"],["CUP","古巴比索"],["CHF","瑞士法郎"],["HKD","港币"],["SGD","新加坡元"],
+  ["KRW","韩元"],["THB","泰铢"]
+];
+const CUR_ZH=(()=>{const m={};CUR_LIST.forEach(([k,v])=>m[k]=v);return m;})();
+
+/* 多币种账号：按单据上的币种取该公司对应币种的账号。
+   档案里没这个币种的账号就返回空，由调用方提示用户去「我的资金 → 账户列表」查。
+   注意不能拿本币账号兜底 —— 币种对不上，填上去就是错的。 */
+function acctOf(co,cur){
+  if(!co) return "";
+  const k=String(cur||"").toUpperCase().trim();
+  const m=co.accts||{};
+  if(k && m[k]) return String(m[k]).trim();
+  if(k && normUnit(co.currency)===normUnit(k)) return String(co.account_no||"").trim();
+  return "";
+}
+function acctMiss(cur){
+  const k=String(cur||"").toUpperCase().trim()||"该币种";
+  return "（公司档案没填 "+k+" 账号 → 我的资金 → 账户列表 查，再回公司档案补）";
+}
 
 const LS_KEY="pocib.companies.v1";
 let CO_LIST = (()=>{
@@ -1186,7 +1222,8 @@ function renderFields(step,di){
     G("单据种类与份数","汇票 1　商业发票 4　海运提单 1　装箱单 4　"+(c.cert==="一般原产地证"?"一般原产地证 2":"普惠制产地证 2")+
       ((c.term==="CIF"||c.term==="CIP")?"　保险单 1":"")+
       (c.docs_clause&&c.docs_clause.length?"　"+c.docs_clause.join("、")+" 各 1":""),"待确认");
-    G("付款指示","开户行："+(BK(seller).zh||seller.bank_zh||"")+"\n账号："+(seller.account_no||"")+
+    G("付款指示","开户行："+(BK(seller).zh||seller.bank_zh||"")+"\n账号："+
+      (acctOf(seller,c.currency||"USD")||seller.account_no||"")+
       "\n联系人："+(seller.legal_zh||"")+"\n电话："+(seller.tel||"")+"　传真："+(seller.fax||""),"主体");
     G("公司签章",seller.name_zh+"（加盖公章）","主体");
     note="托收行填出口地银行中文名+中文地址；代收行填进口地银行英文名+英文地址；份数须与合同单据条款一致。";
@@ -1244,7 +1281,8 @@ function renderFields(step,di){
       G("金额大写",amtW(amt),"自动");
       G("现汇金额",n2(amt),"自动");
     }
-    G("外汇账号",buyer.account_no||"（公司档案未填外币账号）","主体");
+    const bAcct=acctOf(buyer,cur), sAcct=acctOf(seller,cur);
+    G("外汇账号", bAcct||acctMiss(cur), bAcct?"主体":"待确认");
     G("购汇金额","0.00（全额走现汇；现汇 + 购汇 = 汇款金额）","空");
     G("购汇账号","（购汇金额为 0，本栏不填）","空");
     G("其他金额","（不填）","空");
@@ -1254,7 +1292,7 @@ function renderFields(step,di){
     G("收款人开户银行名称及地址",(sBank.en||seller.bank_en||"")+"\n"+(sBank.addr_en||""),"银行表");
     G("收款人开户银行在其代理行的账号","（可不填）","空");
     G("收款人名称及地址",seller.name_en+"\n"+seller.address_en,"主体");
-    G("收款人账号",seller.account_no||"（向出口商索取外币账号）","主体");
+    G("收款人账号", sAcct||("（向出口商索取 "+cur+" 外币账号）"), sAcct?"主体":"待确认");
     G("汇款附言","PAYMENT FOR GOODS UNDER S/C "+c.contract,"自动");
     G("国内外费用承担","☑ 汇款人 OUR　□ 收款人 BEN　□ 共同 SHA","待确认");
     G("付款方式", sp? "☑ 预付货款（定金）\n☑ 货到付款（尾款）"
@@ -1270,8 +1308,11 @@ function renderFields(step,di){
     G("报关单号","（POCIB 不需要填写）","空");
     G("报关单币种及总金额","（POCIB 不需要填写）","空");
     G("本次核注金额","（POCIB 不需要填写）","空");
-    G("申请人姓名、电话",buyer.name_en+"\nTEL "+(buyer.tel||""),"主体");
-    note="汇款人＝进口商，收款人＝出口商。支付条款写成「40% IN ADVANCE AND 60% …」这类两段式时，"
+    G("申请人姓名",buyer.name_en,"主体");
+    G("申请人电话",buyer.tel||"—","主体");
+    note="汇款人＝进口商，收款人＝出口商。外汇账号按汇款币种 "+cur+" 自动从公司档案的「多币种账号」里取，"
+        +"档案里没有就提示你去「我的资金 → 账户列表」查出来补进档案（不要拿别的币种顶）。"
+        +"支付条款写成「40% IN ADVANCE AND 60% …」这类两段式时，"
         +"定金 = 合同金额 × 百分比（先四舍五入到分），尾款 = 合同金额 − 定金，两笔分两次提交："
         +"定金选「预付货款」，尾款选「货到付款」。现汇 + 购汇 = 汇款金额，本笔全额走现汇故购汇填 0。"
         +"日期不能早于合同签订日（合同号前 8 位即签订日期）；交易编码 POCIB 固定 101010。";
@@ -1293,7 +1334,9 @@ function renderFields(step,di){
     G("汇款币种及金额","["+cur+"] ["+n2(frt)+"]","自动");
     G("金额大写",amtWords(frt,cur),"自动");
     G("现汇金额",n2(frt),"自动");
-    G("外汇账号",payer.account_no||"（公司档案未填本币账号）","主体");
+    const pAcct=acctOf(payer,cur);
+    G("外汇账号", pAcct||(payer.account_no? payer.account_no+"（档案里的本币账号；如需 "+cur+" 账号，去 我的资金 → 账户列表 查）":acctMiss(cur)),
+      pAcct?"主体":"待确认");
     G("购汇金额","[ ] 不购汇","空");
     G("购汇账号","[ ] 不购汇","空");
     G("汇款人名称及地址",payer.name_zh+"\n"+payer.address_zh,"主体");
@@ -1314,7 +1357,8 @@ function renderFields(step,di){
     G("申请人签章（人）",payer.legal_zh||"（公司档案未填法人代表）","主体");
     note="「汇款币种及金额」「金额大写」「现汇金额」「相应币种及金额」四处都跟着左栏的「运费 USD」走，"
         +"改运费这里会同步；实际付多少以「国际货运代理专业发票」为准，两者不一致时先核对再填。"
-        +"现汇 + 购汇 = 汇款金额；收款人名称与地址、常驻国家（美国 502）是固定的，只有账号要抄货代发票。";
+        +"现汇 + 购汇 = 汇款金额；收款人名称与地址、常驻国家（美国 502）是固定的，只有账号要抄货代发票。"
+        +"付款账号按汇款币种从公司档案「多币种账号」自动取，没有该币种时去 我的资金 → 账户列表 查。";
   }
   // —— 国际海运 / 空运委托书 ——
   else if(doc==="国际海运委托书"||doc==="国际空运委托书"){
@@ -1466,15 +1510,43 @@ function coOptions(sel,id){
   sel.innerHTML=CO_LIST.map(x=>
     `<option value="${x.account}"${x.account===id?" selected":""}>${(x.short_zh||x.name_zh||x.account)}（${x.country_zh||x.country||"—"}）</option>`).join("");
 }
+function coCurList(co){
+  const m=Object.assign({}, co.accts||{});
+  if(co.account_no && co.currency){ const k=normUnit(co.currency); if(!m[k]) m[k]=co.account_no; }
+  return Object.keys(m);
+}
 function renderCoUI(){
   const c=CASES[CASE];
   coOptions($("myCo"),c.my); coOptions($("cpCo"),c.cp);
   const m=CO(c.my), q=CO(c.cp);
-  $("mySum").innerHTML=`<b>${m.name_en||"—"}</b><br>${m.country||""} / ${m.tel||""} / ${m.bank_en||""}`;
-  $("cpSum").innerHTML=`<b>${q.name_en||"—"}</b><br>${q.country||""} / ${q.tel||""} / ${q.bank_en||""}`;
+  const acctLine=co=>{
+    const ks=coCurList(co);
+    return ks.length? `<br>账户：${ks.join(" / ")}` : `<br><span style="color:#c0392b">账户：未填（公司档案 → 多币种账号）</span>`;
+  };
+  $("mySum").innerHTML=`<b>${m.name_en||"—"}</b><br>${m.country||""} / ${m.tel||""} / ${m.bank_en||""}${acctLine(m)}`;
+  $("cpSum").innerHTML=`<b>${q.name_en||"—"}</b><br>${q.country||""} / ${q.tel||""} / ${q.bank_en||""}${acctLine(q)}`;
 }
 
 let EDIT_ID=null;
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function accRowHTML(k,v){
+  const opts=`<option value="">选择币种…</option>`+CUR_LIST.map(([c,z])=>
+    `<option value="${c}"${c===k?" selected":""}>${c} ${z}</option>`).join("");
+  return `<div class="accRow"><select data-acc>${opts}</select>`
+    +`<input data-accno placeholder="账号（我的资金 → 账户列表）" value="${esc(v)}">`
+    +`<button class="del" data-act="delacc" title="删除这一行">×</button></div>`;
+}
+function accRowsHTML(src){
+  src=src||{};
+  const m=Object.assign({}, src.accts||{});
+  if(src.account_no && src.currency){
+    const k=normUnit(src.currency);
+    if(!m[k]) m[k]=src.account_no;
+  }
+  let rows=Object.keys(m).map(k=>[k,m[k]]);
+  if(!rows.length) rows=[["",""]];
+  return rows.map(([k,v])=>accRowHTML(k,v)).join("");
+}
 function openCo(id,asNew){
   EDIT_ID = asNew? null : id;
   const src = asNew? {} : CO(id||CASES[CASE].my);
@@ -1482,16 +1554,33 @@ function openCo(id,asNew){
   $("coDel").style.display = asNew? "none":"";
   $("coForm").innerHTML = CO_DEFS.map(([k,lab])=>{
     const wide=CO_WIDE.has(k);
-    const v=(src[k]||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+    const v=esc(src[k]);
     const isTa = k.startsWith("intro")||k.startsWith("address");
     return `<div class="f ${wide?"wide":""}"><label>${lab}</label>`+
       (isTa? `<textarea data-k="${k}">${v}</textarea>` : `<input data-k="${k}" value="${v}">`)+`</div>`;
-  }).join("");
+  }).join("")
+  + `<div class="f wide"><label>多币种账号（填单时按单据币种自动取号）</label>
+       <div class="accBox">
+         <div class="hd"><b>账户列表</b><span>一个币种一行</span>
+           <button class="add" data-act="addacc">＋ 加一个币种</button></div>
+         <div id="accRows">${accRowsHTML(src)}</div>
+         <div class="tip">账号在 POCIB「我的资金 → 账户列表」里逐个查。本币那一行保存时会同步到上方「本币账号」；
+             境外汇款申请书、境内汇款申请书会按汇款币种自动选号，档案里没有该币种就提示你去查，不会拿别的币种顶替。</div>
+       </div></div>`;
   $("coMask").classList.add("on");
 }
 function collectCo(){
   const o={};
   $("coForm").querySelectorAll("[data-k]").forEach(el=>o[el.dataset.k]=el.value.trim());
+  const accs={};
+  $("coForm").querySelectorAll(".accRow").forEach(r=>{
+    const cur=(r.querySelector("[data-acc]")||{}).value||"";
+    const no=((r.querySelector("[data-accno]")||{}).value||"").trim();
+    if(cur && no) accs[cur]=no;
+  });
+  o.accts=accs;
+  const k=normUnit(o.currency);
+  if(k && accs[k]) o.account_no=accs[k];        // 本币那行反向同步
   return o;
 }
 function applyCo(obj){
@@ -2076,6 +2165,20 @@ $("coCancel").onclick=()=>$("coMask").classList.remove("on");
 $("coSave").onclick=()=>saveCo(false);
 $("coAsNew").onclick=()=>saveCo(true);
 $("coDel").onclick=delCo;
+/* 多币种账号行：加 / 删 */
+$("coForm").addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]"); if(!b) return;
+  e.preventDefault();
+  const box=$("accRows");
+  if(b.dataset.act==="addacc"){
+    box.insertAdjacentHTML("beforeend", accRowHTML("",""));
+    const last=box.lastElementChild;
+    if(last){ const s=last.querySelector("[data-acc]"); if(s) s.focus(); }
+  }else if(b.dataset.act==="delacc"){
+    const r=b.closest(".accRow"); if(r) r.remove();
+    if(!box.querySelector(".accRow")) box.innerHTML=accRowsHTML({});
+  }
+});
 $("coMask").onclick=e=>{ if(e.target.id==="coMask") $("coMask").classList.remove("on"); };
 $("fields").onclick=(e)=>{
   const td=e.target.closest("td.v"); if(!td) return;
