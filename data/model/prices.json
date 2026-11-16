@@ -1,0 +1,6591 @@
+{
+ "俄罗斯": {
+  "market": {
+   "01001": {
+    "name": "洋菇罐头(整粒)",
+    "price": 520.0,
+    "cur": "RUB",
+    "max": "2000 CARTON",
+    "daily": "1000 CARTON"
+   },
+   "01002": {
+    "name": "豪门伯爵茶",
+    "price": 1202.5,
+    "cur": "RUB",
+    "max": "20000 TIN",
+    "daily": "10000 TIN"
+   },
+   "01003": {
+    "name": "英国早餐茶",
+    "price": 323.7,
+    "cur": "RUB",
+    "max": "50000 TIN",
+    "daily": "25000 TIN"
+   },
+   "01004": {
+    "name": "茉莉绿茶",
+    "price": 235.3,
+    "cur": "RUB",
+    "max": "70000 BOX",
+    "daily": "35000 BOX"
+   },
+   "01005": {
+    "name": "玉米笋罐头",
+    "price": 391.95,
+    "cur": "RUB",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01006": {
+    "name": "荔枝罐头",
+    "price": 429.3,
+    "cur": "RUB",
+    "max": "20000 CARTON",
+    "daily": "10000 CARTON"
+   },
+   "01007": {
+    "name": "龙眼罐头",
+    "price": 302.9,
+    "cur": "RUB",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "02005": {
+    "name": "玄式睡衣，",
+    "price": 293.14,
+    "cur": "RUB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "04001": {
+    "name": "木制茶具",
+    "price": 625.56,
+    "cur": "RUB",
+    "max": "20000 SET",
+    "daily": "10000 SET"
+   },
+   "04002": {
+    "name": "雕-面县",
+    "price": 585.0,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04003": {
+    "name": "本雕-娃娃",
+    "price": 1014.16,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04004": {
+    "name": "木雕少女",
+    "price": 994.5,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04005": {
+    "name": "本雕头像",
+    "price": 760.5,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04006": {
+    "name": "虫式木雕壁挂",
+    "price": 184.6,
+    "cur": "RUB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04010": {
+    "name": "木雕工艺品",
+    "price": 250.25,
+    "cur": "RUB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "04011": {
+    "name": "俄罗斯套娃",
+    "price": 260.0,
+    "cur": "RUB",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "05006": {
+    "name": "",
+    "price": 28.83,
+    "cur": "RUB",
+    "max": "200000 PC",
+    "daily": "100000 PC"
+   },
+   "05010": {
+    "name": "开瓶器",
+    "price": 1430.0,
+    "cur": "RUB",
+    "max": "4000 BOX",
+    "daily": "2000 BOX"
+   },
+   "05011": {
+    "name": "两用扳毛",
+    "price": 1118.83,
+    "cur": "RUB",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "05002": {
+    "name": "手锯",
+    "price": 185.9,
+    "cur": "RUB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "05003": {
+    "name": "餐刀",
+    "price": 1495.0,
+    "cur": "RUB",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "05012": {
+    "name": "轴承",
+    "price": 11570.21,
+    "cur": "RUB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "05013": {
+    "name": "切格瓦拉烟盒",
+    "price": 7800.52,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "06001": {
+    "name": "香薰蜡烛",
+    "price": 1885.0,
+    "cur": "RUB",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "06002": {
+    "name": "环保涂料",
+    "price": 1108.91,
+    "cur": "RUB",
+    "max": "14000 DRUM",
+    "daily": "7000 DRUM"
+   },
+   "08001": {
+    "name": "儿童踏板车",
+    "price": 707.85,
+    "cur": "RUB",
+    "max": "20000 UNIT",
+    "daily": "10000 UNIT"
+   },
+   "08002": {
+    "name": "长毛绒熊猫",
+    "price": 1009.19,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "08003": {
+    "name": "玩具娃娃",
+    "price": 676.0,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "08007": {
+    "name": "儿童学步车",
+    "price": 988.0,
+    "cur": "RUB",
+    "max": "8000 UNIT",
+    "daily": "4000 unit"
+   },
+   "08009": {
+    "name": "袋鼠玩偶",
+    "price": 1687.4,
+    "cur": "RUB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "08010": {
+    "name": "电子琴玩县",
+    "price": 1378.0,
+    "cur": "RUB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "08011": {
+    "name": "排球",
+    "price": 650.0,
+    "cur": "RUB",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "09001": {
+    "name": "太阻眼镜",
+    "price": 157.3,
+    "cur": "RUB",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "09006": {
+    "name": "潜水用眼镜",
+    "price": 152.36,
+    "cur": "RUB",
+    "max": "100000 SET",
+    "daily": "50000 SET"
+   },
+   "09007": {
+    "name": "夜视望远镜",
+    "price": 871.0,
+    "cur": "RUB",
+    "max": "16000 PC",
+    "daily": "8000 PC"
+   },
+   "09008": {
+    "name": "心电图机",
+    "price": 49270.0,
+    "cur": "RUB",
+    "max": "100 SET",
+    "daily": "50 SET"
+   },
+   "10001": {
+    "name": "口红",
+    "price": 257.97,
+    "cur": "RUB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10003": {
+    "name": "睫毛膏",
+    "price": 289.25,
+    "cur": "RUB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10008": {
+    "name": "液体唇彩",
+    "price": 377.23,
+    "cur": "RUB",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "10009": {
+    "name": "散粉",
+    "price": 700.73,
+    "cur": "RUB",
+    "max": "20000 BOX",
+    "daily": "10000 BOX"
+   },
+   "10010": {
+    "name": "指甲油",
+    "price": 586.31,
+    "cur": "RUB",
+    "max": "20000 BOTTLE",
+    "daily": "10000 BOTTLE"
+   },
+   "10011": {
+    "name": "假发",
+    "price": 325.0,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "11001": {
+    "name": "4寸2路喇",
+    "price": 389.28,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "11010": {
+    "name": "6x9寸4路喇",
+    "price": 1055.87,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "12001": {
+    "name": "青花瓷餐具套装",
+    "price": 4304.3,
+    "cur": "RUB",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "12002": {
+    "name": "骨瓷餐具套装",
+    "price": 1690.57,
+    "cur": "RUB",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12006": {
+    "name": "10寸鱼盘",
+    "price": 68.64,
+    "cur": "RUB",
+    "max": "100000 UNIT",
+    "daily": "50000"
+   },
+   "12004": {
+    "name": "西式骨瓷午茶组",
+    "price": 1261.0,
+    "cur": "RUB",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12005": {
+    "name": "7头茶县",
+    "price": 2600.0,
+    "cur": "RUB",
+    "max": "6000 SET",
+    "daily": "3000 SET"
+   },
+   "14009": {
+    "name": "",
+    "price": 923.0,
+    "cur": "RUB",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "14010": {
+    "name": "洗手液",
+    "price": 429.0,
+    "cur": "RUB",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "15001": {
+    "name": "手提包",
+    "price": 1138.68,
+    "cur": "RUB",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "15002": {
+    "name": "双肩背包",
+    "price": 148.2,
+    "cur": "RUB",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "16008": {
+    "name": "竹帘",
+    "price": 1787.63,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "16009": {
+    "name": "竹杯垫",
+    "price": 38.87,
+    "cur": "RUB",
+    "max": "300000 PC",
+    "daily": "150000 PC"
+   },
+   "17001": {
+    "name": "床单",
+    "price": 183.3,
+    "cur": "RUB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "17002": {
+    "name": "手工地毯",
+    "price": 19164.6,
+    "cur": "RUB",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "17009": {
+    "name": "",
+    "price": 341.57,
+    "cur": "RUB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "17010": {
+    "name": "沙滩虫",
+    "price": 466.24,
+    "cur": "RUB",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "18009": {
+    "name": "充气垫",
+    "price": 1150.63,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "19001": {
+    "name": "男士商务皮鞋",
+    "price": 2210.0,
+    "cur": "RUB",
+    "max": "5000 PAIR",
+    "daily": "2500 PAIR"
+   },
+   "19006": {
+    "name": "女士皮凉鞋",
+    "price": 1204.23,
+    "cur": "RUB",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "19009": {
+    "name": "真皮宝宝鞋",
+    "price": 715.0,
+    "cur": "RUB",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "19010": {
+    "name": "羊皮女靴",
+    "price": 4862.0,
+    "cur": "RUB",
+    "max": "4000 PAIR",
+    "daily": "2000 PAIR"
+   },
+   "18001": {
+    "name": "遮阳篷",
+    "price": 1024.35,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "18006": {
+    "name": "睡袋",
+    "price": 2081.17,
+    "cur": "RUB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "20001": {
+    "name": "二乙醇胺",
+    "price": 8086.0,
+    "cur": "RUB",
+    "max": "2000 DRUM",
+    "daily": "1000 DRUM"
+   },
+   "20004": {
+    "name": "对苯二甲酸二甲酯",
+    "price": 3419.0,
+    "cur": "RUB",
+    "max": "6000 BAG",
+    "daily": "3000 BAG"
+   },
+   "20005": {
+    "name": "1,1,1-三羟甲基丙烷",
+    "price": 2594.24,
+    "cur": "RUB",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "21001": {
+    "name": "磺胺氯嗪钠",
+    "price": 1560.0,
+    "cur": "RUB",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22002": {
+    "name": "单体速冻黑加仑",
+    "price": 42250.0,
+    "cur": "RUB",
+    "max": "500 MT",
+    "daily": "250 MT"
+   },
+   "22003": {
+    "name": "速冻绿色哈密瓜球",
+    "price": 133569.8,
+    "cur": "RUB",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22009": {
+    "name": "冷冻生肉",
+    "price": 391101.1,
+    "cur": "RUB",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "23001": {
+    "name": "原蔗糖",
+    "price": 28015.0,
+    "cur": "RUB",
+    "max": "700 MT",
+    "daily": "350 MT"
+   },
+   "23003": {
+    "name": "四两咖啡咖啡豆 巴西咖啡(全咖啡豆城市烘焙) 城市烘焙1",
+    "price": 845.39,
+    "cur": "RUB",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "23004": {
+    "name": "巴西咖啡(全咖啡豆，意式烘焙)",
+    "price": 520.0,
+    "cur": "RUB",
+    "max": "30000 BAG",
+    "daily": "15000 BAG"
+   },
+   "23005": {
+    "name": "优质巴西黄豆",
+    "price": 12748.89,
+    "cur": "RUB",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23006": {
+    "name": "标准白小麦",
+    "price": 33020.0,
+    "cur": "RUB",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23007": {
+    "name": "优质硬白麦",
+    "price": 37440.99,
+    "cur": "RUB",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23008": {
+    "name": "优质杜伦麦",
+    "price": 13650.0,
+    "cur": "RUB",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "24004": {
+    "name": "订制版雪范",
+    "price": 22100.0,
+    "cur": "RUB",
+    "max": "6000 BOX",
+    "daily": "3000 BOX"
+   },
+   "25001": {
+    "name": "24K黄金戒指",
+    "price": 7033.0,
+    "cur": "RUB",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25002": {
+    "name": "24K黄金项链",
+    "price": 11791.74,
+    "cur": "RUB",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25003": {
+    "name": "24K黄金摆件",
+    "price": 1567.25,
+    "cur": "RUB",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "25004": {
+    "name": "18K白金吊坠",
+    "price": 6136.1,
+    "cur": "RUB",
+    "max": "2500 PC",
+    "daily": "1250 PC"
+   },
+   "25005": {
+    "name": "18K白金耳环",
+    "price": 12610.0,
+    "cur": "RUB",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25006": {
+    "name": "18K吊坠项链",
+    "price": 62517.0,
+    "cur": "RUB",
+    "max": "250 PC",
+    "daily": "125 PC"
+   },
+   "25007": {
+    "name": "18K金嵌宝石手链",
+    "price": 13000.61,
+    "cur": "RUB",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25008": {
+    "name": "925银戒指",
+    "price": 2411.77,
+    "cur": "RUB",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25009": {
+    "name": "宝宝银手镯",
+    "price": 1236.83,
+    "cur": "RUB",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "25010": {
+    "name": "925纯银耳环",
+    "price": 2104.91,
+    "cur": "RUB",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25011": {
+    "name": "绿松石手镯",
+    "price": 14690.0,
+    "cur": "RUB",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25012": {
+    "name": "红宝石黄金戒指",
+    "price": 113924.36,
+    "cur": "RUB",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25014": {
+    "name": "盗送谷黄金戒殖*",
+    "price": 18330.0,
+    "cur": "RUB",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "25017": {
+    "name": "镶绿松石纯银顶链",
+    "price": 8716.5,
+    "cur": "RUB",
+    "max": "1600 PC",
+    "daily": "800 PC"
+   },
+   "25018": {
+    "name": "18K白金天然珍珠耳钉",
+    "price": 12350.0,
+    "cur": "RUB",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "26005": {
+    "name": "微波炉",
+    "price": 2184.0,
+    "cur": "RUB",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "26006": {
+    "name": "德国咖啡机",
+    "price": 3380.0,
+    "cur": "RUB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "26007": {
+    "name": "德国滤水壶",
+    "price": 2216.5,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "27001": {
+    "name": "健康电子烟",
+    "price": 247.7,
+    "cur": "RUB",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "27002": {
+    "name": "数码相机",
+    "price": 4225.0,
+    "cur": "RUB",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "27003": {
+    "name": "数码相框",
+    "price": 1144.0,
+    "cur": "RUB",
+    "max": "13000 PC",
+    "daily": "6500 PC"
+   },
+   "28001": {
+    "name": "轮毂",
+    "price": 1495.0,
+    "cur": "RUB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "28002": {
+    "name": "转向柱",
+    "price": 1890.2,
+    "cur": "RUB",
+    "max": "4800 PC",
+    "daily": "2400 PC"
+   },
+   "29001": {
+    "name": "山地车",
+    "price": 6370.0,
+    "cur": "RUB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "30001": {
+    "name": "裸钻",
+    "price": 44200.0,
+    "cur": "RUB",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "31001": {
+    "name": "钻石戒指",
+    "price": 72800.0,
+    "cur": "RUB",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "31002": {
+    "name": "钻石耳钉",
+    "price": 17225.22,
+    "cur": "RUB",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "31003": {
+    "name": "18K黄金钻石戒指",
+    "price": 13247.98,
+    "cur": "RUB",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "32003": {
+    "name": "翡翠玉镯",
+    "price": 7410.57,
+    "cur": "RUB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32004": {
+    "name": "",
+    "price": 93724.41,
+    "cur": "RUB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32006": {
+    "name": "珍珠手链",
+    "price": 31902.0,
+    "cur": "RUB",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "32001": {
+    "name": "黄翡茶壶",
+    "price": 132756.0,
+    "cur": "RUB",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "32005": {
+    "name": "玉白菜摆性",
+    "price": 196300.13,
+    "cur": "RUB",
+    "max": "60 PC",
+    "daily": "30 PC"
+   },
+   "32007": {
+    "name": "巴西天然紫水晶摆性",
+    "price": 13000.0,
+    "cur": "RUB",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "32008": {
+    "name": "琥珀吊坠",
+    "price": 10400.0,
+    "cur": "RUB",
+    "max": "1400 PC",
+    "daily": "700 PC"
+   },
+   "33001": {
+    "name": "布谷鸟钟",
+    "price": 7280.0,
+    "cur": "RUB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "33002": {
+    "name": "男士机械表",
+    "price": 68419.78,
+    "cur": "RUB",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "34002": {
+    "name": "蓝莓",
+    "price": 268541.0,
+    "cur": "RUB",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "35001": {
+    "name": "儿童汽车安全座椅",
+    "price": 14170.0,
+    "cur": "RUB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "36001": {
+    "name": "中国结",
+    "price": 39.03,
+    "cur": "RUB",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "36002": {
+    "name": "虫国油纸伞",
+    "price": 1345.5,
+    "cur": "RUB",
+    "max": "12000 PC",
+    "daily": "6000 PC"
+   },
+   "38002": {
+    "name": "",
+    "price": 208.31,
+    "cur": "RUB",
+    "max": "68000 CARTON",
+    "daily": "34000 CARTON"
+   },
+   "38003": {
+    "name": "菠菱",
+    "price": 260.0,
+    "cur": "RUB",
+    "max": "44000 CARTON",
+    "daily": "22000 CARTON"
+   },
+   "38004": {
+    "name": "柑橘",
+    "price": 676.0,
+    "cur": "RUB",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "38005": {
+    "name": "红西柚",
+    "price": 864.5,
+    "cur": "RUB",
+    "max": "60000 BOX",
+    "daily": "30000 # BOX"
+   },
+   "39001": {
+    "name": "巴西蜂胶",
+    "price": 278.63,
+    "cur": "RUB",
+    "max": "18000 BOTTLE",
+    "daily": "9000 BOTTLE"
+   },
+   "39002": {
+    "name": "深海鱼油",
+    "price": 487.5,
+    "cur": "RUB",
+    "max": "42000 BOTTLE",
+    "daily": "21000 BOTTLE"
+   },
+   "40001": {
+    "name": "7号电池",
+    "price": 1066.0,
+    "cur": "RUB",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   },
+   "40002": {
+    "name": "18650锂电池",
+    "price": 53.2,
+    "cur": "RUB",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "41001": {
+    "name": "绵羊油面霜",
+    "price": 93.6,
+    "cur": "RUB",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "41002": {
+    "name": "芦荟胶",
+    "price": 186.08,
+    "cur": "RUB",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "41003": {
+    "name": "特效润肤乳",
+    "price": 203.45,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "42001": {
+    "name": "日本防贴",
+    "price": 97.89,
+    "cur": "RUB",
+    "max": "80000 BAG",
+    "daily": "40000 BAG"
+   },
+   "43001": {
+    "name": "铬矿砂",
+    "price": 25152.4,
+    "cur": "RUB",
+    "max": "1400 MT",
+    "daily": "700 MT"
+   },
+   "44001": {
+    "name": "芭蕾水钻摆件",
+    "price": 4160.0,
+    "cur": "RUB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "45001": {
+    "name": "男子足球鞋",
+    "price": 1690.0,
+    "cur": "RUB",
+    "max": "6000 PAIR",
+    "daily": "3000PAIR"
+   },
+   "46001": {
+    "name": "中国山水画",
+    "price": 1859.0,
+    "cur": "RUB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "47001": {
+    "name": "手风琴",
+    "price": 650.0,
+    "cur": "RUB",
+    "max": "7000PC",
+    "daily": "3500PC"
+   },
+   "48001": {
+    "name": "防护面罩",
+    "price": 260.0,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "49001": {
+    "name": "地球仪",
+    "price": 1703.0,
+    "cur": "RUB",
+    "max": "3000PC",
+    "daily": "1500 PC"
+   },
+   "50001": {
+    "name": "食用盐",
+    "price": 243.96,
+    "cur": "RUB",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "51001": {
+    "name": "味精",
+    "price": 833.44,
+    "cur": "RUB",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   }
+  },
+  "factory": {
+   "01011": {
+    "name": "蚕茄酱罐头",
+    "price": 2692.32,
+    "cur": "RUB",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "02001": {
+    "name": "男式睡衣",
+    "price": 137.21,
+    "cur": "RUB",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "02002": {
+    "name": "男式T血衫",
+    "price": 104.05,
+    "cur": "RUB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04011": {
+    "name": "俄罗斯套娃",
+    "price": 150.0,
+    "cur": "RUB",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "05002": {
+    "name": "手锯",
+    "price": 87.56,
+    "cur": "RUB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "05003": {
+    "name": "餐刀",
+    "price": 700.0,
+    "cur": "RUB",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "05006": {
+    "name": "刮胡",
+    "price": 19.2,
+    "cur": "RUB",
+    "max": "200000 PC",
+    "daily": "100000 PC"
+   },
+   "11001": {
+    "name": "4寸2路喇",
+    "price": 227.0,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "11010": {
+    "name": "6x9寸4路喇叭",
+    "price": 620.21,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "13001": {
+    "name": "折叠伞BLA5508",
+    "price": 68.5,
+    "cur": "RUB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "13008": {
+    "name": "沙滩太阳伞501A",
+    "price": 552.23,
+    "cur": "RUB",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "14001": {
+    "name": "香皇",
+    "price": 1000.0,
+    "cur": "RUB",
+    "max": "2000 BOX",
+    "daily": "1000 BOX"
+   },
+   "14010": {
+    "name": "洗手液",
+    "price": 200.0,
+    "cur": "RUB",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "15003": {
+    "name": "时尚单肩包",
+    "price": 292.0,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "15005": {
+    "name": "公文包",
+    "price": 413.71,
+    "cur": "RUB",
+    "max": "16000 PC",
+    "daily": "8000 PC"
+   },
+   "15009": {
+    "name": "旅行包",
+    "price": 379.24,
+    "cur": "RUB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "20005": {
+    "name": "1,1,1-三羟甲基丙烷",
+    "price": 900.0,
+    "cur": "RUB",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "21001": {
+    "name": "磺胺氯哒嗪钠",
+    "price": 780.0,
+    "cur": "RUB",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "23009": {
+    "name": "黄玉米",
+    "price": 32465.0,
+    "cur": "RUB",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "20001": {
+    "name": "二乙醇胺",
+    "price": 3845.32,
+    "cur": "RUB",
+    "max": "2000 DRUM",
+    "daily": "1000 DRUM"
+   },
+   "26001": {
+    "name": "STV牌彩色电视机",
+    "price": 10964.34,
+    "cur": "RUB",
+    "max": "720 SET",
+    "daily": "360 SET"
+   },
+   "26004": {
+    "name": "电饭煲",
+    "price": 5491.0,
+    "cur": "RUB",
+    "max": "8000 PC",
+    "daily": "4000"
+   },
+   "27001": {
+    "name": "健康电子烟",
+    "price": 160.36,
+    "cur": "RUB",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "31002": {
+    "name": "钻石耳钉",
+    "price": 7539.09,
+    "cur": "RUB",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "31003": {
+    "name": "18K黄金钻石戒指",
+    "price": 6176.24,
+    "cur": "RUB",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "32008": {
+    "name": "琥珀吊坠",
+    "price": 4500.0,
+    "cur": "RUB",
+    "max": "1400 PC",
+    "daily": "700 PC"
+   },
+   "40001": {
+    "name": "7号电池",
+    "price": 500.0,
+    "cur": "RUB",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   },
+   "44001": {
+    "name": "芭蕾水钻摆性",
+    "price": 3500.0,
+    "cur": "RUB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "45001": {
+    "name": "男子足球鞋",
+    "price": 800.0,
+    "cur": "RUB",
+    "max": "6000 PAIR",
+    "daily": "3000 PAIR"
+   },
+   "47001": {
+    "name": "手风琴",
+    "price": 305.0,
+    "cur": "RUB",
+    "max": "7000 PC",
+    "daily": "3500 PC"
+   },
+   "48001": {
+    "name": "防护面罩",
+    "price": 149.0,
+    "cur": "RUB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   }
+  }
+ },
+ "澳大利亚": {
+  "market": {
+   "01001": {
+    "name": "洋菇罐头(整粒)",
+    "price": 15.34,
+    "cur": "AUD",
+    "max": "2000 CARTON",
+    "daily": "1000 CARTON"
+   },
+   "01002": {
+    "name": "豪门伯爵茶",
+    "price": 39.0,
+    "cur": "AUD",
+    "max": "20000 TIN",
+    "daily": "10000 TIN"
+   },
+   "01003": {
+    "name": "英国早餐茶",
+    "price": 10.41,
+    "cur": "AUD",
+    "max": "50000 TIN",
+    "daily": "25000 TIN"
+   },
+   "01004": {
+    "name": "茉莉绿茶",
+    "price": 6.7,
+    "cur": "AUD",
+    "max": "70000 BOX",
+    "daily": "35000 BOX"
+   },
+   "01005": {
+    "name": "玉米笋罐头",
+    "price": 15.25,
+    "cur": "AUD",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01006": {
+    "name": "荔枝罐头",
+    "price": 18.43,
+    "cur": "AUD",
+    "max": "20000 CARTON",
+    "daily": "10000 CARTON"
+   },
+   "01007": {
+    "name": "龙眼罐头",
+    "price": 11.71,
+    "cur": "AUD",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "04002": {
+    "name": "",
+    "price": 19.51,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "16000 PC"
+   },
+   "04003": {
+    "name": "雕-娃娃",
+    "price": 32.92,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04004": {
+    "name": "雕少女",
+    "price": 31.33,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04005": {
+    "name": "本雕头像",
+    "price": 23.92,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04006": {
+    "name": "虫式木雕壁挂",
+    "price": 6.24,
+    "cur": "AUD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04010": {
+    "name": "木雕工艺品",
+    "price": 8.68,
+    "cur": "AUD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "05002": {
+    "name": "手锯",
+    "price": 5.68,
+    "cur": "AUD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "05003": {
+    "name": "餐刀",
+    "price": 49.4,
+    "cur": "AUD",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "05011": {
+    "name": "两用扳毛",
+    "price": 32.81,
+    "cur": "AUD",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "06002": {
+    "name": "",
+    "price": 22.11,
+    "cur": "AUD",
+    "max": "14000 ppim",
+    "daily": "Z000 ng1mm"
+   },
+   "09001": {
+    "name": "太阻眼镜",
+    "price": 5.12,
+    "cur": "AUD",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "09006": {
+    "name": "潜水用眼镜",
+    "price": 5.3,
+    "cur": "AUD",
+    "max": "100000 SET",
+    "daily": "50000 SET"
+   },
+   "10005": {
+    "name": "眼影",
+    "price": 8.84,
+    "cur": "AUD",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "10007": {
+    "name": "",
+    "price": 2.63,
+    "cur": "AUD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "10008": {
+    "name": "液体唇彩",
+    "price": 11.79,
+    "cur": "AUD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "10009": {
+    "name": "散粉",
+    "price": 23.26,
+    "cur": "AUD",
+    "max": "20000 BOX",
+    "daily": "10000 E BOX"
+   },
+   "10010": {
+    "name": "指甲油",
+    "price": 19.89,
+    "cur": "AUD",
+    "max": "20000 BOTTLE",
+    "daily": "10000 BOTTLE"
+   },
+   "10011": {
+    "name": "假发",
+    "price": 9.71,
+    "cur": "AUD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "11001": {
+    "name": "寸2路喇",
+    "price": 12.35,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "11010": {
+    "name": "6x9寸4路喇",
+    "price": 34.45,
+    "cur": "AUD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "12001": {
+    "name": "青花瓷餐具套装",
+    "price": 136.89,
+    "cur": "AUD",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "12002": {
+    "name": "骨瓷餐具套装",
+    "price": 55.25,
+    "cur": "AUD",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12004": {
+    "name": "西式骨瓷午茶组",
+    "price": 39.61,
+    "cur": "AUD",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12005": {
+    "name": "7头茶县",
+    "price": 82.32,
+    "cur": "AUD",
+    "max": "6000 SET",
+    "daily": "3000 SET"
+   },
+   "12006": {
+    "name": "10寸鱼盘",
+    "price": 2.27,
+    "cur": "AUD",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "14009": {
+    "name": "",
+    "price": 33.8,
+    "cur": "AUD",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "14010": {
+    "name": "洗手液",
+    "price": 14.17,
+    "cur": "AUD",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "15001": {
+    "name": "手提包",
+    "price": 34.06,
+    "cur": "AUD",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "15002": {
+    "name": "双肩背包",
+    "price": 5.34,
+    "cur": "AUD",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "16008": {
+    "name": "竹帘",
+    "price": 48.2,
+    "cur": "AUD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "16009": {
+    "name": "竹杯垫",
+    "price": 1.29,
+    "cur": "AUD",
+    "max": "300000 PC",
+    "daily": "150000 PC"
+   },
+   "17001": {
+    "name": "床单",
+    "price": 6.08,
+    "cur": "AUD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "17002": {
+    "name": "手工地毯",
+    "price": 822.11,
+    "cur": "AUD",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "17009": {
+    "name": "",
+    "price": 11.89,
+    "cur": "AUD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "17010": {
+    "name": "沙滩虫",
+    "price": 15.61,
+    "cur": "AUD",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "18001": {
+    "name": "遮阳",
+    "price": 35.11,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "18006": {
+    "name": "睡袋",
+    "price": 65.91,
+    "cur": "AUD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "18009": {
+    "name": "充气垫",
+    "price": 29.9,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "19001": {
+    "name": "男士商务皮鞋",
+    "price": 70.36,
+    "cur": "AUD",
+    "max": "5000 PAIR",
+    "daily": "2500 PAIR"
+   },
+   "19006": {
+    "name": "女士皮凉鞋",
+    "price": 40.82,
+    "cur": "AUD",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "19009": {
+    "name": "真皮宝宝鞋",
+    "price": 22.49,
+    "cur": "AUD",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "19010": {
+    "name": "羊皮女靴",
+    "price": 822.0,
+    "cur": "AUD",
+    "max": "4000 PAIR",
+    "daily": "2000 PAR"
+   },
+   "20001": {
+    "name": "二乙醇胺",
+    "price": 246.1,
+    "cur": "AUD",
+    "max": "2000 DRUM",
+    "daily": "1000 DRUM"
+   },
+   "20004": {
+    "name": "对苯二甲酸二甲酯",
+    "price": 124.15,
+    "cur": "AUD",
+    "max": "6000 BAG",
+    "daily": "3000 BAG"
+   },
+   "20005": {
+    "name": "1,1,1-三羟甲基丙烷",
+    "price": 119.6,
+    "cur": "AUD",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "21001": {
+    "name": "磺胺氯哒嗪钠",
+    "price": 52.65,
+    "cur": "AUD",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22002": {
+    "name": "单体速冻黑加仑",
+    "price": 1310.53,
+    "cur": "AUD",
+    "max": "500 MT",
+    "daily": "250 MT"
+   },
+   "22003": {
+    "name": "速冻绿色哈密瓜球",
+    "price": 4011.79,
+    "cur": "AUD",
+    "max": "400 MT",
+    "daily": "200"
+   },
+   "22009": {
+    "name": "冷冻生肉",
+    "price": 20639.27,
+    "cur": "AUD",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "23001": {
+    "name": "原蔗糖",
+    "price": 939.21,
+    "cur": "AUD",
+    "max": "700 MT",
+    "daily": "350 MT"
+   },
+   "23002": {
+    "name": "巴西咖啡(全咖啡豆,肉挂烘焙)",
+    "price": 37.7,
+    "cur": "AUD",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "23004": {
+    "name": "巴西咖啡(全咖啡豆意式烘焙）",
+    "price": 17.81,
+    "cur": "AUD",
+    "max": "30000 BAG",
+    "daily": "15000 BAG"
+   },
+   "23005": {
+    "name": "优质巴西黄豆",
+    "price": 431.86,
+    "cur": "AUD",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23008": {
+    "name": "优质杜伦麦",
+    "price": 1283.57,
+    "cur": "AUD",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23009": {
+    "name": "",
+    "price": 3691.0,
+    "cur": "AUD",
+    "max": "300JEvn",
+    "daily": "150"
+   },
+   "24004": {
+    "name": "订制版雪茄",
+    "price": 707.59,
+    "cur": "AUD",
+    "max": "6000 BOX",
+    "daily": "3000 BOX"
+   },
+   "25001": {
+    "name": "24K黄金戒指",
+    "price": 241.34,
+    "cur": "AUD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25002": {
+    "name": "24K黄金顶链",
+    "price": 362.3,
+    "cur": "AUD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25003": {
+    "name": "24K黄金摆",
+    "price": 52.26,
+    "cur": "AUD",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "25004": {
+    "name": "18K白金吊坠",
+    "price": 175.76,
+    "cur": "AUD",
+    "max": "2500 PC",
+    "daily": "1250 PC"
+   },
+   "25005": {
+    "name": "18K白金耳环",
+    "price": 448.68,
+    "cur": "AUD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25006": {
+    "name": "18K吊坠项链",
+    "price": 1976.0,
+    "cur": "AUD",
+    "max": "250 PC",
+    "daily": "125 PC"
+   },
+   "25007": {
+    "name": "18K金嵌宝石手链",
+    "price": 417.01,
+    "cur": "AUD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25008": {
+    "name": "925银戒指",
+    "price": 78.86,
+    "cur": "AUD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25009": {
+    "name": "宝宝银手镯",
+    "price": 42.21,
+    "cur": "AUD",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "25010": {
+    "name": "925纯银耳环",
+    "price": 60.58,
+    "cur": "AUD",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25011": {
+    "name": "绿松石手镯",
+    "price": 519.4,
+    "cur": "AUD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25012": {
+    "name": "红宝石黄金戒指",
+    "price": 3510.0,
+    "cur": "AUD",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25014": {
+    "name": "盗关谷黄金戒殖",
+    "price": 598.39,
+    "cur": "AUD",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "25015": {
+    "name": "14K黄金皮带扣",
+    "price": 1287.0,
+    "cur": "AUD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25016": {
+    "name": "14K白金钻戒",
+    "price": 3575.0,
+    "cur": "AUD",
+    "max": "160 PC",
+    "daily": "80 PC"
+   },
+   "25017": {
+    "name": "镶绿松石纯银顶链",
+    "price": 260.0,
+    "cur": "AUD",
+    "max": "1600 PC",
+    "daily": "800 PC"
+   },
+   "25018": {
+    "name": "18K白金天然珍珠耳钉",
+    "price": 850.71,
+    "cur": "AUD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "26005": {
+    "name": "微波炉",
+    "price": 78.91,
+    "cur": "AUD",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "26007": {
+    "name": "德国滤水吉 德国滤水壶",
+    "price": 71.03,
+    "cur": "AUD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "27001": {
+    "name": "健康电子烟",
+    "price": 8.06,
+    "cur": "AUD",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "27002": {
+    "name": "数码相机",
+    "price": 139.1,
+    "cur": "AUD",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "27003": {
+    "name": "数码相框",
+    "price": 39.91,
+    "cur": "AUD",
+    "max": "13000 PC",
+    "daily": "6500 PC"
+   },
+   "28001": {
+    "name": "轮毂",
+    "price": 56.94,
+    "cur": "AUD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "28002": {
+    "name": "转向柱",
+    "price": 78.51,
+    "cur": "AUD",
+    "max": "4800 PC",
+    "daily": "2400 PC"
+   },
+   "29001": {
+    "name": "山地车",
+    "price": 210.6,
+    "cur": "AUD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "30001": {
+    "name": "裸钻",
+    "price": 1384.5,
+    "cur": "AUD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "31001": {
+    "name": "钻石戒指",
+    "price": 2415.4,
+    "cur": "AUD",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "31002": {
+    "name": "钻石耳钉",
+    "price": 536.6,
+    "cur": "AUD",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "31003": {
+    "name": "18K黄金钻石戒指",
+    "price": 426.32,
+    "cur": "AUD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "32001": {
+    "name": "黄翡茶壶",
+    "price": 3236.61,
+    "cur": "AUD",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "32002": {
+    "name": "阳绿貔貅摆性",
+    "price": 5849.48,
+    "cur": "AUD",
+    "max": "150 PC",
+    "daily": "75 PC"
+   },
+   "32003": {
+    "name": "翡翠玉镯",
+    "price": 231.4,
+    "cur": "AUD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32004": {
+    "name": "",
+    "price": 3514.03,
+    "cur": "AUD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32005": {
+    "name": "玉白菜摆性",
+    "price": 8970.13,
+    "cur": "AUD",
+    "max": "60 PC",
+    "daily": "30 PC"
+   },
+   "32006": {
+    "name": "珍珠手链",
+    "price": 1171.17,
+    "cur": "AUD",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "32007": {
+    "name": "巴西天然紫水晶摆性",
+    "price": 468.39,
+    "cur": "AUD",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "32008": {
+    "name": "琥珀吊坠",
+    "price": 408.2,
+    "cur": "AUD",
+    "max": "1400 PC",
+    "daily": "700 PC"
+   },
+   "33001": {
+    "name": "布谷鸟钟",
+    "price": 244.4,
+    "cur": "AUD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "33002": {
+    "name": "男士机械表",
+    "price": 2184.78,
+    "cur": "AUD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "34002": {
+    "name": "蓝莓",
+    "price": 9685.0,
+    "cur": "AUD",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "35001": {
+    "name": "儿童汽车安全座椅",
+    "price": 505.7,
+    "cur": "AUD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "36001": {
+    "name": "中国结",
+    "price": 1.14,
+    "cur": "AUD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "36002": {
+    "name": "虫国油纸伞",
+    "price": 45.76,
+    "cur": "AUD",
+    "max": "12000 PC",
+    "daily": "6000 PC"
+   },
+   "37001": {
+    "name": "",
+    "price": 7.93,
+    "cur": "AUD",
+    "max": "66000 PC",
+    "daily": "33000 PC"
+   },
+   "38003": {
+    "name": "菠菱",
+    "price": 7.57,
+    "cur": "AUD",
+    "max": "44000 CARTON",
+    "daily": "22000 CARTON"
+   },
+   "38004": {
+    "name": "柑橘",
+    "price": 21.19,
+    "cur": "AUD",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "38005": {
+    "name": "红西柚",
+    "price": 27.43,
+    "cur": "AUD",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "39001": {
+    "name": "巴西蜂胶",
+    "price": 9.37,
+    "cur": "AUD",
+    "max": "18000 BOTTLE",
+    "daily": "9000 BOTTLE"
+   },
+   "39002": {
+    "name": "深海鱼油",
+    "price": 15.34,
+    "cur": "AUD",
+    "max": "42000 BOTTLE",
+    "daily": "21000 BOTTLE"
+   },
+   "40001": {
+    "name": "7号电池",
+    "price": 34.45,
+    "cur": "AUD",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   },
+   "40002": {
+    "name": "18650锂电池",
+    "price": 1.66,
+    "cur": "AUD",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "41001": {
+    "name": "绵羊油面霜",
+    "price": 2.34,
+    "cur": "AUD",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "41002": {
+    "name": "芦荟胶",
+    "price": 6.12,
+    "cur": "AUD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "41003": {
+    "name": "特效润肤乳",
+    "price": 6.76,
+    "cur": "AUD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "42001": {
+    "name": "且本防蚊贴",
+    "price": 3.12,
+    "cur": "AUD",
+    "max": "80000 BAG",
+    "daily": "40000 BAG"
+   },
+   "43001": {
+    "name": "铬矿砂",
+    "price": 799.5,
+    "cur": "AUD",
+    "max": "1400 MT",
+    "daily": "700 MT"
+   },
+   "44001": {
+    "name": "芭蓄水钻摆性",
+    "price": 273.0,
+    "cur": "AUD",
+    "max": "8000 PC",
+    "daily": "4000"
+   },
+   "47001": {
+    "name": "手风琴",
+    "price": 20.93,
+    "cur": "AUD",
+    "max": "7000 PC",
+    "daily": "3500 PC"
+   },
+   "48001": {
+    "name": "防护面罩",
+    "price": 8.76,
+    "cur": "AUD",
+    "max": "10000PC",
+    "daily": "5000 PC"
+   },
+   "49001": {
+    "name": "地球仪",
+    "price": 52.26,
+    "cur": "AUD",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "50001": {
+    "name": "食用盐",
+    "price": 7.81,
+    "cur": "AUD",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "51001": {
+    "name": "味精",
+    "price": 29.64,
+    "cur": "AUD",
+    "max": "6000BAG",
+    "daily": "3000 BAG"
+   }
+  },
+  "factory": {
+   "01006": {
+    "name": "荔枝罐头",
+    "price": 10.3,
+    "cur": "AUD",
+    "max": "20000 CARTON",
+    "daily": "10000 CARTON"
+   },
+   "01017": {
+    "name": "成人奶粉",
+    "price": 250.21,
+    "cur": "AUD",
+    "max": "1400 CARTON",
+    "daily": "700 CARTON"
+   },
+   "01021": {
+    "name": "生奶",
+    "price": 25.8,
+    "cur": "AUD",
+    "max": "16000 CARTON",
+    "daily": "8000 CARTON"
+   },
+   "02001": {
+    "name": "男式睡衣",
+    "price": 4.5,
+    "cur": "AUD",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "02002": {
+    "name": "男式T恤衫",
+    "price": 3.15,
+    "cur": "AUD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "02003": {
+    "name": "棉制针织女童套头衫",
+    "price": 3.11,
+    "cur": "AUD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "02004": {
+    "name": "女式开襟羊毛衫",
+    "price": 6.5,
+    "cur": "AUD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "02010": {
+    "name": "男式开襟羊毛衫",
+    "price": 7.73,
+    "cur": "AUD",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "06001": {
+    "name": "香堇蜡烛",
+    "price": 28.1,
+    "cur": "AUD",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "07010": {
+    "name": "床头灯",
+    "price": 6.01,
+    "cur": "AUD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "08001": {
+    "name": "儿童踏板车",
+    "price": 13.91,
+    "cur": "AUD",
+    "max": "20000 UNIT",
+    "daily": "10000 UNIT"
+   },
+   "08007": {
+    "name": "儿童学步车",
+    "price": 14.51,
+    "cur": "AUD",
+    "max": "8000 UNIT",
+    "daily": "4000"
+   },
+   "08008": {
+    "name": "婴儿推车",
+    "price": 14.69,
+    "cur": "AUD",
+    "max": "15000 UNIT",
+    "daily": "7500 UNIT"
+   },
+   "17002": {
+    "name": "手工地毯",
+    "price": 338.51,
+    "cur": "AUD",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "17009": {
+    "name": "",
+    "price": 7.54,
+    "cur": "AUD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "17010": {
+    "name": "沙滩巾",
+    "price": 9.84,
+    "cur": "AUD",
+    "max": "30000 PC",
+    "daily": "15000 # PC"
+   },
+   "18001": {
+    "name": "遮阳篷",
+    "price": 17.0,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "18006": {
+    "name": "睡袋",
+    "price": 41.0,
+    "cur": "AUD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "18009": {
+    "name": "充气垫",
+    "price": 20.99,
+    "cur": "AUD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "19010": {
+    "name": "羊皮女靴",
+    "price": 76.36,
+    "cur": "AUD",
+    "max": "4000 PAIR",
+    "daily": "2000 PAIR"
+   },
+   "21001": {
+    "name": "磺胺氨嗪钠",
+    "price": 23.0,
+    "cur": "AUD",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22005": {
+    "name": "速冻草莓",
+    "price": 350.0,
+    "cur": "AUD",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "22009": {
+    "name": "冷冻生肉",
+    "price": 6312.23,
+    "cur": "AUD",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "23006": {
+    "name": "标准白小麦",
+    "price": 415.5,
+    "cur": "AUD",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23007": {
+    "name": "优质硬白麦",
+    "price": 517.45,
+    "cur": "AUD",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23008": {
+    "name": "优质杜伦麦",
+    "price": 118.5,
+    "cur": "AUD",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "25001": {
+    "name": "24K黄金戒指",
+    "price": 112.2,
+    "cur": "AUD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25006": {
+    "name": "18K吊坠项链",
+    "price": 960.3,
+    "cur": "AUD",
+    "max": "250 PC",
+    "daily": "125 PC"
+   },
+   "25008": {
+    "name": "925银戒指",
+    "price": 35.7,
+    "cur": "AUD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25018": {
+    "name": "18K白金天然珍珠耳钉",
+    "price": 155.0,
+    "cur": "AUD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "28002": {
+    "name": "转向柱",
+    "price": 33.02,
+    "cur": "AUD",
+    "max": "4800 PC",
+    "daily": "2400 PC"
+   },
+   "32006": {
+    "name": "珍珠手链",
+    "price": 478.47,
+    "cur": "AUD",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "40002": {
+    "name": "18650锂电池",
+    "price": 0.97,
+    "cur": "AUD",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "41001": {
+    "name": "绵羊油面霜",
+    "price": 1.31,
+    "cur": "AUD",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   }
+  }
+ },
+ "RMB": {
+  "market": {
+   "01001": {
+    "name": "洋菇罐头(整粒)",
+    "price": 117.88,
+    "cur": "RMB",
+    "max": "2000 CARTON",
+    "daily": "1000 CARTON"
+   },
+   "01002": {
+    "name": "豪门伯爵茶",
+    "price": 259.12,
+    "cur": "RMB",
+    "max": "20000 TIN",
+    "daily": "10000 TIN"
+   },
+   "01003": {
+    "name": "英国早餐茶",
+    "price": 68.89,
+    "cur": "RMB",
+    "max": "50000 TIN",
+    "daily": "25000 TIN"
+   },
+   "01004": {
+    "name": "茉莉绿茶",
+    "price": 130.0,
+    "cur": "RMB",
+    "max": "70000 BOX",
+    "daily": "35000 BOX"
+   },
+   "01005": {
+    "name": "玉米笋罐头",
+    "price": 105.46,
+    "cur": "RMB",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01006": {
+    "name": "荔枝罐头",
+    "price": 132.6,
+    "cur": "RMB",
+    "max": "20000 CARTON",
+    "daily": "10000 CARTON"
+   },
+   "01007": {
+    "name": "龙眼罐头",
+    "price": 75.56,
+    "cur": "RMB",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "02005": {
+    "name": "玄式睡衣，",
+    "price": 63.71,
+    "cur": "RMB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "04001": {
+    "name": "木制茶县",
+    "price": 132.6,
+    "cur": "RMB",
+    "max": "20000 SET",
+    "daily": "10000 SET"
+   },
+   "04002": {
+    "name": "雕-面县",
+    "price": 128.05,
+    "cur": "RMB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04003": {
+    "name": "本雕-娃娃",
+    "price": 221.0,
+    "cur": "RMB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04004": {
+    "name": "木雕少女",
+    "price": 208.16,
+    "cur": "RMB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04005": {
+    "name": "本雕头像",
+    "price": 157.2,
+    "cur": "RMB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04006": {
+    "name": "虫式木雕壁挂",
+    "price": 163.8,
+    "cur": "RMB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04010": {
+    "name": "木雕工艺品",
+    "price": 163.8,
+    "cur": "RMB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "04011": {
+    "name": "俄罗斯套娃",
+    "price": 58.5,
+    "cur": "RMB",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "05006": {
+    "name": "",
+    "price": 7.8,
+    "cur": "RMB",
+    "max": "200000 PC",
+    "daily": "100000 PC"
+   },
+   "05010": {
+    "name": "开瓶器",
+    "price": 325.0,
+    "cur": "RMB",
+    "max": "4000 BOX",
+    "daily": "2000 BOX"
+   },
+   "05011": {
+    "name": "两用扳毛",
+    "price": 222.35,
+    "cur": "RMB",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "06002": {
+    "name": "",
+    "price": 264.19,
+    "cur": "RMB",
+    "max": "14000 ppim",
+    "daily": "Z000"
+   },
+   "09001": {
+    "name": "太阻眼镜",
+    "price": 36.27,
+    "cur": "RMB",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "09006": {
+    "name": "潜水用眼镜",
+    "price": 33.28,
+    "cur": "RMB",
+    "max": "100000 SET",
+    "daily": "50000 SET"
+   },
+   "10005": {
+    "name": "眼影",
+    "price": 59.41,
+    "cur": "RMB",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "10007": {
+    "name": "",
+    "price": 18.86,
+    "cur": "RMB",
+    "max": "100000 PC",
+    "daily": "50000F PC"
+   },
+   "10008": {
+    "name": "液体唇彩",
+    "price": 84.6,
+    "cur": "RMB",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "10009": {
+    "name": "散粉",
+    "price": 154.18,
+    "cur": "RMB",
+    "max": "20000 BOX",
+    "daily": "10000 BOX"
+   },
+   "10010": {
+    "name": "指甲油",
+    "price": 132.6,
+    "cur": "RMB",
+    "max": "20000 BOTTLE",
+    "daily": "10000 BOTTLE"
+   },
+   "10011": {
+    "name": "假发",
+    "price": 63.05,
+    "cur": "RMB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "11001": {
+    "name": "4寸2路喇",
+    "price": 88.66,
+    "cur": "RMB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "11010": {
+    "name": "6x9寸4路喇",
+    "price": 184.73,
+    "cur": "RMB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "12001": {
+    "name": "青花瓷餐具套装",
+    "price": 1872.0,
+    "cur": "RMB",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "12002": {
+    "name": "骨瓷餐具套装",
+    "price": 396.54,
+    "cur": "RMB",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12004": {
+    "name": "西式骨瓷午茶组",
+    "price": 261.3,
+    "cur": "RMB",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12005": {
+    "name": "7头茶县",
+    "price": 1248.0,
+    "cur": "RMB",
+    "max": "6000 SET",
+    "daily": "3000 SET"
+   },
+   "12006": {
+    "name": "10寸鱼盘",
+    "price": 27.3,
+    "cur": "RMB",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "14009": {
+    "name": "",
+    "price": 240.5,
+    "cur": "RMB",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "14010": {
+    "name": "洗手液",
+    "price": 97.5,
+    "cur": "RMB",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "15001": {
+    "name": "手提包",
+    "price": 265.85,
+    "cur": "RMB",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "15002": {
+    "name": "双肩背包",
+    "price": 36.66,
+    "cur": "RMB",
+    "max": "15000 PC",
+    "daily": "7500 C"
+   },
+   "16008": {
+    "name": "竹帘",
+    "price": 287.31,
+    "cur": "RMB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "16009": {
+    "name": "竹杯垫",
+    "price": 8.38,
+    "cur": "RMB",
+    "max": "300000 PC",
+    "daily": "150000 PC"
+   },
+   "17001": {
+    "name": "床单",
+    "price": 41.76,
+    "cur": "RMB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "17002": {
+    "name": "手工地毯",
+    "price": 4013.1,
+    "cur": "RMB",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "17009": {
+    "name": "",
+    "price": 78.45,
+    "cur": "RMB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "17010": {
+    "name": "沙滩虫",
+    "price": 117.27,
+    "cur": "RMB",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "18001": {
+    "name": "遮阳篷",
+    "price": 205.61,
+    "cur": "RMB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "18006": {
+    "name": "睡袋",
+    "price": 438.13,
+    "cur": "RMB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "18009": {
+    "name": "充气垫",
+    "price": 248.75,
+    "cur": "RMB",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "19009": {
+    "name": "真皮宝宝鞋",
+    "price": 155.03,
+    "cur": "RMB",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "19010": {
+    "name": "羊皮女靴",
+    "price": 975.0,
+    "cur": "RMB",
+    "max": "4000 PAIR",
+    "daily": "2000 PAIR"
+   },
+   "19001": {
+    "name": "男士商务皮鞋",
+    "price": 497.73,
+    "cur": "RMB",
+    "max": "5000 PAIR",
+    "daily": "2500 PAIR"
+   },
+   "19006": {
+    "name": "女士皮凉鞋",
+    "price": 279.95,
+    "cur": "RMB",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "20001": {
+    "name": "乙醇胺",
+    "price": 1588.6,
+    "cur": "RMB",
+    "max": "2000 DRUM",
+    "daily": "1000 DRUM"
+   },
+   "20004": {
+    "name": "对苯二甲酸二甲酯",
+    "price": 894.46,
+    "cur": "RMB",
+    "max": "6000 BAG",
+    "daily": "3000 BAG"
+   },
+   "20005": {
+    "name": "11,1-三羟甲基丙烷",
+    "price": 816.53,
+    "cur": "RMB",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "21001": {
+    "name": "磺胺氯嗪钠",
+    "price": 316.03,
+    "cur": "RMB",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22002": {
+    "name": "单体速冻黑加仑",
+    "price": 11830.0,
+    "cur": "RMB",
+    "max": "500 MT",
+    "daily": "250 MT"
+   },
+   "22003": {
+    "name": "速冻绿色哈密瓜球",
+    "price": 17178.55,
+    "cur": "RMB",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22009": {
+    "name": "冷冻生肉",
+    "price": 86255.0,
+    "cur": "RMB",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "23001": {
+    "name": "原蔗糖",
+    "price": 7102.63,
+    "cur": "RMB",
+    "max": "700 MT",
+    "daily": "350 MT"
+   },
+   "23002": {
+    "name": "巴西咖啡(全咖啡豆，肉挂烘焙)",
+    "price": 273.78,
+    "cur": "RMB",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "23003": {
+    "name": "巴西咖啡(全咖啡豆,城市烘焙)",
+    "price": 186.55,
+    "cur": "RMB",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "23006": {
+    "name": "标准白小麦",
+    "price": 6584.5,
+    "cur": "RMB",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23007": {
+    "name": "优质硬白麦",
+    "price": 8054.2,
+    "cur": "RMB",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23008": {
+    "name": "优质杜伦麦",
+    "price": 2730.0,
+    "cur": "RMB",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23009": {
+    "name": "黄玉米",
+    "price": 24713.0,
+    "cur": "RMB",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "23010": {
+    "name": "优质巴西黑豆",
+    "price": 12593.49,
+    "cur": "RMB",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23011": {
+    "name": "日本大米",
+    "price": 362.7,
+    "cur": "RMB",
+    "max": "14000 BAG",
+    "daily": "7000 BAG"
+   },
+   "24001": {
+    "name": "纪念版雪",
+    "price": 5089.5,
+    "cur": "RMB",
+    "max": "2000 BOX",
+    "daily": "1000 BOX"
+   },
+   "25003": {
+    "name": "24K黄金摆件",
+    "price": 332.02,
+    "cur": "RMB",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "25009": {
+    "name": "宝宝银手镯",
+    "price": 262.46,
+    "cur": "RMB",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "25010": {
+    "name": "925纯银耳环",
+    "price": 403.57,
+    "cur": "RMB",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25011": {
+    "name": "绿松石手镯",
+    "price": 3185.0,
+    "cur": "RMB",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25012": {
+    "name": "红宝石黄金戒指",
+    "price": 24299.08,
+    "cur": "RMB",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25013": {
+    "name": "纯银吊坠",
+    "price": 1235.0,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "25014": {
+    "name": "",
+    "price": 4011.15,
+    "cur": "RMB",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "25015": {
+    "name": "14K黄金皮带扣",
+    "price": 8385.65,
+    "cur": "RMB",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25016": {
+    "name": "14K白金钻戒",
+    "price": 22100.0,
+    "cur": "RMB",
+    "max": "160 PC",
+    "daily": "80 PC"
+   },
+   "25017": {
+    "name": "镶绿松石纯银项链",
+    "price": 1690.0,
+    "cur": "RMB",
+    "max": "1600 PC",
+    "daily": "800 PC"
+   },
+   "25018": {
+    "name": "18K白金天然珍珠耳钉",
+    "price": 2340.0,
+    "cur": "RMB",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25019": {
+    "name": "金箔玫瑰花",
+    "price": 348.4,
+    "cur": "RMB",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "26002": {
+    "name": "吸小器 吸尘器",
+    "price": 455.65,
+    "cur": "RMB",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "26001": {
+    "name": "STV牌彩色电视机",
+    "price": 3601.13,
+    "cur": "RMB",
+    "max": "720 SET",
+    "daily": "360 SET"
+   },
+   "27003": {
+    "name": "数码相框",
+    "price": 249.6,
+    "cur": "RMB",
+    "max": "13000 PC",
+    "daily": "6500 PC"
+   },
+   "28001": {
+    "name": "轮毂",
+    "price": 370.5,
+    "cur": "RMB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "28002": {
+    "name": "转向柱",
+    "price": 426.4,
+    "cur": "RMB",
+    "max": "4800 PC",
+    "daily": "2400 PC"
+   },
+   "29001": {
+    "name": "山地车",
+    "price": 1299.31,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32003": {
+    "name": "翡翠玉镯",
+    "price": 1766.18,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32004": {
+    "name": "金镶玉吊坠",
+    "price": 1987.57,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32005": {
+    "name": "玉白菜摆性",
+    "price": 73866.91,
+    "cur": "RMB",
+    "max": "60 PC",
+    "daily": "30 PC"
+   },
+   "32006": {
+    "name": "珍珠手链",
+    "price": 7558.2,
+    "cur": "RMB",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "32007": {
+    "name": "巴西天然紫水晶摆性",
+    "price": 3063.58,
+    "cur": "RMB",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "32008": {
+    "name": "琥珀吊坠",
+    "price": 2645.5,
+    "cur": "RMB",
+    "max": "1400 PC",
+    "daily": "700 PC"
+   },
+   "33001": {
+    "name": "布谷鸟钟",
+    "price": 1689.96,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "35001": {
+    "name": "儿童汽车安全座椅",
+    "price": 3055.0,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "36001": {
+    "name": "中国结",
+    "price": 7.15,
+    "cur": "RMB",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "36002": {
+    "name": "虫国油纸伞",
+    "price": 260.0,
+    "cur": "RMB",
+    "max": "12000 PC",
+    "daily": "6000 PC"
+   },
+   "37001": {
+    "name": "",
+    "price": 58.5,
+    "cur": "RMB",
+    "max": "66000 PC",
+    "daily": "33000 PC"
+   },
+   "33002": {
+    "name": "男士机械表",
+    "price": 14560.0,
+    "cur": "RMB",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "34002": {
+    "name": "蓝莓",
+    "price": 62140.0,
+    "cur": "RMB",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "38002": {
+    "name": "",
+    "price": 57.98,
+    "cur": "RMB",
+    "max": "68000 CARTON",
+    "daily": "34000 CARTON"
+   },
+   "38003": {
+    "name": "菠菱",
+    "price": 62.4,
+    "cur": "RMB",
+    "max": "44000 CARTON",
+    "daily": "22000 CARTON"
+   },
+   "38004": {
+    "name": "柑橘",
+    "price": 155.86,
+    "cur": "RMB",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "38005": {
+    "name": "红西柚",
+    "price": 188.5,
+    "cur": "RMB",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "39001": {
+    "name": "巴西蜂胶",
+    "price": 63.7,
+    "cur": "RMB",
+    "max": "18000 BOTTLE",
+    "daily": "9000 BOTTLE"
+   },
+   "39002": {
+    "name": "深海鱼油",
+    "price": 104.2,
+    "cur": "RMB",
+    "max": "42000 BOTTLE",
+    "daily": "21000 BOTTLE"
+   },
+   "40001": {
+    "name": "7号电池",
+    "price": 234.0,
+    "cur": "RMB",
+    "max": "100000 BOX",
+    "daily": "50000 # BOX"
+   },
+   "40002": {
+    "name": "18650锂电池",
+    "price": 11.74,
+    "cur": "RMB",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "41001": {
+    "name": "绵羊油面霜",
+    "price": 20.15,
+    "cur": "RMB",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "41002": {
+    "name": "芦荟胶",
+    "price": 41.6,
+    "cur": "RMB",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "41003": {
+    "name": "特效润肤乳",
+    "price": 46.8,
+    "cur": "RMB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "42001": {
+    "name": "且本防蚊贴",
+    "price": 20.25,
+    "cur": "RMB",
+    "max": "80000 BAG",
+    "daily": "40000 BAG"
+   },
+   "43001": {
+    "name": "铬矿砂",
+    "price": 5395.0,
+    "cur": "RMB",
+    "max": "1400 MT",
+    "daily": "700"
+   },
+   "44001": {
+    "name": "芭蕾水钻摆性",
+    "price": 1690.0,
+    "cur": "RMB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "45001": {
+    "name": "男子足球鞋",
+    "price": 358.02,
+    "cur": "RMB",
+    "max": "6000 PAIR",
+    "daily": "3000 PAIR"
+   },
+   "46001": {
+    "name": "中国山水画",
+    "price": 451.72,
+    "cur": "RMB",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "47001": {
+    "name": "手风琴",
+    "price": 131.3,
+    "cur": "RMB",
+    "max": "7000 PC",
+    "daily": "3500 PC"
+   },
+   "48001": {
+    "name": "防护面罩",
+    "price": 57.6,
+    "cur": "RMB",
+    "max": "10000 PC",
+    "daily": "5000"
+   },
+   "49001": {
+    "name": "地球仪",
+    "price": 321.1,
+    "cur": "RMB",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "50001": {
+    "name": "食用盐",
+    "price": 51.96,
+    "cur": "RMB",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "51001": {
+    "name": "味精",
+    "price": 189.8,
+    "cur": "RMB",
+    "max": "6000 BAG",
+    "daily": "3000 BAG"
+   },
+   "26005": {
+    "name": "微波炉",
+    "price": 552.5,
+    "cur": "RMB",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "26006": {
+    "name": "德国咖啡机",
+    "price": 738.82,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "26007": {
+    "name": "德国滤水壶",
+    "price": 504.4,
+    "cur": "RMB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "27001": {
+    "name": "健康电子烟",
+    "price": 55.0,
+    "cur": "RMB",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "27002": {
+    "name": "数码相机",
+    "price": 910.0,
+    "cur": "RMB",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "30001": {
+    "name": "裸钻",
+    "price": 9880.0,
+    "cur": "RMB",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "31001": {
+    "name": "钻石戒指",
+    "price": 15730.0,
+    "cur": "RMB",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "31002": {
+    "name": "钻石耳钉",
+    "price": 3900.66,
+    "cur": "RMB",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "31003": {
+    "name": "18K黄金钻石戒指",
+    "price": 2599.68,
+    "cur": "RMB",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   }
+  },
+  "factory": {
+   "01001": {
+    "name": "洋菇罐头(整粒)",
+    "price": 44.0,
+    "cur": "RMB",
+    "max": "2000 CARTON",
+    "daily": "1000 CARTON"
+   },
+   "01004": {
+    "name": "茉莉绿茶",
+    "price": 21.5,
+    "cur": "RMB",
+    "max": "70000 BOX",
+    "daily": "35000 BOX"
+   },
+   "02001": {
+    "name": "男式睡衣",
+    "price": 28.0,
+    "cur": "RMB",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "04006": {
+    "name": "虫式木雕壁挂",
+    "price": 21.0,
+    "cur": "RMB",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04010": {
+    "name": "木雕工艺品",
+    "price": 32.36,
+    "cur": "RMB",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "06002": {
+    "name": "环保涂料",
+    "price": 93.3,
+    "cur": "RMB",
+    "max": "14000 DRUM",
+    "daily": "7000 DRUM"
+   },
+   "12001": {
+    "name": "青花瓷餐具套装",
+    "price": 460.0,
+    "cur": "RMB",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "12005": {
+    "name": "7头茶县",
+    "price": 310.0,
+    "cur": "RMB",
+    "max": "6000 SET",
+    "daily": "3000 SET"
+   },
+   "12007": {
+    "name": "",
+    "price": 4.8,
+    "cur": "RMB",
+    "max": "100000 UNIT",
+    "daily": "50000"
+   },
+   "12008": {
+    "name": "瓷碟",
+    "price": 4.0,
+    "cur": "RMB",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "12010": {
+    "name": "瓷杯",
+    "price": 4.0,
+    "cur": "RMB",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "16001": {
+    "name": "竹碗",
+    "price": 6.0,
+    "cur": "RMB",
+    "max": "100000 PC",
+    "daily": "50000 F PC"
+   },
+   "16008": {
+    "name": "竹帘",
+    "price": 134.12,
+    "cur": "RMB",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "16009": {
+    "name": "竹杯垫",
+    "price": 4.3,
+    "cur": "RMB",
+    "max": "300000 PC",
+    "daily": "150000 PC"
+   },
+   "21001": {
+    "name": "磺胺氯嗪钠",
+    "price": 150.0,
+    "cur": "RMB",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22002": {
+    "name": "单体速冻黑加仑",
+    "price": 2900.0,
+    "cur": "RMB",
+    "max": "500 MT",
+    "daily": "250 MT"
+   },
+   "22005": {
+    "name": "速冻草粪",
+    "price": 919.36,
+    "cur": "RMB",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "22006": {
+    "name": "速冻青椒",
+    "price": 4380.0,
+    "cur": "RMB",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22003": {
+    "name": "速冻绿色哈密瓜球",
+    "price": 10323.67,
+    "cur": "RMB",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22007": {
+    "name": "速冻西兰花",
+    "price": 4700.0,
+    "cur": "RMB",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "22008": {
+    "name": "速冻红椒工",
+    "price": 5000.0,
+    "cur": "RMB",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "26003": {
+    "name": "对开门式冰箱",
+    "price": 2558.0,
+    "cur": "RMB",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "32001": {
+    "name": "黄翡茶壶",
+    "price": 11450.25,
+    "cur": "RMB",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "32002": {
+    "name": "阻绿貌貅摆件",
+    "price": 15181.3,
+    "cur": "RMB",
+    "max": "150 PC",
+    "daily": "75 PC"
+   },
+   "32003": {
+    "name": "翡翠玉镯",
+    "price": 617.13,
+    "cur": "RMB",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32004": {
+    "name": "金镶玉吊坠",
+    "price": 8905.29,
+    "cur": "RMB",
+    "max": "2000PC",
+    "daily": "1000 PC"
+   },
+   "32005": {
+    "name": "玉白菜摆件",
+    "price": 24000.0,
+    "cur": "RMB",
+    "max": "60 PC",
+    "daily": "30 PC"
+   },
+   "36001": {
+    "name": "中国结",
+    "price": 4.15,
+    "cur": "RMB",
+    "max": "100000PC",
+    "daily": "50000 PC"
+   },
+   "36002": {
+    "name": "中国油纸伞",
+    "price": 154.0,
+    "cur": "RMB",
+    "max": "12000PC",
+    "daily": "6000 PC"
+   }
+  }
+ },
+ "德国": {
+  "market": {
+   "01001": {
+    "name": "洋菇罐头(整粒)",
+    "price": 10.66,
+    "cur": "EUR",
+    "max": "2000 CARTON",
+    "daily": "1000 CARTON"
+   },
+   "01002": {
+    "name": "豪门伯爵茶",
+    "price": 29.77,
+    "cur": "EUR",
+    "max": "20000 TIN",
+    "daily": "10000 TIN"
+   },
+   "01003": {
+    "name": "英国早餐茶",
+    "price": 7.87,
+    "cur": "EUR",
+    "max": "50000 TIN",
+    "daily": "25000 TIN"
+   },
+   "01004": {
+    "name": "茉莉绿茶",
+    "price": 4.63,
+    "cur": "EUR",
+    "max": "70000 BOX",
+    "daily": "35000 BOX"
+   },
+   "01005": {
+    "name": "玉米笋罐头",
+    "price": 10.62,
+    "cur": "EUR",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01006": {
+    "name": "荔枝罐头",
+    "price": 10.86,
+    "cur": "EUR",
+    "max": "20000 CARTON",
+    "daily": "10000 CARTON"
+   },
+   "01008": {
+    "name": "芒果罐头",
+    "price": 7.81,
+    "cur": "EUR",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "01010": {
+    "name": "土年陈红葡萄酒",
+    "price": 40.59,
+    "cur": "EUR",
+    "max": "20000 BOTTLE",
+    "daily": "10000 BOTTLE"
+   },
+   "01013": {
+    "name": "天然蜂蜜",
+    "price": 1885.0,
+    "cur": "EUR",
+    "max": "200 DRUM",
+    "daily": "100 DRUM"
+   },
+   "01015": {
+    "name": "沙工鱼罐头",
+    "price": 78.27,
+    "cur": "EUR",
+    "max": "5000 CARTON",
+    "daily": "2500 CARTON"
+   },
+   "01016": {
+    "name": "新鲜甘蔗汁",
+    "price": 13.16,
+    "cur": "EUR",
+    "max": "20000 BOX",
+    "daily": "10000 BOX"
+   },
+   "01017": {
+    "name": "人奶粉",
+    "price": 369.6,
+    "cur": "EUR",
+    "max": "1400 CARTON",
+    "daily": "700 CARTON"
+   },
+   "01018": {
+    "name": "巧克力",
+    "price": 4.46,
+    "cur": "EUR",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   },
+   "01019": {
+    "name": "巧克力饼王",
+    "price": 5.21,
+    "cur": "EUR",
+    "max": "100000 BAG",
+    "daily": "50000 BAG"
+   },
+   "01020": {
+    "name": "黄油饼王",
+    "price": 2.3,
+    "cur": "EUR",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   },
+   "02002": {
+    "name": "男式T恤衫",
+    "price": 4.08,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 # PC"
+   },
+   "02003": {
+    "name": "棉制针织女童套头衫",
+    "price": 4.47,
+    "cur": "EUR",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "02004": {
+    "name": "女式开襟羊毛衫",
+    "price": 10.41,
+    "cur": "EUR",
+    "max": "40000 PC",
+    "daily": "20000 F PC"
+   },
+   "01021": {
+    "name": "生奶",
+    "price": 49.43,
+    "cur": "EUR",
+    "max": "16000 CARTON",
+    "daily": "8000 CARTON"
+   },
+   "02005": {
+    "name": "女式睡衣",
+    "price": 5.6,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 F PC"
+   },
+   "02011": {
+    "name": "舞裙",
+    "price": 30.55,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "02012": {
+    "name": "连衣裤",
+    "price": 9.11,
+    "cur": "EUR",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "02013": {
+    "name": "羊毛方巾",
+    "price": 22.94,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "02014": {
+    "name": "女士和服",
+    "price": 14.7,
+    "cur": "EUR",
+    "max": "8000 SET",
+    "daily": "4000 SET"
+   },
+   "02015": {
+    "name": "男士生仔裤",
+    "price": 22.75,
+    "cur": "EUR",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "03001": {
+    "name": "落地电子",
+    "price": 5.24,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04001": {
+    "name": "木制茶县",
+    "price": 13.52,
+    "cur": "EUR",
+    "max": "20000 SET",
+    "daily": "10000 SET"
+   },
+   "04002": {
+    "name": "雕-面县",
+    "price": 14.46,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "02010": {
+    "name": "男式开襟羊毛衫",
+    "price": 11.69,
+    "cur": "EUR",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "04004": {
+    "name": "本雕少女",
+    "price": 23.79,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04005": {
+    "name": "木雕头像",
+    "price": 19.51,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04006": {
+    "name": "虫式木雕壁挂",
+    "price": 4.42,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04010": {
+    "name": "木雕工艺品",
+    "price": 7.02,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "04011": {
+    "name": "俄罗斯套娃",
+    "price": 6.77,
+    "cur": "EUR",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "05002": {
+    "name": "手锯",
+    "price": 4.43,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "05003": {
+    "name": "餐刀",
+    "price": 37.7,
+    "cur": "EUR",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "05006": {
+    "name": "",
+    "price": 0.83,
+    "cur": "EUR",
+    "max": "200000 PC",
+    "daily": "100000 PC"
+   },
+   "05010": {
+    "name": "开瓶器",
+    "price": 36.4,
+    "cur": "EUR",
+    "max": "4000 BOX",
+    "daily": "2000 BOX"
+   },
+   "05011": {
+    "name": "两用扳毛",
+    "price": 26.01,
+    "cur": "EUR",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "05012": {
+    "name": "轴承",
+    "price": 199.9,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "05013": {
+    "name": "切格瓦拉烟盒",
+    "price": 171.76,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "06001": {
+    "name": "香薰蜡烛",
+    "price": 52.0,
+    "cur": "EUR",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "07010": {
+    "name": "床头灯",
+    "price": 8.07,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "08002": {
+    "name": "长毛绒熊猫",
+    "price": 23.92,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 F PC"
+   },
+   "08007": {
+    "name": "儿童学步车",
+    "price": 27.95,
+    "cur": "EUR",
+    "max": "8000 UNIT",
+    "daily": "4000 UNIT"
+   },
+   "08008": {
+    "name": "婴儿推车",
+    "price": 19.51,
+    "cur": "EUR",
+    "max": "15000 UNIT",
+    "daily": "7500 UNIT"
+   },
+   "08009": {
+    "name": "袋鼠玩偶",
+    "price": 43.94,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "08010": {
+    "name": "电子琴玩县",
+    "price": 33.93,
+    "cur": "EUR",
+    "max": "8000 PC",
+    "daily": "4000 # PC"
+   },
+   "08011": {
+    "name": "排球",
+    "price": 14.43,
+    "cur": "EUR",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "09001": {
+    "name": "太阻眼镜",
+    "price": 3.73,
+    "cur": "EUR",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "09006": {
+    "name": "潜水用眼镜",
+    "price": 3.91,
+    "cur": "EUR",
+    "max": "100000 SET",
+    "daily": "50000 : SET"
+   },
+   "10001": {
+    "name": "",
+    "price": 5.45,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10003": {
+    "name": "睫毛膏",
+    "price": 6.46,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10004": {
+    "name": "香水",
+    "price": 26.12,
+    "cur": "EUR",
+    "max": "15000 BOTTLE",
+    "daily": "7500 BOTTLE"
+   },
+   "10005": {
+    "name": "眼影",
+    "price": 5.46,
+    "cur": "EUR",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "10008": {
+    "name": "液体唇彩",
+    "price": 8.54,
+    "cur": "EUR",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "10009": {
+    "name": "散粉",
+    "price": 22.11,
+    "cur": "EUR",
+    "max": "20000 BOX",
+    "daily": "10000 BOX"
+   },
+   "10010": {
+    "name": "指甲油",
+    "price": 12.97,
+    "cur": "EUR",
+    "max": "20000 BOTTLE",
+    "daily": "10000 BOTTLE"
+   },
+   "10011": {
+    "name": "假发",
+    "price": 6.51,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "11001": {
+    "name": "4寸2路喇必",
+    "price": 10.4,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "10007": {
+    "name": "",
+    "price": 1.81,
+    "cur": "EUR",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "12004": {
+    "name": "西式骨瓷午茶组",
+    "price": 28.99,
+    "cur": "EUR",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12006": {
+    "name": "10寸鱼盘",
+    "price": 1.65,
+    "cur": "EUR",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "12007": {
+    "name": "寸圆盘",
+    "price": 1.1,
+    "cur": "EUR",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "12009": {
+    "name": "",
+    "price": 0.9,
+    "cur": "EUR",
+    "max": "100000 UNIT",
+    "daily": "50000"
+   },
+   "13001": {
+    "name": "",
+    "price": 30.7,
+    "cur": "EUR",
+    "max": "2000 BOX",
+    "daily": "1000 BOX"
+   },
+   "14009": {
+    "name": "洗衣液",
+    "price": 24.7,
+    "cur": "EUR",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "14010": {
+    "name": "洗手液",
+    "price": 10.4,
+    "cur": "EUR",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "15001": {
+    "name": "手提包",
+    "price": 26.96,
+    "cur": "EUR",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "15002": {
+    "name": "双肩背包",
+    "price": 3.87,
+    "cur": "EUR",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "15003": {
+    "name": "时尚单肩包",
+    "price": 14.31,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "15004": {
+    "name": "化妆包",
+    "price": 4.91,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "15005": {
+    "name": "公文包",
+    "price": 20.8,
+    "cur": "EUR",
+    "max": "16000 PC",
+    "daily": "8000 PC"
+   },
+   "15009": {
+    "name": "旅行包",
+    "price": 15.61,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "16001": {
+    "name": "",
+    "price": 1.34,
+    "cur": "EUR",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "16008": {
+    "name": "竹帘",
+    "price": 38.35,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "16009": {
+    "name": "竹杯垫",
+    "price": 0.99,
+    "cur": "EUR",
+    "max": "300000 PC",
+    "daily": "150000 PC"
+   },
+   "17001": {
+    "name": "床单",
+    "price": 4.0,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "17002": {
+    "name": "手工地毯",
+    "price": 540.8,
+    "cur": "EUR",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "17009": {
+    "name": "",
+    "price": 8.9,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "17010": {
+    "name": "沙滩虫",
+    "price": 13.96,
+    "cur": "EUR",
+    "max": "30000 PC",
+    "daily": "15000 F PC"
+   },
+   "18001": {
+    "name": "遮阳篷",
+    "price": 24.71,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "18006": {
+    "name": "睡袋",
+    "price": 41.66,
+    "cur": "EUR",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "18009": {
+    "name": "充气垫",
+    "price": 26.4,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "19001": {
+    "name": "男士商务皮鞋",
+    "price": 55.25,
+    "cur": "EUR",
+    "max": "5000 PAIR",
+    "daily": "2500 PAIR"
+   },
+   "19006": {
+    "name": "女士皮凉鞋",
+    "price": 32.11,
+    "cur": "EUR",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "19009": {
+    "name": "真皮宝宝鞋",
+    "price": 15.7,
+    "cur": "EUR",
+    "max": "20000 PAIR",
+    "daily": "10000 PAIR"
+   },
+   "19010": {
+    "name": "皮女靴",
+    "price": 118.95,
+    "cur": "EUR",
+    "max": "4000 PAIR",
+    "daily": "2000 PAIR"
+   },
+   "20001": {
+    "name": "一乙醇胺",
+    "price": 201.59,
+    "cur": "EUR",
+    "max": "2000 DRUM",
+    "daily": "1000 DRUM"
+   },
+   "20004": {
+    "name": "对苯二甲酸二甲酯",
+    "price": 89.84,
+    "cur": "EUR",
+    "max": "6000 BAG",
+    "daily": "3000 BAG"
+   },
+   "20005": {
+    "name": "1,1,1-三羟甲基丙烷",
+    "price": 56.21,
+    "cur": "EUR",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22002": {
+    "name": "单体速冻黑加仑",
+    "price": 1092.0,
+    "cur": "EUR",
+    "max": "500 MT",
+    "daily": "250 MT"
+   },
+   "22003": {
+    "name": "速冻绿色哈密瓜球",
+    "price": 2964.0,
+    "cur": "EUR",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22005": {
+    "name": "速冻草莓",
+    "price": 428.58,
+    "cur": "EUR",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "22006": {
+    "name": "速冻青椒",
+    "price": 1222.0,
+    "cur": "EUR",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22007": {
+    "name": "速冻西兰花",
+    "price": 1202.5,
+    "cur": "EUR",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "22008": {
+    "name": "速冻红椒工",
+    "price": 1228.5,
+    "cur": "EUR",
+    "max": "300 MT",
+    "daily": "150"
+   },
+   "22009": {
+    "name": "冷冻生肉",
+    "price": 9950.2,
+    "cur": "EUR",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "23001": {
+    "name": "原蔗糖",
+    "price": 760.5,
+    "cur": "EUR",
+    "max": "700 MT",
+    "daily": "350"
+   },
+   "23002": {
+    "name": "巴西咖啡(全咖啡豆,肉挂烘焙)",
+    "price": 29.0,
+    "cur": "EUR",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "23003": {
+    "name": "巴西咖啡(全咖啡豆城市烘焙)",
+    "price": 18.85,
+    "cur": "EUR",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "23004": {
+    "name": "巴西咖啡(全咖啡豆，意式烘焙)",
+    "price": 13.71,
+    "cur": "EUR",
+    "max": "30000 BAG",
+    "daily": "15000 BAG"
+   },
+   "23005": {
+    "name": "优质巴西黄豆",
+    "price": 333.53,
+    "cur": "EUR",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23006": {
+    "name": "标准白小麦",
+    "price": 806.26,
+    "cur": "EUR",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23007": {
+    "name": "优质硬白麦",
+    "price": 975.0,
+    "cur": "EUR",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23008": {
+    "name": "优质杜伦麦",
+    "price": 354.28,
+    "cur": "EUR",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23009": {
+    "name": "黄玉米",
+    "price": 2601.3,
+    "cur": "EUR",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "23010": {
+    "name": "优质巴西黑豆",
+    "price": 1341.87,
+    "cur": "EUR",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23011": {
+    "name": "旦本大米",
+    "price": 44.2,
+    "cur": "EUR",
+    "max": "14000 BAG",
+    "daily": "7000 BAG"
+   },
+   "24001": {
+    "name": "纪念版雪范",
+    "price": 534.95,
+    "cur": "EUR",
+    "max": "2000 BOX",
+    "daily": "1000 BOX"
+   },
+   "24002": {
+    "name": "限量版雪茄",
+    "price": 782.59,
+    "cur": "EUR",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "24003": {
+    "name": "珍藏版雪茄",
+    "price": 752.86,
+    "cur": "EUR",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "24004": {
+    "name": "订制版雪范",
+    "price": 547.0,
+    "cur": "EUR",
+    "max": "6000 BOX",
+    "daily": "3000 BOX"
+   },
+   "25001": {
+    "name": "24K黄金戒指",
+    "price": 158.6,
+    "cur": "EUR",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25002": {
+    "name": "24K黄金项链",
+    "price": 261.01,
+    "cur": "EUR",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25003": {
+    "name": "24K黄金摆",
+    "price": 36.14,
+    "cur": "EUR",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "25004": {
+    "name": "18K白金吊坠",
+    "price": 132.34,
+    "cur": "EUR",
+    "max": "2500 PC",
+    "daily": "1250 PC"
+   },
+   "25005": {
+    "name": "18K白金耳环",
+    "price": 331.63,
+    "cur": "EUR",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25006": {
+    "name": "18K吊坠顶链",
+    "price": 1524.38,
+    "cur": "EUR",
+    "max": "250 PC",
+    "daily": "125"
+   },
+   "25007": {
+    "name": "18K金嵌宝石手链",
+    "price": 286.87,
+    "cur": "EUR",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25008": {
+    "name": "925银戒指",
+    "price": 65.05,
+    "cur": "EUR",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25009": {
+    "name": "宝宝银手镯",
+    "price": 31.91,
+    "cur": "EUR",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "25010": {
+    "name": "925纯银耳环",
+    "price": 48.46,
+    "cur": "EUR",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25017": {
+    "name": "绿松石纯银顶链",
+    "price": 195.0,
+    "cur": "EUR",
+    "max": "1600 PC",
+    "daily": "800 PC"
+   },
+   "26001": {
+    "name": "STV牌彩色电视机",
+    "price": 419.9,
+    "cur": "EUR",
+    "max": "720 SET",
+    "daily": "360 SET"
+   },
+   "26002": {
+    "name": "吸尘器",
+    "price": 52.18,
+    "cur": "EUR",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "26003": {
+    "name": "对开门式冰箱",
+    "price": 545.87,
+    "cur": "EUR",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "26004": {
+    "name": "电饭煲",
+    "price": 218.4,
+    "cur": "EUR",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "26005": {
+    "name": "微波炉",
+    "price": 52.0,
+    "cur": "EUR",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "26006": {
+    "name": "德国咖啡机",
+    "price": 97.5,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "26007": {
+    "name": "德国滤水壶",
+    "price": 45.5,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "27001": {
+    "name": "健康电子烟",
+    "price": 6.37,
+    "cur": "EUR",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "27002": {
+    "name": "数码相机",
+    "price": 109.2,
+    "cur": "EUR",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "28002": {
+    "name": "转向柱",
+    "price": 50.44,
+    "cur": "EUR",
+    "max": "4800 PC",
+    "daily": "2400 PC"
+   },
+   "30001": {
+    "name": "裸钻",
+    "price": 1176.5,
+    "cur": "EUR",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "32002": {
+    "name": "阻绿貔貅摆件",
+    "price": 3949.14,
+    "cur": "EUR",
+    "max": "150 PC",
+    "daily": "75 PC"
+   },
+   "32003": {
+    "name": "翡翠玉镯",
+    "price": 181.84,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32004": {
+    "name": "金镶玉吊坠",
+    "price": 2531.16,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "32005": {
+    "name": "玉白菜摆性",
+    "price": 7020.13,
+    "cur": "EUR",
+    "max": "60 PC",
+    "daily": "30 PC"
+   },
+   "32006": {
+    "name": "珍珠手链",
+    "price": 786.5,
+    "cur": "EUR",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "32007": {
+    "name": "巴西天然紫水晶摆性",
+    "price": 345.22,
+    "cur": "EUR",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "32008": {
+    "name": "琥珀吊坠",
+    "price": 291.2,
+    "cur": "EUR",
+    "max": "1400 PC",
+    "daily": "700 PC"
+   },
+   "33001": {
+    "name": "布谷鸟钟",
+    "price": 241.2,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "33002": {
+    "name": "男士机械表",
+    "price": 1771.67,
+    "cur": "EUR",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "34002": {
+    "name": "蓝莓",
+    "price": 7065.5,
+    "cur": "EUR",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "35001": {
+    "name": "儿童汽车安全座椅",
+    "price": 325.0,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "37001": {
+    "name": "",
+    "price": 5.92,
+    "cur": "EUR",
+    "max": "66000 PC",
+    "daily": "33000 PC"
+   },
+   "36001": {
+    "name": "虫国结",
+    "price": 0.68,
+    "cur": "EUR",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "36002": {
+    "name": "虫国油纸伞",
+    "price": 24.96,
+    "cur": "EUR",
+    "max": "12000 PC",
+    "daily": "6000 PC"
+   },
+   "38001": {
+    "name": "甘蔗",
+    "price": 7.76,
+    "cur": "EUR",
+    "max": "9200 BAG",
+    "daily": "4600 BAG"
+   },
+   "38002": {
+    "name": "香蕉",
+    "price": 4.82,
+    "cur": "EUR",
+    "max": "68000 CARTON",
+    "daily": "34000 CARTON"
+   },
+   "38003": {
+    "name": "菠菱",
+    "price": 6.53,
+    "cur": "EUR",
+    "max": "44000 CARTON",
+    "daily": "22000 CARTON"
+   },
+   "38004": {
+    "name": "柑橘",
+    "price": 13.52,
+    "cur": "EUR",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "38005": {
+    "name": "红西柚",
+    "price": 22.1,
+    "cur": "EUR",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "39002": {
+    "name": "深海鱼油",
+    "price": 9.62,
+    "cur": "EUR",
+    "max": "42000 BOTTLE",
+    "daily": "21000 BOTTLE"
+   },
+   "40002": {
+    "name": "18650锂电池",
+    "price": 1.38,
+    "cur": "EUR",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "41001": {
+    "name": "绵羊油面霜",
+    "price": 1.99,
+    "cur": "EUR",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "41002": {
+    "name": "芦荟胶",
+    "price": 4.16,
+    "cur": "EUR",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "42001": {
+    "name": "旦本防蚊贴",
+    "price": 2.43,
+    "cur": "EUR",
+    "max": "80000 BAG",
+    "daily": "40000 BAG"
+   },
+   "43001": {
+    "name": "铬矿砂",
+    "price": 637.0,
+    "cur": "EUR",
+    "max": "1400 MT",
+    "daily": "700 MT"
+   },
+   "44001": {
+    "name": "芭蕾水钻摆性",
+    "price": 162.5,
+    "cur": "EUR",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "45001": {
+    "name": "男子足球鞋",
+    "price": 42.25,
+    "cur": "EUR",
+    "max": "6000 PAIR",
+    "daily": "3000 PAIR"
+   },
+   "46001": {
+    "name": "中国山水画",
+    "price": 42.25,
+    "cur": "EUR",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "47001": {
+    "name": "手风琴",
+    "price": 15.73,
+    "cur": "EUR",
+    "max": "7000 PC",
+    "daily": "3500 PC"
+   },
+   "41003": {
+    "name": "特效润肤乳",
+    "price": 4.55,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "48001": {
+    "name": "防护面罩",
+    "price": 6.51,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "49001": {
+    "name": "地球仪",
+    "price": 39.13,
+    "cur": "EUR",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "50001": {
+    "name": "食用盐",
+    "price": 6.47,
+    "cur": "EUR",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "51001": {
+    "name": "味精",
+    "price": 19.21,
+    "cur": "EUR",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "01007": {
+    "name": "龙眼罐头",
+    "price": 7.81,
+    "cur": "EUR",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "01009": {
+    "name": "三年陈酿白葡萄酒",
+    "price": 18.97,
+    "cur": "EUR",
+    "max": "30000 BOTTLE",
+    "daily": "15000 BOTTLE"
+   },
+   "01011": {
+    "name": "番茄酱罐头",
+    "price": 105.29,
+    "cur": "EUR",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01012": {
+    "name": "矿泉水",
+    "price": 19.5,
+    "cur": "EUR",
+    "max": "4000 CARTON",
+    "daily": "2000 CARTON"
+   },
+   "01014": {
+    "name": "金枪鱼罐头",
+    "price": 65.27,
+    "cur": "EUR",
+    "max": "5000 CARTON",
+    "daily": "2500 CARTON"
+   },
+   "02001": {
+    "name": "男式睡衣",
+    "price": 5.2,
+    "cur": "EUR",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "04003": {
+    "name": "雕娃娃",
+    "price": 27.3,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "06002": {
+    "name": "环保涂料",
+    "price": 26.01,
+    "cur": "EUR",
+    "max": "14000 DRUM",
+    "daily": "7000 DRUM"
+   },
+   "08001": {
+    "name": "儿童踏板车",
+    "price": 19.77,
+    "cur": "EUR",
+    "max": "20000 UNIT",
+    "daily": "10000 UNIT"
+   },
+   "08003": {
+    "name": "玩具娃娃",
+    "price": 13.65,
+    "cur": "EUR",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "11010": {
+    "name": "6x9寸4路喇",
+    "price": 25.36,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "12001": {
+    "name": "青花瓷餐具套装",
+    "price": 107.51,
+    "cur": "EUR",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "12002": {
+    "name": "骨瓷餐具套装",
+    "price": 42.21,
+    "cur": "EUR",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12005": {
+    "name": "7头茶县",
+    "price": 61.36,
+    "cur": "EUR",
+    "max": "6000 SET",
+    "daily": "3000 SET"
+   },
+   "12008": {
+    "name": "瓷碟",
+    "price": 1.07,
+    "cur": "EUR",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "12010": {
+    "name": "",
+    "price": 1.01,
+    "cur": "EUR",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "14001": {
+    "name": "香皇",
+    "price": 50.7,
+    "cur": "EUR",
+    "max": "2000 BOX",
+    "daily": "1000 BOX"
+   },
+   "15008": {
+    "name": "钱包",
+    "price": 10.66,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "21001": {
+    "name": "磺胺氯嗪钠",
+    "price": 44.3,
+    "cur": "EUR",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22004": {
+    "name": "速冻黄桃",
+    "price": 4147.0,
+    "cur": "EUR",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "25011": {
+    "name": "绿松石手镯",
+    "price": 362.7,
+    "cur": "EUR",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25012": {
+    "name": "红宝石黄金戒指",
+    "price": 2600.87,
+    "cur": "EUR",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25013": {
+    "name": "纯银吊坠",
+    "price": 144.3,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "25015": {
+    "name": "14K黄金皮带扣",
+    "price": 936.71,
+    "cur": "EUR",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25016": {
+    "name": "14K白金钻戒",
+    "price": 2667.6,
+    "cur": "EUR",
+    "max": "160 PC",
+    "daily": "80 PC"
+   },
+   "25018": {
+    "name": "18K白金天然珍珠耳钉",
+    "price": 256.1,
+    "cur": "EUR",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25019": {
+    "name": "金箔玫瑰花",
+    "price": 38.39,
+    "cur": "EUR",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "27003": {
+    "name": "数码相框",
+    "price": 29.9,
+    "cur": "EUR",
+    "max": "13000 PC",
+    "daily": "6500 PC"
+   },
+   "28001": {
+    "name": "轮毂",
+    "price": 39.65,
+    "cur": "EUR",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "29001": {
+    "name": "山地车",
+    "price": 157.3,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "31001": {
+    "name": "钻石戒指",
+    "price": 1885.0,
+    "cur": "EUR",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "31002": {
+    "name": "钻石耳钉",
+    "price": 432.2,
+    "cur": "EUR",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "31003": {
+    "name": "18K黄金钻石戒指",
+    "price": 262.64,
+    "cur": "EUR",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "32001": {
+    "name": "黄翡茶壶",
+    "price": 3514.36,
+    "cur": "EUR",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "39001": {
+    "name": "巴西蜂胶",
+    "price": 7.18,
+    "cur": "EUR",
+    "max": "18000 BOTTLE",
+    "daily": "9000 BOTTLE"
+   },
+   "40001": {
+    "name": "7号电池",
+    "price": 26.39,
+    "cur": "EUR",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   }
+  },
+  "factory": {
+   "01005": {
+    "name": "玉米笋罐头",
+    "price": 4.8,
+    "cur": "EUR",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01009": {
+    "name": "三年陈酿白葡萄酒",
+    "price": 7.28,
+    "cur": "EUR",
+    "max": "30000 BOTTLE",
+    "daily": "15000 BOTTLE"
+   },
+   "01010": {
+    "name": "土年陈酿红葡萄酒",
+    "price": 17.5,
+    "cur": "EUR",
+    "max": "20000 BOTTLE",
+    "daily": "10000 BOTTLE"
+   },
+   "01012": {
+    "name": "矿泉水",
+    "price": 12.8,
+    "cur": "EUR",
+    "max": "4000 CARTON",
+    "daily": "2000 CARTON"
+   },
+   "01021": {
+    "name": "生奶",
+    "price": 20.6,
+    "cur": "EUR",
+    "max": "16000 CARTON",
+    "daily": "8000 CARTON"
+   },
+   "02001": {
+    "name": "男式睡衣",
+    "price": 3.36,
+    "cur": "EUR",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "02002": {
+    "name": "男式T恤衫",
+    "price": 2.48,
+    "cur": "EUR",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "05011": {
+    "name": "两用扳毛",
+    "price": 13.7,
+    "cur": "EUR",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "09001": {
+    "name": "太阳眼镜",
+    "price": 2.05,
+    "cur": "EUR",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "09006": {
+    "name": "潜水用眼镜",
+    "price": 1.92,
+    "cur": "EUR",
+    "max": "100000 SET",
+    "daily": "50000 SET"
+   },
+   "10001": {
+    "name": "口红",
+    "price": 2.85,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10003": {
+    "name": "睫毛",
+    "price": 3.4,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10004": {
+    "name": "香水",
+    "price": 12.85,
+    "cur": "EUR",
+    "max": "15000 BOTTLE",
+    "daily": "7500 BOTTLE"
+   },
+   "10005": {
+    "name": "眼影",
+    "price": 3.0,
+    "cur": "EUR",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "10008": {
+    "name": "液体唇彩",
+    "price": 4.21,
+    "cur": "EUR",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "15001": {
+    "name": "手提包",
+    "price": 15.8,
+    "cur": "EUR",
+    "max": "15000 PC",
+    "daily": "7500"
+   },
+   "15008": {
+    "name": "钱包",
+    "price": 3.85,
+    "cur": "EUR",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "20001": {
+    "name": "二乙醇胺",
+    "price": 100.65,
+    "cur": "EUR",
+    "max": "2000 DRUM",
+    "daily": "1000 DRUM"
+   },
+   "20004": {
+    "name": "对苯二甲酸二甲酯",
+    "price": 50.0,
+    "cur": "EUR",
+    "max": "6000 BAG",
+    "daily": "3000 BAG"
+   },
+   "20005": {
+    "name": "11,1-三羟甲基丙烷",
+    "price": 27.61,
+    "cur": "EUR",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "21001": {
+    "name": "磺胺氯嗪钠",
+    "price": 20.69,
+    "cur": "EUR",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22005": {
+    "name": "速冻草莓",
+    "price": 300.68,
+    "cur": "EUR",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "25002": {
+    "name": "24K黄金项链",
+    "price": 131.78,
+    "cur": "EUR",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25004": {
+    "name": "18K白金吊坠",
+    "price": 63.03,
+    "cur": "EUR",
+    "max": "2500 PC",
+    "daily": "1250 PC"
+   },
+   "25008": {
+    "name": "925银戒指",
+    "price": 28.53,
+    "cur": "EUR",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25009": {
+    "name": "宝宝银手镯",
+    "price": 15.86,
+    "cur": "EUR",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "26005": {
+    "name": "微波炉",
+    "price": 28.0,
+    "cur": "EUR",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "26006": {
+    "name": "德国咖啡机",
+    "price": 40.0,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "26007": {
+    "name": "德国滤水壶",
+    "price": 25.8,
+    "cur": "EUR",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "33001": {
+    "name": "布谷鸟钟",
+    "price": 91.27,
+    "cur": "EUR",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "33002": {
+    "name": "男士机械表",
+    "price": 679.91,
+    "cur": "EUR",
+    "max": "300 PC",
+    "daily": "150 PC"
+   }
+  }
+ },
+ "美国": {
+  "market": {
+   "01001": {
+    "name": "洋菇罐头(整粒)",
+    "price": 17.16,
+    "cur": "USD",
+    "max": "2000 CARTON",
+    "daily": "1000 CARTON"
+   },
+   "01002": {
+    "name": "豪门伯爵茶",
+    "price": 39.65,
+    "cur": "USD",
+    "max": "20000 TIN",
+    "daily": "10000 TIN"
+   },
+   "01003": {
+    "name": "英国早餐茶",
+    "price": 11.31,
+    "cur": "USD",
+    "max": "50000 TIN",
+    "daily": "25000 TIN"
+   },
+   "01004": {
+    "name": "茉莉绿茶",
+    "price": 7.93,
+    "cur": "USD",
+    "max": "70000 BOX",
+    "daily": "35000 BOX"
+   },
+   "01005": {
+    "name": "玉米笋罐头",
+    "price": 14.04,
+    "cur": "USD",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01006": {
+    "name": "荔枝罐头",
+    "price": 14.95,
+    "cur": "USD",
+    "max": "20000 CARTON",
+    "daily": "10000 CARTON"
+   },
+   "01007": {
+    "name": "龙眼罐头",
+    "price": 11.71,
+    "cur": "USD",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "01008": {
+    "name": "芒果罐头",
+    "price": 11.67,
+    "cur": "USD",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "01009": {
+    "name": "三年陈酿白葡萄酒",
+    "price": 22.02,
+    "cur": "USD",
+    "max": "30000 BOTTLE",
+    "daily": "15000 BOTTLE"
+   },
+   "01010": {
+    "name": "土年陈酿红葡萄酒",
+    "price": 52.39,
+    "cur": "USD",
+    "max": "20000 BOTTLE",
+    "daily": "10000 BOTTLE"
+   },
+   "01011": {
+    "name": "番茄酱罐头",
+    "price": 143.84,
+    "cur": "USD",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "01012": {
+    "name": "矿泉水",
+    "price": 36.4,
+    "cur": "USD",
+    "max": "4000 CARTON",
+    "daily": "2000 CARTON"
+   },
+   "01013": {
+    "name": "天然蜂蜜",
+    "price": 3185.0,
+    "cur": "USD",
+    "max": "200 DRUM",
+    "daily": "100 DRUM"
+   },
+   "01014": {
+    "name": "金枪鱼罐头",
+    "price": 97.77,
+    "cur": "USD",
+    "max": "5000 CARTON",
+    "daily": "2500 CARTON"
+   },
+   "01015": {
+    "name": "沙工鱼罐头",
+    "price": 109.85,
+    "cur": "USD",
+    "max": "5000 CARTON",
+    "daily": "2500 CARTON"
+   },
+   "01016": {
+    "name": "新鲜甘蔗汁",
+    "price": 20.42,
+    "cur": "USD",
+    "max": "20000 BOX",
+    "daily": "10000 BOX"
+   },
+   "01019": {
+    "name": "巧克力饼王",
+    "price": 8.06,
+    "cur": "USD",
+    "max": "100000 BAG",
+    "daily": "50000 BAG"
+   },
+   "01020": {
+    "name": "黄油饼王",
+    "price": 3.25,
+    "cur": "USD",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   },
+   "01021": {
+    "name": "生奶",
+    "price": 57.86,
+    "cur": "USD",
+    "max": "16000 CARTON",
+    "daily": "8000 CARTON"
+   },
+   "02001": {
+    "name": "男式睡衣",
+    "price": 8.45,
+    "cur": "USD",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "02002": {
+    "name": "男式T恤衫",
+    "price": 6.5,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 # PC"
+   },
+   "02003": {
+    "name": "棉制针织女童套头衫",
+    "price": 5.67,
+    "cur": "USD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "02004": {
+    "name": "女式开襟羊毛衫",
+    "price": 13.52,
+    "cur": "USD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "02005": {
+    "name": "女式睡衣",
+    "price": 7.81,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "02010": {
+    "name": "男式开襟羊毛衫",
+    "price": 16.56,
+    "cur": "USD",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "02011": {
+    "name": "舞裙",
+    "price": 40.3,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "02012": {
+    "name": "连衣裤",
+    "price": 13.13,
+    "cur": "USD",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "02013": {
+    "name": "羊毛方巾",
+    "price": 33.81,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "02014": {
+    "name": "女士和服",
+    "price": 19.49,
+    "cur": "USD",
+    "max": "8000 SET",
+    "daily": "4000 SET"
+   },
+   "02015": {
+    "name": "男士生仔裤",
+    "price": 23.4,
+    "cur": "USD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "03001": {
+    "name": "落地电子",
+    "price": 6.77,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04001": {
+    "name": "木制茶县",
+    "price": 21.58,
+    "cur": "USD",
+    "max": "20000 SET",
+    "daily": "10000 SET"
+   },
+   "92011": {
+    "name": "",
+    "price": 40.3,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "SUUU PC"
+   },
+   "04002": {
+    "name": "雕-面具",
+    "price": 22.11,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04003": {
+    "name": "本雕-娃娃",
+    "price": 34.85,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04004": {
+    "name": "雕少女",
+    "price": 33.81,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 # PC"
+   },
+   "04005": {
+    "name": "本雕头像",
+    "price": 24.96,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "04006": {
+    "name": "虫式木雕壁挂",
+    "price": 6.24,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "04010": {
+    "name": "木雕工艺品",
+    "price": 9.16,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 F PC"
+   },
+   "04011": {
+    "name": "俄罗斯套娃",
+    "price": 8.94,
+    "cur": "USD",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "05002": {
+    "name": "手锯",
+    "price": 5.85,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "05003": {
+    "name": "餐刀",
+    "price": 50.7,
+    "cur": "USD",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "05006": {
+    "name": "",
+    "price": 1.26,
+    "cur": "USD",
+    "max": "200000 PC",
+    "daily": "100000 PC"
+   },
+   "05010": {
+    "name": "开瓶器",
+    "price": 49.4,
+    "cur": "USD",
+    "max": "4000 BOX",
+    "daily": "2000 BOX"
+   },
+   "05011": {
+    "name": "两用扳手",
+    "price": 36.41,
+    "cur": "USD",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "05012": {
+    "name": "轴承",
+    "price": 283.4,
+    "cur": "USD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "05013": {
+    "name": "切格瓦拉烟盒",
+    "price": 261.27,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "06001": {
+    "name": "香堇蜡烛",
+    "price": 66.43,
+    "cur": "USD",
+    "max": "5000 BOX",
+    "daily": "2500 BOX"
+   },
+   "06002": {
+    "name": "环保涂料",
+    "price": 36.22,
+    "cur": "USD",
+    "max": "14000 DRUM",
+    "daily": "7000 DRUM"
+   },
+   "07010": {
+    "name": "床头灯",
+    "price": 11.71,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "08001": {
+    "name": "儿童踏板车",
+    "price": 23.27,
+    "cur": "USD",
+    "max": "20000 UNIT",
+    "daily": "10000 UNIT"
+   },
+   "08002": {
+    "name": "长毛绒熊猫",
+    "price": 35.49,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "08003": {
+    "name": "玩具娃娃",
+    "price": 21.19,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "08009": {
+    "name": "袋鼠玩偶",
+    "price": 55.25,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "08010": {
+    "name": "电子琴玩具",
+    "price": 45.5,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "08011": {
+    "name": "排球",
+    "price": 24.05,
+    "cur": "USD",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "09001": {
+    "name": "太阳眼镜",
+    "price": 5.94,
+    "cur": "USD",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "09006": {
+    "name": "潜水用眼镜",
+    "price": 5.53,
+    "cur": "USD",
+    "max": "100000 SET",
+    "daily": "50000 SET"
+   },
+   "09007": {
+    "name": "夜视望远镜",
+    "price": 40.12,
+    "cur": "USD",
+    "max": "16000 PC",
+    "daily": "8000 PC"
+   },
+   "09008": {
+    "name": "心电图机",
+    "price": 1756.14,
+    "cur": "USD",
+    "max": "100 SET",
+    "daily": "50 SET"
+   },
+   "10001": {
+    "name": "口红",
+    "price": 8.58,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10003": {
+    "name": "睫毛膏",
+    "price": 10.62,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10004": {
+    "name": "香水",
+    "price": 28.87,
+    "cur": "USD",
+    "max": "15000 BOTTLE",
+    "daily": "7500 BOTTLE"
+   },
+   "10005": {
+    "name": "眼影",
+    "price": 9.36,
+    "cur": "USD",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "10007": {
+    "name": "置笔",
+    "price": 2.89,
+    "cur": "USD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "11010": {
+    "name": "6x9寸4路喇叭",
+    "price": 36.53,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "12001": {
+    "name": "青花瓷餐具套装",
+    "price": 148.33,
+    "cur": "USD",
+    "max": "4000 SET",
+    "daily": "2000 SET"
+   },
+   "12002": {
+    "name": "骨瓷餐具套装",
+    "price": 58.44,
+    "cur": "USD",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12004": {
+    "name": "西式骨瓷午茶组",
+    "price": 40.31,
+    "cur": "USD",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "12005": {
+    "name": "7头茶县",
+    "price": 83.5,
+    "cur": "USD",
+    "max": "6000 SET",
+    "daily": "3000 SET"
+   },
+   "12006": {
+    "name": "10寸鱼盘",
+    "price": 2.7,
+    "cur": "USD",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "12007": {
+    "name": "寸圆盘",
+    "price": 1.85,
+    "cur": "USD",
+    "max": "100000 UNIT",
+    "daily": "50000"
+   },
+   "12008": {
+    "name": "盗碟",
+    "price": 1.59,
+    "cur": "USD",
+    "max": "100000 UNIT",
+    "daily": "50000 UNIT"
+   },
+   "13001": {
+    "name": "折叠伞BLA5508",
+    "price": 3.91,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "13008": {
+    "name": "沙滩太阳伞501A",
+    "price": 39.3,
+    "cur": "USD",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "14001": {
+    "name": "香皇",
+    "price": 70.2,
+    "cur": "USD",
+    "max": "2000 BOX",
+    "daily": "1000 BOX"
+   },
+   "14009": {
+    "name": "洗衣液",
+    "price": 35.23,
+    "cur": "USD",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "14010": {
+    "name": "洗手液",
+    "price": 14.3,
+    "cur": "USD",
+    "max": "12000 BOX",
+    "daily": "6000 BOX"
+   },
+   "15001": {
+    "name": "手提包",
+    "price": 44.01,
+    "cur": "USD",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "15002": {
+    "name": "双肩背包",
+    "price": 5.21,
+    "cur": "USD",
+    "max": "15000 PC",
+    "daily": "7500 PC"
+   },
+   "15003": {
+    "name": "时尚单肩包",
+    "price": 20.81,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "15004": {
+    "name": "妆包",
+    "price": 7.03,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "15008": {
+    "name": "钱包",
+    "price": 10.14,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "15009": {
+    "name": "旅行包",
+    "price": 24.71,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "16001": {
+    "name": "",
+    "price": 1.83,
+    "cur": "USD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "16008": {
+    "name": "竹帘",
+    "price": 58.76,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "16009": {
+    "name": "竹杯垫",
+    "price": 1.37,
+    "cur": "USD",
+    "max": "300000 PC",
+    "daily": "150000 PC"
+   },
+   "17001": {
+    "name": "床单",
+    "price": 6.59,
+    "cur": "USD",
+    "max": "80000 PC",
+    "daily": "40000 PC"
+   },
+   "17002": {
+    "name": "手工地毯",
+    "price": 686.4,
+    "cur": "USD",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "17009": {
+    "name": "",
+    "price": 12.04,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "17010": {
+    "name": "沙滩中",
+    "price": 18.04,
+    "cur": "USD",
+    "max": "30000 PC",
+    "daily": "15000 PC"
+   },
+   "18001": {
+    "name": "遮阳篷",
+    "price": 33.28,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "18006": {
+    "name": "睡袋",
+    "price": 72.25,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "18009": {
+    "name": "充气垫",
+    "price": 31.51,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "19001": {
+    "name": "男士商务皮鞋",
+    "price": 76.05,
+    "cur": "USD",
+    "max": "5000 PAIR",
+    "daily": "2500 PAIR"
+   },
+   "20005": {
+    "name": "皮凉鞋至远",
+    "price": 64.02,
+    "cur": "USD",
+    "max": "20000 DROM",
+    "daily": "3000°uRUR"
+   },
+   "21001": {
+    "name": "磺胺氯哒嗪钠",
+    "price": 47.32,
+    "cur": "USD",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22002": {
+    "name": "单体速冻黑加仑",
+    "price": 1644.5,
+    "cur": "USD",
+    "max": "500 MT",
+    "daily": "250 MT"
+   },
+   "22003": {
+    "name": "速冻绿色哈密瓜球",
+    "price": 4277.0,
+    "cur": "USD",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22004": {
+    "name": "速冻黄桃",
+    "price": 6500.62,
+    "cur": "USD",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22005": {
+    "name": "速冻草莓",
+    "price": 807.17,
+    "cur": "USD",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "22006": {
+    "name": "速冻青椒",
+    "price": 1885.0,
+    "cur": "USD",
+    "max": "400 MT",
+    "daily": "200 MT"
+   },
+   "22007": {
+    "name": "速冻西兰花",
+    "price": 2086.5,
+    "cur": "USD",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "22008": {
+    "name": "速冻红椒工",
+    "price": 1963.61,
+    "cur": "USD",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "22009": {
+    "name": "冷冻生肉",
+    "price": 12824.5,
+    "cur": "USD",
+    "max": "50 MT",
+    "daily": "25 MT"
+   },
+   "23001": {
+    "name": "原蔗糖",
+    "price": 936.27,
+    "cur": "USD",
+    "max": "700 MT",
+    "daily": "350 MT"
+   },
+   "23002": {
+    "name": "巴西咖啡(全咖啡豆,肉挂烘焙)",
+    "price": 39.0,
+    "cur": "USD",
+    "max": "20000 BAG",
+    "daily": "10000 # BAG"
+   },
+   "23003": {
+    "name": "巴西咖啡(全咖啡豆，城市烘焙)",
+    "price": 27.6,
+    "cur": "USD",
+    "max": "20000 BAG",
+    "daily": "10000 BAG"
+   },
+   "23006": {
+    "name": "标准白小麦",
+    "price": 1052.34,
+    "cur": "USD",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23007": {
+    "name": "优质硬白麦",
+    "price": 1261.74,
+    "cur": "USD",
+    "max": "600 MT",
+    "daily": "300 MT"
+   },
+   "23008": {
+    "name": "优质杜伦麦",
+    "price": 461.5,
+    "cur": "USD",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23009": {
+    "name": "黄玉米",
+    "price": 3708.9,
+    "cur": "USD",
+    "max": "300 MT",
+    "daily": "150 MT"
+   },
+   "23010": {
+    "name": "优质巴西黑豆",
+    "price": 1841.83,
+    "cur": "USD",
+    "max": "1000 MT",
+    "daily": "500 MT"
+   },
+   "23011": {
+    "name": "日本大米",
+    "price": 58.5,
+    "cur": "USD",
+    "max": "14000 BAG",
+    "daily": "7000 BAG"
+   },
+   "24001": {
+    "name": "纪念版雪范",
+    "price": 783.25,
+    "cur": "USD",
+    "max": "2000 BOX",
+    "daily": "1000 BOX"
+   },
+   "24002": {
+    "name": "限量版雪范",
+    "price": 1105.0,
+    "cur": "USD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "24003": {
+    "name": "珍藏版雪茄",
+    "price": 982.8,
+    "cur": "USD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "24004": {
+    "name": "辽制版雪范",
+    "price": 780.65,
+    "cur": "USD",
+    "max": "6000 BOX",
+    "daily": "3000 BOX"
+   },
+   "25001": {
+    "name": "24K黄金戒指",
+    "price": 262.5,
+    "cur": "USD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25002": {
+    "name": "24K黄金项链",
+    "price": 390.47,
+    "cur": "USD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25004": {
+    "name": "18K白金吊坠",
+    "price": 199.17,
+    "cur": "USD",
+    "max": "2500 PC",
+    "daily": "1250 PC"
+   },
+   "25005": {
+    "name": "18K白金耳环",
+    "price": 444.99,
+    "cur": "USD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25006": {
+    "name": "18K吊坠项链",
+    "price": 2026.02,
+    "cur": "USD",
+    "max": "250 PC",
+    "daily": "125 PC"
+   },
+   "25007": {
+    "name": "18K金嵌宝石手链",
+    "price": 426.84,
+    "cur": "USD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25008": {
+    "name": "925银戒指",
+    "price": 83.47,
+    "cur": "USD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25009": {
+    "name": "宝宝银手镯",
+    "price": 44.47,
+    "cur": "USD",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "25010": {
+    "name": "925纯银耳环",
+    "price": 73.07,
+    "cur": "USD",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25011": {
+    "name": "绿松石手镯",
+    "price": 520.0,
+    "cur": "USD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "25013": {
+    "name": "纯银吊坠",
+    "price": 188.5,
+    "cur": "USD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "25014": {
+    "name": "蓝宝石黄金戒指",
+    "price": 593.45,
+    "cur": "USD",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "25015": {
+    "name": "14K黄金皮带扣",
+    "price": 1170.0,
+    "cur": "USD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "25016": {
+    "name": "14K白金钻戒",
+    "price": 3640.0,
+    "cur": "USD",
+    "max": "160 PC",
+    "daily": "80 PC"
+   },
+   "25017": {
+    "name": "镶绿松石纯银顶链",
+    "price": 296.4,
+    "cur": "USD",
+    "max": "1600 PC",
+    "daily": "800 PC"
+   },
+   "25018": {
+    "name": "18K白金天然珍珠耳钉",
+    "price": 391.3,
+    "cur": "USD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25019": {
+    "name": "金箔玫瑰花",
+    "price": 130.0,
+    "cur": "USD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "26001": {
+    "name": "STV牌彩色电视机",
+    "price": 625.72,
+    "cur": "USD",
+    "max": "720 SET",
+    "daily": "360 SET"
+   },
+   "26002": {
+    "name": "吸尘器",
+    "price": 75.4,
+    "cur": "USD",
+    "max": "6000 PC",
+    "daily": "3000 PC"
+   },
+   "26003": {
+    "name": "对开门式冰箱",
+    "price": 916.5,
+    "cur": "USD",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "26004": {
+    "name": "电饭煲堡",
+    "price": 314.6,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "26005": {
+    "name": "微波炉",
+    "price": 80.87,
+    "cur": "USD",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "26006": {
+    "name": "德国咖啡机",
+    "price": 121.55,
+    "cur": "USD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "26007": {
+    "name": "德国滤水壶",
+    "price": 76.05,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "27001": {
+    "name": "健康电子烟",
+    "price": 8.45,
+    "cur": "USD",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "27002": {
+    "name": "数码相机",
+    "price": 144.3,
+    "cur": "USD",
+    "max": "3000 PC",
+    "daily": "1500 PC"
+   },
+   "27003": {
+    "name": "数码相框",
+    "price": 45.5,
+    "cur": "USD",
+    "max": "13000 PC",
+    "daily": "6500 PC"
+   },
+   "28001": {
+    "name": "轮毂",
+    "price": 78.96,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "28002": {
+    "name": "转向柱",
+    "price": 66.04,
+    "cur": "USD",
+    "max": "4800 PC",
+    "daily": "2400 PC"
+   },
+   "29001": {
+    "name": "山地车",
+    "price": 214.24,
+    "cur": "USD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "30001": {
+    "name": "裸钻",
+    "price": 1495.0,
+    "cur": "USD",
+    "max": "300 PC",
+    "daily": "150"
+   },
+   "31001": {
+    "name": "钻石戒指",
+    "price": 2608.94,
+    "cur": "USD",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "31002": {
+    "name": "钻石耳钉",
+    "price": 624.09,
+    "cur": "USD",
+    "max": "800 PC",
+    "daily": "400 PC"
+   },
+   "31003": {
+    "name": "18K黄金钻石戒指",
+    "price": 465.07,
+    "cur": "USD",
+    "max": "1000 PC",
+    "daily": "500 PC"
+   },
+   "32001": {
+    "name": "黄翡茶壶",
+    "price": 4212.13,
+    "cur": "USD",
+    "max": "200 PC",
+    "daily": "100 PC"
+   },
+   "32005": {
+    "name": "玉白菜摆性",
+    "price": 9555.13,
+    "cur": "USD",
+    "max": "60 PC",
+    "daily": "30 PC"
+   },
+   "32006": {
+    "name": "珍珠手链",
+    "price": 1174.03,
+    "cur": "USD",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   },
+   "32007": {
+    "name": "巴西天然紫水晶摆性",
+    "price": 449.08,
+    "cur": "USD",
+    "max": "600 PC",
+    "daily": "300 PC"
+   },
+   "32008": {
+    "name": "琥珀吊坠",
+    "price": 398.58,
+    "cur": "USD",
+    "max": "1400 PC",
+    "daily": "700 PC"
+   },
+   "33001": {
+    "name": "布谷乌钟",
+    "price": 269.1,
+    "cur": "USD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "33002": {
+    "name": "男士机械表",
+    "price": 2379.0,
+    "cur": "USD",
+    "max": "300 PC",
+    "daily": "150 PC"
+   },
+   "34002": {
+    "name": "蓝莓",
+    "price": 9099.14,
+    "cur": "USD",
+    "max": "50 MT",
+    "daily": "25"
+   },
+   "35001": {
+    "name": "儿童汽车安全座椅",
+    "price": 513.5,
+    "cur": "USD",
+    "max": "2000 PC",
+    "daily": "1000 PC"
+   },
+   "36001": {
+    "name": "虫国结",
+    "price": 1.27,
+    "cur": "USD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "36002": {
+    "name": "虫国油纸垒",
+    "price": 47.91,
+    "cur": "USD",
+    "max": "12000 PC",
+    "daily": "6000 PC"
+   },
+   "37001": {
+    "name": "",
+    "price": 8.06,
+    "cur": "USD",
+    "max": "66000 PC",
+    "daily": "33000 PC"
+   },
+   "38003": {
+    "name": "菠菱",
+    "price": 7.8,
+    "cur": "USD",
+    "max": "44000 CARTON",
+    "daily": "22000 CARTON"
+   },
+   "38004": {
+    "name": "柑橘",
+    "price": 19.76,
+    "cur": "USD",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "38005": {
+    "name": "红西柚",
+    "price": 31.85,
+    "cur": "USD",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "39001": {
+    "name": "巴西蜂胶",
+    "price": 9.65,
+    "cur": "USD",
+    "max": "18000 BOTTLE",
+    "daily": "9000 371108"
+   },
+   "39002": {
+    "name": "深海鱼油",
+    "price": 15.08,
+    "cur": "USD",
+    "max": "42000 BOTTLE",
+    "daily": "21000 BOTTLE"
+   },
+   "40001": {
+    "name": "7号电池",
+    "price": 35.1,
+    "cur": "USD",
+    "max": "100000 BOX",
+    "daily": "50000 BOX"
+   },
+   "40002": {
+    "name": "18650锂电池",
+    "price": 1.86,
+    "cur": "USD",
+    "max": "60000 BOX",
+    "daily": "30000 BOX"
+   },
+   "41001": {
+    "name": "绵羊油面霜",
+    "price": 3.19,
+    "cur": "USD",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "41002": {
+    "name": "芦荟胶",
+    "price": 6.5,
+    "cur": "USD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "41003": {
+    "name": "特效润肤乳",
+    "price": 5.85,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "42001": {
+    "name": "旦本防蚊贴",
+    "price": 3.37,
+    "cur": "USD",
+    "max": "80000 BAG",
+    "daily": "40000 BAG"
+   },
+   "43001": {
+    "name": "铬矿砂",
+    "price": 925.6,
+    "cur": "USD",
+    "max": "1400 MT",
+    "daily": "700 MT"
+   },
+   "44001": {
+    "name": "芭蕾水钻摆性",
+    "price": 276.9,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "45001": {
+    "name": "男子足球鞋",
+    "price": 59.33,
+    "cur": "USD",
+    "max": "6000 PAIR",
+    "daily": "3000 PAIR"
+   },
+   "46001": {
+    "name": "中国山水画",
+    "price": 66.04,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "47001": {
+    "name": "手风琴",
+    "price": 20.54,
+    "cur": "USD",
+    "max": "7000 PC",
+    "daily": "3500 PC"
+   }
+  },
+  "factory": {
+   "01008": {
+    "name": "芒果罐头",
+    "price": 5.6,
+    "cur": "USD",
+    "max": "40000 CARTON",
+    "daily": "20000 CARTON"
+   },
+   "01011": {
+    "name": "番茄酱罐头",
+    "price": 91.54,
+    "cur": "USD",
+    "max": "30000 CARTON",
+    "daily": "15000 CARTON"
+   },
+   "02003": {
+    "name": "棉制针织女童套头衫",
+    "price": 3.58,
+    "cur": "USD",
+    "max": "100000 PC",
+    "daily": "50000 PC"
+   },
+   "02005": {
+    "name": "女式睡衣",
+    "price": 5.3,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "02015": {
+    "name": "男士生仔裤",
+    "price": 15.0,
+    "cur": "USD",
+    "max": "40000 PC",
+    "daily": "20000 F PC"
+   },
+   "05011": {
+    "name": "两用扳毛",
+    "price": 22.39,
+    "cur": "USD",
+    "max": "10000 SET",
+    "daily": "5000 SET"
+   },
+   "06002": {
+    "name": "环保涂料",
+    "price": 16.27,
+    "cur": "USD",
+    "max": "14000 DRUM",
+    "daily": "7000 DRUM"
+   },
+   "08010": {
+    "name": "电子琴玩县",
+    "price": 25.0,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "09001": {
+    "name": "太阳眼镜",
+    "price": 3.15,
+    "cur": "USD",
+    "max": "80000 SET",
+    "daily": "40000 SET"
+   },
+   "09006": {
+    "name": "潜水用眼镜",
+    "price": 2.94,
+    "cur": "USD",
+    "max": "100000 SET",
+    "daily": "50000 SET"
+   },
+   "09007": {
+    "name": "夜视望远镜",
+    "price": 14.97,
+    "cur": "USD",
+    "max": "16000 PC",
+    "daily": "8000 PC"
+   },
+   "10001": {
+    "name": "口红",
+    "price": 4.24,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 PC"
+   },
+   "10003": {
+    "name": "睫毛育",
+    "price": 5.35,
+    "cur": "USD",
+    "max": "50000 PC",
+    "daily": "25000 F PC"
+   },
+   "10004": {
+    "name": "香水",
+    "price": 16.99,
+    "cur": "USD",
+    "max": "15000 BOTTLE",
+    "daily": "7500 BOTTLE"
+   },
+   "10005": {
+    "name": "眼影",
+    "price": 4.59,
+    "cur": "USD",
+    "max": "50000 BOX",
+    "daily": "25000 BOX"
+   },
+   "11001": {
+    "name": "4寸2路喇叭！",
+    "price": 8.5,
+    "cur": "USD",
+    "max": "20000 PC",
+    "daily": "10000 PC"
+   },
+   "11010": {
+    "name": "6x9寸4路喇叭",
+    "price": 20.18,
+    "cur": "USD",
+    "max": "10000 PC",
+    "daily": "5000 PC"
+   },
+   "20004": {
+    "name": "对苯二甲酸二甲酯",
+    "price": 50.0,
+    "cur": "USD",
+    "max": "6000 BAG",
+    "daily": "3000 BAG"
+   },
+   "20005": {
+    "name": "11,1-三羟甲基丙烷",
+    "price": 31.0,
+    "cur": "USD",
+    "max": "10000 DRUM",
+    "daily": "5000 DRUM"
+   },
+   "22005": {
+    "name": "速冻草莓",
+    "price": 329.65,
+    "cur": "USD",
+    "max": "1000 MT",
+    "daily": "500"
+   },
+   "25007": {
+    "name": "18K金嵌宝石手链",
+    "price": 227.0,
+    "cur": "USD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25008": {
+    "name": "925银戒指",
+    "price": 37.55,
+    "cur": "USD",
+    "max": "1000 BOX",
+    "daily": "500 BOX"
+   },
+   "25012": {
+    "name": "红宝石黄金戒指",
+    "price": 1547.0,
+    "cur": "USD",
+    "max": "1200 PC",
+    "daily": "600 PC"
+   },
+   "25019": {
+    "name": "金箔玫瑰花",
+    "price": 20.2,
+    "cur": "USD",
+    "max": "40000 PC",
+    "daily": "20000 PC"
+   },
+   "26001": {
+    "name": "STV牌彩色电视机",
+    "price": 295.0,
+    "cur": "USD",
+    "max": "720 SET",
+    "daily": "360 SET"
+   },
+   "26005": {
+    "name": "微波炉",
+    "price": 40.0,
+    "cur": "USD",
+    "max": "60000 PC",
+    "daily": "30000 PC"
+   },
+   "27003": {
+    "name": "数码相框",
+    "price": 21.89,
+    "cur": "USD",
+    "max": "13000 PC",
+    "daily": "6500 PC"
+   },
+   "28001": {
+    "name": "轮毂",
+    "price": 28.01,
+    "cur": "USD",
+    "max": "8000 PC",
+    "daily": "4000 PC"
+   },
+   "32006": {
+    "name": "珍珠手链",
+    "price": 490.0,
+    "cur": "USD",
+    "max": "4000 PC",
+    "daily": "2000 PC"
+   }
+  }
+ }
+}
