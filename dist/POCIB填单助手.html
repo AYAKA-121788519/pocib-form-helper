@@ -399,7 +399,7 @@
       </div>
       <div class="pairBar" id="fxRow">
         <span class="k">汇率 1 USD =</span>
-        <span class="fx"><input id="fx_CNY" type="number" step="0.01">CNY</span>
+        <span class="fx"><input id="fx_RMB" type="number" step="0.01">RMB</span>
         <span class="fx"><input id="fx_EUR" type="number" step="0.01">EUR</span>
         <span class="fx"><input id="fx_AUD" type="number" step="0.01">AUD</span>
         <span class="fx"><input id="fx_RUB" type="number" step="0.01">RUB</span>
@@ -2509,12 +2509,18 @@ $("port_dest").onchange=e=>{
 $("pdCustomTxt").oninput=e=>{ CASES[CASE].port_dest=e.target.value; compute(); syncPair(); };
 /* ---------------- 选品参考：进口国市场价 vs 出口国工厂价 ---------------- */
 const FX_KEY="pocib_fx_v1";
-const FX_DEF={CNY:6.80,EUR:0.91,AUD:1.11,RUB:33.3};   /* 1 USD = ? 本币 */
-const FX_CUR={CNY:"CNY",EUR:"EUR",AUD:"AUD",RUB:"RUB"};
+const FX_DEF={RMB:6.80,EUR:0.91,AUD:1.11,RUB:33.3};   /* 1 USD = ? 本币 */
+const FX_ALIAS={CNY:"RMB"};                           /* 老版本把人民币存成 CNY */
+function fxCur(cur){
+  const k=String(cur||"").toUpperCase();
+  return FX_ALIAS[k]||k;
+}
 function fxAll(){
   let v={};
   try{ v=JSON.parse(localStorage.getItem(FX_KEY)||"{}")||{}; }catch(e){}
-  return Object.assign({},FX_DEF,v);
+  const out={};
+  for(const k in v) out[fxCur(k)]=v[k];
+  return Object.assign({},FX_DEF,out);
 }
 function fxPaint(){
   const v=fxAll();
@@ -2527,8 +2533,9 @@ function fxRead(){
 }
 /* 1 单位本币 = ? USD */
 function fxUsd(cur,v){
-  if(cur==="USD") return 1;
-  const per=v[cur];
+  const k=fxCur(cur);
+  if(k==="USD") return 1;
+  const per=v[k];
   return per>0? 1/per : 0;
 }
 function money(v,cur){
@@ -2561,8 +2568,23 @@ function syncPair(){
 function renderPair(){
   const tbody=$("pairRows"); if(!tbody) return;
   const from=$("pairFrom").value, to=$("pairTo").value;
-  const rows=pairCalc(from,to,fxRead());
-  if(!rows.length){ tbody.innerHTML=""; $("pairNote").textContent="请选择出口国与进口国。"; return; }
+  const fxv=fxRead();
+  const rows=pairCalc(from,to,fxv);
+  if(!rows.length){
+    tbody.innerHTML="";
+    const A=PRICE[from], B=PRICE[to];
+    let msg="请选择出口国与进口国。";
+    if(A && B){
+      const shared=Object.keys(A.f).filter(k=>B.m[k]!=null);
+      if(!shared.length) msg=`${from} 与 ${to} 之间没有共同的商品编号，换一对试试。`;
+      else if(!(fxUsd(A.cur,fxv)>0)) msg=`缺 ${A.cur} 的汇率，上面「汇率 1 USD =」里补上就能算（现有 ${Object.keys(FX_DEF).join(" / ")}）。`;
+      else if(!(fxUsd(B.cur,fxv)>0)) msg=`缺 ${B.cur} 的汇率，上面「汇率 1 USD =」里补上就能算（现有 ${Object.keys(FX_DEF).join(" / ")}）。`;
+      else msg="这两个国家之间没有可比的商品，换一对试试。";
+    }
+    $("pairNote").textContent=msg;
+    $("pairHint").textContent=`${from||"?"} → ${to||"?"} · 无可比商品`;
+    return;
+  }
   const sort=$("pairSort").value;
   rows.sort((x,y)=> sort==="diff" ? y.diff-x.diff
                   : sort==="code" ? x.code.localeCompare(y.code)

@@ -11,8 +11,8 @@ const src = "const PRICE={};\n"
   + cut("/* __PRICE_DATA_BEGIN__ */", "/* __PRICE_DATA_END__ */")
   + cut("const FX_KEY=", "function syncPair")
   + cut("function money(", "function renderPair");
-const { PNAME, PRICE, fxUsd, pairCalc, FX_DEF } =
-  new Function(src + "\n return {PNAME,PRICE,fxUsd,pairCalc,FX_DEF};")();
+const { PNAME, PRICE, fxUsd, fxCur, pairCalc, FX_DEF } =
+  new Function(src + "\n return {PNAME,PRICE,fxUsd,fxCur,pairCalc,FX_DEF};")();
 
 let bad = 0;
 const is = (name, got, want) => {
@@ -30,10 +30,11 @@ const FX = { ...FX_DEF };
 
 console.log("— 汇率折算 —");
 is("美元恒为 1", fxUsd("USD", FX), 1);
-near("1 CNY = 1/6.8 USD", fxUsd("CNY", FX), 1 / 6.8);
+near("1 RMB = 1/6.8 USD", fxUsd("RMB", FX), 1 / 6.8);
+is("老键 CNY 也能认", fxCur("CNY"), "RMB");
 near("1 EUR = 1/0.91 USD", fxUsd("EUR", FX), 1 / 0.91);
 near("1 RUB = 1/33.3 USD", fxUsd("RUB", FX), 1 / 33.3);
-is("汇率填 0 不除零", fxUsd("CNY", { ...FX, CNY: 0 }), 0);
+is("汇率填 0 不除零", fxUsd("RMB", { ...FX, RMB: 0 }), 0);
 
 console.log("\n— 价格表完整性 —");
 is("五个国家", Object.keys(PRICE).sort().join(","), "中国,俄罗斯,德国,澳大利亚,美国");
@@ -65,6 +66,20 @@ if (!one) {
   near("价差", one.diff, 38.39 / 0.91 - 20.20);
   near("毛利率", one.rate, (38.39 / 0.91 - 20.20) / 20.20);
 }
+
+console.log("\n— 中国出口（回归：币种键 RMB 曾对不上 CNY，全表空白） —");
+is("汇率表自身能折出中国成本", fxUsd(PRICE["中国"].cur, FX) > 0, true);
+const cns = ["俄罗斯", "澳大利亚", "德国", "美国"];
+for (const to of cns) {
+  const rs = pairCalc("中国", to, FX);
+  is(`中国工厂 → ${to}市场有结果`, rs.length > 3, true);
+  is(`中国 → ${to} 每条成本都 > 0`, rs.every(r => r.cost > 0), true);
+}
+console.log("\n— 全部国家两两互查 —");
+let empty = [];
+for (const a in PRICE) for (const b in PRICE)
+  if (a !== b && pairCalc(a, b, FX).length === 0) empty.push(`${a}→${b}`);
+is("20 个国家组合都有可比商品", empty.join(","), "");
 
 console.log("\n— 人民币国别键 —");
 is("中国用 RMB 计价", PRICE["中国"].cur, "RMB");
