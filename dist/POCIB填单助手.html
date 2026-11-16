@@ -842,6 +842,21 @@ function unitZh(c){
 function packZh(c){
   return PACK_ZH[normUnit(c.pack_unit)]||c.pack_unit||"箱";
 }
+/* 港口中文名：HAMBURG, GERMANY → 汉堡；手动输入的自定义港原样返回 */
+function portZh(v){
+  const s=String(v||"").trim();
+  if(!s) return "";
+  const u=s.toUpperCase();
+  const hit=PORTS.find(([en,cn])=>u===en.toUpperCase()+", "+cn.toUpperCase());
+  return hit? hit[2] : s;
+}
+/* 中文国别：公司档案有 country_zh 就用它，否则从港口串里取国家 */
+function countryZhOf(co,portVal){
+  if(co && co.country_zh) return co.country_zh;
+  const u=String(portVal||"").toUpperCase();
+  const hit=PORTS.find(([en,cn])=>u.endsWith(", "+cn.toUpperCase()));
+  return hit? hit[3] : (co&&co.country)||"";
+}
 
 /* 以重量作为销售单位的（吨、千克），产地证 9 栏要填毛重而不是件数 */
 const WT_UNITS=["KG","KGS","MT","MTS","TNE","TON","TONS","T"];
@@ -1401,6 +1416,11 @@ function renderFields(step,di){
     const mapped = !(rows.length && rows[0][0]==="单据");
     if(!mapped){
       note="这张单据的字段级渲染还没做，先列字段与来源。";
+    }else if(doc.indexOf("入境货物检验检疫")>=0){
+      note="收货人＝进口商、发货人＝出口商，中英文分两行；数/重量按合同销售数量与销售单位中文给，"
+          +"包装种类及数量按包装单位中文给，两者都随商品自动变。运输工具名称号码、提单/运单号、到货日期、"
+          +"集装箱柜号要去「提货单」和到货通知邮件上抄；启运/入境口岸与目的地都是中文港名（取自装运港、目的港）。"
+          +"货物存放地点 POCIB 可不填，用途明确的商品也不填，随附单据须与合同一致。";
     }else if(doc.indexOf("检验检疫")>=0){
       note="联系人与发/收货人的中英文分栏填；货物存放地点在海运方式下取订舱后「配舱回单」上的存放地，空运不填；"
           +"数量与包装件数会跟随商品的销售单位、包装单位自动变化。";
@@ -1451,6 +1471,13 @@ function fallbackCopy(txt){
 }
 
 function genericRows(doc,c,D,seller,buyer){
+  const isAir = c.transport==="空运";
+  /* 入境检验检疫用：柜型数量可从柜型选型结果推，柜号须看提货单 */
+  const boxTxt = isAir ? "空运方式无需填写（留空）"
+    : (D.box ? (D.box.lcl ? "拼箱，柜号见提货单" : boxLabel(D.box)+"（柜号见提货单）")
+             : "（柜号见提货单）");
+  const attTxt = ["合同","商业发票","提/运单","装箱单"].map(x=>"☑ "+x).join("　")
+    + ((c.docs_clause&&c.docs_clause.length) ? "　"+c.docs_clause.map(x=>"☑ "+x).join("　") : "");
   const map={
    "托收委托书":[["托收行 (Remitting Bank)",(seller.bank_zh||"")+" / "+(seller.bank_en||"")+" / "+(seller.address_en||""),"主体"],
       ["代收行 (Collecting Bank)",(buyer.bank_zh||"")+" / "+(buyer.bank_en||""),"主体"],
@@ -1466,6 +1493,47 @@ function genericRows(doc,c,D,seller,buyer){
       ["受款人 (Pay to the Order of)",seller.name_en,"主体"],
       ["出票人 / 签章",seller.name_en+" / "+seller.legal_en,"主体"],
       ["付款人 (To)",buyer.name_en,"主体"]],
+   "入境货物检验检疫申请":[["申请单位名称",buyer.name_zh,"主体"],
+      ["申请单位登记号",buyer.reg_inspection,"主体"],
+      ["申请单位联系人",buyer.legal_zh,"主体"],
+      ["申请单位电话",buyer.tel,"主体"],
+      ["编号","（由海关填写）","空"],
+      ["申请日期",c.issue_date||"待填","自动"],
+      ["收货人（中文）",buyer.name_zh,"主体"],
+      ["收货人（英文）",buyer.name_en,"主体"],
+      ["企业性质","☑ 外贸公司　□ 生产企业　□ 其他","待确认"],
+      ["发货人（中文）",seller.name_zh,"主体"],
+      ["发货人（英文）",seller.name_en,"主体"],
+      ["货物名称（中/外文）",c.hs_zh+"\n"+c.goods,"自动"],
+      ["H.S.编码",c.hs,"主体"],
+      ["原产国（地区）",countryZhOf(seller,c.port_load),"码表"],
+      ["数/重量",n0(c.qty)+" "+unitZh(c),"自动"],
+      ["货物总值",(c.currency||"USD")+" "+n2(D.amount),"自动"],
+      ["包装种类及数量",n0(D.packs)+" "+packZh(c),"自动"],
+      ["运输工具名称号码",isAir ? "参考航空运单（AWB）上的航班号"
+                                : "参考提货单（B/L）上的船名航次","待确认"],
+      ["合同号",c.contract,"自动"],
+      ["贸易方式","一般贸易","常量"],
+      ["贸易国别（地区）",countryZhOf(seller,c.port_load),"码表"],
+      ["提单/运单号","（提货单 / 运单上的编号）","待确认"],
+      ["到货日期","（到货通知邮件上的日期）","待确认"],
+      ["启运国家（地区）",countryZhOf(seller,c.port_load),"码表"],
+      ["许可证/审批号","（一般商品可空白）","空"],
+      ["卸毕日期","（未卸毕可暂不填，卸毕后补）","空"],
+      ["启运口岸",portZh(c.port_load),"自动"],
+      ["入境口岸",portZh(c.port_dest),"自动"],
+      ["索赔有效期至","（按合同索赔条款的截止日期）","待确认"],
+      ["经停口岸","（直航不填）","空"],
+      ["目的地",portZh(c.port_dest),"自动"],
+      ["集装箱规格、数量及号码",boxTxt,"待确认"],
+      ["合同订立的特殊条款以及其他要求","（质量 / 卫生等特殊条款；无则填「无」）","待确认"],
+      ["货物存放地点","（POCIB 可不填，留空）","空"],
+      ["用途","（如 加工 / 销售；用途明确的商品可不填）","空"],
+      ["随附单据",attTxt,"待确认"],
+      ["标记及号码",c.shipping_mark||"N/M","待确认"],
+      ["检验检疫费","（由海关填写）","空"],
+      ["申请人郑重声明","（须申请人亲笔签名）","待确认"],
+      ["领取证单","（海关受理申请日现场填写）","空"]],
    "出境货物检验检疫申请":[["申请单位",seller.name_zh,"主体"],
       ["申请单位登记号",seller.reg_inspection,"主体"],
       ["联系人",seller.legal_zh,"主体"],
