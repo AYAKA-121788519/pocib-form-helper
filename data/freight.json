@@ -1,0 +1,4057 @@
+{
+ "air": {
+  "Capetown-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 5.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 45.4,
+    "300kgs": 45.4,
+    "45kgs": 51.5,
+    "500kgs": null,
+    "Minimum": 726.0,
+    "Normal": 64.1
+   }
+  },
+  "Capetown-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 5.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 44.3,
+    "300kgs": 38.3,
+    "45kgs": 53.1,
+    "500kgs": null,
+    "Minimum": 653.4,
+    "Normal": 65.3
+   }
+  },
+  "Capetown-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 6.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.3,
+    "300kgs": 33.9,
+    "45kgs": 43.6,
+    "500kgs": null,
+    "Minimum": 786.5,
+    "Normal": 61.5
+   }
+  },
+  "Capetown-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 6.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 48.4,
+    "300kgs": 42.4,
+    "45kgs": 55.7,
+    "500kgs": null,
+    "Minimum": 810.7,
+    "Normal": 68.1
+   }
+  },
+  "Capetown-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 7.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 44.3,
+    "300kgs": 38.3,
+    "45kgs": 53.1,
+    "500kgs": null,
+    "Minimum": 738.1,
+    "Normal": 66.4
+   }
+  },
+  "Capetown-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 3.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.6,
+    "300kgs": 31.8,
+    "45kgs": 48.7,
+    "500kgs": null,
+    "Minimum": 665.5,
+    "Normal": 54.8
+   }
+  },
+  "Capetown-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 5.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 57.5,
+    "300kgs": 50.8,
+    "45kgs": 66.6,
+    "500kgs": null,
+    "Minimum": 925.7,
+    "Normal": 70.8
+   }
+  },
+  "Capetown-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 7.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.5,
+    "300kgs": 31.7,
+    "45kgs": 46.2,
+    "500kgs": null,
+    "Minimum": 689.7,
+    "Normal": 51.0
+   }
+  },
+  "Capetown-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 5.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 45.4,
+    "300kgs": 44.2,
+    "45kgs": 53.1,
+    "500kgs": null,
+    "Minimum": 641.3,
+    "Normal": 62.9
+   }
+  },
+  "Hamburg-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 5.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 27.7,
+    "300kgs": 27.7,
+    "45kgs": 40.7,
+    "500kgs": null,
+    "Minimum": 490.0,
+    "Normal": 46.7
+   }
+  },
+  "Hamburg-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 2.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 20.5,
+    "300kgs": 20.5,
+    "45kgs": 23.0,
+    "500kgs": null,
+    "Minimum": 380.0,
+    "Normal": 35.5
+   }
+  },
+  "Hamburg-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 8.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 47.0,
+    "300kgs": 46.0,
+    "45kgs": 51.0,
+    "500kgs": null,
+    "Minimum": 750.0,
+    "Normal": 57.5
+   }
+  },
+  "Hamburg-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 5.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 28.0,
+    "300kgs": 25.5,
+    "45kgs": 28.0,
+    "500kgs": null,
+    "Minimum": 470.0,
+    "Normal": 46.0
+   }
+  },
+  "Hamburg-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 3.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 21.5,
+    "300kgs": 21.5,
+    "45kgs": 25.0,
+    "500kgs": null,
+    "Minimum": 420.0,
+    "Normal": 37.5
+   }
+  },
+  "Hamburg-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 4.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 26.2,
+    "300kgs": 26.2,
+    "45kgs": 43.7,
+    "500kgs": null,
+    "Minimum": 520.0,
+    "Normal": 50.7
+   }
+  },
+  "Hamburg-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 4.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 46.5,
+    "300kgs": 43.0,
+    "45kgs": 54.0,
+    "500kgs": null,
+    "Minimum": 800.0,
+    "Normal": 59.5
+   }
+  },
+  "Hamburg-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 5.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 34.5,
+    "300kgs": 32.0,
+    "45kgs": 40.0,
+    "500kgs": null,
+    "Minimum": 450.0,
+    "Normal": 40.5
+   }
+  },
+  "Hamburg-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 2.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.5,
+    "300kgs": 33.0,
+    "45kgs": 40.0,
+    "500kgs": null,
+    "Minimum": 500.0,
+    "Normal": 42.5
+   }
+  },
+  "Liverpool-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 5.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 65.7,
+    "300kgs": 60.7,
+    "45kgs": 73.6,
+    "500kgs": null,
+    "Minimum": 1067.7,
+    "Normal": 84.4
+   }
+  },
+  "Liverpool-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 2.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 29.6,
+    "300kgs": 29.6,
+    "45kgs": 34.6,
+    "500kgs": null,
+    "Minimum": 577.2,
+    "Normal": 52.7
+   }
+  },
+  "Liverpool-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 10.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 64.2,
+    "300kgs": 59.1,
+    "45kgs": 72.1,
+    "500kgs": null,
+    "Minimum": 1053.3,
+    "Normal": 84.4
+   }
+  },
+  "Liverpool-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 7.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 43.5,
+    "300kgs": 37.7,
+    "45kgs": 58.8,
+    "500kgs": null,
+    "Minimum": 793.6,
+    "Normal": 65.9
+   }
+  },
+  "Liverpool-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 3.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 43.3,
+    "300kgs": 40.3,
+    "45kgs": 57.7,
+    "500kgs": null,
+    "Minimum": 800.7,
+    "Normal": 75.8
+   }
+  },
+  "Liverpool-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 5.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 66.1,
+    "300kgs": 63.2,
+    "45kgs": 73.3,
+    "500kgs": null,
+    "Minimum": 1010.0,
+    "Normal": 79.3
+   }
+  },
+  "Liverpool-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 4.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 65.7,
+    "300kgs": 54.8,
+    "45kgs": 76.5,
+    "500kgs": null,
+    "Minimum": 1031.6,
+    "Normal": 81.5
+   }
+  },
+  "Liverpool-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 4.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 44.4,
+    "300kgs": 41.5,
+    "45kgs": 53.1,
+    "500kgs": null,
+    "Minimum": 937.9,
+    "Normal": 73.3
+   }
+  },
+  "Liverpool-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 2.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 52.7,
+    "300kgs": 51.2,
+    "45kgs": 61.9,
+    "500kgs": null,
+    "Minimum": 735.9,
+    "Normal": 73.6
+   }
+  },
+  "Melbourne-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 6.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 48.9,
+    "300kgs": 43.6,
+    "45kgs": 61.7,
+    "500kgs": null,
+    "Minimum": 817.2,
+    "Normal": 70.9
+   }
+  },
+  "Melbourne-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 8.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 38.3,
+    "300kgs": 36.4,
+    "45kgs": 46.0,
+    "500kgs": null,
+    "Minimum": 830.0,
+    "Normal": 69.9
+   }
+  },
+  "Melbourne-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 10.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 61.9,
+    "300kgs": 57.4,
+    "45kgs": 67.7,
+    "500kgs": null,
+    "Minimum": 1021.5,
+    "Normal": 77.3
+   }
+  },
+  "Melbourne-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 5.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.0,
+    "300kgs": 30.8,
+    "45kgs": 58.3,
+    "500kgs": null,
+    "Minimum": 778.9,
+    "Normal": 63.5
+   }
+  },
+  "Melbourne-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 7.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 49.2,
+    "300kgs": 46.6,
+    "45kgs": 61.1,
+    "500kgs": null,
+    "Minimum": 778.9,
+    "Normal": 70.2
+   }
+  },
+  "Melbourne-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 6.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 58.1,
+    "300kgs": 53.7,
+    "45kgs": 65.1,
+    "500kgs": null,
+    "Minimum": 944.9,
+    "Normal": 74.7
+   }
+  },
+  "Melbourne-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 5.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 28.7,
+    "300kgs": 25.7,
+    "45kgs": 39.0,
+    "500kgs": null,
+    "Minimum": 587.4,
+    "Normal": 51.8
+   }
+  },
+  "Melbourne-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 5.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 34.1,
+    "300kgs": 31.5,
+    "45kgs": 36.6,
+    "500kgs": null,
+    "Minimum": 753.4,
+    "Normal": 50.7
+   }
+  },
+  "Melbourne-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 8.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 34.5,
+    "300kgs": 34.5,
+    "45kgs": 40.9,
+    "500kgs": null,
+    "Minimum": 715.1,
+    "Normal": 62.0
+   }
+  },
+  "Nagoya-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 6.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 58.7,
+    "300kgs": 54.7,
+    "45kgs": 68.4,
+    "500kgs": null,
+    "Minimum": 971.0,
+    "Normal": 77.3
+   }
+  },
+  "Nagoya-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 5.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 29.4,
+    "300kgs": 27.5,
+    "45kgs": 41.7,
+    "500kgs": null,
+    "Minimum": 615.4,
+    "Normal": 55.5
+   }
+  },
+  "Nagoya-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 7.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 41.3,
+    "300kgs": 35.9,
+    "45kgs": 55.7,
+    "500kgs": null,
+    "Minimum": 752.2,
+    "Normal": 62.5
+   }
+  },
+  "Nagoya-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 5.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 38.5,
+    "300kgs": 35.9,
+    "45kgs": 62.5,
+    "500kgs": null,
+    "Minimum": 847.9,
+    "Normal": 69.4
+   }
+  },
+  "Nagoya-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 7.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 48.5,
+    "300kgs": 45.8,
+    "45kgs": 57.3,
+    "500kgs": null,
+    "Minimum": 765.9,
+    "Normal": 68.4
+   }
+  },
+  "Nagoya-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 7.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 64.9,
+    "300kgs": 57.4,
+    "45kgs": 75.3,
+    "500kgs": null,
+    "Minimum": 1087.4,
+    "Normal": 79.9
+   }
+  },
+  "Nagoya-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 8.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 74.9,
+    "300kgs": 74.9,
+    "45kgs": 89.9,
+    "500kgs": null,
+    "Minimum": 1367.6,
+    "Normal": 102.7
+   }
+  },
+  "Nagoya-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 2.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 14.8,
+    "300kgs": 12.3,
+    "45kgs": 16.1,
+    "500kgs": null,
+    "Minimum": 437.7,
+    "Normal": 34.3
+   }
+  },
+  "Nagoya-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 7.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 47.2,
+    "300kgs": 41.1,
+    "45kgs": 49.3,
+    "500kgs": null,
+    "Minimum": 588.1,
+    "Normal": 52.6
+   }
+  },
+  "New York-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 7.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 38.3,
+    "300kgs": 37.7,
+    "45kgs": 47.6,
+    "500kgs": null,
+    "Minimum": 872.8,
+    "Normal": 72.4
+   }
+  },
+  "New York-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 3.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 25.9,
+    "300kgs": 25.9,
+    "45kgs": 27.3,
+    "500kgs": null,
+    "Minimum": 495.9,
+    "Normal": 47.0
+   }
+  },
+  "New York-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 3.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 46.9,
+    "300kgs": 44.3,
+    "45kgs": 49.6,
+    "500kgs": null,
+    "Minimum": 727.4,
+    "Normal": 52.2
+   }
+  },
+  "New York-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 7.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 31.0,
+    "300kgs": 29.2,
+    "45kgs": 43.0,
+    "500kgs": null,
+    "Minimum": 568.7,
+    "Normal": 56.2
+   }
+  },
+  "New York-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 7.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 31.0,
+    "300kgs": 29.1,
+    "45kgs": 44.3,
+    "500kgs": null,
+    "Minimum": 648.0,
+    "Normal": 60.1
+   }
+  },
+  "New York-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 4.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 28.4,
+    "300kgs": 28.4,
+    "45kgs": 33.7,
+    "500kgs": null,
+    "Minimum": 548.8,
+    "Normal": 49.6
+   }
+  },
+  "New York-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 2.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 28.7,
+    "300kgs": 24.7,
+    "45kgs": 30.0,
+    "500kgs": null,
+    "Minimum": 542.2,
+    "Normal": 48.5
+   }
+  },
+  "New York-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 7.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 35.1,
+    "300kgs": 32.4,
+    "45kgs": 37.7,
+    "500kgs": null,
+    "Minimum": 846.4,
+    "Normal": 52.2
+   }
+  },
+  "New York-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 4.0,
+   "o": "New York",
+   "oc": "America",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 46.9,
+    "300kgs": 45.0,
+    "45kgs": 50.9,
+    "500kgs": null,
+    "Minimum": 700.9,
+    "Normal": 53.6
+   }
+  },
+  "Rio De Janeiro-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 4.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 47.4,
+    "300kgs": 40.8,
+    "45kgs": 59.7,
+    "500kgs": null,
+    "Minimum": 798.6,
+    "Normal": 73.3
+   }
+  },
+  "Rio De Janeiro-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 4.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 46.0,
+    "300kgs": 42.6,
+    "45kgs": 48.6,
+    "500kgs": null,
+    "Minimum": 705.4,
+    "Normal": 54.0
+   }
+  },
+  "Rio De Janeiro-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 5.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 60.6,
+    "300kgs": 55.9,
+    "45kgs": 70.5,
+    "500kgs": null,
+    "Minimum": 945.0,
+    "Normal": 76.6
+   }
+  },
+  "Rio De Janeiro-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 6.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 63.3,
+    "300kgs": 55.9,
+    "45kgs": 70.5,
+    "500kgs": null,
+    "Minimum": 1038.2,
+    "Normal": 80.6
+   }
+  },
+  "Rio De Janeiro-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 7.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 63.3,
+    "300kgs": 60.0,
+    "45kgs": 70.5,
+    "500kgs": null,
+    "Minimum": 984.9,
+    "Normal": 76.6
+   }
+  },
+  "Rio De Janeiro-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 4.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.2,
+    "300kgs": 30.9,
+    "45kgs": 59.5,
+    "500kgs": null,
+    "Minimum": 785.3,
+    "Normal": 64.9
+   }
+  },
+  "Rio De Janeiro-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 4.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 65.0,
+    "300kgs": 62.4,
+    "45kgs": 77.0,
+    "500kgs": null,
+    "Minimum": 1038.2,
+    "Normal": 79.9
+   }
+  },
+  "Rio De Janeiro-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 7.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 62.6,
+    "300kgs": 55.8,
+    "45kgs": 67.9,
+    "500kgs": null,
+    "Minimum": 958.3,
+    "Normal": 79.3
+   }
+  },
+  "Rio De Janeiro-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 4.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 40.2,
+    "300kgs": 32.2,
+    "45kgs": 54.2,
+    "500kgs": null,
+    "Minimum": 765.4,
+    "Normal": 66.2
+   }
+  },
+  "Santiagos-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 5.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 60.8,
+    "300kgs": 51.4,
+    "45kgs": 67.8,
+    "500kgs": null,
+    "Minimum": 997.2,
+    "Normal": 74.6
+   }
+  },
+  "Santiagos-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 4.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 48.9,
+    "300kgs": 46.4,
+    "45kgs": 57.7,
+    "500kgs": null,
+    "Minimum": 765.2,
+    "Normal": 69.0
+   }
+  },
+  "Santiagos-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 4.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 57.1,
+    "300kgs": 47.7,
+    "45kgs": 66.5,
+    "500kgs": null,
+    "Minimum": 896.9,
+    "Normal": 70.9
+   }
+  },
+  "Santiagos-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 5.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 45.9,
+    "300kgs": 40.9,
+    "45kgs": 58.8,
+    "500kgs": null,
+    "Minimum": 752.6,
+    "Normal": 69.0
+   }
+  },
+  "Santiagos-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 8.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 59.6,
+    "300kgs": 52.6,
+    "45kgs": 66.5,
+    "500kgs": null,
+    "Minimum": 978.4,
+    "Normal": 75.9
+   }
+  },
+  "Santiagos-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 2.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 47.7,
+    "300kgs": 43.9,
+    "45kgs": 50.2,
+    "500kgs": null,
+    "Minimum": 577.0,
+    "Normal": 57.1
+   }
+  },
+  "Santiagos-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 4.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 61.3,
+    "300kgs": 58.7,
+    "45kgs": 72.5,
+    "500kgs": null,
+    "Minimum": 978.4,
+    "Normal": 75.3
+   }
+  },
+  "Santiagos-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 7.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 55.8,
+    "300kgs": 51.4,
+    "45kgs": 62.7,
+    "500kgs": null,
+    "Minimum": 915.7,
+    "Normal": 73.4
+   }
+  },
+  "Santiagos-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 5.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 47.0,
+    "300kgs": 45.8,
+    "45kgs": 55.1,
+    "500kgs": null,
+    "Minimum": 664.8,
+    "Normal": 65.2
+   }
+  },
+  "Shanghai-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 7.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 48.6,
+    "300kgs": 47.3,
+    "45kgs": 57.1,
+    "500kgs": null,
+    "Minimum": 678.8,
+    "Normal": 67.9
+   }
+  },
+  "Shanghai-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 5.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 48.6,
+    "300kgs": 46.6,
+    "45kgs": 51.9,
+    "500kgs": null,
+    "Minimum": 572.3,
+    "Normal": 55.3
+   }
+  },
+  "Shanghai-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 4.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 37.3,
+    "300kgs": 37.3,
+    "45kgs": 46.6,
+    "500kgs": null,
+    "Minimum": 745.4,
+    "Normal": 70.1
+   }
+  },
+  "Shanghai-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 5.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 30.0,
+    "300kgs": 30.0,
+    "45kgs": 34.7,
+    "500kgs": null,
+    "Minimum": 559.0,
+    "Normal": 51.3
+   }
+  },
+  "Shanghai-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 2.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 14.9,
+    "300kgs": 14.3,
+    "45kgs": 16.2,
+    "500kgs": null,
+    "Minimum": 459.3,
+    "Normal": 33.3
+   }
+  },
+  "Shanghai-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 7.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.2,
+    "300kgs": 36.2,
+    "45kgs": 59.5,
+    "500kgs": null,
+    "Minimum": 825.2,
+    "Normal": 66.2
+   }
+  },
+  "Shanghai-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 7.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 61.3,
+    "300kgs": 61.3,
+    "45kgs": 66.6,
+    "500kgs": null,
+    "Minimum": 958.3,
+    "Normal": 77.9
+   }
+  },
+  "Shanghai-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 7.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 59.6,
+    "300kgs": 59.6,
+    "45kgs": 77.0,
+    "500kgs": null,
+    "Minimum": 1038.2,
+    "Normal": 79.9
+   }
+  },
+  "Shanghai-St.Petersburg": {
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "h": 5.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 36.0,
+    "300kgs": 34.0,
+    "45kgs": 38.6,
+    "500kgs": null,
+    "Minimum": 638.9,
+    "Normal": 63.9
+   }
+  },
+  "St.Petersburg-Capetown": {
+   "d": "Capetown",
+   "dc": "South Africa",
+   "h": 5.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 63.8,
+    "300kgs": 57.8,
+    "45kgs": 69.0,
+    "500kgs": null,
+    "Minimum": 882.0,
+    "Normal": 78.2
+   }
+  },
+  "St.Petersburg-Hamburg": {
+   "d": "Hamburg",
+   "dc": "Germany",
+   "h": 2.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 28.3,
+    "300kgs": 25.3,
+    "45kgs": 31.4,
+    "500kgs": null,
+    "Minimum": 539.8,
+    "Normal": 51.1
+   }
+  },
+  "St.Petersburg-Liverpool": {
+   "d": "Liverpool",
+   "dc": "UK",
+   "h": 2.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 65.3,
+    "300kgs": 60.8,
+    "45kgs": 71.3,
+    "500kgs": null,
+    "Minimum": 942.9,
+    "Normal": 75.9
+   }
+  },
+  "St.Petersburg-Melbourne": {
+   "d": "Melbourne",
+   "dc": "Australia",
+   "h": 8.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 70.7,
+    "300kgs": 60.8,
+    "45kgs": 82.1,
+    "500kgs": null,
+    "Minimum": 1209.0,
+    "Normal": 87.4
+   }
+  },
+  "St.Petersburg-Nagoya": {
+   "d": "Nagoya",
+   "dc": "Japan",
+   "h": 7.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 62.3,
+    "300kgs": 51.7,
+    "45kgs": 66.9,
+    "500kgs": null,
+    "Minimum": 866.9,
+    "Normal": 76.8
+   }
+  },
+  "St.Petersburg-New York": {
+   "d": "New York",
+   "dc": "America",
+   "h": 4.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 60.8,
+    "300kgs": 50.1,
+    "45kgs": 65.3,
+    "500kgs": null,
+    "Minimum": 821.2,
+    "Normal": 73.8
+   }
+  },
+  "St.Petersburg-Rio De Janeiro": {
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "h": 6.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 45.7,
+    "300kgs": 42.5,
+    "45kgs": 53.2,
+    "500kgs": null,
+    "Minimum": 851.7,
+    "Normal": 80.0
+   }
+  },
+  "St.Petersburg-Santiagos": {
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "h": 5.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 55.7,
+    "300kgs": 48.0,
+    "45kgs": 66.8,
+    "500kgs": null,
+    "Minimum": 897.3,
+    "Normal": 82.1
+   }
+  },
+  "St.Petersburg-Shanghai": {
+   "d": "Shanghai",
+   "dc": "China",
+   "h": 5.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "tiers": {
+    "1000kgs": null,
+    "100kgs": 38.8,
+    "300kgs": 37.3,
+    "45kgs": 43.4,
+    "500kgs": null,
+    "Minimum": 821.2,
+    "Normal": 58.5
+   }
+  }
+ },
+ "meta": {
+  "crawled": "2026-11-17 22:32",
+  "source": "http://192.168.150.135:5015/institutions/company/14/"
+ },
+ "sea": {
+  "Capetown-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 1389.0,
+    "c40": 2747.0,
+    "c40h": 2873.0,
+    "mtq": 151.0,
+    "tne": 140.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 1499.0,
+    "c40": 2966.0,
+    "c40h": 3102.0,
+    "mtq": 162.0,
+    "tne": 151.0
+   }
+  },
+  "Capetown-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 1343.0,
+    "c40": 2714.0,
+    "c40h": 2835.0,
+    "mtq": 137.0,
+    "tne": 131.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 11.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 1450.0,
+    "c40": 2930.0,
+    "c40h": 3061.0,
+    "mtq": 148.0,
+    "tne": 169.0
+   }
+  },
+  "Capetown-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1326.0,
+    "c40": 2429.0,
+    "c40h": 3075.0,
+    "mtq": 131.0,
+    "tne": 123.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 10.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 1431.0,
+    "c40": 2623.0,
+    "c40h": 3320.0,
+    "mtq": 142.0,
+    "tne": 151.0
+   }
+  },
+  "Capetown-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 4308.0,
+    "c40": 8134.0,
+    "c40h": 9220.0,
+    "mtq": 191.0,
+    "tne": 421.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 4653.0,
+    "c40": 8784.0,
+    "c40h": 9956.0,
+    "mtq": 259.0,
+    "tne": 507.0
+   }
+  },
+  "Capetown-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 1312.0,
+    "c40": 2638.0,
+    "c40h": 2671.0,
+    "mtq": 154.0,
+    "tne": 145.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 1416.0,
+    "c40": 2848.0,
+    "c40h": 2884.0,
+    "mtq": 167.0,
+    "tne": 158.0
+   }
+  },
+  "Capetown-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 925.0,
+    "c40": 2307.0,
+    "c40h": 2402.0,
+    "mtq": 71.0,
+    "tne": 119.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 5.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 999.0,
+    "c40": 2492.0,
+    "c40h": 2593.0,
+    "mtq": 77.0,
+    "tne": 144.0
+   }
+  },
+  "Capetown-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 2836.0,
+    "c40": 4706.0,
+    "c40h": 4848.0,
+    "mtq": 145.0,
+    "tne": 244.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 11.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 3062.0,
+    "c40": 5081.0,
+    "c40h": 5236.0,
+    "mtq": 158.0,
+    "tne": 293.0
+   }
+  },
+  "Capetown-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 1517.0,
+    "c40": 2978.0,
+    "c40h": 3127.0,
+    "mtq": 81.0,
+    "tne": 153.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 13.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 1639.0,
+    "c40": 3216.0,
+    "c40h": 3378.0,
+    "mtq": 87.0,
+    "tne": 186.0
+   }
+  },
+  "Capetown-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 1697.0,
+    "c40": 2879.0,
+    "c40h": 2967.0,
+    "mtq": 158.0,
+    "tne": 148.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "Capetown",
+   "oc": "South Africa",
+   "rf": {
+    "c20": 1833.0,
+    "c40": 3110.0,
+    "c40h": 3204.0,
+    "mtq": 169.0,
+    "tne": 160.0
+   }
+  },
+  "Hamburg-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 1010.0,
+    "c40": 2032.0,
+    "c40h": 2106.0,
+    "mtq": 108.0,
+    "tne": 102.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 1091.0,
+    "c40": 2194.0,
+    "c40h": 2274.0,
+    "mtq": 117.0,
+    "tne": 110.0
+   }
+  },
+  "Hamburg-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 250.0,
+    "c40": 496.0,
+    "c40h": 512.0,
+    "mtq": 56.0,
+    "tne": 55.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 270.0,
+    "c40": 536.0,
+    "c40h": 553.0,
+    "mtq": 60.0,
+    "tne": 59.0
+   }
+  },
+  "Hamburg-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1190.0,
+    "c40": 2110.0,
+    "c40h": 2405.0,
+    "mtq": 139.0,
+    "tne": 128.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 1285.0,
+    "c40": 2278.0,
+    "c40h": 2597.0,
+    "mtq": 150.0,
+    "tne": 138.0
+   }
+  },
+  "Hamburg-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 1090.0,
+    "c40": 2105.0,
+    "c40h": 2380.0,
+    "mtq": 141.0,
+    "tne": 130.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 1177.0,
+    "c40": 2279.0,
+    "c40h": 2570.0,
+    "mtq": 152.0,
+    "tne": 140.0
+   }
+  },
+  "Hamburg-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 760.0,
+    "c40": 1008.0,
+    "c40h": 1205.0,
+    "mtq": 60.0,
+    "tne": 52.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 6.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 821.0,
+    "c40": 1088.0,
+    "c40h": 1301.0,
+    "mtq": 65.0,
+    "tne": 60.0
+   }
+  },
+  "Hamburg-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 910.0,
+    "c40": 1910.0,
+    "c40h": 1985.0,
+    "mtq": 93.0,
+    "tne": 99.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 10.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 983.0,
+    "c40": 2062.0,
+    "c40h": 2143.0,
+    "mtq": 100.0,
+    "tne": 119.0
+   }
+  },
+  "Hamburg-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 880.0,
+    "c40": 1850.0,
+    "c40h": 1885.0,
+    "mtq": 73.0,
+    "tne": 96.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 950.0,
+    "c40": 1998.0,
+    "c40h": 2035.0,
+    "mtq": 79.0,
+    "tne": 115.0
+   }
+  },
+  "Hamburg-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 1155.0,
+    "c40": 2205.0,
+    "c40h": 2305.0,
+    "mtq": 68.0,
+    "tne": 114.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 17.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 1247.0,
+    "c40": 2381.0,
+    "c40h": 2489.0,
+    "mtq": 73.0,
+    "tne": 137.0
+   }
+  },
+  "Hamburg-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 205.0,
+    "c40": 410.0,
+    "c40h": 435.0,
+    "mtq": 55.0,
+    "tne": 54.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "Hamburg",
+   "oc": "Germany",
+   "rf": {
+    "c20": 221.0,
+    "c40": 443.0,
+    "c40h": 470.0,
+    "mtq": 59.0,
+    "tne": 58.0
+   }
+  },
+  "Liverpool-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 1002.0,
+    "c40": 2024.0,
+    "c40h": 2126.0,
+    "mtq": 107.0,
+    "tne": 102.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 11.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 1082.0,
+    "c40": 2186.0,
+    "c40h": 2296.0,
+    "mtq": 116.0,
+    "tne": 110.0
+   }
+  },
+  "Liverpool-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 255.0,
+    "c40": 501.0,
+    "c40h": 517.0,
+    "mtq": 61.0,
+    "tne": 60.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 275.0,
+    "c40": 541.0,
+    "c40h": 558.0,
+    "mtq": 66.0,
+    "tne": 65.0
+   }
+  },
+  "Liverpool-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1093.0,
+    "c40": 2008.0,
+    "c40h": 2273.0,
+    "mtq": 158.0,
+    "tne": 140.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 1180.0,
+    "c40": 2168.0,
+    "c40h": 2454.0,
+    "mtq": 171.0,
+    "tne": 151.0
+   }
+  },
+  "Liverpool-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 1039.0,
+    "c40": 2031.0,
+    "c40h": 2255.0,
+    "mtq": 118.0,
+    "tne": 108.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 1122.0,
+    "c40": 2193.0,
+    "c40h": 2435.0,
+    "mtq": 127.0,
+    "tne": 117.0
+   }
+  },
+  "Liverpool-New York": {
+   "car": [],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 1304.0,
+    "c40": 2078.0,
+    "c40h": 2267.0,
+    "mtq": 62.0,
+    "tne": 97.0
+   },
+   "flat": {
+    "c20": null,
+    "c40": null
+   },
+   "h": 5.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 1408.0,
+    "c40": 2245.0,
+    "c40h": 2449.0,
+    "mtq": 66.0,
+    "tne": 105.0
+   }
+  },
+  "Liverpool-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 872.0,
+    "c40": 1945.0,
+    "c40h": 2003.0,
+    "mtq": 83.0,
+    "tne": 101.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 9.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 942.0,
+    "c40": 2100.0,
+    "c40h": 2163.0,
+    "mtq": 90.0,
+    "tne": 121.0
+   }
+  },
+  "Liverpool-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 787.0,
+    "c40": 1768.0,
+    "c40h": 1798.0,
+    "mtq": 72.0,
+    "tne": 91.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 7.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 850.0,
+    "c40": 1909.0,
+    "c40h": 1942.0,
+    "mtq": 78.0,
+    "tne": 110.0
+   }
+  },
+  "Liverpool-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 2495.0,
+    "c40": 3768.0,
+    "c40h": 3967.0,
+    "mtq": 150.0,
+    "tne": 155.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 10.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 2694.0,
+    "c40": 4069.0,
+    "c40h": 4284.0,
+    "mtq": 162.0,
+    "tne": 235.0
+   }
+  },
+  "Liverpool-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 505.0,
+    "c40": 716.0,
+    "c40h": 730.0,
+    "mtq": 47.0,
+    "tne": 45.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "Liverpool",
+   "oc": "UK",
+   "rf": {
+    "c20": 545.0,
+    "c40": 773.0,
+    "c40h": 788.0,
+    "mtq": 51.0,
+    "tne": 49.0
+   }
+  },
+  "Melbourne-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 1570.0,
+    "c40": 2802.0,
+    "c40h": 3653.0,
+    "mtq": 158.0,
+    "tne": 147.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 1694.0,
+    "c40": 3027.0,
+    "c40h": 3944.0,
+    "mtq": 170.0,
+    "tne": 159.0
+   }
+  },
+  "Melbourne-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 1914.0,
+    "c40": 3372.0,
+    "c40h": 3812.0,
+    "mtq": 228.0,
+    "tne": 208.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 2066.0,
+    "c40": 3640.0,
+    "c40h": 4116.0,
+    "mtq": 247.0,
+    "tne": 225.0
+   }
+  },
+  "Melbourne-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 1746.0,
+    "c40": 3212.0,
+    "c40h": 3636.0,
+    "mtq": 252.0,
+    "tne": 223.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 1885.0,
+    "c40": 3468.0,
+    "c40h": 3927.0,
+    "mtq": 273.0,
+    "tne": 241.0
+   }
+  },
+  "Melbourne-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 1417.0,
+    "c40": 2483.0,
+    "c40h": 3492.0,
+    "mtq": 138.0,
+    "tne": 147.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 1532.0,
+    "c40": 2682.0,
+    "c40h": 3770.0,
+    "mtq": 150.0,
+    "tne": 159.0
+   }
+  },
+  "Melbourne-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 1730.0,
+    "c40": 3212.0,
+    "c40h": 3653.0,
+    "mtq": 187.0,
+    "tne": 172.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 13.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 1867.0,
+    "c40": 3468.0,
+    "c40h": 3944.0,
+    "mtq": 201.0,
+    "tne": 187.0
+   }
+  },
+  "Melbourne-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 1577.0,
+    "c40": 2642.0,
+    "c40h": 2810.0,
+    "mtq": 214.0,
+    "tne": 200.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 11.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 1705.0,
+    "c40": 2854.0,
+    "c40h": 3035.0,
+    "mtq": 230.0,
+    "tne": 216.0
+   }
+  },
+  "Melbourne-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 1682.0,
+    "c40": 2964.0,
+    "c40h": 3332.0,
+    "mtq": 206.0,
+    "tne": 191.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 1817.0,
+    "c40": 3200.0,
+    "c40h": 3598.0,
+    "mtq": 220.0,
+    "tne": 206.0
+   }
+  },
+  "Melbourne-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 1450.0,
+    "c40": 2971.0,
+    "c40h": 3051.0,
+    "mtq": 142.0,
+    "tne": 131.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 7.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 1564.0,
+    "c40": 3208.0,
+    "c40h": 3295.0,
+    "mtq": 152.0,
+    "tne": 159.0
+   }
+  },
+  "Melbourne-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 2074.0,
+    "c40": 3532.0,
+    "c40h": 3972.0,
+    "mtq": 220.0,
+    "tne": 218.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 15.0,
+   "o": "Melbourne",
+   "oc": "Australia",
+   "rf": {
+    "c20": 2239.0,
+    "c40": 3814.0,
+    "c40h": 4289.0,
+    "mtq": 239.0,
+    "tne": 235.0
+   }
+  },
+  "Nagoya-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 5252.0,
+    "c40": 9930.0,
+    "c40h": 11255.0,
+    "mtq": 229.0,
+    "tne": 435.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 13.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 5671.0,
+    "c40": 10721.0,
+    "c40h": 12153.0,
+    "mtq": 235.0,
+    "tne": 524.0
+   }
+  },
+  "Nagoya-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 1782.0,
+    "c40": 3453.0,
+    "c40h": 3905.0,
+    "mtq": 227.0,
+    "tne": 209.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 15.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 1926.0,
+    "c40": 3730.0,
+    "c40h": 4216.0,
+    "mtq": 245.0,
+    "tne": 225.0
+   }
+  },
+  "Nagoya-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 1696.0,
+    "c40": 3329.0,
+    "c40h": 3697.0,
+    "mtq": 191.0,
+    "tne": 175.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 15.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 1831.0,
+    "c40": 3595.0,
+    "c40h": 3992.0,
+    "mtq": 207.0,
+    "tne": 188.0
+   }
+  },
+  "Nagoya-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1462.0,
+    "c40": 2710.0,
+    "c40h": 3627.0,
+    "mtq": 137.0,
+    "tne": 145.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 1579.0,
+    "c40": 2929.0,
+    "c40h": 3916.0,
+    "mtq": 148.0,
+    "tne": 156.0
+   }
+  },
+  "Nagoya-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 1685.0,
+    "c40": 3411.0,
+    "c40h": 3581.0,
+    "mtq": 188.0,
+    "tne": 172.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 1818.0,
+    "c40": 3684.0,
+    "c40h": 3868.0,
+    "mtq": 202.0,
+    "tne": 179.0
+   }
+  },
+  "Nagoya-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 3003.0,
+    "c40": 5793.0,
+    "c40h": 6055.0,
+    "mtq": 185.0,
+    "tne": 153.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 16.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 3243.0,
+    "c40": 6253.0,
+    "c40h": 6537.0,
+    "mtq": 201.0,
+    "tne": 307.0
+   }
+  },
+  "Nagoya-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 7406.0,
+    "c40": 11603.0,
+    "c40h": 11722.0,
+    "mtq": 286.0,
+    "tne": 509.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 13.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 7998.0,
+    "c40": 12530.0,
+    "c40h": 12660.0,
+    "mtq": 376.0,
+    "tne": 612.0
+   }
+  },
+  "Nagoya-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 374.0,
+    "c40": 740.0,
+    "c40h": 797.0,
+    "mtq": 131.0,
+    "tne": 124.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 404.0,
+    "c40": 798.0,
+    "c40h": 860.0,
+    "mtq": 140.0,
+    "tne": 133.0
+   }
+  },
+  "Nagoya-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 3168.0,
+    "c40": 5957.0,
+    "c40h": 6219.0,
+    "mtq": 222.0,
+    "tne": 262.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "Nagoya",
+   "oc": "Japan",
+   "rf": {
+    "c20": 3421.0,
+    "c40": 6431.0,
+    "c40h": 6715.0,
+    "mtq": 240.0,
+    "tne": 315.0
+   }
+  },
+  "New York-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 1914.0,
+    "c40": 3838.0,
+    "c40h": 3888.0,
+    "mtq": 226.0,
+    "tne": 213.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 2068.0,
+    "c40": 4145.0,
+    "c40h": 4198.0,
+    "mtq": 244.0,
+    "tne": 231.0
+   }
+  },
+  "New York-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 1479.0,
+    "c40": 1958.0,
+    "c40h": 2248.0,
+    "mtq": 119.0,
+    "tne": 81.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 6.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 1595.0,
+    "c40": 2114.0,
+    "c40h": 2424.0,
+    "mtq": 130.0,
+    "tne": 123.0
+   }
+  },
+  "New York-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 1094.0,
+    "c40": 1719.0,
+    "c40h": 1875.0,
+    "mtq": 100.0,
+    "tne": 95.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 5.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 1181.0,
+    "c40": 1856.0,
+    "c40h": 2025.0,
+    "mtq": 108.0,
+    "tne": 104.0
+   }
+  },
+  "New York-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 2051.0,
+    "c40": 4111.0,
+    "c40h": 4395.0,
+    "mtq": 248.0,
+    "tne": 229.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 15.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 2216.0,
+    "c40": 4439.0,
+    "c40h": 4748.0,
+    "mtq": 266.0,
+    "tne": 248.0
+   }
+  },
+  "New York-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 2023.0,
+    "c40": 4073.0,
+    "c40h": 4345.0,
+    "mtq": 226.0,
+    "tne": 210.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 15.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 2185.0,
+    "c40": 4398.0,
+    "c40h": 4694.0,
+    "mtq": 244.0,
+    "tne": 226.0
+   }
+  },
+  "New York-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 1689.0,
+    "c40": 3614.0,
+    "c40h": 3693.0,
+    "mtq": 158.0,
+    "tne": 150.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 1825.0,
+    "c40": 3904.0,
+    "c40h": 3986.0,
+    "mtq": 170.0,
+    "tne": 180.0
+   }
+  },
+  "New York-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 685.0,
+    "c40": 1176.0,
+    "c40h": 1255.0,
+    "mtq": 83.0,
+    "tne": 88.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 739.0,
+    "c40": 1270.0,
+    "c40h": 1354.0,
+    "mtq": 88.0,
+    "tne": 95.0
+   }
+  },
+  "New York-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 5958.0,
+    "c40": 7431.0,
+    "c40h": 7626.0,
+    "mtq": 218.0,
+    "tne": 308.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 16.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 6431.0,
+    "c40": 8025.0,
+    "c40h": 8236.0,
+    "mtq": 286.0,
+    "tne": 370.0
+   }
+  },
+  "New York-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 1544.0,
+    "c40": 3448.0,
+    "c40h": 3498.0,
+    "mtq": 141.0,
+    "tne": 143.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "New York",
+   "oc": "America",
+   "rf": {
+    "c20": 1666.0,
+    "c40": 3724.0,
+    "c40h": 3775.0,
+    "mtq": 154.0,
+    "tne": 173.0
+   }
+  },
+  "Rio De Janeiro-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 986.0,
+    "c40": 2462.0,
+    "c40h": 2563.0,
+    "mtq": 80.0,
+    "tne": 127.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 5.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 1066.0,
+    "c40": 2659.0,
+    "c40h": 2767.0,
+    "mtq": 86.0,
+    "tne": 154.0
+   }
+  },
+  "Rio De Janeiro-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 1303.0,
+    "c40": 2743.0,
+    "c40h": 2851.0,
+    "mtq": 132.0,
+    "tne": 143.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 10.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 1406.0,
+    "c40": 2962.0,
+    "c40h": 3079.0,
+    "mtq": 143.0,
+    "tne": 172.0
+   }
+  },
+  "Rio De Janeiro-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 1238.0,
+    "c40": 2782.0,
+    "c40h": 2866.0,
+    "mtq": 125.0,
+    "tne": 144.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 9.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 1333.0,
+    "c40": 3004.0,
+    "c40h": 3095.0,
+    "mtq": 136.0,
+    "tne": 173.0
+   }
+  },
+  "Rio De Janeiro-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1426.0,
+    "c40": 2455.0,
+    "c40h": 2599.0,
+    "mtq": 193.0,
+    "tne": 181.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 13.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 1540.0,
+    "c40": 2651.0,
+    "c40h": 2807.0,
+    "mtq": 209.0,
+    "tne": 196.0
+   }
+  },
+  "Rio De Janeiro-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 2621.0,
+    "c40": 5047.0,
+    "c40h": 5299.0,
+    "mtq": 170.0,
+    "tne": 260.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 2830.0,
+    "c40": 5450.0,
+    "c40h": 5723.0,
+    "mtq": 182.0,
+    "tne": 314.0
+   }
+  },
+  "Rio De Janeiro-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 1241.0,
+    "c40": 2642.0,
+    "c40h": 2707.0,
+    "mtq": 115.0,
+    "tne": 137.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 1340.0,
+    "c40": 2852.0,
+    "c40h": 2923.0,
+    "mtq": 124.0,
+    "tne": 164.0
+   }
+  },
+  "Rio De Janeiro-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 1130.0,
+    "c40": 2599.0,
+    "c40h": 2664.0,
+    "mtq": 101.0,
+    "tne": 134.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 1222.0,
+    "c40": 2807.0,
+    "c40h": 2878.0,
+    "mtq": 109.0,
+    "tne": 161.0
+   }
+  },
+  "Rio De Janeiro-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 2455.0,
+    "c40": 5011.0,
+    "c40h": 6133.0,
+    "mtq": 113.0,
+    "tne": 259.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 2651.0,
+    "c40": 5412.0,
+    "c40h": 5574.0,
+    "mtq": 146.0,
+    "tne": 312.0
+   }
+  },
+  "Rio De Janeiro-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 1447.0,
+    "c40": 2887.0,
+    "c40h": 2894.0,
+    "mtq": 152.0,
+    "tne": 150.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 11.0,
+   "o": "Rio De Janeiro",
+   "oc": "Brazil",
+   "rf": {
+    "c20": 1562.0,
+    "c40": 3118.0,
+    "c40h": 3125.0,
+    "mtq": 164.0,
+    "tne": 180.0
+   }
+  },
+  "Santiagos-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 2791.0,
+    "c40": 4636.0,
+    "c40h": 4828.0,
+    "mtq": 140.0,
+    "tne": 239.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 11.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 3013.0,
+    "c40": 5006.0,
+    "c40h": 5212.0,
+    "mtq": 168.0,
+    "tne": 289.0
+   }
+  },
+  "Santiagos-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 1065.0,
+    "c40": 2387.0,
+    "c40h": 2447.0,
+    "mtq": 99.0,
+    "tne": 123.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 1149.0,
+    "c40": 2577.0,
+    "c40h": 2643.0,
+    "mtq": 107.0,
+    "tne": 148.0
+   }
+  },
+  "Santiagos-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 1044.0,
+    "c40": 2340.0,
+    "c40h": 2387.0,
+    "mtq": 87.0,
+    "tne": 122.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 7.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 1128.0,
+    "c40": 2528.0,
+    "c40h": 2577.0,
+    "mtq": 94.0,
+    "tne": 145.0
+   }
+  },
+  "Santiagos-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1395.0,
+    "c40": 2453.0,
+    "c40h": 2758.0,
+    "mtq": 168.0,
+    "tne": 156.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 1506.0,
+    "c40": 2648.0,
+    "c40h": 2977.0,
+    "mtq": 182.0,
+    "tne": 168.0
+   }
+  },
+  "Santiagos-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 5958.0,
+    "c40": 9323.0,
+    "c40h": 9409.0,
+    "mtq": 271.0,
+    "tne": 483.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 6434.0,
+    "c40": 10068.0,
+    "c40h": 10160.0,
+    "mtq": 358.0,
+    "tne": 581.0
+   }
+  },
+  "Santiagos-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 469.0,
+    "c40": 800.0,
+    "c40h": 853.0,
+    "mtq": 53.0,
+    "tne": 56.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 506.0,
+    "c40": 864.0,
+    "c40h": 920.0,
+    "mtq": 56.0,
+    "tne": 61.0
+   }
+  },
+  "Santiagos-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 1032.0,
+    "c40": 2383.0,
+    "c40h": 2440.0,
+    "mtq": 91.0,
+    "tne": 123.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 1113.0,
+    "c40": 2574.0,
+    "c40h": 2635.0,
+    "mtq": 99.0,
+    "tne": 148.0
+   }
+  },
+  "Santiagos-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 6110.0,
+    "c40": 9456.0,
+    "c40h": 9589.0,
+    "mtq": 277.0,
+    "tne": 489.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 6598.0,
+    "c40": 10211.0,
+    "c40h": 10353.0,
+    "mtq": 367.0,
+    "tne": 589.0
+   }
+  },
+  "Santiagos-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 1329.0,
+    "c40": 2659.0,
+    "c40h": 2791.0,
+    "mtq": 116.0,
+    "tne": 138.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 9.0,
+   "o": "Santiagos",
+   "oc": "Cuba",
+   "rf": {
+    "c20": 1435.0,
+    "c40": 2870.0,
+    "c40h": 3013.0,
+    "mtq": 125.0,
+    "tne": 166.0
+   }
+  },
+  "Shanghai-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 2047.0,
+    "c40": 4093.0,
+    "c40h": 4280.0,
+    "mtq": 93.0,
+    "tne": 172.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 2210.0,
+    "c40": 4421.0,
+    "c40h": 4622.0,
+    "mtq": 100.0,
+    "tne": 208.0
+   }
+  },
+  "Shanghai-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 2140.0,
+    "c40": 4093.0,
+    "c40h": 4280.0,
+    "mtq": 137.0,
+    "tne": 172.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 2311.0,
+    "c40": 4421.0,
+    "c40h": 4622.0,
+    "mtq": 146.0,
+    "tne": 208.0
+   }
+  },
+  "Shanghai-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 4649.0,
+    "c40": 6836.0,
+    "c40h": 7023.0,
+    "mtq": 261.0,
+    "tne": 295.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 5018.0,
+    "c40": 7583.0,
+    "c40h": 7985.0,
+    "mtq": 282.0,
+    "tne": 355.0
+   }
+  },
+  "Shanghai-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1814.0,
+    "c40": 3630.0,
+    "c40h": 3704.0,
+    "mtq": 139.0,
+    "tne": 153.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 1959.0,
+    "c40": 3919.0,
+    "c40h": 3999.0,
+    "mtq": 151.0,
+    "tne": 185.0
+   }
+  },
+  "Shanghai-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 390.0,
+    "c40": 782.0,
+    "c40h": 818.0,
+    "mtq": 139.0,
+    "tne": 130.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 422.0,
+    "c40": 844.0,
+    "c40h": 883.0,
+    "mtq": 151.0,
+    "tne": 140.0
+   }
+  },
+  "Shanghai-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 5600.0,
+    "c40": 7071.0,
+    "c40h": 7257.0,
+    "mtq": 208.0,
+    "tne": 298.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 15.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 6049.0,
+    "c40": 7636.0,
+    "c40h": 7836.0,
+    "mtq": 178.0,
+    "tne": 359.0
+   }
+  },
+  "Shanghai-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 3257.0,
+    "c40": 6513.0,
+    "c40h": 6699.0,
+    "mtq": 121.0,
+    "tne": 274.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 15.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 3518.0,
+    "c40": 7032.0,
+    "c40h": 7234.0,
+    "mtq": 159.0,
+    "tne": 330.0
+   }
+  },
+  "Shanghai-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 8587.0,
+    "c40": 13213.0,
+    "c40h": 13398.0,
+    "mtq": 317.0,
+    "tne": 555.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 14.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 9273.0,
+    "c40": 14267.0,
+    "c40h": 14467.0,
+    "mtq": 419.0,
+    "tne": 669.0
+   }
+  },
+  "Shanghai-St.Petersburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "St.Petersburg",
+   "dc": "Russia",
+   "dry": {
+    "c20": 3349.0,
+    "c40": 5954.0,
+    "c40h": 6141.0,
+    "mtq": 124.0,
+    "tne": 251.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 16.0,
+   "o": "Shanghai",
+   "oc": "China",
+   "rf": {
+    "c20": 3617.0,
+    "c40": 6430.0,
+    "c40h": 6630.0,
+    "mtq": 164.0,
+    "tne": 301.0
+   }
+  },
+  "St.Petersburg-Capetown": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Capetown",
+   "dc": "South Africa",
+   "dry": {
+    "c20": 1774.0,
+    "c40": 3018.0,
+    "c40h": 3107.0,
+    "mtq": 171.0,
+    "tne": 162.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 12.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 1916.0,
+    "c40": 3258.0,
+    "c40h": 3355.0,
+    "mtq": 186.0,
+    "tne": 174.0
+   }
+  },
+  "St.Petersburg-Hamburg": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Hamburg",
+   "dc": "Germany",
+   "dry": {
+    "c20": 295.0,
+    "c40": 599.0,
+    "c40h": 632.0,
+    "mtq": 81.0,
+    "tne": 80.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 319.0,
+    "c40": 647.0,
+    "c40h": 683.0,
+    "mtq": 88.0,
+    "tne": 84.0
+   }
+  },
+  "St.Petersburg-Liverpool": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Liverpool",
+   "dc": "UK",
+   "dry": {
+    "c20": 707.0,
+    "c40": 1003.0,
+    "c40h": 1023.0,
+    "mtq": 60.0,
+    "tne": 57.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 3.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 763.0,
+    "c40": 1083.0,
+    "c40h": 1106.0,
+    "mtq": 64.0,
+    "tne": 61.0
+   }
+  },
+  "St.Petersburg-Melbourne": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Melbourne",
+   "dc": "Australia",
+   "dry": {
+    "c20": 1836.0,
+    "c40": 3125.0,
+    "c40h": 3519.0,
+    "mtq": 187.0,
+    "tne": 184.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 1984.0,
+    "c40": 3375.0,
+    "c40h": 3800.0,
+    "mtq": 202.0,
+    "tne": 199.0
+   }
+  },
+  "St.Petersburg-Nagoya": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Nagoya",
+   "dc": "Japan",
+   "dry": {
+    "c20": 2804.0,
+    "c40": 5225.0,
+    "c40h": 5388.0,
+    "mtq": 194.0,
+    "tne": 177.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 3027.0,
+    "c40": 5643.0,
+    "c40h": 5819.0,
+    "mtq": 209.0,
+    "tne": 326.0
+   }
+  },
+  "St.Petersburg-New York": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "New York",
+   "dc": "America",
+   "dry": {
+    "c20": 1121.0,
+    "c40": 2501.0,
+    "c40h": 2542.0,
+    "mtq": 100.0,
+    "tne": 129.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 8.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 1210.0,
+    "c40": 2700.0,
+    "c40h": 2744.0,
+    "mtq": 109.0,
+    "tne": 156.0
+   }
+  },
+  "St.Petersburg-Rio De Janeiro": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Rio De Janeiro",
+   "dc": "Brazil",
+   "dry": {
+    "c20": 1433.0,
+    "c40": 2854.0,
+    "c40h": 2861.0,
+    "mtq": 154.0,
+    "tne": 142.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 11.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 1548.0,
+    "c40": 3081.0,
+    "c40h": 3088.0,
+    "mtq": 165.0,
+    "tne": 154.0
+   }
+  },
+  "St.Petersburg-Santiagos": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Santiagos",
+   "dc": "Cuba",
+   "dry": {
+    "c20": 1430.0,
+    "c40": 2854.0,
+    "c40h": 2995.0,
+    "mtq": 121.0,
+    "tne": 148.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 9.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 1545.0,
+    "c40": 3081.0,
+    "c40h": 3234.0,
+    "mtq": 132.0,
+    "tne": 179.0
+   }
+  },
+  "St.Petersburg-Shanghai": {
+   "car": [
+    0.0,
+    0.0
+   ],
+   "d": "Shanghai",
+   "dc": "China",
+   "dry": {
+    "c20": 2542.0,
+    "c40": 4402.0,
+    "c40h": 4646.0,
+    "mtq": 117.0,
+    "tne": 228.0
+   },
+   "flat": {
+    "c20": 0.0,
+    "c40": 0.0
+   },
+   "h": 18.0,
+   "o": "St.Petersburg",
+   "oc": "Russia",
+   "rf": {
+    "c20": 2744.0,
+    "c40": 4753.0,
+    "c40h": 5017.0,
+    "mtq": 154.0,
+    "tne": 275.0
+   }
+  }
+ }
+}
