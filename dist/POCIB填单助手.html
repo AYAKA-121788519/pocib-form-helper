@@ -465,10 +465,8 @@
         <div id="ocrResult" style="display:none;flex:1;min-width:0">
           <div class="ocrBar" style="border-top:1px solid var(--line);padding-top:2px">
             <span class="k">这些信息填入到</span>
-            <label><input type="radio" name="ocrTarget" value="my" checked> 我方公司档案</label>
-            <label><input type="radio" name="ocrTarget" value="cp"> 对方公司档案</label>
-            <label><input type="radio" name="ocrTarget" value="new"> 存为新公司</label>
-            <label><input type="radio" name="ocrTarget" value="goods"> 商品档案</label>
+            <select id="ocrTarget" style="max-width:360px"></select>
+            <span class="ocrMsg" id="ocrTargetHint" style="flex:1 1 100%"></span>
           </div>
           <div style="max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:8px">
             <table class="f ocrt" id="ocrTable"></table>
@@ -1629,10 +1627,10 @@ function renderFields(step,di){
 
 let LAST_ROWS=[], LAST_DOC="", LAST_STEP=0;
 
-function toast(msg){
+function toast(msg, ms){
   const t=$("toast"); if(!t) return;
   t.textContent=msg; t.classList.add("on");
-  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("on"),1600);
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("on"), ms||1600);
 }
 function copyOne(txt){
   const show=(s)=>{
@@ -2135,6 +2133,8 @@ async function openOcr(target){
   $("ocrMask").classList.add("on");
   $("ocrPaste").value="";
   $("ocrResult").style.display="none";
+  $("ocrTarget").innerHTML=`<option value="new">存为新公司（不覆盖任何已有档案）</option>`;
+  $("ocrTargetHint").textContent="";
   $("ocrApply").disabled=true; $("ocrOnlyHigh").disabled=true;
   $("ocrSum").textContent=""; setOcrMsg("");
   $("ocrShotBox").style.display="none";
@@ -2156,6 +2156,64 @@ function ocrKindOf(d){  if(d.kind==="goods" || d.kind==="company") return d.kind
   return hasCo ? "company" : "goods";
 }
 /* 把一份识别结果（服务返回的，或手工解析的）送进核对表 */
+function coLabel(x){
+  const nm=x.short_zh||x.name_zh||x.short_en||x.name_en||"未命名公司";
+  return nm+"（"+(x.account||"无账号")+"）";
+}
+/* 账号撞库时再看国家：true 同一国／false 对不上／null 判断不了（有一边没填） */
+function coCountryMatch(rec, vals){
+  const ce=String(vals.country||"").trim().toLowerCase();
+  const cz=String(vals.country_zh||"").trim();
+  if(!ce && !cz) return null;
+  const rc=String(rec.country||"").trim().toLowerCase();
+  const rz=String(rec.country_zh||"").trim();
+  if(ce && rc && ce===rc) return true;
+  if(cz && rz && cz===rz) return true;
+  if(!rc && !rz) return null;
+  return false;
+}
+/* 「填入到哪」的选项：默认按账号认公司，认不到就存新档案——不再默认覆盖已存公司 */
+function fillOcrTargets(d){
+  const sel=$("ocrTarget"), hint=$("ocrTargetHint");
+  if(d.kind==="goods"){
+    sel.innerHTML=`<option value="goods">商品档案（按商品编号新增或更新）</option>`;
+    sel.value="goods"; sel.disabled=true;
+    hint.textContent=""; hint.className="ocrMsg";
+    return;
+  }
+  sel.disabled=false;
+  const g=k=>{ const f=d.fields.find(x=>x.key===k); return f?String(f.value==null?"":f.value).trim():""; };
+  const acc=g("account"), cz=g("country_zh"), ce=g("country");
+  const nm=g("name_zh")||g("name_en")||g("short_zh")||g("short_en");
+  const c=CASES[CASE];
+  const myC=CO_LIST.find(x=>x.account===c.my), cpC=CO_LIST.find(x=>x.account===c.cp);
+  /* 账号一样但国家对不上，多半是撞号的另一家，不许默认覆盖 */
+  const accHit=acc? CO_LIST.find(x=>x.account===acc) : null;
+  const hit=accHit && coCountryMatch(accHit,{country:ce,country_zh:cz})!==false ? accHit : null;
+  const opts=[`<option value="new">存为新公司（不覆盖任何已有档案）</option>`];
+  if(myC) opts.push(`<option value="my">更新我方档案：${esc(coLabel(myC))}</option>`);
+  if(cpC) opts.push(`<option value="cp">更新对方档案：${esc(coLabel(cpC))}</option>`);
+  CO_LIST.forEach(x=>{
+    if(myC && x.account===myC.account) return;
+    if(cpC && x.account===cpC.account) return;
+    opts.push(`<option value="co:${esc(x.account)}">更新已有公司：${esc(coLabel(x))}</option>`);
+  });
+  sel.innerHTML=opts.join("");
+  let pick="new";
+  if(hit) pick = (myC&&hit===myC)?"my" : (cpC&&hit===cpC)?"cp" : "co:"+hit.account;
+  sel.value=pick;
+  const who = nm || "这家公司";
+  if(hit){
+    hint.className="ocrMsg";
+    hint.textContent=`识别到 ${who}（账号 ${acc}），库里已有 → 默认更新这家，不会多出一份`;
+  } else if(accHit){
+    hint.className="ocrMsg err";
+    hint.textContent=`账号 ${acc} 库里已有，但国家对不上（识别到 ${cz||ce}，原档案是 ${accHit.country_zh||accHit.country||"空"}）→ 默认存为新公司，不覆盖原档案`;
+  } else {
+    hint.className="ocrMsg ok";
+    hint.textContent=`识别到 ${who}${acc?"（账号 "+acc+"）":""}，库里没有 → 默认存为新公司`;
+  }
+}
 function useOcrData(d){
   d.kind = ocrKindOf(d);
   const get=k=>{ const f=d.fields.find(x=>x.key===k); return f?f.value:""; };
@@ -2167,11 +2225,7 @@ function useOcrData(d){
       d.fields.push({key:"currency",label:"币别",value:CURR_OF[c],conf:0.9,derived:true});
   }
   OCR_DATA=d;
-  document.querySelectorAll('input[name="ocrTarget"]').forEach(r=>{
-    const want = d.kind==="goods" ? "goods" : OCR_DEFAULT;
-    r.checked = (r.value===want);
-    r.disabled = d.kind==="goods" ? (r.value!=="goods") : (r.value==="goods");
-  });
+  fillOcrTargets(d);
   renderOcr();
   $("ocrResult").style.display="";
   $("ocrApply").disabled = d.fields.length===0;
@@ -2244,7 +2298,8 @@ function applyOcr(onlyHigh){
   const n=Object.keys(vals).length;
   if(!n){ setOcrMsg("没有可填的项：先勾选并把值填上","err"); return; }
   const kind=OCR_DATA.kind;
-  const target=(document.querySelector('input[name="ocrTarget"]:checked')||{}).value||"my";
+  const sel=$("ocrTarget");
+  const target=(sel&&sel.value)||"new";
 
   if(kind==="goods" || target==="goods"){
     const code=vals.code||"";
@@ -2272,30 +2327,67 @@ function applyOcr(onlyHigh){
   }
 
   if(target==="new"){
-    const acc=vals.account||"";
-    if(!acc){ setOcrMsg("新公司必须有「账号」，先补上再存","err");
-              toast("新公司必须有「账号」"); return; }
-    const exist=CO_LIST.findIndex(x=>x.account===acc);
-    if(exist>=0){
-      if(!confirm("账号 "+acc+" 已存在，覆盖那家公司？")) return;
-      Object.assign(CO_LIST[exist], vals);
-    } else {
-      CO_LIST.push(Object.assign({}, vals));
+    const acc=String(vals.account||"").trim();
+    const exist=acc? CO_LIST.findIndex(x=>x.account===acc) : -1;
+    if(exist>=0 && coCountryMatch(CO_LIST[exist], vals)!==false){
+      // 账号、国家都对得上：本来就是同一家，按更新处理（原档案内容保留，只改勾选的项）
+      const ex=CO_LIST[exist];
+      if(!confirm("账号 "+acc+" 已有档案「"+coLabel(ex)+"」，用识别结果更新它？\n\n想另存一份就点「取消」，把上面「账号」改成别的再存。")) return;
+      Object.assign(ex, vals);
+      coSave(); renderCoUI(); compute();
+      $("ocrMask").classList.remove("on");
+      toast("已更新公司档案「"+ex.account+"」，共 "+n+" 项");
+      return;
     }
+    // 账号没识别到、或撞上别家：照样存得下，绝不会改动原档案
+    const rec=Object.assign({}, vals);
+    let why="";
+    if(!acc){ rec.account=genCoId(rec); why="账号没识别到，可到公司档案补填"; }
+    else if(exist>=0){
+      rec.account=genCoId(rec, acc);
+      why="账号 "+acc+" 已被「"+coLabel(CO_LIST[exist])+"」占用，这家另存为 "+rec.account+"，原档案没动";
+    }
+    CO_LIST.push(rec);
     coSave(); renderCoUI(); compute();
     $("ocrMask").classList.remove("on");
-    toast("已保存公司档案（账号 "+acc+"），共 "+n+" 项");
+    toast("已存为新公司「"+coLabel(rec)+"」"+(why?"："+why:""), 4200);
     return;
   }
 
-  const id=CASES[CASE][target==="cp"?"cp":"my"];
-  const co=CO(id);
-  const accBefore=co.account||"";
-  Object.assign(co, vals);
-  if(!co.account){ co.account=accBefore||id; }
+  /* 更新已有档案：账号是身份，不让识别结果改它，避免原档案被“改名”后从列表里消失 */
+  const key = target==="my" ? CASES[CASE].my
+            : target==="cp" ? CASES[CASE].cp
+            : target.replace(/^co:/,"");
+  const idx=CO_LIST.findIndex(x=>x.account===key);
+  if(idx<0){
+    setOcrMsg("找不到要更新的那家公司（档案可能被删了），改选「存为新公司」再填","err");
+    toast("找不到那家公司档案");
+    return;
+  }
+  const co=CO_LIST[idx], keep=co.account;
+  const upd=Object.assign({},vals);
+  delete upd.account;
+  if(!keep && vals.account) upd.account=vals.account;   // 空档案才用识别到的账号起名
+  const oldName=co.name_zh||co.name_en||"", newName=upd.name_zh||upd.name_en||"";
+  if(oldName && newName && oldName!==newName){
+    if(!confirm("「"+oldName+"」的档案将被改写，公司名会变成「"+newName+"」。\n\n确定是同一家？不是的话点「取消」，改选「存为新公司」。")) return;
+  }
+  Object.assign(co, upd);
+  if(!co.account) co.account=keep||genCoId(co);
   coSave(); renderCoUI(); compute();
   $("ocrMask").classList.remove("on");
-  toast((target==="cp"?"对方":"我方")+"公司已更新 "+n+" 项，单据字段已联动");
+  toast("已更新「"+coLabel(co)+"」"+n+" 项，单据字段已联动");
+}
+/* 没识别到账号 / 账号被别人占用时，给个不撞库的档案号 */
+function genCoId(v, baseAcc){
+  let base=String(baseAcc||"").trim();
+  if(!base){
+    base=String(v.short_en||v.name_en||v.short_zh||v.name_zh||"").trim().replace(/\s+/g," ").slice(0,18);
+    base=base? "未填账号-"+base : "未填账号-公司";
+  }
+  let id=base, i=2;
+  while(CO_LIST.some(x=>x.account===id)) id=base+"-"+(i++);
+  return id;
 }
 
 $("ocrCo").onclick=()=>openOcr("my");
