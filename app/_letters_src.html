@@ -230,6 +230,9 @@
   <!-- ============ 运费计算 ============ -->
   <div class="card" id="freightCard">
     <h2>商品运费计算（集装箱种类：普柜 / 冻柜 / 空运）</h2>
+    <div style="font-size:11.5px; color:#a86400; margin:-2px 0 10px">
+      包装数量 / 单包装毛重 / 单包装体积 随「把当前交易数据带入函电」自动填好（件数、每箱毛重、每箱体积），
+      改任一项数字下面的结果会即时重算；单价要先按当前航线查询再填，换装运港 / 卸货港单价不同。</div>
     <div class="grid3">
       <div class="fld"><label>运输方式</label>
         <select id="fShipMode">
@@ -304,6 +307,7 @@
     </div>
     <div id="fResult" style="display:none; margin-top:14px">
       <div style="background:#f7faff; border:1px solid #e0e9f7; border-radius:10px; padding:13px 16px; font-size:12.5px; line-height:1.95">
+        <div id="foGoods" style="color:#40506a"></div>
         <div>总毛重：<b id="foWt"></b> 吨　　总体积：<b id="foVol"></b> 立方米</div>
         <div id="foDetail"></div>
         <div id="foFinal" style="font-size:15px; color:#2f6fed; font-weight:700; margin-top:6px"></div>
@@ -785,6 +789,15 @@ function calcFreight(){
   if(qty<=0||wt<=0||vol<=0){ toast("请填写包装数量、单包装毛重和体积"); return; }
   const tonW = qty*wt/1000;          /* 总毛重（吨） */
   const totV = qty*vol;              /* 总体积（立方米） */
+  const gEl=document.getElementById("foGoods");
+  if(gEl){
+    const gv=(document.getElementById("goods")||{}).value||"";
+    const qv=parseFloat((document.getElementById("qty")||{}).value);
+    const uv=(document.getElementById("unit")||{}).value||"";
+    gEl.textContent=(gv? "商品："+gv : "商品：—")
+      + "　件数 "+qty+" 件（每件 "+wt+" KG / "+vol+" CBM）"
+      + (qv>0? "　合同数量 "+qv.toLocaleString("en-US")+" "+uv : "");
+  }
   document.getElementById("foWt").textContent = tonW.toFixed(3);
   document.getElementById("foVol").textContent = totV.toFixed(3);
   let rows=[], final=0;
@@ -1204,6 +1217,11 @@ function refQuote(mode,N,UP,xr){
   const tot = denom? baseF*(1+expR)/denom : 0;   /* 本币总报价 */
   const unit= tot? (tot/N)*xr : 0;               /* 折算为 USD 单价 */
   const qU=document.getElementById("bQuoteU"), qT=document.getElementById("bQuoteT");
+  if(!(fac>0)||!(N>0)){                          /* 没工厂采购价或没数量，报价无从谈起 */
+    if(qU) qU.value = fac>0? "缺数量" : "缺工厂价";
+    if(qT) qT.value = "—";
+    return;
+  }
   if(qU) qU.value = "USD " + fmt(unit);
   if(qT) qT.value = "USD " + fmt(unit*N);
 }
@@ -1258,11 +1276,13 @@ function syncFromTerms(){
   if(document.getElementById("bResult").style.display==="block") calcBudget();
 }
 
-/* ---- 装运港 → 出口国；卸货港 → 进口国（按港口选项的国家名自动带出） ---- */
+/* ---- 装运港 → 出口国；卸货港 → 进口国（按港口选项的国家名自动带出）
+       主程序带入公司档案后会给 CO_COUNTRY（公司所在国），有值时以公司国别为准 ---- */
+var CO_COUNTRY={ex:"",im:""};
 function syncPortsToCountry(){
   const cut = s => { const m=String(s||"").match(/^([\u4e00-\u9fa5]+)/); return m?m[1]:""; };
-  const exCo = cut(document.getElementById("portLoad").value);
-  const imCo = cut(document.getElementById("portDisc").value);
+  const exCo = CO_COUNTRY.ex || cut(document.getElementById("portLoad").value);
+  const imCo = CO_COUNTRY.im || cut(document.getElementById("portDisc").value);
   const exSel=document.getElementById("bExCountry"), imSel=document.getElementById("bImCountry");
   if(exCo && [...exSel.options].some(o=>o.value===exCo) && exSel.value!==exCo) exSel.value=exCo;
   if(imCo && [...imSel.options].some(o=>o.value===imCo) && imSel.value!==imCo) imSel.value=imCo;
@@ -1277,6 +1297,8 @@ function syncPortsToCountry(){
   const el=document.getElementById(id);
   el.addEventListener("change",()=>{ syncPortsToCountry(); syncBudget(); });
   el.addEventListener("input",()=>{ syncPortsToCountry(); syncBudget(); });
+  /* 一旦手改港口，就不再拿公司档案国别兜着，改为按所选港口国算预算 */
+  el.addEventListener("change",()=>{ CO_COUNTRY[id==="portLoad"?"ex":"im"]=""; });
 });
 
 /* ---- 预算区贸易术语改选 → 反向同步回交易条件 ---- */
@@ -1329,6 +1351,25 @@ document.getElementById("fShipMode").addEventListener("change",()=>{
 /* 集装箱类型切换：显示对应柜型价格并重算 */
 document.getElementById("fBoxType").addEventListener("change",()=>{
   syncFreightCard();
+  if(document.getElementById("fResult").style.display==="block") calcFreight();
+});
+/* 运费卡任一数字改动 → 已算过的结果即时重算（件数/毛重/体积/单价都算） */
+["fQty","fWt","fVol",
+ "r20","r40","r40h","rLCLv","rLCLw","rr20","rr40","rr40h","rrLCLv","rrLCLw",
+ "rMin","ra45","ra100","ra300","ra300p"].forEach(id=>{
+  const el=document.getElementById(id); if(!el) return;
+  el.addEventListener("input",()=>{
+    if(document.getElementById("fResult").style.display==="block") calcFreight();
+  });
+});
+
+/* 主程序带入的每箱装量：在函电里改数量时，运费卡的「包装数量」跟着重算 */
+var PACK_QTY=0;
+document.getElementById("qty").addEventListener("input",()=>{
+  if(!(PACK_QTY>0)) return;
+  const v=parseFloat(document.getElementById("qty").value)||0;
+  if(v<=0) return;
+  document.getElementById("fQty").value = Math.ceil(v/PACK_QTY-1e-9);
   if(document.getElementById("fResult").style.display==="block") calcFreight();
 });
 
