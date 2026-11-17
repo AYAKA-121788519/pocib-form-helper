@@ -8,7 +8,9 @@ const cut = (from, to) => {
   if (a < 0 || b < 0) { console.error("抽取失败：", from); process.exit(1); }
   return html.slice(a, b);
 };
-const src = 'let CASE="A";\n'
+// 税则数据太大，这里用空表桩住，只看单据清单（税则相关断言在 test_tariff.mjs）
+const src = 'let CASE="A";\nconst TARIFF=[],TARIFF_UNIT=[],TARIFF_CTRL=[];\n'
+  + cut("const TARIFF_HS=", "/* 商品价格参考")
   + cut("const CASES = {", "/* 21 个环节")
   + cut("const EXCISE_ZH=", "/* 单据随运输方式换名")
   + cut("const FLOW = [", "/* ---------------- 工具")
