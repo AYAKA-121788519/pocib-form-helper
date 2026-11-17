@@ -1658,6 +1658,10 @@ function genericRows(doc,c,D,seller,buyer){
              : "（柜号见提货单）");
   const attTxt = ["合同","商业发票","提/运单","装箱单"].map(x=>"☑ "+x).join("　")
     + ((c.docs_clause&&c.docs_clause.length) ? "　"+c.docs_clause.map(x=>"☑ "+x).join("　") : "");
+  /* 出境检验检疫的启运地/到达口岸要写「中文港名」（规格：出口港/进口港中文名称），
+     自定义港查不到就原样给出并标「待确认」，提醒自己换成中文 */
+  const plZh=portZh(c.port_load), pdZh=portZh(c.port_dest);
+  const portTag=(raw,zh)=> (!raw || (zh && zh!==raw)) ? "自动" : "待确认";
   const map={
    "托收委托书":[["托收行 (Remitting Bank)",(seller.bank_zh||"")+" / "+(seller.bank_en||"")+" / "+(seller.address_en||""),"主体"],
       ["代收行 (Collecting Bank)",(buyer.bank_zh||"")+" / "+(buyer.bank_en||""),"主体"],
@@ -1730,8 +1734,8 @@ function genericRows(doc,c,D,seller,buyer){
       ["包装种类及数量",n0(D.packs)+" "+packZh(c),"自动"],
       ["运输工具名称号码",isAir ? "参考空运进仓通知单上的航班号（只填航班号，不带航次）"
                                 : "参考订舱生成的「配舱回单」上的船名（只填船名，不带航次）","待确认"],
-      ["启运地",c.port_load,"自动"],
-      ["到达口岸",c.port_dest,"自动"],
+      ["启运地",plZh,portTag(c.port_load,plZh)],
+      ["到达口岸",pdZh,portTag(c.port_dest,pdZh)],
       ["货物存放地点",c.transport==="空运"
         ? "空运方式无需填写（留空）"
         : "参考订舱生成的「配舱回单」上的货物存放地","待确认"],
