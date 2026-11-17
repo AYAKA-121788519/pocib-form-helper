@@ -739,7 +739,7 @@ const FLOW = [
  {s:8,n:"送货",by:"出口商",d:{all:[]}},
  {s:9,n:"出口报关",by:"出口商",d:{all:["出口货物报关单","商业发票","装箱单"]}},
  {s:10,n:"取回提单",by:"出口商",d:{all:["配舱回单"]}},
- {s:11,n:"交单/寄单",by:"出口商",d:{"L/C":["信用证","汇票","商业发票","装箱单","海运提单","产地证"],"T/T":["商业发票","装箱单","海运提单","产地证"],"D/P":["托收委托书","汇票","商业发票","装箱单","海运提单","产地证"],"D/A":["托收委托书","汇票","商业发票","装箱单","海运提单","产地证"]}},
+ {s:11,n:"交单 / 押汇",by:"出口商",d:{"L/C":["信用证","汇票","商业发票","装箱单","海运提单","产地证"],"T/T":["商业发票","装箱单","海运提单","产地证"],"D/P":["托收委托书","汇票","商业发票","装箱单","海运提单","产地证"],"D/A":["托收委托书","汇票","商业发票","装箱单","海运提单","产地证"]}},
  {s:12,n:"支付运费",by:"出口商",d:{all:["境内汇款申请书","国际货运代理专业发票"]}},
  {s:13,n:"申请出口退税",by:"出口商",d:{all:["商业发票","增值税专用发票"]}},
  {s:14,n:"付款",by:"进口商",d:{"L/C":["信用证"],"T/T":["境外汇款申请书"],"D/P":["对外付款/承兑通知书"],"D/A":["对外付款/承兑通知书"]}},
@@ -764,12 +764,6 @@ const ONES=["","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE","T
 const TENS=["","","TWENTY","THIRTY","FORTY","FIFTY","SIXTY","SEVENTY","EIGHTY","NINETY"];
 function u3(n){let s="";if(n>99){s+=ONES[Math.floor(n/100)]+" HUNDRED";n%=100;if(n)s+=" AND ";}
   if(n>19){s+=TENS[Math.floor(n/10)];n%=10;if(n)s+="-"+ONES[n];}else if(n)s+=ONES[n];return s;}
-function mWords(v,cur){
-  const i=Math.floor(v+1e-9), c=Math.round((v-i)*100);
-  let t=words(i);
-  if(c>0) t+=" AND CENTS "+words(c);
-  return (cur?cur+" ":"")+t+" ONLY";
-}
 function words(n){
   n=Math.floor(Math.abs(n));
   if(n===0) return "ZERO";
@@ -782,19 +776,21 @@ function words(n){
   return out.join(" ");
 }
 
-/* 金额大写：按 POCIB 规则
+/* 金额大写：全程序唯一出口，所有单据都用它
    整数 →  前缀 + 英文 + " ONLY"（不写 cents）
    小数 →  前缀 + 整数英文 + " CENTS " + 小数部分英文（结尾不加 ONLY）
+   英文数字里的连字符去掉（POCIB 例文写 TWENTY ONE，不写 TWENTY-ONE）
    例：89615 → USD EIGHTY NINE THOUSAND SIX HUNDRED AND FIFTEEN ONLY
        1007.5 → USD ONE THOUSAND AND SEVEN CENTS FIFTY                     */
 const AMT_PREFIXES=["USD","US DOLLARS","U.S.DOLLARS","UNITED STATES DOLLARS"];
+function words0(n){ return words(n).replace(/-/g," "); }
 function amtWords(v,prefix){
   const val=Math.round((isFinite(v)?v:0)*100)/100;
   const i=Math.floor(val+1e-9);
   const cents=Math.round((val-i)*100);
   const p=prefix||"USD";
-  if(cents<=0) return p+" "+words(i)+" ONLY";
-  return p+" "+words(i)+" CENTS "+words(cents);
+  if(cents<=0) return p+" "+words0(i)+" ONLY";
+  return p+" "+words0(i)+" CENTS "+words0(cents);
 }
 
 /* 单位复数：PCS 已是复数保持不变；SET→SETS、BOTTLE→BOTTLES、BOX→BOXES */
@@ -1152,27 +1148,75 @@ function compute(){
   if(SEL) renderFields(SEL);
 }
 
+/* 单据随运输方式换名：海运提单↔航空运单、海运委托书↔空运委托书、提货单↔提货通知单+航空运单 */
+const AIR_NAME={"国际海运委托书":"国际空运委托书","海运提单":"航空运单"};
+const CERT_GOODS=["21001","40001","40002","06002"];   /* 送货、出口报关要《货物运输条件鉴定书》的品目 */
+function airSub(name){
+  if(name==="提货单") return ["提货通知单","航空运单"];
+  return [AIR_NAME[name]||name];
+}
 function docsOf(f){
   const c=CASES[CASE];
-  if(f.s===7 && !(c.term==="CIF"||c.term==="CIP")) return {d:["投保单"],by:"进口商"};
-  if(f.s===15 && c.payment==="T/T") return {d:[],by:"进口商"};
-  if(f.s===16 && c.term!==undefined && false) return {d:[],by:"进口商"};
-  if(f.s===20){
-    /* 进口缴税三张缴款书；消费税只对烟酒、化妆品、贵重首饰等品目开征 */
-    const d=["海关进口关税专用缴款书","海关进口增值税专用缴款书"];
-    if(hasExcise(c)) d.push("海关进口消费税专用缴款书");
-    return {d,by:"进口商"};
+  const air=c.transport==="空运";
+  const cif=(c.term==="CIF"||c.term==="CIP");
+  const certGoods=CERT_GOODS.indexOf(String(c.goods_no||""))>=0;
+  let d=f.d[c.payment]||f.d.all||[];
+  let by=f.by, note="";
+  if(f.s===7){
+    /* 办理保险：CIF/CIP 出口商投（要带商业发票），其余术语进口商自己投 */
+    d = cif ? ["商业发票","投保单"] : ["投保单"];
+    by = cif ? "出口商" : "进口商";
   }
-  const d=f.d[c.payment]||f.d.all||[];
-  return {d,by:f.by};
+  else if(f.s===8){
+    /* 送货：只有 21001 / 40001 / 40002 / 06002 要鉴定书，其他商品无需任何单据 */
+    d = certGoods ? ["货物运输条件鉴定书"] : [];
+    if(!certGoods) note="其他商品送货无需提交单据";
+  }
+  else if(f.s===9){
+    d = ["出口货物报关单","商业发票","装箱单"];
+    if(air) d.push("航空运单");
+    if(certGoods) d.push("货物运输条件鉴定书");
+  }
+  else if(f.s===10 && air){ d=[]; note="空运方式下无需做此步（无配舱回单）"; }
+  else if(f.s===16 && air){ d=[]; note="空运方式下无需提交单据"; }
+  else if(f.s===11){
+    /* 交单/押汇：保险单只在 CIF/CIP 下要；商检证书按合同 Document 条款 */
+    d = c.payment==="L/C" ? ["信用证","汇票"]
+      : c.payment==="T/T" ? []
+      : ["托收委托书","汇票"];
+    d = d.concat(["商业发票","装箱单", air?"航空运单":"海运提单"]);
+    if(cif) d.push("货物运输保险单");
+    d.push("产地证");
+    (c.docs_clause||[]).forEach(x=>d.push("商检证书-"+x));
+    if(c.payment!=="T/T") d.push("出口押汇申请书（办押汇才交）");
+  }
+  else if(f.s===18){
+    d = (air?["提货通知单","航空运单"]:["提货单"])
+        .concat(["入境货物检验检疫申请","外销合同","商业发票","装箱单","产地证"]);
+    (c.docs_clause||[]).forEach(x=>d.push("商检证书-"+x));
+  }
+  else if(f.s===19){
+    d = (air?["提货通知单","航空运单"]:["提货单"])
+        .concat(["进口货物报关单","外销合同","商业发票","装箱单"]);
+  }
+  else if(f.s===20){
+    /* 进口缴税三张缴款书；消费税只对烟酒、化妆品、贵重首饰等品目开征 */
+    d=["海关进口关税专用缴款书","海关进口增值税专用缴款书"];
+    if(hasExcise(c)) d.push("海关进口消费税专用缴款书");
+    by="进口商";
+  }
+  else if(air){
+    d=d.flatMap(airSub);          /* 订舱、提货这类整列换名 */
+  }
+  return {d,by,note};
 }
 
 function renderFlow(){
   const c=CASES[CASE];
   $("flowHint").textContent=`${c.payment} · ${c.term} · ${c.transport}`;
   $("flow").innerHTML=FLOW.map(f=>{
-    const {d,by}=docsOf(f);
-    const ds=d.length?d.join("、"):"无需单据";
+    const {d,by,note}=docsOf(f);
+    const ds=d.length?d.join("、"):(note||"无需单据");
     const cls=by==="出口商"?"s":"b";
     return `<li data-step="${f.s}"><div class="no">${f.s}</div>
       <div><div class="nm">${f.n}</div><div class="ds">${ds}</div></div>
@@ -1245,16 +1289,18 @@ function renderFields(step,di){
     G("毛重 G.W",nW(D.total_gw)+" KGS","自动");
     G("净重 N.W",nW(D.total_nw)+" KGS","自动");
     G("箱外尺寸 Meas.",n3(D.total_vol)+" CBM","自动");
-    G("件数大写 SAY TOTAL","SAY "+words(D.packs)+" "+uq(D.packs,c.pack_unit)+" ONLY","自动");
+    G("件数大写 SAY TOTAL","SAY "+words0(D.packs)+" "+uq(D.packs,c.pack_unit)+" ONLY","自动");
     note="装箱单号与发票号均由系统生成后回填；件数大写须与合计件数一致。";
   }
   // —— 投保单 ——
   else if(doc==="投保单"){
-    const who=(c.term==="CIF"||c.term==="CIP")?seller:buyer;
-    G("投保人 / 被保险人",who.name_en,"主体");
-    G("地址 / 邮编",who.address_en+" / "+who.postcode,"主体");
-    G("联系人",who.legal_en,"自动");
-    G("电话",who.tel,"主体");
+    const who=(c.term==="CIF"||c.term==="CIP")?seller:buyer;   /* 谁去投保 */
+    G("投保人（Applicant）",who.name_en,"主体");
+    G("投保人地址 / 邮编",who.address_en+" / "+who.postcode,"主体");
+    G("投保人联系人",who.legal_en,"自动");
+    G("投保人电话",who.tel,"主体");
+    G("被保险人（Insured）",buyer.name_en,"主体");
+    G("被保险人地址 / 邮编",buyer.address_en+" / "+buyer.postcode,"主体");
     G("贸易合同号",c.contract,"自动");
     G("信用证号",c.payment==="L/C"?c.lc_no:"（留空）",c.payment==="L/C"?"自动":"空");
     G("包装及数量",n0(D.packs)+" "+uq(D.packs,c.pack_unit),"自动");
@@ -1271,7 +1317,9 @@ function renderFields(step,di){
     G("保险费","USD "+n2(D.premium),"自动");
     G("起运日期","2026-11-15","待确认");
     G("投保人签字",who.name_en,"自动");
-    note="起运地/目的地须带国家（如 HAMBURG, GERMANY）；CIF = (FOB + 运费) ÷ (1 − 加成率 × 费率)，保险费由 CIF 反推，不能用顺序公式。";
+    note="投保人与被保险人分开：投保人是去办保险的那一方（CIF/CIP 为出口商，FOB/CFR/FCA/CPT 为进口商），"
+        +"被保险人固定填进口商——CIF 下出口商投保后把保单背书转让给进口商，索赔权在进口商手上。"
+        +"起运地/目的地须带国家（如 HAMBURG, GERMANY）；CIF = (FOB + 运费) ÷ (1 − 加成率 × 费率)，保险费由 CIF 反推，不能用顺序公式。";
   }
   // —— 报关单 ——
   else if(doc==="出口货物报关单"||doc==="进口货物报关单"){
@@ -1328,7 +1376,7 @@ function renderFields(step,di){
     G("Applicant（开证申请人）",buyer.name_en+"\n"+buyer.address_en,"主体");
     G("Beneficiary（受益人）",seller.name_en+"\n"+seller.address_en,"主体");
     G("Advising Bank（通知行）",advBank+"\n"+(BK(seller).addr_en||""),"银行表");
-    G("Amount（金额）","["+c.currency+"] ["+n2(D.amount)+"]\nSAY "+words(D.amount)+" ONLY","自动");
+    G("Amount（金额）","["+c.currency+"] ["+n2(D.amount)+"]\n"+amtWords(D.amount,c.amt_prefix||c.currency||"USD"),"自动");
     G("Partial shipments",c.partial||"☑ not allowed","待确认");
     G("Transhipment",c.trans||"☑ allowed","待确认");
     G("Loading on board at/from（装运港）",c.port_load,"自动");
@@ -1354,8 +1402,12 @@ function renderFields(step,di){
     G("日期",c.issue_date||"—","自动");
     G("托收行（Remitting Bank）",(BK(seller).zh||seller.bank_zh)+"\n"+(BK(seller).addr_zh||""),"银行表");
     G("代收行（Collecting Bank）",(BK(buyer).en||buyer.bank_en)+"\n"+(BK(buyer).addr_en||""),"银行表");
-    G("委托人（Principal）",seller.name_zh+" "+seller.address_zh+" "+seller.tel,"主体");
-    G("付款人（Drawee）",buyer.name_en+"\n"+buyer.address_en+"\n"+buyer.tel,"主体");
+    G("委托人名称（Principal）",seller.name_zh,"主体");
+    G("委托人地址",seller.address_zh,"主体");
+    G("委托人电话",seller.tel,"主体");
+    G("付款人名称（Drawee）",buyer.name_en,"主体");
+    G("付款人地址",buyer.address_en,"主体");
+    G("付款人电话",buyer.tel,"主体");
     G("托收方式",c.payment==="D/A"?"付款交单 D/P □　承兑交单 D/A ☑":"付款交单 D/P ☑　承兑交单 D/A □","自动");
     G("发票号码",c.invoice_no,"自动");
     G("金额","["+c.currency+"] ["+n2(D.amount)+"]","自动");
@@ -1368,7 +1420,7 @@ function renderFields(step,di){
       (acctOf(seller,c.currency||"USD")||seller.account_no||"")+
       "\n联系人："+(seller.legal_zh||"")+"\n电话："+(seller.tel||"")+"　传真："+(seller.fax||""),"主体");
     G("公司签章",seller.name_zh+"（加盖公章）","主体");
-    note="托收行填出口地银行中文名+中文地址；代收行填进口地银行英文名+英文地址；份数须与合同单据条款一致。";
+    note="托收行填出口地银行中文名+中文地址；代收行填进口地银行英文名+英文地址；委托人、付款人的名称/地址/电话分开填，逐栏对抄不易串行；份数须与合同单据条款一致。";
   }
   // —— 汇票 ——
   else if(doc==="汇票"){
@@ -1381,7 +1433,7 @@ function renderFields(step,di){
     G("汇票金额 Exchange for",c.currency+" "+n2(D.amount),"自动");
     G("付款期限 At",tenor+"　Sight of this FIRST of Exchange","自动");
     G("受款人 Pay to the Order of",payee+(isLC?"":"（非 L/C 填出口商）"),"自动");
-    G("金额大写 the sum of","SAY "+words(D.amount)+" ONLY","自动");
+    G("金额大写 the sum of",amtWords(D.amount,c.amt_prefix||c.currency||"USD"),"自动");
     G("信用证号码 L/C No.",isLC?(c.lc_no||""):"（非 L/C，不填）",isLC?"自动":"空");
     G("开证日期 Dated",isLC?(c.lc_date||""):"（非 L/C，不填）",isLC?"自动":"空");
     G("付款人 Issued by",drawee,"自动");
@@ -1403,7 +1455,7 @@ function renderFields(step,di){
     const dateOk=!cDate||!iDate||iDate>=cDate;
     const cc=countryCode(seller.country);
     // POCIB 例文写「U.S.DOLLARS EIGHTY NINE THOUSAND …」，连字符去掉
-    const amtW=v=>amtWords(v,pre).replace(/-/g," ");
+    const amtW=v=>amtWords(v,pre);
 
     G("致 TO",bBank.en||buyer.bank_en||"","银行表");
     G("日期",iDate||"待填",dateOk?"自动":"待确认");
@@ -1610,14 +1662,14 @@ function genericRows(doc,c,D,seller,buyer){
   const map={
    "托收委托书":[["托收行 (Remitting Bank)",(seller.bank_zh||"")+" / "+(seller.bank_en||"")+" / "+(seller.address_en||""),"主体"],
       ["代收行 (Collecting Bank)",(buyer.bank_zh||"")+" / "+(buyer.bank_en||""),"主体"],
-      ["委托人 (Principal)",seller.name_zh+" "+seller.address_zh+" "+seller.tel,"主体"],
-      ["付款人 (Drawee)",buyer.name_en+" / "+buyer.address_en+" / "+buyer.tel,"主体"],
+      ["委托人名称 (Principal)",seller.name_zh,"主体"],["委托人地址",seller.address_zh,"主体"],["委托人电话",seller.tel,"主体"],
+      ["付款人名称 (Drawee)",buyer.name_en,"主体"],["付款人地址",buyer.address_en,"主体"],["付款人电话",buyer.tel,"主体"],
       ["托收方式",c.payment==="D/A"?"☑ 承兑交单 D/A":"☑ 付款交单 D/P","自动"],
       ["发票号码",c.invoice_no,"自动"],["金额","USD "+n2(D.amount),"自动"],
       ["国外费用承担人","付款人","待确认"],["国内费用承担人","委托人","待确认"]],
    "汇票":[["号码","S00000454（系统生成）","自动"],["出票日期","2026-11-11","自动"],
       ["金额","USD "+n2(D.amount),"自动"],
-      ["大写","SAY "+words(D.amount)+" ONLY","自动"],
+      ["金额大写",amtWords(D.amount,c.amt_prefix||c.currency||"USD"),"自动"],
       ["付款期限",c.payment==="D/A"?"at 60 days after sight":"at sight","自动"],
       ["受款人 (Pay to the Order of)",seller.name_en,"主体"],
       ["出票人 / 签章",seller.name_en+" / "+seller.legal_en,"主体"],
@@ -2354,6 +2406,9 @@ if($("reefer")) $("reefer").onchange=e=>{ CASES[CASE].reefer=e.target.checked; c
   renderFlow();compute();}));
 if($("payText")) $("payText").addEventListener("input",()=>{
   CASES[CASE].pay_text=$("payText").value; compute();});
+/* 运输方式：海运 / 空运 会换一批单据名（海运提单↔航空运单、提货单↔提货通知单…） */
+if($("transport")) $("transport").addEventListener("change",()=>{
+  CASES[CASE].transport=$("transport").value; renderFlow(); compute(); });
 
 $("editMy").onclick=()=>openCo(CASES[CASE].my,false);
 $("editCp").onclick=()=>openCo(CASES[CASE].cp,false);
