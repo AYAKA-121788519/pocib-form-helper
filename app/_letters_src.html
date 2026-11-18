@@ -143,7 +143,7 @@
     <b>使用说明：</b>
     <ol>
       <li><b>生成函电</b>：填好表单 → 点「生成全套函电」，一次生成 9 封；右上角切换 <b>英文 / 中文 / 中英对照</b>，点目录跳转，可一键复制</li>
-      <li><b>商品运费</b>：填包装数量、毛重、体积 → 选集装箱种类（普柜/冻柜/空运）→ 填入查询到的运费单价 → 点「计算商品运费」</li>
+      <li><b>商品运费</b>：填包装数量、毛重、体积 → 选集装箱种类（普柜/冻柜/空运）→ 单价按当前航线自动带出，柜数与运费即时算好，不用点按钮</li>
       <li><b>进出口预算</b>：选 FOB / CPT / CIF 方式 → 填数量、单价、工厂价、汇率及各项费率 → 点「计算预算」，自动输出出口/进口预算表</li>
     </ol>
   </div>
@@ -194,19 +194,19 @@
         </select></div>
       <div class="fld"><label>装运港（选择）</label>
         <select id="portLoad">
-          <option selected>澳大利亚 Melbourne</option><option>巴西 Rio de Janeiro</option>
-          <option>古巴 Santiago</option><option>德国 Hamburg</option>
-          <option>英国 London</option><option>日本 Nagoya</option>
-          <option>中国 Shanghai</option><option>俄罗斯 St.Petersburg</option>
-          <option>美国 New York</option><option>南非 Cape Town</option>
+          <option selected data-key="melbourne">澳大利亚 Melbourne</option><option data-key="rio de janeiro">巴西 Rio de Janeiro</option>
+          <option data-key="santiagos">古巴 Santiago</option><option data-key="hamburg">德国 Hamburg</option>
+          <option data-key="liverpool">英国 Liverpool</option><option data-key="nagoya">日本 Nagoya</option>
+          <option data-key="shanghai">中国 Shanghai</option><option data-key="st.petersburg">俄罗斯 St.Petersburg</option>
+          <option data-key="new york">美国 New York</option><option data-key="capetown">南非 Cape Town</option>
         </select></div>
       <div class="fld"><label>卸货港（选择）</label>
         <select id="portDisc">
-          <option>澳大利亚 Melbourne</option><option>巴西 Rio de Janeiro</option>
-          <option>古巴 Santiago</option><option>德国 Hamburg</option>
-          <option>英国 London</option><option>日本 Nagoya</option>
-          <option>中国 Shanghai</option><option>俄罗斯 St.Petersburg</option>
-          <option>美国 New York</option><option selected>南非 Cape Town</option>
+          <option data-key="melbourne">澳大利亚 Melbourne</option><option data-key="rio de janeiro">巴西 Rio de Janeiro</option>
+          <option data-key="santiagos">古巴 Santiago</option><option data-key="hamburg">德国 Hamburg</option>
+          <option data-key="liverpool">英国 Liverpool</option><option data-key="nagoya">日本 Nagoya</option>
+          <option data-key="shanghai">中国 Shanghai</option><option data-key="st.petersburg">俄罗斯 St.Petersburg</option>
+          <option data-key="new york">美国 New York</option><option selected data-key="capetown">南非 Cape Town</option>
         </select></div>
       <div class="fld"><label>运输方式</label>
         <select id="ship"><option>海运</option><option>空运</option></select></div>
@@ -231,9 +231,10 @@
   <div class="card" id="freightCard">
     <h2>商品运费计算（集装箱种类：普柜 / 冻柜 / 空运）</h2>
     <div style="font-size:11.5px; color:#a86400; margin:-2px 0 10px">
-      包装数量 / 单包装毛重 / 单包装体积 随「把当前交易数据带入函电」自动填好（件数、每箱毛重、每箱体积），
-      改任一项数字下面的结果会即时重算。<b>下面的单价也按当前航线自动填好</b>（取自国际货运公司海运部 / 空运部运价表，
-      换起运港 / 卸货港、切海运 / 空运会跟着换），需要时可以手改。</div>
+      包装数量 / 单包装毛重 / 单包装体积 随上方交易数据自动填好（件数、每箱毛重、每箱体积）。
+      <b>改任何一项、换装运港 / 卸货港、切海运 / 空运、换柜型，下面的柜数与运费都即时重算，不用点按钮。</b>
+      单价取自国际货运公司海运部 / 空运部运价表，按当前航线自动带出，需要时可以手改。</div>
+    <div id="rateHint" style="font-size:11.5px; color:#5b6675; margin:-4px 0 10px"></div>
     <div class="grid3">
       <div class="fld"><label>运输方式</label>
         <select id="fShipMode">
@@ -291,8 +292,13 @@
       </div>
     </div>
 
-    <div class="actions">
-      <button class="btn btn-main" onclick="calcFreight()">计算商品运费</button>
+    <div id="fResult" style="margin-top:14px">
+      <div style="background:#f7faff; border:1px solid #e0e9f7; border-radius:10px; padding:13px 16px; font-size:12.5px; line-height:1.95">
+        <div id="foGoods" style="color:#40506a"></div>
+        <div>总毛重：<b id="foWt"></b> 吨　　总体积：<b id="foVol"></b> 立方米</div>
+        <div id="foDetail"></div>
+        <div id="foFinal" style="font-size:15px; color:#2f6fed; font-weight:700; margin-top:6px"></div>
+      </div>
     </div>
     <div style="margin-top:12px; background:#f2f6fd; border:1px solid #dfe8f6; border-radius:10px; padding:12px 14px; font-size:12.5px; color:#40506a; line-height:1.85">
       <b style="color:var(--blue)">运费单价查询说明：</b>
@@ -304,15 +310,7 @@
           My City 城市中心 → 国际货运有限公司【空运部】→ 访问网站 → 常用查询 → 空运航线及运费查询；
           输入起运机场、目的机场，查询空运费。</li>
       </ol>
-      <div style="margin-top:6px; font-size:11.5px; color:#a86400">查到单价后填入上方对应分组，再点「计算商品运费」即可。</div>
-    </div>
-    <div id="fResult" style="display:none; margin-top:14px">
-      <div style="background:#f7faff; border:1px solid #e0e9f7; border-radius:10px; padding:13px 16px; font-size:12.5px; line-height:1.95">
-        <div id="foGoods" style="color:#40506a"></div>
-        <div>总毛重：<b id="foWt"></b> 吨　　总体积：<b id="foVol"></b> 立方米</div>
-        <div id="foDetail"></div>
-        <div id="foFinal" style="font-size:15px; color:#2f6fed; font-weight:700; margin-top:6px"></div>
-      </div>
+      <div style="margin-top:6px; font-size:11.5px; color:#a86400">程序已内置这 90 条海运 + 90 条空运航线的运价，选好港口就自动带出单价；只有运价表里没有的航线才需要按上面路径查了手填。</div>
     </div>
   </div>
 
@@ -374,7 +372,8 @@
         <div class="fld"><label id="lbImFreight">进口运费（USD）</label>
           <input id="bImFreight" value="2440"></div>
         <div class="fld" style="display:flex; align-items:flex-end">
-          <button class="btn btn-g" onclick="autoFreight()" style="width:100%">一键填入运费</button></div>
+          <div id="frtAutoTip" style="width:100%; font-size:11.5px; color:#1f8a53; line-height:1.6">
+            运费随上方「商品运费计算」实时填入，不用手点</div></div>
       </div>
       <div id="freightTip" style="font-size:11.5px; color:#a86400; margin-top:6px"></div>
     </div>
@@ -783,29 +782,133 @@ function fv(id){
   const v=parseFloat(document.getElementById(id).value);
   return isNaN(v)?0:v;
 }
+/* ---- 航线运价：直接问主程序要（同一份 90 条海运 + 90 条空运运价表，不另存） ---- */
+function portKeyOf(sel){
+  if(!sel) return "";
+  const o=sel.options[sel.selectedIndex];
+  return o ? String(o.getAttribute("data-key")||"").trim() : "";
+}
+function parentRates(mode,a,b){
+  try{
+    const P=window.parent;
+    if(P && P!==window && typeof P.LETTERS_FREIGHT==="function") return P.LETTERS_FREIGHT(mode,a,b)||null;
+  }catch(e){}
+  return undefined;              /* undefined = 没连主程序；null = 运价表里没有这条航线 */
+}
+function routeName(a,b,air){
+  const cap=x=>String(x||"").replace(/(^|[\s.])([a-z])/g,(m,p1,p2)=>p1+p2.toUpperCase());
+  return cap(a)+" → "+cap(b)+(air?" 空运":" 海运");
+}
+/* 只写值、不派发事件，免得与重算互相触发 */
+function setRate(id,v){ const el=document.getElementById(id); if(el) el.value = (v==null?0:v); }
+/* 按当前港口把单价刷成运价表里的数；返回是否查到航线 */
+function refreshFreightRates(){
+  const air=document.getElementById("fShipMode").value==="air";
+  const a=portKeyOf(document.getElementById("portLoad"));
+  const b=portKeyOf(document.getElementById("portDisc"));
+  const hint=document.getElementById("rateHint");
+  if(!a||!b) return false;
+  const r=parentRates(air?"air":"sea",a,b);
+  if(r===undefined){
+    if(hint && !hint.textContent) hint.textContent="本页单独打开时取不到运价表，单价沿用当前值";
+    return false;
+  }
+  if(!r){
+    if(hint){
+      hint.style.color="#a86400";
+      hint.textContent = (a===b)
+        ? "装运港和卸货港相同，运价表里没有这条航线 —— 换一个港口就自动带出单价，也可以手填"
+        : "运价表里没有 "+routeName(a,b,air)+" 这条航线 —— 请按上方路径查到单价后手填";
+    }
+    return false;
+  }
+  if(air){
+    const t=r.t||[];
+    setRate("rMin",t[0]); setRate("ra45",t[1]); setRate("ra100",t[2]);
+    setRate("ra300",t[3]); setRate("ra300p",t[4]||t[3]);
+  }else{
+    const d=r.dry||[], f=r.rf||[];
+    ["r20","r40","r40h","rLCLv","rLCLw"].forEach((id,i)=>setRate(id,d[i]));
+    ["rr20","rr40","rr40h","rrLCLv","rrLCLw"].forEach((id,i)=>setRate(id,f[i]));
+  }
+  if(hint){
+    hint.style.color="#5b6675";
+    hint.textContent="单价已按 "+routeName(a,b,air)+" 的运价表填好，可手改，改完下面即时重算";
+  }
+  return true;
+}
+
+/* ---- 运费卡算完 → 按贸易术语方向实时写进预算（手改过就不覆盖） ---- */
+var AUTO_FRT="", FRT_MANUAL={bExFreight:false,bImFreight:false}, SETTING_FRT=false;
+function frtTargetId(){
+  const mode=document.getElementById("bMode").value;
+  return ["FOB","FCA","FAS"].includes(mode) ? "bImFreight" : "bExFreight";
+}
+function syncFreightToBudget(v){
+  const id=frtTargetId(), el=document.getElementById(id), tip=document.getElementById("frtAutoTip");
+  if(!el || !(v>0)) return;
+  const s=Number(v).toFixed(2);
+  if(FRT_MANUAL[id] && String(el.value).trim()!==""){
+    if(tip){ tip.style.color="#a86400"; tip.textContent="运费已手改，自动填入暂停；把该格清空就恢复跟随运费卡"; }
+    return;
+  }
+  FRT_MANUAL[id]=false;
+  if(String(el.value)!==s){
+    SETTING_FRT=true;
+    el.value=s;
+    el.dispatchEvent(new Event("input",{bubbles:true}));
+    SETTING_FRT=false;
+  }
+  AUTO_FRT=s;
+  if(tip){ tip.style.color="#1f8a53"; tip.textContent="运费已按上方运费计算自动填入：USD "+fmt(v); }
+}
+function resetFrtManual(){ FRT_MANUAL.bExFreight=false; FRT_MANUAL.bImFreight=false; }
+
 function calcFreight(){
   const qty=fv("fQty"), wt=fv("fWt"), vol=fv("fVol");
   const isAir = document.getElementById("fShipMode").value==="air";
-  const type = isAir ? "air" : "sea";   /* 海运默认按整柜比价（普柜/冻柜取低者） */
-  if(qty<=0||wt<=0||vol<=0){ toast("请填写包装数量、单包装毛重和体积"); return; }
+  const foGoods=document.getElementById("foGoods"), foWt=document.getElementById("foWt"),
+        foVol=document.getElementById("foVol"), foDetail=document.getElementById("foDetail"),
+        foFinal=document.getElementById("foFinal");
+  /* 数据没填全：不弹提示、不中断，缺什么就写在结果区里 */
+  if(!(qty>0)||!(wt>0)||!(vol>0)){
+    if(foGoods) foGoods.textContent="";
+    if(foWt) foWt.textContent="—";
+    if(foVol) foVol.textContent="—";
+    if(foDetail) foDetail.innerHTML="";
+    if(foFinal){
+      foFinal.style.color="#8b95a3";
+      foFinal.textContent="填好包装数量、单包装毛重、单包装体积，运费立刻算出来";
+    }
+    return null;
+  }
   const tonW = qty*wt/1000;          /* 总毛重（吨） */
   const totV = qty*vol;              /* 总体积（立方米） */
-  const gEl=document.getElementById("foGoods");
-  if(gEl){
+  if(foGoods){
     const gv=(document.getElementById("goods")||{}).value||"";
     const qv=parseFloat((document.getElementById("qty")||{}).value);
     const uv=(document.getElementById("unit")||{}).value||"";
-    gEl.textContent=(gv? "商品："+gv : "商品：—")
+    foGoods.textContent=(gv? "商品："+gv : "商品：—")
       + "　件数 "+qty+" 件（每件 "+wt+" KG / "+vol+" CBM）"
       + (qv>0? "　合同数量 "+qv.toLocaleString("en-US")+" "+uv : "");
   }
-  document.getElementById("foWt").textContent = tonW.toFixed(3);
-  document.getElementById("foVol").textContent = totV.toFixed(3);
+  if(foWt) foWt.textContent = tonW.toFixed(3);
+  if(foVol) foVol.textContent = totV.toFixed(3);
   let rows=[], final=0;
-  const row=(name,price,cnt)=>rows.push(
-    `<tr><td style="padding:2px 14px 2px 0">${name}</td><td style="padding:2px 14px 2px 0">单价 ${price.toFixed(2)}</td>`+
-    `<td style="padding:2px 14px 2px 0">个数 ${cnt}</td><td style="padding:2px 14px 2px 0">总价 <b>${price*cnt.toFixed? (price*cnt).toFixed(2):(price*cnt)}</b></td></tr>`);
-  if(type==="sea"){
+  if(isAir){
+    /* 空运：计费重量 = MAX(总毛重KG, 总体积×167) */
+    const chg=Math.max(tonW*1000, totV*167);
+    const min=fv("rMin");
+    const bands=[["小于45KG",fv("ra45"),45],["45-100KG",fv("ra100"),100],
+                 ["100-300KG",fv("ra300"),300],["300KG以上",fv("ra300p"),Infinity]];
+    const hit=bands.find(b=>chg<b[2]) || bands[bands.length-1];
+    const rate=hit[1];
+    const raw=rate*chg, usd=Math.max(min, raw);
+    rows.push(`<tr><td style="padding:2px 14px 2px 0">适用 ${hit[0]}</td>`+
+      `<td style="padding:2px 14px 2px 0">费率 ${rate} USD/KG</td><td style="padding:2px 14px 2px 0">计费重量 ${chg.toFixed(2)} KG</td>`+
+      `<td style="padding:2px 14px 2px 0">总价 <b>${usd.toFixed(2)}</b>${usd>raw+1e-9? "（低于最低运费 "+min.toFixed(2)+"，按最低收）":""}</td></tr>`);
+    final=usd;
+  } else {
     /* 海运：按所选「集装箱类型」计算（普柜 / 冻柜），取该类型下最省的装箱方案 */
     const isPG = document.getElementById("fBoxType").value==="pg";
     const gname = isPG ? "普柜" : "冻柜";
@@ -827,23 +930,26 @@ function calcFreight(){
       `<td style="padding:2px 14px 2px 0">—</td><td style="padding:2px 14px 2px 0">总价 <b>${lcl.toFixed(2)}</b></td></tr>`);
     /* 最终运费 = 该柜型下各方案中的较小值 */
     final=Math.min(...prices);
-  } else {
-    /* 空运：计费重量 = MAX(总毛重KG, 总体积×167) */
-    const chg=Math.max(tonW*1000, totV*167);
-    const min=fv("rMin");
-    const brackets=[[`小于45KG`,fv("ra45"),45],[`45-100KG`,fv("ra100"),100],[`100-300KG`,fv("ra300"),300],[`300KG以上`,fv("ra300p"),Infinity]];
-    for(const [n,rate,up] of brackets){
-      if(chg<up){ rows.push(`<tr><td style="padding:2px 14px 2px 0">适用 ${n}</td>`+
-        `<td style="padding:2px 14px 2px 0">费率 ${rate} USD/KG</td><td style="padding:2px 14px 2px 0">计费重量 ${chg.toFixed(2)} KG</td>`+
-        `<td style="padding:2px 14px 2px 0">总价 <b>${Math.max(min,rate*chg).toFixed(2)}</b></td></tr>`); break; }
-    }
-    const rate = chg<45?fv("ra45"): chg<100?fv("ra100"): chg<300?fv("ra300"): fv("ra300p");
-    final=Math.max(min, rate*chg);
   }
-  document.getElementById("foDetail").innerHTML =
-    `<table style="border-collapse:collapse;margin-top:4px">${rows.join("")}</table>`;
-  document.getElementById("foFinal").textContent = "最终运费：USD " + final.toFixed(2);
-  document.getElementById("fResult").style.display = "block";
+  if(foDetail) foDetail.innerHTML = `<table style="border-collapse:collapse;margin-top:4px">${rows.join("")}</table>`;
+  if(foFinal){
+    if(final>0){
+      foFinal.style.color="";
+      foFinal.textContent="最终运费：USD "+final.toFixed(2);
+    }else{
+      foFinal.style.color="#a86400";
+      foFinal.textContent="单价为 0：这条航线的运价没取到，请按上方路径查到单价后手填";
+    }
+  }
+  syncFreightToBudget(final);
+  return final;
+}
+
+/* 改数字后不必点按钮：合并成一次重算，打字时不抖 */
+let FR_T=null;
+function scheduleFreight(){
+  clearTimeout(FR_T);
+  FR_T=setTimeout(()=>{ try{ calcFreight(); }catch(e){} }, 120);
 }
 
 /* ================== 进出口预算计算 ================== */
@@ -932,8 +1038,8 @@ function syncBudget(){
   /* 保留已填写的运费值（切换术语不丢数据，由 calcBudget 决定是否计入） */
 
   document.getElementById("freightTip").textContent = isFOB
-    ? "当前贸易术语为 FOB/FCA/FAS：运费由进口方承担，请填「进口运费」，可点「一键填入运费」用上方运费计算结果自动填入。"
-    : "当前贸易术语为 CPT/CFR、CIF/CIP 或 DAP/DPU：运费由出口方承担，请填「出口运费」。";
+    ? "当前贸易术语为 FOB/FCA/FAS：运费由进口方承担 → 上方运费计算的结果会自动写进「进口运费」，改港口 / 柜型 / 数量都会跟着变。"
+    : "当前贸易术语为 CPT/CFR、CIF/CIP 或 DAP/DPU：运费由出口方承担 → 上方运费计算的结果会自动写进「出口运费」，改港口 / 柜型 / 数量都会跟着变。";
 }
 
 /* 运费卡：运输方式联动隐藏价格分组；海运时按柜型显示普柜/冻柜 */
@@ -946,16 +1052,8 @@ function syncFreightCard(){
   document.getElementById("grpRF").style.display = isPG ? "none" : "block";
 }
 
-/* 一键填入运费：取上方「商品运费计算」的最终运费 */
-function autoFreight(){
-  const el=document.getElementById("foFinal");
-  const m = el && el.textContent.match(/([\d,]+\.?\d*)/);
-  if(!m){ toast("请先在上方「商品运费计算」中计算出运费"); return; }
-  const v = parseFloat(m[1].replace(/,/g,""));
-  const mode=document.getElementById("bMode").value;
-  if(["FOB","FCA","FAS"].includes(mode)) setv("bImFreight", v); else setv("bExFreight", v);
-  toast("已填入运费 USD " + fmt(v));
-}
+/* 旧版「一键填入运费」已取消：calcFreight() 算完直接写进预算，这里留个空壳兼容外部调用 */
+function autoFreight(){ return calcFreight(); }
 
 function calcBudget(){
   /* --- 读取参数 --- */
@@ -1271,9 +1369,10 @@ function syncFromTerms(){
   /* 5) 装运港 → 出口国、卸货港 → 进口国 */
   syncPortsToCountry();
 
-  /* 6) 重算自动填值 */
+  /* 6) 重算自动填值（运费卡常显，一律重算） */
   syncBudget();
-  if(document.getElementById("fResult").style.display==="block") calcFreight();
+  refreshFreightRates();
+  calcFreight();
   if(document.getElementById("bResult").style.display==="block") calcBudget();
 }
 
@@ -1289,6 +1388,25 @@ function syncPortsToCountry(){
   if(imCo && [...imSel.options].some(o=>o.value===imCo) && imSel.value!==imCo) imSel.value=imCo;
 }
 
+/* 港口 / 运输方式改了 → 回传主程序（实时同步开着才会被采纳） */
+function notifyAdopt(){
+  const a=portKeyOf(document.getElementById("portLoad"));
+  const b=portKeyOf(document.getElementById("portDisc"));
+  const air=document.getElementById("fShipMode").value==="air";
+  try{
+    const P=window.parent;
+    if(P && P!==window && typeof P.LETTERS_ADOPT_PORTS==="function") return !!P.LETTERS_ADOPT_PORTS(a,b,air);
+  }catch(e){}
+  return false;
+}
+
+/* ---- 函电里换港口：重取这条航线的单价 → 重算柜数/运费 → 回传主程序 ---- */
+function onPortChanged(){
+  refreshFreightRates();
+  calcFreight();
+  if(notifyAdopt()) toast("港口已同步回交易，单据与左栏运费一起重算");
+}
+
 ["term","ship","pay"].forEach(id=>{
   const el=document.getElementById(id);
   el.addEventListener("change",syncFromTerms);
@@ -1300,6 +1418,8 @@ function syncPortsToCountry(){
   el.addEventListener("input",()=>{ syncPortsToCountry(); syncBudget(); });
   /* 一旦手改港口，就不再拿公司档案国别兜着，改为按所选港口国算预算 */
   el.addEventListener("change",()=>{ CO_COUNTRY[id==="portLoad"?"ex":"im"]=""; });
+  /* 换港口 → 单价跟着这条航线换 → 柜数 / 运费即时重算 → 同步回交易 */
+  el.addEventListener("change",onPortChanged);
 });
 
 /* ---- 预算区贸易术语改选 → 反向同步回交易条件 ---- */
@@ -1335,6 +1455,17 @@ syncBudget();
 syncFreightCard();
 linkQtyPrice();
 syncFromTerms();
+/* 打开就把当前航线的单价、柜数、运费算好（不等按钮） */
+refreshFreightRates();
+calcFreight();
+/* 手改运费：只有真人操作（isTrusted）才算手改，程序带进来的值不算 */
+["bExFreight","bImFreight"].forEach(id=>{
+  const el=document.getElementById(id); if(!el) return;
+  el.addEventListener("input",e=>{ if(e.isTrusted && !SETTING_FRT) FRT_MANUAL[id]=true; });
+});
+["bMode","term"].forEach(id=>{
+  const el=document.getElementById(id); if(el) el.addEventListener("change",e=>{ if(e.isTrusted) resetFrtManual(); });
+});
 /* 初始同步：数量 / 单价 */
 document.getElementById("bQty").value = document.getElementById("qty").value;
 document.getElementById("bPrice").value = document.getElementById("price").value;
@@ -1345,23 +1476,29 @@ refQuote();
   el.addEventListener("input",refQuote);
   el.addEventListener("change",refQuote);
 });
+/* 切海运 / 空运：运价表按新方式重取，同时把交易条件的运输方式一起改（函电里也写对） */
 document.getElementById("fShipMode").addEventListener("change",()=>{
   syncFreightCard();
-  if(document.getElementById("fResult").style.display==="block") calcFreight();
+  const want=document.getElementById("fShipMode").value==="air" ? "空运" : "海运";
+  const sh=document.getElementById("ship");
+  if(sh.value!==want){ sh.value=want; sh.dispatchEvent(new Event("change",{bubbles:true})); }
+  refreshFreightRates();
+  calcFreight();
+  /* 运输方式也回传，免得主程序下一轮同步又把函电改回海运 */
+  if(notifyAdopt()) toast("运输方式已同步回交易（"+want+"）");
 });
 /* 集装箱类型切换：显示对应柜型价格并重算 */
 document.getElementById("fBoxType").addEventListener("change",()=>{
   syncFreightCard();
-  if(document.getElementById("fResult").style.display==="block") calcFreight();
+  calcFreight();
 });
-/* 运费卡任一数字改动 → 已算过的结果即时重算（件数/毛重/体积/单价都算） */
+/* 运费卡任一数字改动 → 结果即时重算（件数/毛重/体积/单价都算，不用点按钮） */
 ["fQty","fWt","fVol",
  "r20","r40","r40h","rLCLv","rLCLw","rr20","rr40","rr40h","rrLCLv","rrLCLw",
  "rMin","ra45","ra100","ra300","ra300p"].forEach(id=>{
   const el=document.getElementById(id); if(!el) return;
-  el.addEventListener("input",()=>{
-    if(document.getElementById("fResult").style.display==="block") calcFreight();
-  });
+  el.addEventListener("input",scheduleFreight);
+  el.addEventListener("change",scheduleFreight);
 });
 
 /* 主程序带入的每箱装量：在函电里改数量时，运费卡的「包装数量」跟着重算 */
@@ -1371,7 +1508,7 @@ document.getElementById("qty").addEventListener("input",()=>{
   const v=parseFloat(document.getElementById("qty").value)||0;
   if(v<=0) return;
   document.getElementById("fQty").value = Math.ceil(v/PACK_QTY-1e-9);
-  if(document.getElementById("fResult").style.display==="block") calcFreight();
+  scheduleFreight();
 });
 
 /* 预算区表单 id（用于「恢复示例」重置） */
