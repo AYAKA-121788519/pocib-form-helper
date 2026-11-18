@@ -391,7 +391,7 @@
           <select id="bX5"><option selected value="0">0</option><option value="0.25">0.25%</option></select></div>
         <div class="fld"><label>出口报关费（本币，自动）</label>
           <input id="bX6" readonly style="background:#f7f8fa; color:#8b95a3"></div>
-        <div class="fld"><label>其他费用（本币）</label><input id="bX7" value="7"></div>
+        <div class="fld"><label>其他费用（本币，自动汇总）</label><input id="bX7" value="7"></div>
         <div class="fld"><label>L/C 手续费率（自动）</label>
           <input id="bX8" readonly style="background:#f7f8fa; color:#8b95a3"></div>
         <div class="fld"><label>其他付款费率（自动）</label>
@@ -401,8 +401,11 @@
         <div class="fld" id="wrapDep"><label>T/T 定金比例（%）</label><input id="bX11" value="30"></div>
       </div>
       <div style="font-size:11.5px; color:#a86400; margin-top:6px">
-        注：出口税率固定为 0；出口报关费按出口国自动填入；支付方式为 L/C 时银行费率 0.13%，D/P、D/A、T/T 为 0.1%；
-        手续费低于银行最低费用时按最低费用计（T/T 定金、尾款两次分别计）；商检费按监管条件自动判定（含 B 或合同选了商检证书才报检），可手工改。</div>
+        注：出口税率固定为 0；出口报关费按出口国自动填入（海关 EUR9/次折本币）；支付方式为 L/C 时银行费率 0.13%，
+        D/P、D/A、T/T 为 0.1%，低于银行最低手续费（EUR19 折本币）时按最低收，T/T 定金与尾款两次分别判；
+        押汇另有 2%、最低 EUR190，只在做押汇时才计（预算表里不含）。
+        商检费按监管条件自动判定（含 B 或合同选了商检证书才按 0.25% 报检），可手工改。</div>
+      <div id="x7Tip" style="font-size:11.5px; color:#1f8a53; margin-top:4px; line-height:1.7"></div>
     </div>
 
     <!-- 进口信息 -->
@@ -424,7 +427,8 @@
       </div>
       <div style="font-size:11.5px; color:#a86400; margin-top:6px">
         注：进口报关费与信用证开证费按进口国自动填入；关税按 CIF/CIP 成交价×优惠税率，消费税与增值税按完税成本计；
-        商检费按监管条件自动判定（含 A 才进口报检），可手工改；「进口其他费用」只有 DAP 需要填目的地卸货费。</div>
+        商检费按监管条件自动判定（含 A 才进口报检），可手工改；
+        DAP / DPU 的进口国内陆运费（USD300）与目的地卸货费（USD20）由卖方承担，已加到出口侧成本，这里不用填。</div>
       <div id="taxTip" style="font-size:11.5px; color:#5b6675; margin-top:6px; line-height:1.7"></div>
     </div>
 
@@ -510,6 +514,7 @@ function resetBudget(){
   /* 税率也跟着回到「按税则填」：手改标记清掉，下次带值照税则来 */
   TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false,bX5:false,bY4:false};
   TAX_FROM_HS="";
+  X7_MANUAL=false;
   syncBudget(); syncFreightCard();
   if(typeof applyTaxFromGoods==="function") applyTaxFromGoods();
   document.getElementById("bResult").style.display="none";
@@ -978,23 +983,60 @@ const COUNTRIES = {
   "美国":    {rate:1,      customs:12,  lcOpen:38,   cur:"USD", cert:4},
   "南非":    {rate:0.1294, customs:92,  lcOpen:280,  cur:"ZAR", cert:40},
 };
-/* 银行最低手续费（本币）：POCIB 银行网站「基本费用查询」里每种业务的「最低费用」。
-   规则（百科·出口报价/进口核算）：按费率算出的手续费低于最低费用时，取最低费用；
-   T/T 分定金+尾款两次支付时，两次分别判断、分别取最低后相加。
-   数值待按国家/支付方式填，0 = 未配置（等于不启用最低限制）。 */
-const MINFEE = {
-  "澳大利亚":{LC:0,DP:0,DA:0,TT:0},
-  "巴西":    {LC:0,DP:0,DA:0,TT:0},
-  "古巴":    {LC:0,DP:0,DA:0,TT:0},
-  "德国":    {LC:0,DP:0,DA:0,TT:0},
-  "英国":    {LC:0,DP:0,DA:0,TT:0},
-  "日本":    {LC:0,DP:0,DA:0,TT:0},
-  "中国":    {LC:0,DP:0,DA:0,TT:0},
-  "俄罗斯":  {LC:0,DP:0,DA:0,TT:0},
-  "美国":    {LC:0,DP:0,DA:0,TT:0},
-  "南非":    {LC:0,DP:0,DA:0,TT:0},
+/* ================== 机构价目（POCIB 各国机构网站） ==================
+   银行「基本费用查询」/ 海关「费用查询」是全系统同一张价目表（页面是同一个模板，
+   <%=money%> 由后台配置渲染），只有邮局和化学材料测试中心按国家不同。
+   下面几张表就是这几处的原值，抓取脚本：scripts/crawl_charges.py */
+
+/* 银行基准价（EUR）：POCIB 银行「基本费用查询」A 出口地 / B 进口地
+   A：信用证入账 0.13% 最低 EUR19、押汇 2% 最低 EUR190、DA/DP 入账 0.1% 最低 19、T/T 入账 0.1% 最低 19
+   B：开证/改证 每笔 EUR29、信用证付款 0.13% 最低 19、DA/DP 付款 0.1% 最低 19、T/T 付款 0.1% 最低 19 */
+const BANK_EUR = {
+  exLC:{rate:0.13, min:19}, exNeg:{rate:2, min:190}, exDA:{rate:0.1, min:19}, exTT:{rate:0.1, min:19},
+  imOpen:29, imLC:{rate:0.13, min:19}, imDA:{rate:0.1, min:19}, imTT:{rate:0.1, min:19}
 };
-try{ window.MINFEE = MINFEE; }catch(e){}
+/* 海关「费用查询」（EUR/份）：报检手续费按合同总额 0.25% 另计 */
+const CERT_EUR = {"品质证书":10, "质量证书":10, "数量证书":4, "重量证书":4,
+                  "植物检疫证书":4, "健康证书":4, "兽医卫生证书":4, "卫生证书":4,
+                  "动物卫生证书":4, "熏蒸/消毒证书":4};
+const ORIGIN_EUR = 3;          /* 一般原产地证 / 普惠制产地证都是 EUR3 */
+const DECLARE_EUR = 9;         /* 报关费 EUR9/次 */
+/* 邮局「收费标准」寄单费（T/T 走 DHL 寄单，各国不同，本币/次）
+   /institutions/company/18/S0180..S0189/4_fuwu/fuwu2.aspx */
+const POSTAGE = {
+  "中国":{cur:"RMB",amt:43},   "日本":{cur:"JPY",amt:662},  "俄罗斯":{cur:"RUB",amt:144},
+  "德国":{cur:"EUR",amt:2},    "英国":{cur:"GBP",amt:1},    "巴西":{cur:"BRL",amt:12},
+  "澳大利亚":{cur:"AUD",amt:6},"美国":{cur:"USD",amt:5},    "古巴":{cur:"CUP",amt:6},
+  "南非":{cur:"ZAR",amt:38}
+};
+/* 化学材料测试中心「运输条件鉴定」（本币/次）
+   /institutions/company/21/S00604..S00694/4_fuwu/fuwu1.aspx */
+const CHEM = {
+  "中国":1323, "日本":20446, "俄罗斯":4562, "德国":130, "英国":86,
+  "巴西":358,  "澳大利亚":212, "美国":173, "古巴":185, "南非":1217
+};
+/* 要出运输条件鉴定书的 POCIB 商品编号（其余商品不用鉴定） */
+const CHEM_GOODS = ["21001","40001","40002","06002"];
+/* 进口国内陆运费 / 目的地卸货费（USD，POCIB 统一价，只有 DAP / DPU 由卖方承担） */
+const INLAND_USD = 300, UNLOAD_USD = 20;
+
+/* 1 EUR 折合该国本币：预算表「常用数据」里报关费就是 EUR9 折出来的，
+   所以拿 customs/9 当折算率，和同一张表里的开证费、产地证价口径一致 */
+const eurLocal = c => {
+  const k = (COUNTRIES[c]||{}).customs;
+  return k ? k/DECLARE_EUR : 1;
+};
+/* 银行最低手续费（本币）：按 EUR 基准折本币。
+   规则（银行页注 2）：按费率算出的手续费低于最低费用时取最低；
+   T/T 分定金+尾款两次支付时，两次分别判断、分别取最低后相加。 */
+const MINFEE = {};
+Object.keys(COUNTRIES).forEach(c=>{
+  const k=eurLocal(c), r=v=>Math.round(v*k);
+  MINFEE[c]={LC:r(BANK_EUR.exLC.min), DP:r(BANK_EUR.exDA.min), DA:r(BANK_EUR.exDA.min),
+             TT:r(BANK_EUR.exTT.min), LC_IM:r(BANK_EUR.imLC.min)};
+});
+try{ window.MINFEE = MINFEE; window.POSTAGE = POSTAGE; window.CHEM = CHEM;
+     window.BANK_EUR = BANK_EUR; window.CERT_EUR = CERT_EUR; window.eurLocal = eurLocal; }catch(e){}
 const bv=id=>{ const v=parseFloat(document.getElementById(id).value); return isNaN(v)?0:v; };
 /* 解析百分比字段："0.13%" / "0.13" → 0.0013 */
 const bp=id=>{
@@ -1039,6 +1081,8 @@ function applyTaxFromGoods(){
   if(o.code!==TAX_FROM_HS){              /* 换商品：手改标记作废，重新按税则填 */
     TAX_FROM_HS=o.code;
     TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false,bX5:false,bY4:false};
+    X7_MANUAL=false;                     /* 商品换了，运输条件鉴定费要重新判 */
+    computeOtherEx();
   }
   const put=(id,v)=>{
     if(v==null || TAX_MANUAL[id]) return;
@@ -1104,6 +1148,72 @@ function initCountries(){
   document.getElementById("bImCountry").value="巴西";
 }
 
+/* ================== 出口「其他费用」自动汇总 ==================
+   海关费用查询：原产地证 EUR3/份（进口国是美国→一般原产地证，其余→普惠制）；
+                 商检证书按份收：品质 10、数量/重量 4、植物检疫 4、健康 4（EUR）；
+   邮局收费标准：T/T 要 DHL 寄单，按国家收（USD5 / EUR2 / GBP1 …）；
+   化学材料测试中心：运输条件鉴定，按国家收（USD173 / EUR130 …）。
+   合计用出口国本币，手改过就不再覆盖。 */
+var X7_MANUAL=false, X7_PARTS=[];
+function goodsNoOf(){
+  try{
+    const P=window.parent;
+    if(P && P!==window && typeof P.LETTERS_GOODSNO==="function") return String(P.LETTERS_GOODSNO()||"");
+  }catch(e){}
+  return "";
+}
+function computeOtherEx(){
+  const el=document.getElementById("bX7");
+  if(!el) return 0;
+  const exC=document.getElementById("bExCountry").value;
+  const imC=document.getElementById("bImCountry").value;
+  const pay=document.getElementById("bPay").value;
+  const k=eurLocal(exC);                       /* 1 EUR = k 出口国本币 */
+  const parts=[];
+  /* 原产地证：价格取预算表「常用数据」里的现成值（和百科案例对得上） */
+  parts.push([(imC==="美国"?"一般原产地证":"普惠制产地证"), (COUNTRIES[exC]||{}).cert||0]);
+  /* 商检证书：合同 DOCUMENTS 选了几种就收几份，同一种不重复计 */
+  const o=parentTariffOfGoods();
+  const docs=(o && o.docs) || [];
+  const picked=[];
+  docs.forEach(d=>{
+    const key=String(d).replace(/\s/g,"");
+    let hit=Object.keys(CERT_EUR).find(x=>key.indexOf(x)>=0);
+    if(hit==="数量证书" || hit==="重量证书") hit="重量/数量证书";   /* 同一张证书，只收一份 */
+    if(hit && picked.indexOf(hit)<0) picked.push(hit);
+  });
+  if(picked.length){
+    const eur=picked.reduce((a,x)=>a+(x==="重量/数量证书"?4:CERT_EUR[x]),0);
+    parts.push(["商检证书（"+picked.join("、")+"，EUR"+eur+"/份）", Math.round(eur*k)]);
+  }
+  /* T/T 走 DHL 寄单 */
+  if(pay==="TT" && POSTAGE[exC]) parts.push(["DHL 寄单费", POSTAGE[exC].amt]);
+  /* 运输条件鉴定：只有指定的几个商品要 */
+  const gn=goodsNoOf();
+  if(CHEM_GOODS.indexOf(gn)>=0 && CHEM[exC]) parts.push(["运输条件鉴定（商品 "+gn+"）", CHEM[exC]]);
+  const sum=parts.reduce((a,p)=>a+(p[1]||0),0);
+  X7_PARTS=parts;
+  if(!X7_MANUAL) el.value=Math.round(sum);
+  el.readOnly=false;
+  const tip=document.getElementById("x7Tip");
+  if(tip){
+    tip.innerHTML = X7_MANUAL
+      ? "其他费用已手改，不再按价目自动算；把格子清空就恢复自动。"
+      : "其他费用 = " + parts.map(p=>p[0]+" "+fmt(p[1]||0)).join(" ＋ ");
+  }
+  return sum;
+}
+/* 其他费用手改：真人改过就冻结；清空则恢复自动 */
+(function(){
+  const el=document.getElementById("bX7"); if(!el) return;
+  el.addEventListener("input",e=>{
+    if(!e.isTrusted) return;
+    X7_MANUAL = String(el.value).trim()!=="";
+    const tip=document.getElementById("x7Tip");
+    if(tip && X7_MANUAL) tip.textContent="其他费用已手改，不再按价目自动算；把格子清空就恢复自动。";
+  });
+})();
+
 /* 国家/支付/运输/术语 → 自动联动填值 */
 function syncBudget(){
   const exC=document.getElementById("bExCountry").value;
@@ -1137,14 +1247,8 @@ function syncBudget(){
     depEl.style.background=isTT?"#ffffff":"#f7f8fa";
     depEl.style.color=isTT?"":"#8b95a3";
   }
-  /* 其他费用：非 T/T 支付 → 自动填出口国原/普惠制产地证价格；T/T → 手填不变 */
-  const x7el=document.getElementById("bX7");
-  if(pay!=="TT"){
-    x7el.value=COUNTRIES[exC].cert;
-    x7el.readOnly=true; x7el.style.background="#f7f8fa"; x7el.style.color="#8b95a3";
-  } else {
-    x7el.readOnly=false; x7el.style.background="#ffffff"; x7el.style.color="";
-  }
+  /* 其他费用：产地证 + 商检证书 + 寄单费 + 鉴定费，按国家价目自动汇总（可手改） */
+  computeOtherEx();
   /* 保险费率：海运 8.8%，空运 4.3%（数值为千分比，计算时按 8.8‰ / 4.3‰） */
   setv("bZ2", ship==="sea" ? "8.8%" : "4.3%");
   /* 出口税率固定 0 */
@@ -1240,7 +1344,12 @@ function calcBudget(){
   /* 投保金额 = 报价 × 投保加成（按手册：以对外报价为基数，仅 CIF/CIP/DAP/DPU 投保） */
   const exF21= withIns? exF26*insUp : 0, exG21= withIns? exG26*insUp : 0;
   const exF20= exF21*insRate,            exG20= exG21*insRate;
-  const exF22= exF19s+exF20,             exG22= exG19s+exG20;   /* CIF/CIP/DAP/DPU 成本 */
+  /* DAP / DPU：卖方还要把货送到进口国目的地并卸下，
+     POCIB 统一收进口国内陆运费 USD300 + 目的地卸货费 USD20（折出口国本币计入成本） */
+  const dstOn = (mode==="DAP" || mode==="DPU");
+  const dstG  = dstOn? (INLAND_USD+UNLOAD_USD) : 0;
+  const dstF  = dstOn? dstG/xr : 0;
+  const exF22= exF19s+exF20+dstF,        exG22= exG19s+exG20+dstG;   /* CIF/CIP/DAP/DPU 成本 */
 
   /* 按方式取成本总额（分母）：FOB 不含运费保费，CFR/CPT 含运费，CIF/CIP/DAP/DPU 含运费+保费 */
   const costF = buyerPay? exF17 : midTerm? exF19s : exF22;
@@ -1266,7 +1375,7 @@ function calcBudget(){
   };
   const qFOB = qmin(exF9+x6+x7, false, false);
   const qCFR = qmin(exF9+x6+x7, true,  false);
-  const qCIF = qmin(exF9+x6+x7, true,  true);
+  const qCIF = qmin(exF9+x6+x7+dstF, true,  true);
   const exC27 = buyerPay? qFOB : midTerm? qCFR : qCIF;   /* 按当前术语取对应报价 */
   const exC28 = N? exC27/N : 0;
 
@@ -1296,8 +1405,9 @@ function calcBudget(){
   /* 消费税、增值税 */
   const imK17= imK14*y2/(1-y2),          imJ17= imK17/ir;
   const imK18= (imK14+imK17)*y3,         imJ18= imK18/ir;
-  /* 其他：只有 DAP 需要填进口国目的地卸货费，其余方式为 0（本币金额） */
-  const imJ19= (mode==="DAP")? y6 : 0,   imK19= imJ19*ir;
+  /* 其他：DAP/DPU 的进口国内陆运费与卸货费由卖方承担，已计入出口侧成本，
+     进口侧这里只是手填口（默认 0），不再按术语自动加 */
+  const imJ19= y6,                       imK19= imJ19*ir;
   const imK20= imK15+imK16+imK17+imK18+imK19;
   const imJ20= imJ15+imJ16+imJ17+imJ18+imJ19;
   /* 银行费用 = 开证费 + 付款手续费（低于最低手续费取最低；T/T 定金/尾款分两次判） */
@@ -1369,7 +1479,11 @@ function calcBudget(){
     expRows.push(["", "总保费率", fmt(insRate*1000)+" ‰", ""]);
     expRows.push(["", "投保加成", fmt(insUp*100)+" %", ""]);
     expRows.push(["", "投保金额", fmt(exF21), fmt(exG21)]);
-    expRows.push(["", "出口总成本C（CIF/CIP成本）（=C+F+I）", fmt(cifC), fmt(cifCg), 1]);
+    if(dstOn){
+      expRows.push(["", "进口国内陆运费（USD "+INLAND_USD+"）", fmt(INLAND_USD/xr), fmt(INLAND_USD)]);
+      expRows.push(["", "目的地卸货费（USD "+UNLOAD_USD+"）", fmt(UNLOAD_USD/xr), fmt(UNLOAD_USD)]);
+    }
+    expRows.push(["", "出口总成本C（"+(dstOn?"DAP/DPU":"CIF/CIP")+"成本）（=C+F+I"+(dstOn?"+目的地费用":"")+"）", fmt(cifC), fmt(cifCg), 1]);
   }
   expRows.push(["4", "报价（数量×单价）", fmt(exF26), fmt(exG26), 1]);
   expRows.push(["", "预期盈亏额", fmt(exPftF), fmt(exPftG)]);
@@ -1677,6 +1791,7 @@ BIDS.forEach(k=>{ BDEF[k]=document.getElementById(k).value; });
 /* 选择变化 → 自动联动 */
 ["bExCountry","bImCountry","bPay","bShip","bMode"].forEach(id=>{
   document.getElementById(id).addEventListener("change",()=>{
+    X7_MANUAL=false;       /* 价目来源变了，其他费用恢复自动汇总 */
     syncBudget();
     applyTaxFromGoods();   /* 出口国换了，退税率要不要套中国的政策跟着变 */
   });

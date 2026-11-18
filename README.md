@@ -91,15 +91,16 @@ git clone https://gitee.com/crane-and-egret/pocib-form-helper.git
 | 实际采购成本 A | 收购价 − 出口退税收入 | |
 | 商检费（出口） | 对外报价 × 0.25% | **只在监管条件含 B，或合同 DOCUMENTS 选了品质/健康/数量/植物检疫证书时收**；否则为 0 |
 | 商检费（进口） | 成交价 × 0.25% | **只在监管条件含 A 时收**；没有 A 为 0 |
-| 报关费 | 出口国 / 进口国固定值 | 按国家自动填 |
+| 报关费 | 出口国 / 进口国本币固定值 | 海关「费用查询」EUR9/次，按各国本币折算 |
 | 出口税 | 0 | POCIB 商品一律没有出口税 |
-| 银行费用 | 报价 × 费率 | L/C 0.13%，D/P、D/A、T/T 0.1%；**低于银行最低手续费时按最低收；T/T 定金与尾款分两次各判各收** |
-| 其他 | 证书费 + 产地证 + 鉴定费 + T/T 寄单费 | DAP 的出口预算还要加进口国内陆运费、DPU 再加目的地卸货费 |
+| 银行费用 | 成交金额 × 费率，低于最低取最低 | 出口 L/C 0.13%、押汇 2%、DA/DP 与 T/T 0.1%；进口 L/C = 开证费 + 0.13%，其余 0.1%。最低手续费 EUR19（押汇 EUR190、开证 EUR29/笔）按各国本币折算；T/T 定金与尾款分两次各判各收 |
+| 其他 | 自动汇总：产地证 + 商检证书 + DHL 寄单费 + 运输条件鉴定 | 见下「其他费用怎么来的」；手改就按手改的，清空恢复自动 |
 | 出口总成本 C | A + B | 任何术语都要填，FOB 表底就是它 |
 | CFR/CPT 成本 | C + 出口运费 | |
 | 投保金额（出口） | 对外报价 × 投保加成 | 加成 110/120/130% |
 | 总保费率 | 各险别之和 | 战争险 + 罢工险只算一次（0.8‰）；一切险已含一般附加险，不另加 |
 | CIF/CIP 成本 | C + F + I | |
+| DAP / DPU 成本 | C + F + I + 进口国内陆运费 + 目的地卸货费 | 陆运 USD300、卸货 USD20（POCIB 统一价），折出口国本币计入，预算表单列两行 |
 | 进口关税 | CIF/CIP 成交价 × 优惠税率 | 基数是**含保费的 CIF 价**，不是 FOB |
 | 完税成本 | CIF 成交价 + 进口关税 | |
 | 消费税 | 完税成本 × 率 ÷ (1 − 率) | 从价；从量商品按「数量 × 单位税额」 |
@@ -110,14 +111,16 @@ git clone https://gitee.com/crane-and-egret/pocib-form-helper.git
 
 两个百科实例已写成回归断言（`scripts/test_budget.mjs`）：L/C+CFR 南非出口那笔的退税 169,115.04、国内费用 6,063.99、CFR 成本 1,321,245.70；T/T+FCA 古巴进口那笔的关税 1,196,867.08、消费税 3,366,188.67、增值税 1,215,568.13、总成本 10,577,065.64，逐项对得上。
 
-**还缺的价目**（代码里已留好位置，填进去就生效，没填时按 0 处理、等于不启用）：
+**其他费用怎么来的**（全自动汇总，出口国本币；格子可手改，清空恢复自动）：
 
-| 缺什么 | 填在哪 | 影响 |
+| 组成 | 取价 | 什么时候有 |
 |---|---|---|
-| 各国银行最低手续费（L/C、D/P、D/A、T/T 各一个） | `_letters_src.html` 的 `MINFEE` 表 | 小额合同时银行费用会被低估 |
-| 商检证书费（品质/健康/数量/重量/植物检疫，每份一张） | 待加 `CERT_FEE` 表 | 「其他」里的证书部分要手填 |
-| 一般原产地证 / 普惠制产地证 / 货物运输条件鉴定书 / DHL 寄单费 | 同上（产地证已有 `COUNTRIES[].cert`） | 同上 |
-| 进口国内陆运费、目的地卸货费（DAP/DPU） | 预算「进口其他费用」手填 | DAP/DPU 的「其他」要手填 |
+| 一般原产地证 / 普惠制产地证 | EUR3（预算表「常用数据」已有各国折本币值） | 一直有；进口国是美国→一般原产地证，其余→普惠制 |
+| 商检证书 | 品质 10、数量/重量 4、植物检疫 4、健康 4（EUR/份） | 合同 DOCUMENTS 选了就该份收，数量与重量是同一张只收一份 |
+| DHL 寄单费 | 邮局「收费标准」，按国家（USD5 / EUR2 / GBP1 / JPY662 / RUB144 / BRL12 / AUD6 / CUP6 / ZAR38 / RMB43） | 支付方式为 T/T |
+| 运输条件鉴定 | 化学材料测试中心，按国家（USD173 / EUR130 / GBP86 / JPY20446 / RUB4562 / BRL358 / AUD212 / CUP185 / ZAR1217 / RMB1323） | 商品编号是 21001、40001、40002、06002（磺胺氯哒嗪钠、七号电池、锂电池、环保涂料） |
+
+**机构价目来源**：邮局寄单费与化工鉴定费按国家不同，抓自 `institutions/company/18/S0180–S0189`、`21/S00604–S00694`（`scripts/crawl_charges.py`，`--check` 可校验代码与页面是否一致）；银行「基本费用查询」与海关「费用查询」是全系统同一张价目表（页面是 `<%=money%>` 模板，各国渲染同一组值），基准价写死在 `BANK_EUR` / `CERT_EUR`，按 `customs/EUR9` 折各国本币——和同一张「常用数据」表里的报关费、开证费口径一致。
 
 > 函电模块以同源 iframe 方式隔离运行，与主程序的样式和脚本互不干扰。
 
@@ -131,6 +134,8 @@ git clone https://gitee.com/crane-and-egret/pocib-form-helper.git
 | 海关税则 | POCIB「税率查询 - 海关 CUSTOMS」 | 11,709 条 / 8,547 个编码（第 1–96 章） |
 | 各国商品价格 | 客户端「国内市场」「工厂采购」截图 | 5 国 / 209 个商品 / 约 900 条价格 |
 | 各国银行 | 课程资料 | 10 国各一家 |
+| 邮局寄单费 / 化工鉴定费 | POCIB 邮局、化学材料测试中心「收费标准」 | 各 10 国 |
+| 银行费率 / 商检证书费 / 产地证 | POCIB 银行「基本费用查询」、海关「费用查询」 | 全系统一套（EUR 计价） |
 
 ## 已实现的单据
 
@@ -482,8 +487,11 @@ POCIB 海关的「税率查询」是一个 ASP.NET 表单页（`/institutions/co
 ```bash
 python scripts/crawl_tariff.py            # 抓全库 → data/tariff.json
 python scripts/gen_tariff.py              # 内嵌进 app/index.html
+python scripts/crawl_charges.py           # 抓邮局/化工各国价目 → data/charges.json
+python scripts/crawl_charges.py --check   # 校验代码里的价目与页面一致
 node scripts/test_tariff.mjs              # 税则数据 + 税额自测
 node scripts/test_tax.mjs                 # 编码近似匹配 + 函电预算税率跟随
+node scripts/test_charges.mjs             # 机构价目 → 预算「其他费用」自测
 ```
 
 ## 进口缴税：三张缴款书（v2.0）
@@ -593,6 +601,7 @@ pocib-helper/
 │  ├─ model/               数据模型定义（交易剖面 schema、字段映射、公司样例）
 │  ├─ freight.json         运价表（90 条海运 + 90 条空运航线，crawl_freight.py 抓取）
 │  ├─ tariff.json          海关税则全库（crawl_tariff.py 抓取）
+│  ├─ charges.json         邮局寄单费 / 化工鉴定费各国价目（crawl_charges.py 抓取）
 │  └─ ref/                 港口航线、各国银行
 ├─ scripts/                抓取与生成脚本
 │  ├─ crawl.py             抓取百科全站
@@ -605,6 +614,7 @@ pocib-helper/
 │  ├─ gen_freight.py       运价表内嵌进 index.html（--check 只校验）
 │  ├─ crawl_tariff.py      递归抓海关税率查询全库 → data/tariff.json
 │  ├─ gen_tariff.py        税则内嵌进 index.html（--check 只校验）
+│  ├─ crawl_charges.py     抓邮局/化工各国价目 → data/charges.json（--check 只校验）
 │  ├─ build_dist.py        打包 dist
 │  ├─ build_portable.py    打绿色版（自带运行时，约 90MB）
 │  └─ ocr/                 识图取数

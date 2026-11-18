@@ -73,7 +73,8 @@ const until=async(fn,ms=6000)=>{ const t0=Date.now(); while(Date.now()-t0<ms){ t
   const paySel=d.getElementById("bPay");
   paySel.value="LC"; paySel.dispatchEvent(new Event("change",{bubbles:true}));
   await sleep(300);
-  ok("未配置最低手续费时为空 0", val("bX10")===0, val("bX10"));
+  /* 银行「基本费用查询」：L/C 入账最低 EUR19，按本国价目折本币（澳洲 customs=16 → EUR1≈1.78 AUD） */
+  ok("最低手续费按 EUR19 折本币（澳洲 34）", val("bX10")===34, val("bX10"));
 
   w.MINFEE["澳大利亚"].LC=777.77;
   w.syncBudget(); await sleep(150);
@@ -107,10 +108,11 @@ const until=async(fn,ms=6000)=>{ const t0=Date.now(); while(Date.now()-t0<ms){ t
   d.getElementById("bY6").value="1234.56";
   modeSel.value="CIF"; modeSel.dispatchEvent(new Event("change",{bubbles:true}));
   w.calcBudget(); await sleep(200);
-  ok("CIF 时进口其他不计入", txt().indexOf("1,234.56")<0);
+  ok("进口其他费用手填即计入", txt().indexOf("1,234.56")>=0);
   modeSel.value="DAP"; modeSel.dispatchEvent(new Event("change",{bubbles:true}));
   w.calcBudget(); await sleep(200);
-  ok("DAP 时进口其他计入（1234.56）", txt().indexOf("1,234.56")>=0);
+  ok("DAP 出口侧单列 USD300 内陆运费与 USD20 卸货费",
+     txt().indexOf("进口国内陆运费")>=0 && txt().indexOf("目的地卸货费")>=0);
   d.getElementById("bY6").value="0";
   modeSel.value="CIF"; modeSel.dispatchEvent(new Event("change",{bubbles:true}));
 
