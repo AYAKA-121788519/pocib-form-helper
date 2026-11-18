@@ -396,10 +396,13 @@
           <input id="bX8" readonly style="background:#f7f8fa; color:#8b95a3"></div>
         <div class="fld"><label>其他付款费率（自动）</label>
           <input id="bX9" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>银行最低手续费（本币，自动）</label>
+          <input id="bX10" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld" id="wrapDep"><label>T/T 定金比例（%）</label><input id="bX11" value="30"></div>
       </div>
       <div style="font-size:11.5px; color:#a86400; margin-top:6px">
-        注：出口税率固定为 0；出口报关费按出口国自动填入；支付方式为 L/C 时银行费率 0.13%，T/T 及其他方式 0.1%；
-        非 T/T 支付时「其他费用」自动按出口国的原/普惠制产地证价格填入。</div>
+        注：出口税率固定为 0；出口报关费按出口国自动填入；支付方式为 L/C 时银行费率 0.13%，D/P、D/A、T/T 为 0.1%；
+        手续费低于银行最低费用时按最低费用计（T/T 定金、尾款两次分别计）；商检费按监管条件自动判定（含 B 或合同选了商检证书才报检），可手工改。</div>
     </div>
 
     <!-- 进口信息 -->
@@ -415,9 +418,13 @@
           <input id="bY7" readonly style="background:#f7f8fa; color:#8b95a3"></div>
         <div class="fld"><label>进口其他付款费率（自动）</label>
           <input id="bY8" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld"><label>进口其他费用（本币）</label><input id="bY6" value="0"></div>
+        <div class="fld"><label>银行最低手续费（本币，自动）</label>
+          <input id="bY9" readonly style="background:#f7f8fa; color:#8b95a3"></div>
       </div>
       <div style="font-size:11.5px; color:#a86400; margin-top:6px">
-        注：进口报关费与信用证开证费按进口国自动填入；进口其他付款费率按支付方式自动切换。</div>
+        注：进口报关费与信用证开证费按进口国自动填入；关税按 CIF/CIP 成交价×优惠税率，消费税与增值税按完税成本计；
+        商检费按监管条件自动判定（含 A 才进口报检），可手工改；「进口其他费用」只有 DAP 需要填目的地卸货费。</div>
       <div id="taxTip" style="font-size:11.5px; color:#5b6675; margin-top:6px; line-height:1.7"></div>
     </div>
 
@@ -501,7 +508,7 @@ function resetBudget(){
   document.getElementById("bImCountry").value="巴西";
   document.getElementById("fShipMode").value="sea";
   /* 税率也跟着回到「按税则填」：手改标记清掉，下次带值照税则来 */
-  TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false};
+  TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false,bX5:false,bY4:false};
   TAX_FROM_HS="";
   syncBudget(); syncFreightCard();
   if(typeof applyTaxFromGoods==="function") applyTaxFromGoods();
@@ -971,6 +978,23 @@ const COUNTRIES = {
   "美国":    {rate:1,      customs:12,  lcOpen:38,   cur:"USD", cert:4},
   "南非":    {rate:0.1294, customs:92,  lcOpen:280,  cur:"ZAR", cert:40},
 };
+/* 银行最低手续费（本币）：POCIB 银行网站「基本费用查询」里每种业务的「最低费用」。
+   规则（百科·出口报价/进口核算）：按费率算出的手续费低于最低费用时，取最低费用；
+   T/T 分定金+尾款两次支付时，两次分别判断、分别取最低后相加。
+   数值待按国家/支付方式填，0 = 未配置（等于不启用最低限制）。 */
+const MINFEE = {
+  "澳大利亚":{LC:0,DP:0,DA:0,TT:0},
+  "巴西":    {LC:0,DP:0,DA:0,TT:0},
+  "古巴":    {LC:0,DP:0,DA:0,TT:0},
+  "德国":    {LC:0,DP:0,DA:0,TT:0},
+  "英国":    {LC:0,DP:0,DA:0,TT:0},
+  "日本":    {LC:0,DP:0,DA:0,TT:0},
+  "中国":    {LC:0,DP:0,DA:0,TT:0},
+  "俄罗斯":  {LC:0,DP:0,DA:0,TT:0},
+  "美国":    {LC:0,DP:0,DA:0,TT:0},
+  "南非":    {LC:0,DP:0,DA:0,TT:0},
+};
+try{ window.MINFEE = MINFEE; }catch(e){}
 const bv=id=>{ const v=parseFloat(document.getElementById(id).value); return isNaN(v)?0:v; };
 /* 解析百分比字段："0.13%" / "0.13" → 0.0013 */
 const bp=id=>{
@@ -989,7 +1013,7 @@ const fmt=(n,d=2)=>Number(n).toLocaleString("en-US",{minimumFractionDigits:d,max
    预算里的进口税率 / 消费税 / 增值税 / 退税率原来是写死的 6% / 0 / 13% / 13%，跟商品无关。
    现在直接问主程序要当前商品的税则行（同一份 POCIB 海关税则，不另存）；
    手改过的格子不再覆盖，换商品（HS 变了）才重新按税则填。 */
-var TAX_FROM_HS="", TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false};
+var TAX_FROM_HS="", TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false,bX5:false,bY4:false};
 const TAX_LINK={bY1:"bY1",bY2:"bY2",bX2:"bY2",bY3:"bY3",bX3:"bY3",bX4:"bX4"};
 function parentTariffOfGoods(){
   try{
@@ -1014,7 +1038,7 @@ function applyTaxFromGoods(){
   }
   if(o.code!==TAX_FROM_HS){              /* 换商品：手改标记作废，重新按税则填 */
     TAX_FROM_HS=o.code;
-    TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false};
+    TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false,bX5:false,bY4:false};
   }
   const put=(id,v)=>{
     if(v==null || TAX_MANUAL[id]) return;
@@ -1027,17 +1051,33 @@ function applyTaxFromGoods(){
   put("bY1", o.imPref!=null? o.imPref : o.imGen);   /* 进口优惠税率 */
   put("bY2", o.csVal);                              /* 消费税从价 */
   put("bY3", o.vat);                                /* 增值税率 */
-  const exC=(document.getElementById("bExCountry")||{}).value||"";
-  put("bX4", exC==="中国"? o.rebate : null);        /* 出口退税是中国的政策，别的出口国不套 */
+  /* 出口退税：POCIB 各国海关都给出本商品的出口退税率（例：南非出口按 13%、德国按 9%），
+     不是只有中国才退，所以按税则的退税率直接填 */
+  put("bX4", o.rebate);
+  /* 商检费按监管条件自动判定（海关 HS 查询的「监管条件」）：
+     出口——含 B 才需出口报检；合同 DOCUMENTS 里选了任何商检证书，即使没有 B 也要报检
+     进口——含 A 才需进口报检 */
+  const ctrl=String(o.ctrl||""), docs=o.docs||[];
+  const certDoc=docs.some(d=>/品质|健康|数量|重量|植物检疫/.test(String(d)));
+  const needEx = ctrl.indexOf("B")>=0 || certDoc;
+  const needIm = ctrl.indexOf("A")>=0;
+  const setSel=(id,need)=>{
+    if(TAX_MANUAL[id]) return;
+    const el=document.getElementById(id); if(!el) return;
+    const v=need? "0.25" : "0";
+    if(el.value!==v){ el.value=v; el.dispatchEvent(new Event("change",{bubbles:true})); }
+  };
+  setSel("bX5", needEx);
+  setSel("bY4", needIm);
   if(tip){
-    const imC=(document.getElementById("bImCountry")||{}).value||"";
     tip.style.color="#5b6675";
     tip.innerHTML="税率按当前商品 <b>"+o.code+"</b> "+o.name+" 自动带入："
       +"进口优惠 "+(o.imPref==null?"—":o.imPref+"%")
       +"　增值税 "+(o.vat==null?"—":o.vat+"%")
       +"　消费税 "+(o.csVal? o.csVal+"%" : "0")+(o.csQty? " + 从量 "+o.csQty+"/"+(o.unit||"—") : "")
-      +"　退税 "+(exC==="中国"? (o.rebate==null?"—":o.rebate+"%") : "不适用（出口国非中国）")
-      +(imC && imC!=="中国"? "　（税则是中国海关口径，进口国不是中国时按实际改）" : "")
+      +"　退税 "+(o.rebate==null?"—":o.rebate+"%")
+      +"；监管条件 <b>"+(ctrl||"无")+"</b> → 出口商检 "+(needEx?"按报价 0.25%":"不收（无 B 且未选商检证书）")
+      +"、进口商检 "+(needIm?"按成交价 0.25%":"不收（无 A）")
       +"；手改过就按手改的算，换商品自动重填。";
   }
   if(document.getElementById("bResult").style.display==="block") calcBudget();
@@ -1047,6 +1087,11 @@ function applyTaxFromGoods(){
 ["bY1","bY2","bX2","bY3","bX3","bX4"].forEach(id=>{
   const el=document.getElementById(id); if(!el) return;
   el.addEventListener("input",e=>{ if(e.isTrusted) TAX_MANUAL[TAX_LINK[id]]=true; });
+});
+/* 商检费率手改（下拉选择）：真人改过就不再被监管条件覆盖 */
+["bX5","bY4"].forEach(id=>{
+  const el=document.getElementById(id); if(!el) return;
+  el.addEventListener("change",e=>{ if(e.isTrusted) TAX_MANUAL[id]=true; });
 });
 
 /* 初始化国家下拉 */
@@ -1075,10 +1120,23 @@ function syncBudget(){
   setv("bY5", COUNTRIES[imC].customs);
   /* 信用证开证费：仅 L/C 时发生 */
   setv("bY7", pay==="LC" ? COUNTRIES[imC].lcOpen : 0);
-  /* 银行费用费率：L/C → 0.13%，T/T 及其他 → 0.1% */
+  /* 银行费用费率：L/C → 0.13%，D/P、D/A、T/T → 0.1% */
   setv("bX8", pay==="LC" ? "0.13%" : "0");
   setv("bX9", pay==="LC" ? "0" : "0.1%");
   setv("bY8", pay==="LC" ? "0" : "0.1%");
+  /* 银行最低手续费：按出口国 / 进口国 + 支付方式取（未配置的国家填 0，等于不启用） */
+  const payKey=pay==="LC" ? "LC" : pay==="TT" ? "TT"
+    : (/D\/A/.test((document.getElementById("bPayDisp")||{}).value||"") ? "DA" : "DP");
+  const mfEx=(MINFEE[exC]||{})[payKey]||0, mfIm=(MINFEE[imC]||{})[payKey]||0;
+  setv("bX10", mfEx); setv("bY9", mfIm);
+  /* T/T 定金比例：只有 T/T 用得上，其他方式置灰 */
+  const depEl=document.getElementById("bX11");
+  if(depEl){
+    const isTT = pay==="TT";
+    depEl.disabled=!isTT;
+    depEl.style.background=isTT?"#ffffff":"#f7f8fa";
+    depEl.style.color=isTT?"":"#8b95a3";
+  }
   /* 其他费用：非 T/T 支付 → 自动填出口国原/普惠制产地证价格；T/T → 手填不变 */
   const x7el=document.getElementById("bX7");
   if(pay!=="TT"){
@@ -1135,8 +1193,16 @@ function calcBudget(){
   const x1=bv("bX1"),x2=bp("bX2"),x3=bp("bX3"),x4=bp("bX4"),x5=bp("bX5"),
         x6=bv("bX6"),x7=bv("bX7"),x8=bp("bX8"),x9=bp("bX9");
   const y1=bp("bY1"),y2=bp("bY2"),y3=bp("bY3"),y4=bp("bY4"),y5=bv("bY5"),
-        y6=0,y7=bv("bY7"),y8=bp("bY8");
+        y6=bv("bY6"),y7=bv("bY7"),y8=bp("bY8"),y9=bv("bY9");
+  const x10=bv("bX10"), depPct=bp("bX11");
+  const pay=document.getElementById("bPay").value;
   const insUp=bv("bZ1"), insRate=insRateVal();
+  /* 银行手续费：按费率算，低于最低手续费时取最低；T/T 定金+尾款分两次各判各取最低后相加 */
+  const feeWithMin=(amt,rate,min,d0)=>{
+    const one=a=>{ const v=a*rate; return (min>0 && v<min)? min : v; };
+    if(d0>0 && d0<1) return one(amt*d0)+one(amt*(1-d0));
+    return one(amt);
+  };
   /* 是否含运费的术语（卖方承担运费），是否含保费的术语（CIF/CIP/DAP/DPU） */
   const sellerFrt = !buyerPay;
   const withIns = mode==="CIF" || mode==="CIP" || mode==="DAP" || mode==="DPU";
@@ -1156,8 +1222,10 @@ function calcBudget(){
   /* 报关费、出口税=报价×出口税率/(1+税率)、银行费用、其他付款费 */
   const exF11= x6,                       exG11= exF11*xr;
   const exF12= exF26*x1/(1+x1),          exG12= exF12*xr;
-  const exF13= exF26*x8,                 exG13= exF13*xr;
-  const exF14= exF26*x9,                 exG14= exF14*xr;
+  /* 银行费用：本币最低手续费折成美元后套用（rate = 1 本币兑多少美元）；T/T 有定金比例时按定金/尾款两次计 */
+  const bankExUsd= feeWithMin(exG26, x8||x9, x10*xr, pay==="TT"? depPct : 0);
+  const exF13= x8? bankExUsd/xr : 0,     exG13= x8? bankExUsd : 0;
+  const exF14= x8? 0 : bankExUsd/xr,     exG14= x8? 0 : bankExUsd;
   const exF15= x7,                       exG15= exF15*xr;
   /* 国内费用合计 */
   const exF16= exF15+exF14+exF13+exF12+exF11+exF10;
@@ -1182,12 +1250,24 @@ function calcBudget(){
   const exPftF= exF26-costF,  exPftG= exG26-costG;
   const exPftRF= costF? exPftF/costF : 0, exPftRG= costG? exPftG/costG : 0;
 
-  /* 出口商参考报价总（本币）：FOB 不含运费，CFR/CPT 含运费，CIF/CIP/DAP/DPU 含运费+保费 */
-  const baseF = exF9 + x6 + x7 + (sellerFrt?exF18:0);
-  const denom = withIns
-    ? (x8? 1-(1+expR)*(x5+x8+insUp*insRate) : 1-(1+expR)*(x5+x9+insUp*insRate))
-    : (x8? 1-(1+expR)*(x5+x8)             : 1-(1+expR)*(x5+x9));
-  const exC27 = denom? baseF*(1+expR)/denom : 0;
+  /* 出口商参考报价（本币）：按百科给出的报价公式反推
+     x = D(1+n)/[1-(1+n)(k+m+rR)]，D=实际采购成本+报关费+其他，T=运费；
+     若按费率算出的银行手续费低于最低手续费 F，则换成 x=[(D+F+T)(1+n)]/[1-(1+n)(k+rR)]（分母不再含 m） */
+  const bankR = x8 || x9;                       /* 银行/付款费率（公式自动切换） */
+  const qmin=(D, withFrt, withIns)=>{
+    const T = withFrt? exF18 : 0;
+    const d1 = withIns? 1-(1+expR)*(x5+bankR+insUp*insRate) : 1-(1+expR)*(x5+bankR);
+    const q1 = d1? (D+T)*(1+expR)/d1 : 0;
+    if(x10>0 && bankR*q1 < x10){                /* 触发最低手续费档 */
+      const d2 = withIns? 1-(1+expR)*(x5+insUp*insRate) : 1-(1+expR)*x5;
+      return d2? (D+T+x10)*(1+expR)/d2 : 0;
+    }
+    return q1;
+  };
+  const qFOB = qmin(exF9+x6+x7, false, false);
+  const qCFR = qmin(exF9+x6+x7, true,  false);
+  const qCIF = qmin(exF9+x6+x7, true,  true);
+  const exC27 = buyerPay? qFOB : midTerm? qCFR : qCIF;   /* 按当前术语取对应报价 */
   const exC28 = N? exC27/N : 0;
 
   /* ================= 进口预算 ================= */
@@ -1216,14 +1296,16 @@ function calcBudget(){
   /* 消费税、增值税 */
   const imK17= imK14*y2/(1-y2),          imJ17= imK17/ir;
   const imK18= (imK14+imK17)*y3,         imJ18= imK18/ir;
-  const imK19= y6,                       imJ19= imK19/ir;
+  /* 其他：只有 DAP 需要填进口国目的地卸货费，其余方式为 0（本币金额） */
+  const imJ19= (mode==="DAP")? y6 : 0,   imK19= imJ19*ir;
   const imK20= imK15+imK16+imK17+imK18+imK19;
   const imJ20= imJ15+imJ16+imJ17+imJ18+imJ19;
-  /* 银行费用 = 开证费 + 信用证付款费 + 其他付款手续费 */
-  /* 信用证开证费：同样是进口国本币金额 */
+  /* 银行费用 = 开证费 + 付款手续费（低于最低手续费取最低；T/T 定金/尾款分两次判） */
+  /* 信用证开证费：进口国本币的固定金额 */
   const imJ22= y7,                       imK22= imJ22*ir;
-  const imK23= imK7*x8,                  imJ23= imK23/ir;
-  const imK24= imK7*y8,                  imJ24= imK24/ir;
+  const bankImCny= feeWithMin(imJ7, x8||y8, y9, pay==="TT"? depPct : 0);
+  const imJ23= x8? bankImCny : 0,        imK23= imJ23*ir;
+  const imJ24= x8? 0 : bankImCny,        imK24= imJ24*ir;
   const imK21= imK22+imK23+imK24,        imJ21= imJ22+imJ23+imJ24;
   /* 总成本 */
   const imK25= imK14+imK20+imK21,        imJ25= imJ14+imJ20+imJ21;
@@ -1234,12 +1316,7 @@ function calcBudget(){
   const imK28= imK25? imK27/imK25:0,     imJ28= imJ25? imJ27/imJ25:0;
 
   /* --- 渲染（POCIB 手册「出口成本预算表」版式） --- */
-  const bankR = x8 || x9;                       /* 银行/付款费率（公式自动切换） */
-  const denomFOB = 1-(1+expR)*(x5+bankR);
-  const denomCIF = 1-(1+expR)*(x5+bankR+insUp*insRate);
-  const qFOB = denomFOB? (exF9+x6+x7)*(1+expR)/denomFOB : 0;
-  const qCFR = denomFOB? (exF9+x6+x7+exF18)*(1+expR)/denomFOB : 0;
-  const qCIF = denomCIF? (exF9+x6+x7+exF18)*(1+expR)/denomCIF : 0;
+  /* qFOB / qCFR / qCIF 已在上面按报价公式算好（含最低手续费档的切换） */
   /* 币种缩写（大写英文） */
   const exCur = COUNTRIES[document.getElementById("bExCountry").value].cur;
   const imCur = COUNTRIES[document.getElementById("bImCountry").value].cur;
@@ -1273,9 +1350,10 @@ function calcBudget(){
     ["", "其他", fmt(exF15), fmt(exG15)],
     ["", "国内费用", fmt(exF16), fmt(exG16), 1],
   ];
-  /* 三条成本口径并存，只有当前术语那一条有值，其余为 0（与 POCIB 系统一致） */
-  const fobC  = buyerPay ? exF17 : 0,   fobCg  = buyerPay ? exG17 : 0;
-  const cfrC  = midTerm  ? exF19s : 0,  cfrCg  = midTerm  ? exG19s : 0;
+  /* 阶梯式：FOB 成本始终有值（A+B），CFR/CIF 逐级往上加；
+     只有当前术语那个「总成本」用于算盈亏（POCIB 案例 3 是 CFR 合同，FOB 成本照样填） */
+  const fobC  = exF17,                  fobCg  = exG17;
+  const cfrC  = midTerm||withIns ? exF19s : 0,  cfrCg = midTerm||withIns ? exG19s : 0;
   const cifC  = withIns  ? exF22 : 0,   cifCg  = withIns  ? exG22 : 0;
 
   /* 阶梯式裁剪：低于当前术语的成本行保留并填 0，高于当前术语的行直接不显示 */
@@ -1378,11 +1456,19 @@ function refQuote(mode,N,UP,xr){
   const exF7=fac*N, exF8=(exF7*x4)/(1+x3), exF9=exF7-exF8;
   const exF18= buyerPay? 0 : (bv("bExFreight")/xr);
   const bankR=x8||x9;
-  const baseF = exF9 + x6 + x7 + exF18;
-  const denom = withIns
-    ? (x8? 1-(1+expR)*(x5+x8+insUp*insRate) : 1-(1+expR)*(x5+x9+insUp*insRate))
-    : (x8? 1-(1+expR)*(x5+x8)             : 1-(1+expR)*(x5+x9));
-  const tot = denom? baseF*(1+expR)/denom : 0;   /* 本币总报价 */
+  const x10=bv("bX10");
+  /* 与 calcBudget 的 qmin 同一套：低于最低手续费时切到不含 m 的公式 */
+  const qmin=(D,withFrt,withIns2)=>{
+    const T = withFrt? exF18 : 0;
+    const d1 = withIns2? 1-(1+expR)*(x5+bankR+insUp*insRate) : 1-(1+expR)*(x5+bankR);
+    const q1 = d1? (D+T)*(1+expR)/d1 : 0;
+    if(x10>0 && bankR*q1 < x10){
+      const d2 = withIns2? 1-(1+expR)*(x5+insUp*insRate) : 1-(1+expR)*x5;
+      return d2? (D+T+x10)*(1+expR)/d2 : 0;
+    }
+    return q1;
+  };
+  const tot = qmin(exF9+x6+x7, !buyerPay, withIns);   /* 本币总报价 */
   const unit= tot? (tot/N)*xr : 0;               /* 折算为 USD 单价 */
   const qU=document.getElementById("bQuoteU"), qT=document.getElementById("bQuoteT");
   if(!(fac>0)||!(N>0)){                          /* 没工厂采购价或没数量，报价无从谈起 */
@@ -1584,7 +1670,7 @@ document.getElementById("qty").addEventListener("input",()=>{
 
 /* 预算区表单 id（用于「恢复示例」重置） */
 const BIDS=["bMode","bQty","bPrice","bFactory","bMarket","bExpRate","bPay","bShip",
-            "bExFreight","bImFreight","bX2","bX3","bX4","bX7","bY1","bZ1"];
+            "bExFreight","bImFreight","bX2","bX3","bX4","bX7","bX11","bY1","bY6","bZ1"];
 const BDEF={};
 BIDS.forEach(k=>{ BDEF[k]=document.getElementById(k).value; });
 
@@ -1606,7 +1692,7 @@ linkTax("bX2","bY2");   /* 消费税率 */
 linkTax("bX3","bY3");   /* 增值税率 */
 
 /* 预算输入变化 → 实时重算（若已计算过） */
-BIDS.concat(["bExCountry","bImCountry","bPay","bShip","bX1","bX6","bX8","bX9","bY5","bY7","bY8","bZ1","bZ2"]).forEach(id=>{
+BIDS.concat(["bExCountry","bImCountry","bPay","bShip","bX1","bX6","bX8","bX9","bX10","bX11","bY5","bY6","bY7","bY8","bY9","bZ1","bZ2"]).forEach(id=>{
   const el=document.getElementById(id);
   el.addEventListener("input",()=>{ if(document.getElementById("bResult").style.display==="block") calcBudget(); });
   el.addEventListener("change",()=>{ if(document.getElementById("bResult").style.display==="block") calcBudget(); });

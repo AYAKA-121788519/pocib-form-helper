@@ -99,13 +99,13 @@ const until=async(fn,ms=6000)=>{ const t0=Date.now(); while(Date.now()-t0<ms){ t
   ok("增值税率跟着变 9%", val("bY3")===9, val("bY3"));
   ok("出口栏增值税同步 9%", val("bX3")===9, val("bX3"));
 
-  /* 退税：出口国=中国才套税则的退税率 */
+  /* 退税：POCIB 各国海关都给本商品的出口退税率，不只有中国退（南非 13%、德国 9% 都有案例） */
   c.hs="2005800000"; $("hs").value=c.hs; compute(); bridgeToLetters(true);
   await sleep(400);
   const exSel=d.getElementById("bExCountry");
   exSel.value="澳大利亚"; exSel.dispatchEvent(new Event("change",{bubbles:true}));
   await sleep(250);
-  ok("出口国非中国时不套退税", val("bX4")!==9, val("bX4"));
+  ok("出口国非中国也按税则退税（9%）", val("bX4")===9, val("bX4"));
   exSel.value="中国"; exSel.dispatchEvent(new Event("change",{bubbles:true}));
   await sleep(250);
   ok("出口国是中国 → 退税率 9%", val("bX4")===9, val("bX4"));
