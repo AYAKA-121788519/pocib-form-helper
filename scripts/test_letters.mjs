@@ -30,7 +30,7 @@ is("运费卡有件数输入", h.includes('id="fQty"'), true);
 is("运费卡有结果商品行", h.includes('id="foGoods"'), true);
 is("有装量全局量 PACK_QTY", h.includes("var PACK_QTY"), true);
 is("有公司国别全局量 CO_COUNTRY", h.includes("var CO_COUNTRY"), true);
-is("预算国别优先用公司国别", /CO_COUNTRY\.ex \|\| cut/.test(h), true);
+is("预算国别优先用公司国别", /portOptionOf\(lSel, CO_COUNTRY\.ex\)/.test(h) && /coCut\(lSel\.value\)\s*\|\|\s*CO_COUNTRY\.ex/.test(h), true);
 is("手改港口后清掉公司国别覆盖", /CO_COUNTRY\[id==="portLoad"\?"ex":"im"\]=""/.test(h), true);
 is("缺工厂价时不硬算报价", h.includes('"缺工厂价"'), true);
 is("港口选项带运价表键名", (h.match(/data-key="/g) || []).length >= 20, true);

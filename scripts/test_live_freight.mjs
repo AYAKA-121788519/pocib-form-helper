@@ -51,14 +51,17 @@ const until=async(fn,ms=4000)=>{ const t0=Date.now(); while(Date.now()-t0<ms){ t
     const pd=d.getElementById("portDisc");
     const loadName=d.getElementById("portLoad").value;
     ok("装运港已由主程序带入", !!loadName, loadName);
-    pd.value="美国 New York"; pd.dispatchEvent(new Event("change",{bubbles:true}));
+    /* 港口按公司所在国定：案例 A 是德国出口商 → 美国进口商，装运港汉堡、目的港纽约 */
+    ok("装运港=出口公司所在国（德国 Hamburg）", /汉堡|Hamburg/.test(loadName), loadName);
+    ok("目的港=进口公司所在国（美国 New York）", /纽约|New York/.test(pd.value), pd.value);
+    pd.value="南非 Cape Town"; pd.dispatchEvent(new Event("change",{bubbles:true}));
     await sleep(300);
     const r20b=val("r20"), fB=money(finalTxt());
     ok("换卸货港后单价跟着换", r20b>0 && r20b!==r20a, v("r20")+" ← 原 "+r20a);
     ok("换卸货港后运费即时重算", fB>0, finalTxt());
     ok("预算运费跟着变", Math.abs(val(frtId)-fB)<0.02, v(frtId)+" vs "+fB);
     const rh=d.getElementById("rateHint").textContent;
-    ok("航线提示写清新航线", /Hamburg/.test(rh) && /New York/.test(rh), rh);
+    ok("航线提示写清新航线", /Hamburg/.test(rh) && /Capetown/i.test(rh), rh);
 
     /* 换装运港 → 也应该变 */
     const pl=d.getElementById("portLoad");
@@ -71,6 +74,7 @@ const until=async(fn,ms=4000)=>{ const t0=Date.now(); while(Date.now()-t0<ms){ t
 
     /* 起止港相同 → 没有航线，给提示 */
     pl.value="美国 New York"; pl.dispatchEvent(new Event("change",{bubbles:true}));
+    pd.value="美国 New York"; pd.dispatchEvent(new Event("change",{bubbles:true}));
     await sleep(250);
     ok("同港提示没有航线", /相同/.test(d.getElementById("rateHint").textContent), d.getElementById("rateHint").textContent);
 
