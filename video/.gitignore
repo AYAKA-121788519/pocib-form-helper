@@ -1,0 +1,5 @@
+assets/
+.film/
+out/
+smoke/
+node_modules/

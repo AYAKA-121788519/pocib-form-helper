@@ -1,0 +1,72 @@
+{
+  "panel": {
+    "img": "assets/shots/panel.png",
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 2671
+  },
+  "trade": {
+    "img": "assets/shots/panel.png",
+    "x": 12,
+    "y": 103,
+    "w": 330,
+    "h": 1684
+  },
+  "flow": {
+    "img": "assets/shots/panel.png",
+    "x": 354,
+    "y": 103,
+    "w": 268,
+    "h": 1117
+  },
+  "derive": {
+    "img": "assets/shots/panel.png",
+    "x": 634,
+    "y": 103,
+    "w": 1274,
+    "h": 1001
+  },
+  "pair": {
+    "img": "assets/shots/panel.png",
+    "x": 12,
+    "y": 1799,
+    "w": 1896,
+    "h": 602
+  },
+  "tariff": {
+    "img": "assets/shots/panel-tariff.png",
+    "x": 12,
+    "y": 2413,
+    "w": 1896,
+    "h": 378
+  },
+  "lettersTop": {
+    "img": "assets/shots/letters.png",
+    "x": 114,
+    "y": 204,
+    "w": 1692,
+    "h": 2520
+  },
+  "freight": {
+    "img": "assets/shots/letters.png",
+    "x": 114,
+    "y": 431,
+    "w": 556,
+    "h": 840
+  },
+  "budget": {
+    "img": "assets/shots/letters.png",
+    "x": 682,
+    "y": 431,
+    "w": 1124,
+    "h": 2293
+  },
+  "result": {
+    "img": "assets/shots/letters.png",
+    "x": 114,
+    "y": 2794,
+    "w": 1692,
+    "h": 2568
+  }
+}

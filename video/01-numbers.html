@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;width:1920px;height:1080px;overflow:hidden;
+    background:radial-gradient(1000px 620px at 50% 45%,#161c26 0%,#0b0e13 75%);
+    font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:#fff}
+  .row{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center;gap:96px;
+    transition:none;will-change:transform}
+  .item{text-align:center;opacity:0}
+  .n{font-size:168px;font-weight:700;line-height:1;letter-spacing:2px;
+    font-variant-numeric:tabular-nums;color:#f7fafd}
+  .n.hot{color:#ff5a5a;text-shadow:0 0 42px rgba(255,90,90,.35)}
+  .u{margin-top:18px;font-size:32px;color:#8b9bb2;letter-spacing:6px}
+  .sub{position:absolute;left:0;right:0;top:640px;text-align:center;
+    font-size:34px;color:#7f8ea6;letter-spacing:8px;opacity:0}
+  .line{position:absolute;left:50%;top:730px;width:0;height:2px;background:#243044;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="row" id="row">
+  <div class="item" id="i1"><div class="n" id="n1">0</div><div class="u">个 环 节</div></div>
+  <div class="item" id="i2"><div class="n" id="n2">0</div><div class="u">份 单 证</div></div>
+  <div class="item" id="i3"><div class="n hot" id="n3">0</div><div class="u">个 字 段</div></div>
+</div>
+<div class="sub" id="sub">POCIB 国际贸易实训 · 一套单据要走完的</div>
+<div class="line" id="line"></div>
+<script type="module">
+const D = 5.2;
+const items = [["i1","n1",21],["i2","n2",43],["i3","n3",483]];
+const el = (id) => document.getElementById(id);
+const clamp = (x,a,b)=>Math.min(b,Math.max(a,x));
+const ease = (x)=>1-Math.pow(1-clamp(x,0,1),3);
+
+function frame(t){
+  items.forEach(([box,num,target],i)=>{
+    const start = i*0.5;
+    const p = ease((t-start)/0.55);
+    el(box).style.opacity = t >= start ? "1" : "0";
+    el(box).style.transform = `translateY(${(1-p)*26}px)`;
+    // 首帧就是成品数字（当封面用），其余照常滚动
+    el(num).textContent = String(i === 0 ? target : Math.round(target * p));
+  });
+  // 只有第一个数字时，把整排往右推让它居中；后面两个进场时再回正
+  const shift = 420 * (1 - ease(t / 1.0));
+  el("row").style.transform = `translateX(${shift.toFixed(1)}px)`;
+  el("sub").style.opacity = String(clamp((t-2.1)/0.5,0,1));
+  el("line").style.width = (clamp((t-3.0)/0.7,0,1)*680)+"px";
+}
+window.film = { frame };
+</script>
+</body>
+</html>

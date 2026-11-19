@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;width:1920px;height:1080px;overflow:hidden;
+    background:radial-gradient(1300px 760px at 50% 40%,#182130 0%,#0a0d12 74%);
+    font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+  .label{position:absolute;left:120px;top:22px;display:flex;align-items:center;gap:14px;opacity:0}
+  .label i{display:block;width:6px;height:30px;border-radius:3px;background:#4d8dff}
+  .label span{font-size:32px;font-weight:700;color:#fff;letter-spacing:2px}
+  .label em{font-style:normal;font-size:21px;color:#8fa6c4;letter-spacing:1px;margin-left:2px}
+  .win{position:absolute;left:120px;top:74px;width:1680px;height:868px;border-radius:16px;
+    overflow:hidden;border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 34px 90px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.4);background:#fff}
+  .cam{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+  .cam img{display:block;width:1920px;height:auto}
+  .hl{position:absolute;border:3px solid #4d8dff;border-radius:10px;
+    box-shadow:0 0 0 3px rgba(47,111,237,.20),0 0 36px rgba(77,141,255,.55);opacity:0}
+  .cap{position:absolute;left:50%;bottom:20px;max-width:1600px;padding:12px 30px;border-radius:32px;
+    background:rgba(12,17,24,.92);border:1px solid rgba(255,255,255,.10);
+    color:#f3f6fb;font-size:31px;line-height:1.3;letter-spacing:1px;white-space:nowrap;opacity:0}
+</style>
+</head>
+<body>
+<div class="label" id="label"><i></i><span id="lt"></span><em id="le"></em></div>
+<div class="win">
+  <div class="cam" id="cam"><img id="img" src=""><div class="hl" id="hl"></div></div>
+</div>
+<div class="cap" id="cap"></div>
+<script type="module">
+const CFG = {"img": "../assets/shots/panel-tariff.png", "cx": 960, "cy0": 2540, "cy1": 2600, "s": 0.92, "hl": "12,2413,1896,340", "label": "海关税率查询", "sub": "内置全库", "dur": 5.84, "cap": "一万一千条税则，关税、消费税、增值税逐项算清。"};
+const W = 1680, H = 868;          // 取景窗尺寸（CSS px）
+const CX = W / 2, CY = H / 2;
+
+const img = document.getElementById("img");
+const cam = document.getElementById("cam");
+const hl = document.getElementById("hl");
+const label = document.getElementById("label");
+const cap = document.getElementById("cap");
+
+img.src = CFG.img || "../assets/shots/panel.png";
+
+const cx = CFG.cx ?? 960;
+const cy0 = CFG.cy0 ?? 540;
+const cy1 = CFG.cy1 ?? cy0;
+const s = CFG.s ?? 1;
+const dur = CFG.dur ?? 5;
+
+document.getElementById("lt").textContent = CFG.label || "";
+document.getElementById("le").textContent = CFG.sub || "";
+cap.textContent = CFG.cap || "";
+
+const hlSpec = CFG.hl;
+if (hlSpec) {
+  const [x, y, w, h] = hlSpec.split(",").map(Number);
+  Object.assign(hl.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" });
+}
+
+const ease = (x) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const fade = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+const ready = img.decode().catch(() => {});
+
+function frame(t) {
+  // 前 0.45s 略宽，0.45–1.35s 推到位，最后 0.6s 再轻推一点
+  let z;
+  if (t < 0.45) z = 0.94;
+  else if (t < 1.35) z = 0.94 + 0.06 * ease((t - 0.45) / 0.9);
+  else z = 1 + 0.02 * ease(clamp((t - (dur - 0.6)) / 0.6, 0, 1));
+
+  const sc = s * z;
+  const iw = (img.naturalWidth || 3840) / 2;
+  const ih = (img.naturalHeight || 2160) / 2;
+
+  // 取景窗内不露黑边：可移动范围按窗宽算，超出就把画面贴边
+  const hx = CX / sc, hy = CY / sc;
+  const x = iw > 2 * hx ? Math.min(Math.max(cx, hx), iw - hx) : iw / 2;
+  const yy = cy0 + (cy1 - cy0) * ease(clamp(t / Math.max(dur, 0.001), 0, 1));
+  const y = ih > 2 * hy ? Math.min(Math.max(yy, hy), ih - hy) : ih / 2;
+
+  cam.style.transform =
+    `translate(${(CX - sc * x).toFixed(2)}px, ${(CY - sc * y).toFixed(2)}px) scale(${sc.toFixed(5)})`;
+
+  if (hlSpec) hl.style.opacity = String(fade(t, 0.8, 1.3));
+  label.style.opacity = String(fade(t, 0.2, 0.6));
+  label.style.transform = `translateX(${(1 - fade(t, 0.2, 0.6)) * -22}px)`;
+  cap.style.opacity = String(fade(t, 0.12, 0.45));
+  cap.style.transform = `translateX(-50%) translateY(${(1 - fade(t, 0.12, 0.45)) * 12}px)`;
+}
+
+window.film = { frame, ready };
+</script>
+</body>
+</html>

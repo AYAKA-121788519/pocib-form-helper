@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;width:1920px;height:1080px;overflow:hidden;
+    background:radial-gradient(1100px 700px at 50% 46%,#172030 0%,#0a0d12 76%);
+    font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:#fff}
+  .stats{position:absolute;left:0;right:0;top:250px;display:flex;justify-content:center;gap:120px}
+  .st{text-align:center;opacity:0}
+  .st .v{font-size:150px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+  .st .k{margin-top:16px;font-size:30px;color:#8b9bb2;letter-spacing:6px}
+  .st .v em{font-style:normal;font-size:64px;color:#4d8dff;margin-left:6px}
+  .brand{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:26px;opacity:0}
+  .mark{width:112px;height:112px;border-radius:30px;background:#eaf1ff;color:#2f6fed;
+    font:700 48px/112px "Microsoft YaHei",sans-serif;text-align:center;letter-spacing:2px}
+  h1{margin:0;font-size:104px;font-weight:700;letter-spacing:6px}
+  .tag{margin:0;font-size:40px;color:#9fb0c8;letter-spacing:3px}
+  .tag b{color:#4d8dff;font-weight:600}
+</style>
+</head>
+<body>
+<div class="stats">
+  <div class="st" id="s1"><div class="v" id="v1">0</div><div class="k">份 单 证</div></div>
+  <div class="st" id="s2"><div class="v" id="v2">0</div><div class="k">份 只 需 手 填</div></div>
+  <div class="st" id="s3"><div class="v"><span id="v3">0</span><em>%</em></div><div class="k">字 段 自 动 填 好</div></div>
+</div>
+<div class="brand" id="brand">
+  <div class="mark">PO</div>
+  <h1>POCIB 填单助手</h1>
+  <p class="tag">双击就能用 · <b>不装环境 · 不联网</b></p>
+</div>
+<script type="module">
+const D = 9.2;
+const clamp = (x,a,b)=>Math.min(b,Math.max(a,x));
+const ease = (x)=>1-Math.pow(1-clamp(x,0,1),3);
+const fade = (t,a,b)=>clamp((t-a)/(b-a),0,1);
+const el = (id)=>document.getElementById(id);
+
+function frame(t){
+  const vals = [[0,43],[1,21],[2,80]];
+  vals.forEach(([i,target],k)=>{
+    const start = k*0.45;
+    const p = ease((t-start)/0.55);
+    el("s"+(i+1)).style.opacity = String(fade(t,start,start+0.2) * (1-fade(t,3.6,4.1)));
+    el("v"+(i+1)).textContent = String(Math.round(target*p));
+  });
+  const b = fade(t,3.9,4.6);
+  el("brand").style.opacity = String(b);
+  el("brand").style.transform = `scale(${0.97 + 0.03*ease(b)})`;
+}
+window.film = { frame };
+</script>
+</body>
+</html>
