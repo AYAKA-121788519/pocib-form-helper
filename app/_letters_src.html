@@ -1726,25 +1726,62 @@ document.getElementById("bMode").addEventListener("change",()=>{
   syncFromTerms();
 });
 
+/* ---- 函电里改数量 / 单价 → 回传主程序（两边同一笔交易，不能只单向） ----
+   主程序桥接数据时会先给元素打 __frmParent 标记再派发事件，带标记的不回传，免得来回打架。
+   返回值：1=已同步回主面板，0=值没变（不用提示），-1=实时同步关着没采纳 */
+function notifyDeal(){
+  try{
+    const P=window.parent;
+    if(P && P!==window && typeof P.LETTERS_ADOPT_DEAL==="function"){
+      return P.LETTERS_ADOPT_DEAL(
+        document.getElementById("qty").value,
+        document.getElementById("price").value);
+    }
+  }catch(e){}
+  return -1;
+}
+function dealBack(el, quiet){
+  if(el && el.__frmParent) return;
+  if(quiet){                                  /* 打字过程中攒一下，别每敲一位就重算一遍主面板 */
+    clearTimeout(DEAL_T);
+    DEAL_T=setTimeout(()=>{ DEAL_T=null; notifyDeal(); },250);
+    return;
+  }
+  clearTimeout(DEAL_T); DEAL_T=null;
+  const r=notifyDeal();
+  if(r===1) toast("单价 / 数量已同步回主面板");
+  else if(r!==0) toast("实时同步关着：这次改动只留在函电里");
+}
+let DEAL_T=null;
+
 /* ---- 数量 / 单价 / 合同金额：商品与价格 ↔ 预算区 同步 ---- */
 function linkQtyPrice(){
   const q1=document.getElementById("qty"), q2=document.getElementById("bQty");
   const p1=document.getElementById("price"), p2=document.getElementById("bPrice");
   /* 数量：双向（商品与价格 ⇄ 预算区交易数量） */
-  q1.addEventListener("input",()=>{ q2.value=q1.value; refQuote(); });
-  q2.addEventListener("input",()=>{ q1.value=q2.value; calcAmount(); refQuote(); });
+  q1.addEventListener("input",e=>{ q2.value=q1.value; refQuote(); dealBack(e.currentTarget,true); });
+  q2.addEventListener("input",e=>{ q1.value=q2.value; calcAmount(); refQuote(); dealBack(e.currentTarget,true); });
+  q1.addEventListener("change",e=>dealBack(e.currentTarget));
+  q2.addEventListener("change",e=>dealBack(e.currentTarget));
   /* 单价：双向 */
-  p1.addEventListener("input",()=>{ p2.value=p1.value; refQuote(); });
-  p2.addEventListener("input",()=>{ p1.value=p2.value; calcAmount(); refQuote(); });
+  p1.addEventListener("input",e=>{ p2.value=p1.value; refQuote(); dealBack(e.currentTarget,true); });
+  p2.addEventListener("input",e=>{ p1.value=p2.value; calcAmount(); refQuote(); dealBack(e.currentTarget,true); });
+  p1.addEventListener("change",e=>dealBack(e.currentTarget));
+  p2.addEventListener("change",e=>dealBack(e.currentTarget));
   /* 合同金额：手改金额 → 按 金额÷数量 反推单价，同步两边 */
-  document.getElementById("amount").addEventListener("input",()=>{
-    const amt=parseFloat(String(document.getElementById("amount").value).replace(/,/g,""));
+  const amtEl=document.getElementById("amount");
+  amtEl.addEventListener("input",e=>{
+    const amt=parseFloat(String(amtEl.value).replace(/,/g,""));
     const q=parseFloat(q1.value);
     if(amt>0 && q>0){
       const up=(amt/q).toFixed(2);
-      p1.value=up; p2.value=up;
+      if(p1.value!==up) p1.value=up;
+      if(p2.value!==up) p2.value=up;
+      refQuote();
+      dealBack(e.currentTarget,true);
     }
   });
+  amtEl.addEventListener("change",e=>dealBack(e.currentTarget));
 }
 
 initCountries();
