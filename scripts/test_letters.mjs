@@ -50,7 +50,9 @@ const main = APP.toString("utf8");
 is("带入时填件数（取 derived().packs）", /set\("fQty", n0\(D\.packs\)/.test(main), true);
 is("带入时填单件毛重体积", /set\("fWt", D\.gw1\)[\s\S]{0,40}set\("fVol", D\.vol1\)/.test(main), true);
 is("带入时传装量给函电", /PACK_QTY=\+\$\("pack_qty"\)\.value/.test(main), true);
-is("带入时填工厂价/市场价", /autoFill\("bFactory"/.test(main) && /autoFill\("bMarket"/.test(main), true);
+is("带入时填市场价", /autoFill\("bMarket"/.test(main), true);
+is("工厂价按出口国出厂价带一次（主面板不再硬推）", main.includes("window.LETTERS_FACTORY_PRICE")
+   && !/autoFill\("bFactory"/.test(main) && h.includes("function autoFactoryPrice"), true);
 is("带入时按术语方向填运费", /buyerFrt\?0:frt/.test(main), true);
 is("主面板改动会自动同步", (main.match(/lettersLiveSync\(\)/g) || []).length >= 2, true);
 is("有实时同步开关", main.includes('id="liveSyncChk"'), true);

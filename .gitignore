@@ -9,8 +9,9 @@ node_modules/
 __pycache__/
 *.pyc
 build/
-# 绿色版压缩包约 90MB，只作为 Release 附件，不进仓库
+# 绿色版压缩包约 90MB / 识图独立包约 90MB，只作为 Release 附件，不进仓库
 dist/POCIB填单助手-绿色版.zip
+dist/POCIB识图服务-独立包.zip
 
 # 临时文件
 *.raw

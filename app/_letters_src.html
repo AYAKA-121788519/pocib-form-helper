@@ -381,7 +381,8 @@
         <select id="bImCountry"></select></div>
       <div class="fld"><label>交易数量</label><input id="bQty" value="5000"></div>
       <div class="fld"><label>成交单价（USD）</label><input id="bPrice" value="21"></div>
-      <div class="fld"><label>工厂价格（本币/单位）</label><input id="bFactory" value="21.53"></div>
+      <div class="fld"><label>工厂价格（本币/单位）</label>
+        <input id="bFactory" placeholder="按商品档案的出口国出厂价自动带出，可改"></div>
       <div class="fld"><label>市场价格本币（进口国）</label><input id="bMarket" value="54.68"></div>
       <div class="fld"><label>出口商预期盈亏率（%）</label><input id="bExpRate" value="19.67"></div>
       <div class="fld"><label>参考报价单价（USD）</label>
@@ -557,6 +558,7 @@ function resetBudget(){
   TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false,bX5:false,bY4:false};
   TAX_FROM_HS="";
   X7_MANUAL=false;
+  FAC_FROM="";        /* 工厂价格也回到「按商品档案的出口国出厂价带一次」 */
   syncBudget(); syncFreightCard();
   if(typeof applyTaxFromGoods==="function") applyTaxFromGoods();
   document.getElementById("bResult").style.display="none";
@@ -1204,6 +1206,47 @@ function goodsNoOf(){
   }catch(e){}
   return "";
 }
+
+/* ================== 工厂价格：按商品档案的出口国出厂价带一次 ==================
+   数据源就是主程序「选品参考」里那份 POCIB 出厂价（国内工厂·购买商品，各国本币/单位），
+   这里不另存一份。规则跟税率那套一致：
+     · 换了商品（商品编号变了）或换了出口国 → 重新带；
+     · 带过一次之后你在框里改的数，一直留着（不再被主面板同步或重带覆盖）。
+   本页单独打开时拿不到主程序的价目表，就不动这个格子，标题里说明一句。 */
+var FAC_FROM="";
+function parentFactoryPrice(country){
+  try{
+    const P=window.parent;
+    if(P && P!==window && typeof P.LETTERS_FACTORY_PRICE==="function")
+      return P.LETTERS_FACTORY_PRICE(country);
+  }catch(e){}
+  return undefined;      /* undefined＝本页单独打开；null＝价目表里没这个商品的出厂价 */
+}
+function autoFactoryPrice(){
+  const el=document.getElementById("bFactory"); if(!el) return false;
+  const country=(document.getElementById("bExCountry")||{}).value||"";
+  const no=goodsNoOf();
+  const key=country+"|"+no;
+  if(key===FAC_FROM) return false;            /* 同一个商品、同一个出口国：只带一次 */
+  FAC_FROM=key;
+  const r=parentFactoryPrice(country);
+  if(r===undefined){
+    el.title="本页单独打开时取不到商品价目表，工厂价格请手填（在主程序的「外贸函电与预算」里打开会自动带）";
+    return false;
+  }
+  if(!r || !(r.price>0)){
+    el.title="商品档案里没有「"+country+"」的出厂价"+(no?("（商品编号 "+no+"）"):"（商品编号没填，也没按品名对上）")
+            +"，工厂价格请手填";
+    return false;
+  }
+  el.value=String(Math.round(r.price*100)/100);
+  el.title="按商品 "+r.code+(r.name?(" "+r.name):"")+" 在"+country+"的出厂价自动带出"
+          +"（"+r.cur+"／单位），可改";
+  if(typeof refQuote==="function") refQuote();
+  const res=document.getElementById("bResult");
+  if(res && res.style.display==="block" && typeof calcBudget==="function") calcBudget();
+  return true;
+}
 function computeOtherEx(){
   const el=document.getElementById("bX7");
   if(!el) return 0;
@@ -1313,6 +1356,9 @@ function syncBudget(){
   document.getElementById("freightTip").textContent = isFOB
     ? "当前贸易术语为 FOB/FCA/FAS：运费由进口方承担 → 上方运费计算的结果会自动写进「进口运费」，改港口 / 柜型 / 数量都会跟着变。"
     : "当前贸易术语为 CPT/CFR、CIF/CIP 或 DAP/DPU：运费由出口方承担 → 上方运费计算的结果会自动写进「出口运费」，改港口 / 柜型 / 数量都会跟着变。";
+
+  /* 工厂价格：出口国变了就按那个国家的出厂价重带一次（同一商品同一国只带一次，手改过的不动） */
+  if(typeof autoFactoryPrice==="function") autoFactoryPrice();
 }
 
 /* 运费卡：运输方式联动隐藏价格分组；海运时按柜型显示普柜/冻柜 */
