@@ -92,6 +92,50 @@ const until=async(fn,ms=6000)=>{ const t0=Date.now(); while(Date.now()-t0<ms){ t
   ok("T/T 定金+尾款各取最低，合计两次", txt().indexOf("1,000.22")>=0,
      "没找到 1,000.22");
 
+  /* ---------- 2b. 付款手续费按支付方式归科目（D/A、D/P 不能记到 T/T 行） ---------- */
+  const cell=(name,tb=1)=>{                     /* tb=1 只查第二张表（进口预算），避免与出口表撞名 */
+    const table=d.querySelectorAll("#bResult table")[tb];
+    if(!table) return null;
+    for(const tr of [...table.querySelectorAll("tr")]){
+      const td=[...tr.children];
+      if(td.length===4 && td[1].textContent.trim()===name) return [td[2].textContent.trim(), td[3].textContent.trim()];
+    }
+    return null;
+  };
+  d.getElementById("bQty").value="1000";
+  d.getElementById("bPrice").value="76.22";
+  w.MINFEE["澳大利亚"].DA=34; w.MINFEE["澳大利亚"].DP=34;
+  paySel.value="OTHER"; d.getElementById("bPayDisp").value="D/A 承兑交单";
+  paySel.dispatchEvent(new Event("change",{bubbles:true}));
+  w.syncBudget(); await sleep(150);
+  w.calcBudget(); await sleep(250);
+  const dapA=cell("D/A、D/P付款手续费"), ttA=cell("T/T付款手续费"), lcA=cell("信用证付款手续费");
+  ok("D/A：0.1% 计入「D/A、D/P付款手续费」行", dapA && dapA[0]!=="0.00", JSON.stringify(dapA));
+  ok("D/A：T/T 行不再串账", ttA && ttA[0]==="0.00", JSON.stringify(ttA));
+  ok("D/A：信用证行 0", lcA && lcA[0]==="0.00", JSON.stringify(lcA));
+  ok("D/A：银行费用合计 = 该行金额（没有重复计）",
+     cell("银行费用") && cell("银行费用")[0]===dapA[0], JSON.stringify([cell("银行费用"), dapA]));
+
+  d.getElementById("bPayDisp").value="D/P 付款交单";
+  w.syncBudget(); await sleep(120);
+  w.calcBudget(); await sleep(200);
+  ok("D/P：同样计入该行", cell("D/A、D/P付款手续费")[0]===dapA[0], JSON.stringify(cell("D/A、D/P付款手续费")));
+
+  paySel.value="TT"; paySel.dispatchEvent(new Event("change",{bubbles:true}));
+  w.MINFEE["澳大利亚"].TT=34; d.getElementById("bX11").value="50";
+  w.syncBudget(); await sleep(120);
+  w.calcBudget(); await sleep(200);
+  ok("T/T：D/A、D/P 行为 0.00", cell("D/A、D/P付款手续费")[0]==="0.00", JSON.stringify(cell("D/A、D/P付款手续费")));
+  ok("T/T：金额计入 T/T 行", cell("T/T付款手续费")[0]!=="0.00", JSON.stringify(cell("T/T付款手续费")));
+  ok("T/T：银行费用合计 = T/T 行金额",
+     cell("银行费用")[0]===cell("T/T付款手续费")[0], JSON.stringify([cell("银行费用"), cell("T/T付款手续费")]));
+
+  paySel.value="LC"; paySel.dispatchEvent(new Event("change",{bubbles:true}));
+  w.syncBudget(); await sleep(120);
+  w.calcBudget(); await sleep(200);
+  ok("L/C：D/A、D/P 行与 T/T 行都为 0", cell("D/A、D/P付款手续费")[0]==="0.00"
+     && cell("T/T付款手续费")[0]==="0.00", JSON.stringify([cell("D/A、D/P付款手续费"), cell("T/T付款手续费")]));
+
   /* ---------- 3. 报价公式在最低手续费档切换 ---------- */
   paySel.value="LC"; paySel.dispatchEvent(new Event("change",{bubbles:true}));
   w.MINFEE["澳大利亚"].LC=0; w.syncBudget(); await sleep(120);

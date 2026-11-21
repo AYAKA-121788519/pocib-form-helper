@@ -481,6 +481,8 @@
         <summary>进口计费口径（点开）</summary>
         注：进口报关费与信用证开证费按进口国自动填入；关税按 CIF/CIP 成交价×优惠税率，消费税与增值税按完税成本计；
         商检费按监管条件自动判定（含 A 才进口报检），可手工改；
+        付款手续费按支付方式归到各自科目：L/C 进「信用证付款手续费」（0.13%）、D/P 与 D/A 进「D/A、D/P付款手续费」（0.1%）、
+        T/T 进「T/T付款手续费」（0.1%，定金与尾款两次分别判），低于最低手续费（EUR19 折本币）时按最低收；
         DAP / DPU 的进口国内陆运费（USD300）与目的地卸货费（USD20）由卖方承担，已加到出口侧成本，这里不用填。
       </details>
       <div id="taxTip" style="font-size:11.5px; color:#5b6675; margin-top:6px; line-height:1.7"></div>
@@ -1498,13 +1500,17 @@ function calcBudget(){
   const imJ19= y6,                       imK19= imJ19*ir;
   const imK20= imK15+imK16+imK17+imK18+imK19;
   const imJ20= imJ15+imJ16+imJ17+imJ18+imJ19;
-  /* 银行费用 = 开证费 + 付款手续费（低于最低手续费取最低；T/T 定金/尾款分两次判） */
+  /* 银行费用 = 开证费 + 付款手续费（低于最低手续费取最低；T/T 定金/尾款分两次判）
+     POCIB 银行「基本费用查询」B 进口地：信用证付款 0.13%、D/A·D/P 付款 0.1%、T/T 付款 0.1%，
+     均低于 EUR19 折本币时按最低收。三者金额分开列在各自科目行，不能都记到 T/T 行。 */
   /* 信用证开证费：进口国本币的固定金额 */
   const imJ22= y7,                       imK22= imJ22*ir;
-  const bankImCny= feeWithMin(imJ7, x8||y8, y9, pay==="TT"? depPct : 0);
-  const imJ23= x8? bankImCny : 0,        imK23= imJ23*ir;
-  const imJ24= x8? 0 : bankImCny,        imK24= imJ24*ir;
-  const imK21= imK22+imK23+imK24,        imJ21= imJ22+imJ23+imJ24;
+  const payLC = pay==="LC", payTT = pay==="TT";
+  const bankImCny= feeWithMin(imJ7, x8||y8, y9, payTT? depPct : 0);
+  const imJ23= payLC? bankImCny : 0,     imK23= imJ23*ir;                /* 信用证付款手续费 */
+  const imJdp= (!payLC && !payTT)? bankImCny : 0, imKdp= imJdp*ir;       /* D/A、D/P付款手续费 */
+  const imJ24= (!payLC && payTT)? bankImCny : 0,  imK24= imJ24*ir;       /* T/T付款手续费 */
+  const imK21= imK22+imK23+imKdp+imK24, imJ21= imJ22+imJ23+imJdp+imJ24;
   /* 总成本 */
   const imK25= imK14+imK20+imK21,        imJ25= imJ14+imJ20+imJ21;
   /* 市场销货收入 */
@@ -1604,7 +1610,7 @@ function calcBudget(){
   impRows.push(["", "银行费用", fmt(imJ21), fmt(imK21), 1]);
   impRows.push(["", "信用证费用", fmt(imJ22), fmt(imK22)]);
   impRows.push(["", "信用证付款手续费", fmt(imJ23), fmt(imK23)]);
-  impRows.push(["", "D/A、D/P付款手续费", "0.00", "0.00"]);
+  impRows.push(["", "D/A、D/P付款手续费", fmt(imJdp), fmt(imKdp)]);
   impRows.push(["", "T/T付款手续费", fmt(imJ24), fmt(imK24)]);
   impRows.push(["10", "总成本", fmt(imJ25), fmt(imK25), 1]);
   impRows.push(["11", "国内市场销售收入", fmt(imJ26), fmt(imK26)]);
