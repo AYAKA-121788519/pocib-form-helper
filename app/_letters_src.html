@@ -80,6 +80,8 @@
 
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 16px}
+  /* 共用信息：基本险别名称较长，中间一列放宽 */
+  .grid3.ins{grid-template-columns:1.05fr 1.45fr 1fr}
   .fld label{display:block;font-size:11.5px;color:var(--grey);font-weight:600;margin-bottom:4px}
   .fld input,.fld select,.fld textarea{
     width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;
@@ -135,6 +137,7 @@
   /* ===== 手机端适配 ===== */
   @media(max-width:800px){
     .grid,.grid3{grid-template-columns:1fr}
+    .grid3.ins{grid-template-columns:1fr}
     .wrap{padding:14px 12px 60px}
     header{padding:14px 16px;flex-wrap:wrap;gap:8px}
     .card{padding:16px 16px 8px;border-radius:12px}
@@ -414,15 +417,29 @@
     <!-- 共用信息 -->
     <div class="blk" style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
       <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">共用信息</div>
-      <div class="grid3">
+      <div class="grid3 ins">
         <div class="fld"><label>投保加成</label>
           <select id="bZ1">
             <option value="1.1">110%</option>
             <option value="1.2">120%</option>
             <option selected value="1.3">130%</option>
           </select></div>
-        <div class="fld"><label>保险费率</label>
+        <div class="fld"><label>基本险别</label>
+          <select id="bInsBase"></select></div>
+        <div class="fld"><label>总保费率</label>
           <input id="bZ2" readonly style="background:#f7f8fa; color:#8b95a3"></div>
+        <div class="fld" style="grid-column:1/-1"><label>特殊附加险（基本险上加保）</label>
+          <div style="display:flex; gap:18px; align-items:center; height:30px; font-size:12.5px; color:#3a4553">
+            <label style="display:flex; gap:5px; align-items:center; cursor:pointer; white-space:nowrap">
+              <input type="checkbox" id="bInsWar" checked>战争险 0.8‰</label>
+            <label style="display:flex; gap:5px; align-items:center; cursor:pointer; white-space:nowrap">
+              <input type="checkbox" id="bInsStrike" checked>罢工险 0.8‰</label>
+            <span style="color:#8b95a3; font-size:11.5px">两个同时投保只计一次 0.8‰，不累加</span>
+          </div></div>
+      </div>
+      <div style="font-size:11.5px; color:#8b95a3; margin-top:6px; line-height:1.7">
+        费率取自保险公司「保险条款费率表」：基本险只能选一种，特殊附加险在其上加保（战争险、罢工险同时投保只计 0.8‰）。
+        海运可选国内条款（一切险 8 / 水渍险 6 / 平安险 5‰）或伦敦协会条款（ICC A 8 / B 6 / C 5‰），空运选航空运输险 2 / 航空运输一切险 3.5‰。
       </div>
     </div>
     </div><!-- /左列 -->
@@ -557,6 +574,10 @@ function resetBudget(){
   document.getElementById("bExCountry").value="澳大利亚";
   document.getElementById("bImCountry").value="巴西";
   document.getElementById("fShipMode").value="sea";
+  /* 险别回到默认：一切险 + 战争险 + 罢工险（8.8‰）；空运则为航空运输一切险（4.3‰） */
+  INS_SHIP="";
+  document.getElementById("bInsWar").checked=true;
+  document.getElementById("bInsStrike").checked=true;
   /* 税率也跟着回到「按税则填」：手改标记清掉，下次带值照税则来 */
   TAX_MANUAL={bY1:false,bY2:false,bY3:false,bX4:false,bX5:false,bY4:false};
   TAX_FROM_HS="";
@@ -1091,6 +1112,50 @@ const bp=id=>{
   const v=parseFloat(s); return isNaN(v)?0:v/100;
 };
 const setv=(id,v)=>{ document.getElementById(id).value=v; };
+/* ================= 保险条款费率（POCIB 保险公司「保险条款费率表」，单位 ‰） =================
+   规则（费率表下方原注）：基本险只能选一种；特殊附加险在基本险上加保；
+   战争险与罢工险同时投保时，费率只按其中一项算（0.8‰），不是 1.6‰。
+   海运基本险＝国内条款（一切险 / 水渍险 / 平安险）或伦敦协会条款（ICC A/B/C）；空运两项。
+   总保费率默认：海运 一切险 8 + 战争/罢工 0.8 = 8.8‰；空运 航空运输一切险 3.5 + 0.8 = 4.3‰。 */
+const INS_BASE={
+  sea:[
+    {k:"all",   n:"一切险 ALL RISKS",     r:8},
+    {k:"wpa",   n:"水渍险 W.P.A.",         r:6},
+    {k:"fpa",   n:"平安险 F.P.A.",         r:5},
+    {k:"icca",  n:"协会(A)险 ICC A",      r:8},
+    {k:"iccb",  n:"协会(B)险 ICC B",      r:6},
+    {k:"iccc",  n:"协会(C)险 ICC C",      r:5}
+  ],
+  air:[
+    {k:"airr",  n:"航空运输险",            r:2},
+    {k:"airall",n:"航空运输一切险",        r:3.5}
+  ]
+};
+const INS_DEF={sea:"all", air:"airall"};   /* 默认选中的基本险 */
+const INS_ADD_RATE=0.8;                    /* 战争险 / 罢工险，各 0.8‰，同时投保只计一次 */
+let INS_SHIP="";                           /* 当前下拉对应的运输方式，避免每次同步都重建选项 */
+
+/* 运输方式变了才重建基本险选项（同组内保留用户已选的险别） */
+function fillInsBase(){
+  const sel=document.getElementById("bInsBase"); if(!sel) return;
+  const ship=document.getElementById("bShip").value==="air" ? "air" : "sea";
+  if(INS_SHIP===ship && sel.options.length) return;
+  const prev=sel.value, arr=INS_BASE[ship];
+  sel.innerHTML=arr.map(x=>`<option value="${x.k}" title="${x.n} ${x.r}‰">${x.n} ${x.r}‰</option>`).join("");
+  sel.value=arr.some(x=>x.k===prev)? prev : INS_DEF[ship];
+  INS_SHIP=ship;
+}
+
+/* 总保费率（‰）＝ 基本险费率 ＋ 特殊附加险（战争/罢工任一为 0.8，都选也只算一次） */
+function insRateCalc(){
+  const sel=document.getElementById("bInsBase");
+  const ship=document.getElementById("bShip").value==="air" ? "air" : "sea";
+  const arr=INS_BASE[ship];
+  const hit=arr.find(x=>x.k===(sel?sel.value:"")) || arr.find(x=>x.k===INS_DEF[ship]) || arr[0];
+  const war=document.getElementById("bInsWar"), st=document.getElementById("bInsStrike");
+  const add=((war&&war.checked)||(st&&st.checked))? INS_ADD_RATE : 0;
+  return hit.r + add;
+}
 /* 保险费率：界面显示 8.8% / 4.3%，实际为 8.8‰ / 4.3‰（0.0088 / 0.0043），故 /1000 */
 const insRateVal=()=>{
   const s=String(document.getElementById("bZ2").value||"").replace("%","").trim();
@@ -1337,8 +1402,9 @@ function syncBudget(){
   }
   /* 其他费用：产地证 + 商检证书 + 寄单费 + 鉴定费，按国家价目自动汇总（可手改） */
   computeOtherEx();
-  /* 保险费率：海运 8.8%，空运 4.3%（数值为千分比，计算时按 8.8‰ / 4.3‰） */
-  setv("bZ2", ship==="sea" ? "8.8%" : "4.3%");
+  /* 保险费率：基本险（按运输方式切换可选险别）＋ 战争/罢工附加险，默认一切险/航空一切险加两个附加险 */
+  fillInsBase();
+  setv("bZ2", insRateCalc()+"%");
   /* 出口税率固定 0 */
   setv("bX1", 0);
 
@@ -1959,6 +2025,16 @@ BIDS.forEach(k=>{ BDEF[k]=document.getElementById(k).value; });
     X7_MANUAL=false;       /* 价目来源变了，其他费用恢复自动汇总 */
     syncBudget();
     applyTaxFromGoods();   /* 出口国换了，退税率要不要套中国的政策跟着变 */
+  });
+});
+
+/* 基本险 / 特殊附加险变化 → 重算总保费率并刷新预算与参考报价 */
+["bInsBase","bInsWar","bInsStrike"].forEach(id=>{
+  const el=document.getElementById(id); if(!el) return;
+  el.addEventListener("change",()=>{
+    setv("bZ2", insRateCalc()+"%");
+    if(document.getElementById("bResult").style.display==="block") calcBudget();
+    refQuote();
   });
 });
 
