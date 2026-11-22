@@ -455,7 +455,8 @@
         注：出口税率固定为 0；出口报关费按出口国自动填入（海关 EUR9/次折本币）；支付方式为 L/C 时银行费率 0.13%，
         D/P、D/A、T/T 为 0.1%，低于银行最低手续费（EUR19 折本币）时按最低收，T/T 定金与尾款两次分别判；
         押汇另有 2%、最低 EUR190，只在做押汇时才计（预算表里不含）。
-        商检费按监管条件自动判定（含 B 或合同选了商检证书才按 0.25% 报检），可手工改。
+        商检费＝对外报价 × 报检手续费率 0.25%（监管条件含 B，或合同选了商检证书才收），可手工改；
+        证书工本费（品质 EUR10、数量/重量·植物检疫·健康 EUR4 每份）不进这一栏，另计在「其他」里。
       </details>
       <div id="x7Tip" style="font-size:11.5px; color:#1f8a53; margin-top:4px; line-height:1.7"></div>
     </div>
@@ -480,7 +481,7 @@
       <details class="note2">
         <summary>进口计费口径（点开）</summary>
         注：进口报关费与信用证开证费按进口国自动填入；关税按 CIF/CIP 成交价×优惠税率，消费税与增值税按完税成本计；
-        商检费按监管条件自动判定（含 A 才进口报检），可手工改；
+        商检费＝成交价 × 报检手续费率 0.25%（进口侧只含报检手续费，没有证书工本费），监管条件含 A 才收，可手工改；
         付款手续费按支付方式归到各自科目：L/C 进「信用证付款手续费」（0.13%）、D/P 与 D/A 进「D/A、D/P付款手续费」（0.1%）、
         T/T 进「T/T付款手续费」（0.1%，定金与尾款两次分别判），低于最低手续费（EUR19 折本币）时按最低收；
         DAP / DPU 的进口国内陆运费（USD300）与目的地卸货费（USD20）由卖方承担，已加到出口侧成本，这里不用填。
@@ -1167,7 +1168,7 @@ function applyTaxFromGoods(){
       +"　消费税 "+(o.csVal? o.csVal+"%" : "0")+(o.csQty? " + 从量 "+o.csQty+"/"+(o.unit||"—") : "")
       +"　退税 "+(o.rebate==null?"—":o.rebate+"%")
       +"；监管条件 <b>"+(ctrl||"无")+"</b> → 出口商检 "+(needEx?"按报价 0.25%":"不收（无 B 且未选商检证书）")
-      +"、进口商检 "+(needIm?"按成交价 0.25%":"不收（无 A）")
+      +"、进口商检 "+(needIm?"按成交价 0.25%（只含报检手续费）":"不收（无 A）")
       +"；手改过就按手改的算，换商品自动重填。";
   }
   if(document.getElementById("bResult").style.display==="block") calcBudget();
@@ -1487,7 +1488,9 @@ function calcBudget(){
   const imK13= imK12*y1,                 imJ13= imK13/ir;
   /* 完税成本 */
   const imK14= imK12+imK13,              imJ14= imK14/ir;
-  /* 商检费（按成交价） */
+  /* 商检费：进口侧只含报检手续费，基数按合同成交价 × 报检手续费率。
+     百科「进口核算」原文：进口商检费只包括报检手续费；官方 FCA 实例即
+     「商检费 = 进口报检手续费 = FCA总价 × 0.25%」，所以用成交价 imK7，不换成 CIF 货值。 */
   const imK15= imK7*y4,                  imJ15= imK15/ir;
   /* 报关费 */
   /* 报关费：配置值是进口国本币金额（如巴西 27），美元 = 本币 × 汇率 */
@@ -1590,29 +1593,35 @@ function calcBudget(){
     expRows.push(["", "对外报价（CIF/CIP）(=C+F+I+P)", fmt(qCIF), fmt(qCIF*xr)]);
   }
 
-  /* ---------- 进口预算表 ---------- */
+  /* ---------- 进口预算表（序号按 POCIB「进口核算」范本：1 成交价 … 12 盈亏额） ---------- */
+  const dealNo = buyerPay? "1" : midTerm? "3" : "5";
+  const dealLbl= buyerPay? "FOB/FCA/FAS成交价" : midTerm? "CFR/CPT成交价" : "CIF/CIP成交价";
+  const cifLbl = buyerPay? "CIF/CIP成交价（=3+4）" : midTerm? "CIF/CIP成交价（=1+4）" : "CIF/CIP成交价";
   const impRows=[
     ["", "汇率", fmt(ir,4), ""],
-    ["1", "成交价", fmt(imJ7), fmt(imK7)],
+    [dealNo, dealLbl, fmt(imJ7), fmt(imK7)],
   ];
-  if(buyerPay) impRows.push(["3", "进口运费F", fmt(imJ8), fmt(imK8)]);
+  if(buyerPay){
+    impRows.push(["2", "进口运费F", fmt(imJ8), fmt(imK8)]);
+    impRows.push(["3", "CFR/CPT成交价（=1+2）", fmt(imJ9), fmt(imK9)]);
+  }
   if(impIns)   impRows.push(["4", "进口保费I", fmt(imJ10), fmt(imK10)]);
-  impRows.push(["", "CIF/CIP价格", fmt(imJ12), fmt(imK12)]);
+  impRows.push(["5", cifLbl, fmt(imJ12), fmt(imK12)]);
   if(impIns)   impRows.push(["", "投保金额", fmt(imJ11), fmt(imK11)]);
-  impRows.push(["5", "进口关税", fmt(imJ13), fmt(imK13)]);
-  impRows.push(["6", "完税成本", fmt(imJ14), fmt(imK14), 1]);
-  impRows.push(["2", "商检费", fmt(imJ15), fmt(imK15)]);
+  impRows.push(["6", "进口关税", fmt(imJ13), fmt(imK13)]);
+  impRows.push(["7", "完税成本（=5+6）", fmt(imJ14), fmt(imK14), 1]);
+  impRows.push(["8", "商检费", fmt(imJ15), fmt(imK15)]);
   impRows.push(["", "报关费", fmt(imJ16), fmt(imK16)]);
   impRows.push(["", "消费税", fmt(imJ17), fmt(imK17)]);
   impRows.push(["", "增值税", fmt(imJ18), fmt(imK18)]);
   impRows.push(["", "其他", fmt(imJ19), fmt(imK19)]);
-  impRows.push(["", "国内费用", fmt(imJ20), fmt(imK20), 1]);
-  impRows.push(["", "银行费用", fmt(imJ21), fmt(imK21), 1]);
+  impRows.push(["", "国内费用（8 合计）", fmt(imJ20), fmt(imK20), 1]);
+  impRows.push(["9", "银行费用", fmt(imJ21), fmt(imK21), 1]);
   impRows.push(["", "信用证费用", fmt(imJ22), fmt(imK22)]);
   impRows.push(["", "信用证付款手续费", fmt(imJ23), fmt(imK23)]);
   impRows.push(["", "D/A、D/P付款手续费", fmt(imJdp), fmt(imKdp)]);
   impRows.push(["", "T/T付款手续费", fmt(imJ24), fmt(imK24)]);
-  impRows.push(["10", "总成本", fmt(imJ25), fmt(imK25), 1]);
+  impRows.push(["10", "总成本（=7+8+9）", fmt(imJ25), fmt(imK25), 1]);
   impRows.push(["11", "国内市场销售收入", fmt(imJ26), fmt(imK26)]);
   impRows.push(["12", "预期盈亏额", fmt(imJ27), fmt(imK27)]);
   impRows.push(["", "预期盈亏率", (imJ28*100).toFixed(2)+" %", (imK28*100).toFixed(2)+" %"]);

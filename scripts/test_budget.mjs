@@ -224,8 +224,13 @@ const until=async(fn,ms=6000)=>{ const t0=Date.now(); while(Date.now()-t0<ms){ t
   ok("实例2 完税成本 5,984,335.41", near(5984335.41), near(5984335.41));
   ok("实例2 消费税 3,366,188.67", near(3366188.67), near(3366188.67));
   ok("实例2 增值税 1,215,568.13", near(1215568.13), near(1215568.13));
+  ok("实例2 商检费 = 成交价×0.25% = 7,595.31", near(7595.31), near(7595.31));
   ok("实例2 国内费用 4,589,692.11", near(4589692.11), near(4589692.11));
   ok("实例2 总成本 10,577,065.64", near(10577065.64), near(10577065.64));
+  /* 进口表序号与 POCIB「进口核算」范本对齐：1 成交价 … 8 商检费 … 10 总成本 … 12 盈亏额 */
+  const impNo=[...d.querySelectorAll("#bResult table")[1].querySelectorAll("td.mtb-no")]
+    .map(td=>td.textContent.trim()).filter(Boolean);
+  ok("进口表序号 1-12 与手册一致", impNo.join(",")==="1,2,3,4,5,6,7,8,9,10,11,12", impNo.join(","));
 
   c.hs=hsBak; c.hs_zh=zhBak;
   window.__done();
