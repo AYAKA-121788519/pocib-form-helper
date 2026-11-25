@@ -152,8 +152,67 @@
         border:1px solid transparent;white-space:nowrap}
   .mini:hover{background:var(--accent-bg);border-color:#d3e0fb}
   .mini.ghost{color:var(--ink2);border-color:var(--line);background:#fff}
+  /* ---- 单据预览 ---- */
+  .mask.pvMask{background:rgba(16,22,30,.58)}
+  .modal.pv{width:min(960px,100%)}
+  .pvWrap{background:#e9edf2;padding:20px;overflow:auto;max-height:78vh}
+  .paper{background:#fff;width:794px;min-height:1123px;margin:0 auto;padding:66px 76px 60px;
+    box-shadow:0 8px 28px rgba(16,24,40,.14);color:#15181d;box-sizing:border-box;
+    font-family:"Songti SC","SimSun","Source Han Serif SC",serif;font-size:14.5px;line-height:2.05}
+  .paper p{margin:0 0 2px}
+  .paper .pvHead{position:relative;text-align:center;margin-bottom:22px}
+  .paper .pvTtl{font-size:25px;letter-spacing:10px;font-weight:700;
+    color:#1b4bd0;border-bottom:2px solid #1b4bd0;display:inline-block;padding:0 10px 6px;
+    font-family:"Heiti SC","Microsoft YaHei",sans-serif}
+  .paper .pvTtl.sm{font-size:21px;letter-spacing:6px}
+  .paper .pvNo{position:absolute;right:-10px;top:2px;font-size:13px;color:#25303d}
+  .paper .pvSub{text-align:center;font-size:11.5px;color:#8a94a3;margin:-10px 0 16px;
+    font-family:"Microsoft YaHei",sans-serif}
+  .paper .pvLb{display:inline-block;width:70px}
+  .paper .pvInd{padding-left:70px}
+  .paper .pvInd3{padding-left:8px}
+  .paper .pvGap{height:34px}
+  .pvU{border-bottom:1px solid #333;text-decoration:none;padding:0 3px;
+    display:inline-block;text-align:center;line-height:1.5}
+  .pvCkList{margin:4px 0 0 18px}
+  .pvCk{display:flex;align-items:baseline;gap:2px;line-height:1.75}
+  .pvCk i{font-style:normal;flex:0 0 46px;color:#25303d}
+  .pvCk .cn{flex:0 0 262px}
+  .pvCk .cn.en2{flex:1;font-size:12.5px;letter-spacing:.3px}
+  .pvCk .en{flex:0 0 212px;font-size:12.5px;letter-spacing:.3px}
+  .pvCk .en2{font-size:12.5px;letter-spacing:.3px}
+  .pvCk .num{margin-left:auto;flex:0 0 96px;text-align:right;font-size:13px}
+  .pvBlankBox{height:52px;margin:6px 0 0 48px;border-bottom:1px solid #dfe3e8}
+  .pvSeal{margin:26px 0 0 232px}
+  .pvSeal span{display:inline-block;border:1px dashed #b9c0ca;border-radius:4px;
+    padding:26px 34px;font-size:12.5px;color:#8a94a3}
+  .pvSign{margin-top:44px;text-align:right}
+  .pvSign p{margin:0 0 6px}
+  .pvSign .pvDate{margin-top:12px}
+  .pvTable{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;
+    font-family:"Microsoft YaHei",sans-serif}
+  .pvTable th{width:34%;text-align:left;vertical-align:top;font-weight:400;color:#4b5563;
+    padding:7px 10px 7px 0;border-bottom:1px solid #eef0f3}
+  .pvTable td{padding:7px 0;border-bottom:1px solid #eef0f3;word-break:break-word;line-height:1.65}
+  .pvTable td.pvEmpty{color:#98a1ae}
+
+  @media print{
+    /* A4 = 210×297mm = 794×1123px @96dpi，纸宽保持 794px 就能和屏幕一模一样，
+       留白用纸自己的 padding，所以页边距设 0 */
+    @page{size:A4;margin:0}
+    html,body{background:#fff !important}
+    body>*:not(#docPvMask){display:none !important}
+    #docPvMask{position:static !important;display:block !important;background:#fff !important;padding:0 !important}
+    #docPvMask .modal.pv{box-shadow:none;width:auto;max-width:none;max-height:none;border-radius:0;overflow:visible}
+    #docPvMask .modal.pv header{display:none}
+    #docPvMask .pvWrap{background:#fff;padding:0;max-height:none;overflow:visible}
+    #docPvMask .paper{box-shadow:none;width:794px;min-height:1123px;margin:0 auto;
+      break-inside:avoid;page-break-after:always}
+    #docPvMask .paper:last-child{page-break-after:auto}
+  }
+
   .mask{position:fixed;inset:0;background:rgba(20,26,34,.38);display:none;
-        align-items:center;justify-content:center;z-index:50;padding:24px}
+        align-items:center;justify-content:center;z-index:9000;padding:24px}
   .mask.on{display:flex}
   .modal{background:#fff;border-radius:12px;width:min(880px,100%);max-height:88vh;
          display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.22)}
@@ -491,7 +550,10 @@
     <h2>一致性校验 <span id="chkSum"></span></h2>
     <div class="body" id="checks" style="padding-top:10px"></div>
     <h2 id="docTitle">单据字段 <span>点左边环节</span></h2>
-    <div class="body" id="docChips" style="padding:8px 14px 0"></div>
+    <div class="body" style="padding:8px 14px 0;display:flex;align-items:center;gap:10px">
+      <div id="docChips" style="flex:1"></div>
+      <span class="mini ghost" id="docPvBtn" title="按这张单据的版式铺成一张填好的纸，可打印">预览单据</span>
+    </div>
     <div style="padding:6px 14px 0;font-size:11.5px;color:#8b95a3">点任意一行的「值」即可复制该项</div>
     <table class="f"><thead><tr><th style="width:38%">栏位</th><th>值</th><th style="width:64px">来源</th></tr></thead>
       <tbody id="fields"></tbody></table>
@@ -667,6 +729,19 @@
       <button class="btn" id="gdAsNew">另存为新商品</button>
       <button class="btn pri" id="gdSave">保存并应用</button>
     </footer>
+  </div>
+</div>
+
+<div class="mask pvMask" id="docPvMask">
+  <div class="modal pv">
+    <header>
+      <h3 id="pvTitle">单据预览</h3>
+      <span id="pvSub" style="font-size:11.5px;color:#8b95a3"></span>
+      <span style="flex:1"></span>
+      <button class="mini ghost" id="pvPrint" title="按当前预览打印（会隐藏页面其余部分）">打印</button>
+      <span class="x" id="pvClose">×</span>
+    </header>
+    <div class="pvWrap" id="pvBody"></div>
   </div>
 </div>
 
@@ -1941,6 +2016,96 @@ function renderFlow(){
 }
 
 /* 单据字段：给出了 8 张核心单据的字段级渲染；其余显示字段清单与"待确认" */
+/* ================= 单据预览 =================
+   把当前单据按「填好的纸」渲染出来，便于对照 POCIB 页面逐格填。
+   索赔申请书是精排版（按 POCIB 原表单复刻），其余单据先用字段速览版式。 */
+
+/* 索赔申请书的全部取值：字段表与预览共用同一份，避免两处各算一套 */
+function claimData(){
+  const c=CASES[CASE], D=derived();
+  const my=CO(c.my), cp=CO(c.cp);
+  /* 申请人固定是进口商：CIF/CIP 下出口商投保后把保单背书转让，索赔权在进口商手上 */
+  const buyer=c.role==="出口商"?cp:my;
+  const portCn=portZh(c.port_load)||portShort(c.port_load);
+  const goodsCn=c.hs_zh||(GD(c.goods_no)||{}).name_zh||c.goods;
+  return {
+    c,D,buyer,
+    portCn, goodsCn,
+    sea: c.transport!=="空运",
+    insured: n2(D.insured),
+    amt: "USD "+n2(D.insured),
+    claimant: buyer.name_zh||"",
+    addr: buyer.address_zh||""
+  };
+}
+
+/* 待填的空：值没拿到就画一条下划线，别留空白让人以为是漏了 */
+const pvBlank=(w)=>'<u class="pvU" style="min-width:'+(w||90)+'px">&nbsp;</u>';
+const pvVal=(v,w)=> v ? '<u class="pvU">'+escPv(v)+'</u>' : pvBlank(w||90);
+function escPv(v){ return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function paperClaim(){
+  const d=claimData();
+  const CK=[["保险单正本","ORIGINAL POLICY"],
+            ["提单正反面","BILL OF LODING"],
+            ["商业发票","COMMERCIAL INVOICE"],
+            ["装箱单","PACKING LIST"]];
+  const ckRow=(cn,en)=>`<div class="pvCk"><i>（　）</i><span class="cn">${cn}</span><span class="en">${en}</span><span class="num">${pvBlank(46)} 份</span></div>`;
+  return `<div class="paper">
+  <div class="pvHead">
+    <div class="pvTtl">索 赔 申 请 书</div>
+    <div class="pvNo">保单号码：${pvBlank(140)}</div>
+  </div>
+  <p><span class="pvLb">受文者：</span>${pvVal("国际保险公司")}</p>
+  <p><span class="pvLb">主&nbsp;&nbsp;旨：</span>向贵公司投保之进出口货物发生损失，兹请予以理赔。</p>
+  <p><span class="pvLb">说&nbsp;&nbsp;明：</span>一、本公司自${pvVal(d.portCn,110)}港，进出口${pvVal(d.goodsCn,150)}货物，
+     装载于${pvBlank(96)}轮，</p>
+  <p class="pvInd">因货物发生损失，请依保险契约的约定予以理赔。</p>
+  <p class="pvInd">二、前项损失共计损失${pvVal(d.amt,140)}元经计算如后：</p>
+  <div class="pvGap"></div>
+  <p class="pvInd3">三、随附有关之索赔文件如下（打○者）</p>
+  <div class="pvCkList">
+    ${CK.map(([cn,en])=>ckRow(cn,en)).join("")}
+    <div class="pvCk"><i>（　）</i><span class="cn">与运送人之损失追偿往来函件</span><span class="num">${pvBlank(46)} 份</span></div>
+    <div class="pvCk"><i></i><span class="cn en2">CORRESPONDENCES EXCHANGED WITH</span></div>
+    <div class="pvCk"><i></i><span class="cn en2">CARRIERS REGARDING THEIR LIABILITY</span></div>
+    <div class="pvCk"><i>（　）</i><span class="cn">其他证明文件（索赔清单/报价单）</span><span class="num">${pvBlank(46)} 份</span></div>
+    <div class="pvCk"><i></i><span class="cn en2">OTHER CERTIFICATES</span></div>
+    <div class="pvBlankBox"></div>
+  </div>
+  <div class="pvSeal"><span>（请加盖贵公司大小章）</span></div>
+  <div class="pvSign">
+    <p>申请人：${pvVal(d.claimant,240)}</p>
+    <p>地&nbsp;&nbsp;址：${pvVal(d.addr,240)}</p>
+    <p class="pvDate">${pvBlank(52)} 年 ${pvBlank(34)} 月 ${pvBlank(34)} 日</p>
+  </div>
+</div>`;
+}
+
+/* 通用版式：其他单据先用这个，标题 + 字段两列，够对照着填 */
+function paperGeneric(doc, rows){
+  const cells=(rows||[]).map(([k,v])=>{
+    const t=String(v==null?"":v);
+    const cls=/^（留空|（非|^空$/.test(t.trim())?"pvEmpty":"";
+    return `<tr><th>${escPv(k)}</th><td class="${cls}">${escPv(t).replace(/\n/g,"<br>")}</td></tr>`;
+  }).join("");
+  return `<div class="paper">
+  <div class="pvHead"><div class="pvTtl sm">${escPv(doc||"单据")}</div></div>
+  <div class="pvSub">POCIB 填单助手 · 字段速览（版式非官方，按 POCIB 页面逐格填）</div>
+  <table class="pvTable">${cells || `<tr><td class="pvEmpty">该环节没有字段</td></tr>`}</table>
+</div>`;
+}
+
+function openDocPreview(){
+  const doc=LAST_DOC||"";
+  if(!doc){ toast("先在左边点一个环节"); return; }
+  $("pvTitle").textContent=doc;
+  $("pvSub").textContent="第 "+LAST_STEP+" 步 · "+(rows0(LAST_STEP)||"");
+  $("pvBody").innerHTML = (doc==="索赔申请书") ? paperClaim() : paperGeneric(doc,LAST_ROWS);
+  $("docPvMask").classList.add("on");
+}
+function rows0(step){ const f=FLOW.find(x=>x.s===step); return f?f.n:""; }
+
 let DOCI=0;
 function renderFields(step,di){
   const f=FLOW.find(x=>x.s===step); if(!f) return;
@@ -2033,37 +2198,30 @@ function renderFields(step,di){
   }
   // —— 索赔申请书（第 17 步：进口商持保单等单据向保险公司索赔）——
   else if(doc==="索赔申请书"){
-    /* 申请人固定是进口商：CIF/CIP 下出口商投保后把保单背书转让，
-       索赔权在进口商手上；FOB/CFR 下本来就是进口商自己投保，同理。 */
-    const claimant=buyer;
-    const portCn=portZh(c.port_load)||portShort(c.port_load);
-    const goodsCn=c.hs_zh||(GD(c.goods_no)||{}).name_zh||c.goods;
-    const sea=c.transport!=="空运";
-    const amt="USD "+n2(D.insured);
-
+    const q=claimData();
     G("保单号码","（抄货物运输保险单右上角的保单号）","待确认");
     G("受文者","国际保险公司","固定");
-    G("出口港（起运港，中文）",portCn,"自动");
-    G("货物名称（中文）",goodsCn,"自动");
-    G("装载于",sea
+    G("出口港（起运港，中文）",q.portCn,"自动");
+    G("货物名称（中文）",q.goodsCn,"自动");
+    G("装载于",q.sea
         ? "抄海运提单的 Ocean Vessel Voy.No.（船名 + 航次）"
         : "抄航空运单（AWB）的 Flight 栏位（航班号 + 日期）","待确认");
-    G("损失金额及币别",amt+"（＝保单上的保险金额）","自动");
+    G("损失金额及币别",q.amt+"（＝保单上的保险金额）","自动");
     G("随附单据 · 保险单正本 ORIGINAL POLICY","__ 份（打○）","待确认");
-    G("随附单据 · 提单正反面 BILL OF LADING","__ 份（打○，空运改填航空运单）","待确认");
+    G("随附单据 · 提单正反面 BILL OF LODING","__ 份（打○，空运改填航空运单）","待确认");
     G("随附单据 · 商业发票 COMMERCIAL INVOICE","__ 份（打○）","待确认");
     G("随附单据 · 装箱单 PACKING LIST","__ 份（打○）","待确认");
     G("随附单据 · 与运送人损失追偿往来函件","__ 份（有则打○）","待确认");
     G("随附单据 · 其他证明文件（索赔清单 / 报价单）","__ 份（有则打○）","待确认");
     G("加盖印章","（请加盖贵公司大小章）","待确认");
-    G("申请人",claimant.name_zh||"（先在公司档案填中文全称）","自动");
-    G("地址",claimant.address_zh||"（先在公司档案填中文地址）","自动");
+    G("申请人",q.claimant||"（先在公司档案填中文全称）","自动");
+    G("地址",q.addr||"（先在公司档案填中文地址）","自动");
     G("申请日期","____ 年 __ 月 __ 日（须为日期格式）","待确认");
     G("正文（点一下整段复制）",
       "本公司向贵公司投保之进出口货物发生损失，兹请予以理赔。\n"
-      +"一、本公司自"+portCn+"港，进出口"+goodsCn+"货物，装载于____轮，"
+      +"一、本公司自"+q.portCn+"港，进出口"+q.goodsCn+"货物，装载于____轮，"
       +"因货物发生损失，请依保险契约的约定予以理赔。\n"
-      +"二、前项损失共计损失"+amt+"元经计算如后：","自动");
+      +"二、前项损失共计损失"+q.amt+"元经计算如后：","自动");
     note="申请人固定是进口商（保单已背书转让，索赔权在进口商手上），地址填进口商中文地址，"
         +"两者都取自「公司档案」的中文字段。\n"
         +"「装载于」与「保单号码」要等 POCIB 生成单据之后才拿得到："
@@ -2072,6 +2230,7 @@ function renderFields(step,di){
         +"随附单据按实际需要打○并填份数，通常六项各 1 份；索赔清单/报价单没有就不打○。\n"
         +"同一步的「出险通知书」本工具未收录官方填写说明，按 POCIB 页面上的栏位自行填。";
   }
+
   // —— 报关单 ——
   else if(doc==="出口货物报关单"||doc==="进口货物报关单"){
     const isOut=doc==="出口货物报关单";
@@ -3584,7 +3743,8 @@ document.addEventListener("DOMContentLoaded",()=>{});
 /* Esc 也能关，但同样走「有修改先确认」 */
 document.addEventListener("keydown",e=>{
   if(e.key!=="Escape") return;
-  if($("coMask").classList.contains("on")) closeCo();
+  if($("docPvMask").classList.contains("on")) $("docPvMask").classList.remove("on");
+  else if($("coMask").classList.contains("on")) closeCo();
   else if($("gdMask").classList.contains("on")) closeGd();
   else if($("ocrMask").classList.contains("on")) $("ocrMask").classList.remove("on");
 });
@@ -3610,6 +3770,11 @@ function setLive(on, silent){
   }
 }
 $("liveSyncChk").onchange=()=>setLive($("liveSyncChk").checked);
+/* 单据预览 */
+$("docPvBtn").onclick=()=>{ try{ openDocPreview(); }catch(e){ console.warn(e); toast("预览生成失败："+e.message); } };
+$("pvClose").onclick=()=>$("docPvMask").classList.remove("on");
+$("pvPrint").onclick=()=>window.print();
+$("docPvMask").onclick=(e)=>{ if(e.target.id==="docPvMask") $("docPvMask").classList.remove("on"); };
 $("bridgeBtn").onclick=()=>bridgeToLetters();
 
 /* 函电里换港口 / 运输方式时回传（只有实时同步开着才采纳，免得两边互相覆盖） */
