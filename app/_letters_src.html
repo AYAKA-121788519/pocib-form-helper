@@ -2113,15 +2113,88 @@ BIDS.forEach(k=>{ BDEF[k]=document.getElementById(k).value; });
   });
 });
 
+/* ---- 保险费：加成 / 费率 与主面板双向同步 ----
+   主面板「交易剖面 · 运费与保险」的「加成 %」「费率 ‰」和这里是同一笔交易的两个视图。
+   以前只做了主面板→函电（而且根本没推这两项），在函电里改险别，切回主面板还是旧值。
+   INS_MANUAL=true 表示费率是主面板手填进来的，险别再变化时不再覆盖它。 */
+let INS_MANUAL=false, INS_HOLD=false;
+
+function notifyIns(){
+  if(INS_HOLD) return;
+  try{
+    const P=window.parent;
+    if(P && P!==window && typeof P.LETTERS_ADOPT_INS==="function"){
+      const up=parseFloat(document.getElementById("bZ1").value)||0;
+      P.LETTERS_ADOPT_INS(up, insRateCalc());
+    }
+  }catch(e){}
+}
+
+/* 主面板推过来：up 是加成小数（1.1），rate 是总费率（‰） */
+function applyInsFromMain(up, rate){
+  INS_HOLD=true;
+  try{
+    const z1=document.getElementById("bZ1");
+    if(z1 && up>0){
+      const v=String(Math.round(up*100)/100);
+      if(![...z1.options].some(o=>Number(o.value)===Number(v))){
+        /* 主面板填了 105% 这种下拉里没有的数，补一项并选中 */
+        const o=document.createElement("option");
+        o.value=v; o.textContent=Math.round(up*100)+"%（手填）";
+        z1.appendChild(o);
+      }
+      z1.value=v;
+    }
+    const calc=insRateCalc();
+    const mark=(on)=>{
+      const z2=document.getElementById("bZ2"); if(!z2) return;
+      if(on){
+        z2.style.color="#a86400"; z2.style.background="#fff8ec";
+        z2.title="费率是主面板手填的，和上面的险别组合对不上；改险别会按险别重算";
+      }else{
+        z2.style.color="#8b95a3"; z2.style.background="#f7f8fa";
+        z2.title="按基本险 + 特殊附加险自动计算";
+      }
+    };
+    if(Math.abs(calc-(+rate||0))>0.005){
+      INS_MANUAL=true;
+      setv("bZ2", (Math.round(rate*100)/100)+"%");
+      mark(true);
+    }else if(INS_MANUAL){
+      /* 主面板的值又和险别算出来的一致了，恢复自动 */
+      INS_MANUAL=false;
+      setv("bZ2", calc+"%");
+      mark(false);
+    }
+    if(document.getElementById("bResult").style.display==="block") calcBudget();
+    refQuote();
+  }catch(e){}
+  finally{ setTimeout(()=>{ INS_HOLD=false; }, 60); }
+}
+window.applyInsFromMain=applyInsFromMain;
+
 /* 基本险 / 特殊附加险变化 → 重算总保费率并刷新预算与参考报价 */
 ["bInsBase","bInsWar","bInsStrike"].forEach(id=>{
   const el=document.getElementById(id); if(!el) return;
   el.addEventListener("change",()=>{
+    INS_MANUAL=false;                    /* 用户自己选了险别，费率回到自动 */
     setv("bZ2", insRateCalc()+"%");
+    const z2=document.getElementById("bZ2");
+    if(z2){ z2.style.color="#8b95a3"; z2.style.background="#f7f8fa";
+            z2.title="按基本险 + 特殊附加险自动计算"; }
     if(document.getElementById("bResult").style.display==="block") calcBudget();
     refQuote();
+    notifyIns();                         /* 回传主面板「费率 ‰」 */
   });
 });
+
+/* 投保加成改了也回传，主面板「加成 %」跟着变 */
+(function bindInsAdd(){
+  const el=document.getElementById("bZ1"); if(!el) return;
+  const push=()=>notifyIns();
+  el.addEventListener("change",push);
+  el.addEventListener("input",push);
+})();
 
 /* 消费税 / 增值税：出口 ↔ 进口 双向同步 */
 function linkTax(a,b){

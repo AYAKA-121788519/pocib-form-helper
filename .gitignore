@@ -20,5 +20,8 @@ app/_*.js
 *.bak
 *.bak-*
 
+# 生成产物（gen_goods_hs.py 重跑即可再生成）
+scripts/_*
+
 # 视频工程（截图 / 渲染中间产物，约 500MB，不进仓库）
 video/
