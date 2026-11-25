@@ -185,6 +185,25 @@
   .pvNeedTxt{color:#b45309;background:#fffbeb;padding:1px 7px;border-radius:3px;
     display:inline-block;border-left:2px solid #d97706}
 
+  /* ---- 入境货物检验检疫申请（表格式版式）---- */
+  .paper.pvQ{padding:42px 40px 34px}
+  .pvQ .qTtl{text-align:center;font-size:19px;font-weight:700;color:#1b4bd0;
+    letter-spacing:3px;margin-bottom:10px;font-family:"Heiti SC","Microsoft YaHei",sans-serif}
+  .qT{width:100%;border-collapse:collapse;table-layout:fixed;
+    font-family:"Microsoft YaHei",sans-serif;font-size:11.5px;line-height:1.62}
+  .qT td{border:1px solid #3a3f47;padding:2px 4px;vertical-align:middle;
+    word-break:break-word;overflow-wrap:anywhere}
+  .qT .lb{background:#f2f4f7;font-size:11px;color:#2b3038;text-align:center;
+    line-height:1.45;padding:3px 3px}
+  .qT .sub{background:#fafbfc;font-size:10.5px;color:#4b5563;text-align:center}
+  .qT .ct{text-align:center}
+  .qT .sm{font-size:10.5px;line-height:1.7}
+  .qT .fill{color:#b45309;font-weight:600;background:#fffbeb}
+  .qT .skip{color:#7b8794;font-size:10.5px}
+  .qT .ck{font-size:10.5px;line-height:1.9;letter-spacing:0}
+  .qT .sign{height:42px;vertical-align:bottom}
+  .pvQ .qFoot{font-size:9px;color:#5b6675;margin-top:5px;font-family:"Microsoft YaHei",sans-serif}
+
   /* 底部填写提示：只在屏幕上显示，打印隐藏 */
   .pvTips{margin-top:26px;border-top:1px dashed #d7dde5;padding-top:12px;
     font-family:"Microsoft YaHei",sans-serif;font-size:12px;line-height:1.9;color:#4b5563}
@@ -2146,12 +2165,215 @@ function paperGeneric(doc, rows){
 </div>`;
 }
 
+/* 入境货物检验检疫申请：照 POCIB 那张表排，8 列栅格 */
+function paperQuarantine(){
+  const R=LAST_ROWS||[];
+  const pick=(k)=>{ const r=R.find(x=>String(x[0]).indexOf(k)===0); return r?[String(r[1]),String(r[2])]:["",""]; };
+  /* 值太长塞不进格子时换成短提示 */
+  const SHORT={
+    "（提货单 / 运单上的编号）":"待补·见提货单",
+    "（到货通知邮件上的日期）":"待补·见到货通知",
+    "（按合同索赔条款的截止日期）":"待补·按合同条款",
+    "（质量 / 卫生等特殊条款；无则填「无」）":"待补·无则填「无」",
+    "（须申请人亲笔签名）":"亲笔签名",
+    "（一般商品可空白）":"可空白",
+    "（未卸毕可暂不填，卸毕后补）":"待补·卸毕后填",
+    "（直航不填）":"直航不填",
+    "（POCIB 可不填，留空）":"可不填",
+    "（如 加工 / 销售；用途明确的商品可不填）":"可不填",
+    "（由海关填写）":"",
+    "（海关受理申请日现场填写）":"现场填写"
+  };
+  const SHORT_KEY=[
+    ["参考提货单（B/L）上的船名（只填船名，不带航次）","待补·见提货单船名"],
+    ["参考航空运单（AWB）上的航班号（只填航班号，不带航次）","待补·见运单航班号"]
+  ];
+  /* 一个格子：自动填好的照抄，要补的标橙，不用填的标灰 */
+  const cell=(k,opt)=>{
+    let [v,tag]=pick(k);
+    const hit=SHORT_KEY.find(x=>v===x[0]);
+    if(hit) return `<span class="fill">${hit[1]}</span>`;
+    if(v in SHORT){
+      const t=SHORT[v];
+      return t ? `<span class="fill">${escPv(t)}</span>` : `<span class="skip">海关填写</span>`;
+    }
+    if(tag==="空") return `<span class="skip">${escPv(opt==="skipText"?"":"")||"本栏不填"}</span>`;
+    if(tag==="待确认") return `<span class="fill">${escPv(v)}</span>`;
+    if(!v.trim()) return `<span class="skip">本栏不填</span>`;
+    return escPv(v).replace(/\n/g,"<br>");
+  };
+  const c2=(k)=>cell(k);
+  /* 日期拆成 年 / 月 / 日 */
+  const dateCell=()=>{
+    const [v]=pick("申请日期");
+    const m=String(v||"").match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if(m) return `${m[1]} 年 ${m[2]} 月 ${m[3]} 日`;
+    return v? escPv(v) : '<span class="fill">待补</span>';
+  };
+  const goods=pick("货物名称（中/外文）")[0];
+  const [gCn,gEn]=String(goods).split("\n");
+  const ent=pick("企业性质（按收货人性质勾选）")[0];
+  const att=pick("随附单据（打√，合同/发票/提运单/装箱单必须）")[0];
+
+  return `<div class="paper pvQ">
+  <div class="qTtl">入境货物检验检疫申请</div>
+  <table class="qT">
+    <tr>
+      <td class="lb" style="width:12.5%">申请单位<br>（加盖公章）</td>
+      <td colspan="5">${c2("申请单位名称")}</td>
+      <td class="lb" style="width:12.5%">*编&nbsp;号</td>
+      <td><span class="skip">海关填写</span></td>
+    </tr>
+    <tr>
+      <td class="lb">申请单位登记号</td>
+      <td colspan="2">${c2("申请单位登记号")}</td>
+      <td class="lb" style="width:8%">联系人</td>
+      <td>${c2("申请单位联系人")}</td>
+      <td class="lb" style="width:8%">电话</td>
+      <td colspan="2">${c2("申请单位电话")}</td>
+    </tr>
+    <tr>
+      <td class="lb">申请日期</td>
+      <td colspan="7">${dateCell()}</td>
+    </tr>
+    <tr>
+      <td class="lb" rowspan="2">收货人</td>
+      <td class="sub" style="width:6%">（中文）</td>
+      <td colspan="3">${c2("收货人（中文）")}</td>
+      <td class="lb" rowspan="2" style="width:11%">企业性质<br>（划"√"）</td>
+      <td colspan="2" rowspan="2" class="ck">${(()=>{
+        const it=String(ent||"").split(/　+/).filter(Boolean);
+        if(!it.length) return '<span class="fill">勾选</span>';
+        const out=[]; for(let i=0;i<it.length;i+=2) out.push(it.slice(i,i+2).join("　"));
+        return out.map(escPv).join("<br>");
+      })()}</td>
+    </tr>
+    <tr>
+      <td class="sub">（英文）</td>
+      <td colspan="3">${c2("收货人（英文）")}</td>
+    </tr>
+    <tr>
+      <td class="lb" rowspan="2">发货人</td>
+      <td class="sub">（中文）</td>
+      <td colspan="6">${c2("发货人（中文）")}</td>
+    </tr>
+    <tr>
+      <td class="sub">（英文）</td>
+      <td colspan="6">${c2("发货人（英文）")}</td>
+    </tr>
+    <tr>
+      <td class="lb">选择</td>
+      <td class="lb" colspan="2">货物名称（中/外文）</td>
+      <td class="lb">H.S.编码</td>
+      <td class="lb">原产国<br>（地区）</td>
+      <td class="lb">数/重量</td>
+      <td class="lb">货物总值</td>
+      <td class="lb">包装种类<br>及数量</td>
+    </tr>
+    <tr>
+      <td class="ct">□</td>
+      <td colspan="2">${gCn?escPv(gCn):'<span class="fill">缺·商品档案填中文名</span>'}<br>${gEn?escPv(gEn):'<span class="fill">缺·商品档案填英文名</span>'}</td>
+      <td class="ct">${c2("H.S.编码")}</td>
+      <td class="ct">${c2("原产国（地区）")}</td>
+      <td class="ct">${c2("数/重量")}</td>
+      <td class="ct">${c2("货物总值")}</td>
+      <td class="ct">${c2("包装种类及数量")}</td>
+    </tr>
+    <tr>
+      <td class="lb">运输工具名称号码</td>
+      <td colspan="3">${c2("运输工具名称号码")}</td>
+      <td class="lb">合同号</td>
+      <td colspan="3">${c2("合同号")}</td>
+    </tr>
+    <tr>
+      <td class="lb">提/运单号</td>
+      <td colspan="3">${c2("提单/运单号")}</td>
+      <td class="lb">贸易国别<br>（地区）</td>
+      <td colspan="3">${c2("贸易国别（地区）")}</td>
+    </tr>
+    <tr>
+      <td class="lb">许可证/审批号</td>
+      <td colspan="3">${c2("许可证/审批号")}</td>
+      <td class="lb">启运国家<br>（地区）</td>
+      <td colspan="3">${c2("启运国家（地区）")}</td>
+    </tr>
+    <tr>
+      <td class="lb">到货日期</td>
+      <td colspan="3">${c2("到货日期")}</td>
+      <td class="lb">卸毕日期</td>
+      <td colspan="3">${c2("卸毕日期")}</td>
+    </tr>
+    <tr>
+      <td class="lb">启运口岸</td>
+      <td colspan="3">${c2("启运口岸")}</td>
+      <td class="lb">入境口岸</td>
+      <td colspan="3">${c2("入境口岸")}</td>
+    </tr>
+    <tr>
+      <td class="lb">索赔有效期至</td>
+      <td colspan="3">${c2("索赔有效期至")}</td>
+      <td class="lb">经停口岸</td>
+      <td colspan="3">${c2("经停口岸")}</td>
+    </tr>
+    <tr>
+      <td class="lb">目的地</td>
+      <td colspan="3">${c2("目的地")}</td>
+      <td class="lb">贸易方式</td>
+      <td colspan="3">${c2("贸易方式")}</td>
+    </tr>
+    <tr>
+      <td class="lb">集装箱规格、<br>数量及号码</td>
+      <td colspan="7">${c2("集装箱规格、数量及号码")}</td>
+    </tr>
+    <tr>
+      <td class="lb">合同订立的<br>特殊条款</td>
+      <td colspan="4">${c2("合同订立的特殊条款以及其他要求")}</td>
+      <td class="lb">货物存放地点</td>
+      <td colspan="2">${c2("货物存放地点")}</td>
+    </tr>
+    <tr>
+      <td class="lb">用途</td>
+      <td colspan="7">${c2("用途")}</td>
+    </tr>
+    <tr>
+      <td class="lb">随附单据<br>（划"√"或补填）</td>
+      <td colspan="4" class="ck">${escPv(String(att||"").split("\n").filter(x=>x.indexOf("（除")<0).join("<br>")).replace(/&lt;br&gt;/g,"<br>")}</td>
+      <td class="lb">标记及号码</td>
+      <td colspan="2">${c2("标记及号码")}</td>
+    </tr>
+    <tr>
+      <td class="lb">*检验检疫费</td>
+      <td colspan="3"><span class="skip">由海关填写</span></td>
+      <td class="lb">计费人</td>
+      <td><span class="skip">海关</span></td>
+      <td class="lb" style="width:8%">收费人</td>
+      <td><span class="skip">海关</span></td>
+    </tr>
+    <tr>
+      <td class="lb">申请人<br>郑重声明</td>
+      <td colspan="3" class="sm">1. 本人被授权申请检疫。<br>2. 上列填写内容正确属实。</td>
+      <td class="lb">签名</td>
+      <td colspan="3" class="sign"><span class="fill">亲笔签名</span></td>
+    </tr>
+    <tr>
+      <td class="lb">领取证单</td>
+      <td colspan="3"><span class="skip">海关受理申请日现场填写</span></td>
+      <td class="lb">日期 / 签名</td>
+      <td colspan="3" class="sign"></td>
+    </tr>
+  </table>
+  <div class="qFoot">注：有"*"栏由海关填写。</div>
+</div>`;
+}
+
 function openDocPreview(){
   const doc=LAST_DOC||"";
   if(!doc){ toast("先在左边点一个环节"); return; }
   $("pvTitle").textContent=doc;
   $("pvSub").textContent="第 "+LAST_STEP+" 步 · "+(rows0(LAST_STEP)||"");
-  $("pvBody").innerHTML = (doc==="索赔申请书") ? paperClaim() : paperGeneric(doc,LAST_ROWS);
+  $("pvBody").innerHTML = (doc==="索赔申请书") ? paperClaim()
+                       : (doc==="入境货物检验检疫申请") ? paperQuarantine()
+                       : paperGeneric(doc,LAST_ROWS);
   $("docPvMask").classList.add("on");
 }
 function rows0(step){ const f=FLOW.find(x=>x.s===step); return f?f.n:""; }
@@ -2697,10 +2919,10 @@ function genericRows(doc,c,D,seller,buyer){
       ["申请日期",c.issue_date||"待填","自动"],
       ["收货人（中文）",buyer.name_zh,"主体"],
       ["收货人（英文）",buyer.name_en,"主体"],
-      ["企业性质","☑ 外贸公司　□ 生产企业　□ 其他","待确认"],
+      ["企业性质（按收货人性质勾选）","□ 合资　□ 合作　□ 外资　□ 其他","待确认"],
       ["发货人（中文）",seller.name_zh,"主体"],
       ["发货人（英文）",seller.name_en,"主体"],
-      ["货物名称（中/外文）",c.hs_zh+"\n"+c.goods,"自动"],
+      ["货物名称（中/外文）",(c.hs_zh||"")+"\n"+(c.goods||""),"自动"],
       ["H.S.编码",c.hs,"主体"],
       ["原产国（地区）",countryZhOf(seller,c.port_load),"码表"],
       ["数/重量",n0(c.qty)+" "+unitZh(c),"自动"],
@@ -2725,7 +2947,12 @@ function genericRows(doc,c,D,seller,buyer){
       ["合同订立的特殊条款以及其他要求","（质量 / 卫生等特殊条款；无则填「无」）","待确认"],
       ["货物存放地点","（POCIB 可不填，留空）","空"],
       ["用途","（如 加工 / 销售；用途明确的商品可不填）","空"],
-      ["随附单据",attTxt,"待确认"],
+      ["随附单据（打√，合同/发票/提运单/装箱单必须）",
+        "☑ 合同　☑ 信用证　☑ 发票　☑ 装箱单\n"
+        +"☑ 提单/运单　☑ 报关单　☑ 产地证　□ 卫生证书\n"
+        +"□ 换证凭单　□ 包装单　□ 磅码单　□ 质保书\n"
+        +"□ 进口废物证书　□ 检验检疫证书　□ 检疫证书　□ 其他证书____\n"
+        +"（除前四项外，其余按合同实际提供的打√；合同没约定的不要勾）","待确认"],
       ["标记及号码",c.shipping_mark||"N/M","待确认"],
       ["检验检疫费","（由海关填写）","空"],
       ["申请人郑重声明","（须申请人亲笔签名）","待确认"],
