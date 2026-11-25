@@ -174,6 +174,26 @@
   .paper .pvGap{height:34px}
   .pvU{border-bottom:1px solid #333;text-decoration:none;padding:0 3px;
     display:inline-block;text-align:center;line-height:1.5}
+  /* 待补：橙。缺资料：红。不用填：灰底 */
+  .pvU.pvFill{color:#b45309;border-bottom:1px dashed #d97706;background:#fffbeb;
+    border-radius:2px;font-size:13px;font-weight:600}
+  .pvU.pvMiss{color:#b91c1c;border-bottom:1px dashed #dc2626;background:#fef2f2;
+    border-radius:2px;font-size:13px;font-weight:600}
+  .pvSkip{color:#64748b;background:#eef2f7;border-radius:3px;padding:1px 7px;
+    font-size:12.5px;font-weight:600}
+  .pvNote{color:#94a3b8;font-size:11.5px;margin-left:7px}
+  .pvNeedTxt{color:#b45309;background:#fffbeb;padding:1px 7px;border-radius:3px;
+    display:inline-block;border-left:2px solid #d97706}
+
+  /* 底部填写提示：只在屏幕上显示，打印隐藏 */
+  .pvTips{margin-top:26px;border-top:1px dashed #d7dde5;padding-top:12px;
+    font-family:"Microsoft YaHei",sans-serif;font-size:12px;line-height:1.9;color:#4b5563}
+  .pvTips b{font-weight:600}
+  .pvTips .k1{color:#b45309}
+  .pvTips .k2{color:#b91c1c}
+  .pvTips .k3{color:#64748b}
+  .pvTips .dot{display:inline-block;width:9px;height:9px;border-radius:2px;
+    vertical-align:-1px;margin-right:5px}
   .pvCkList{margin:4px 0 0 18px}
   .pvCk{display:flex;align-items:baseline;gap:2px;line-height:1.75}
   .pvCk i{font-style:normal;flex:0 0 46px;color:#25303d}
@@ -181,7 +201,7 @@
   .pvCk .cn.en2{flex:1;font-size:12.5px;letter-spacing:.3px}
   .pvCk .en{flex:0 0 212px;font-size:12.5px;letter-spacing:.3px}
   .pvCk .en2{font-size:12.5px;letter-spacing:.3px}
-  .pvCk .num{margin-left:auto;flex:0 0 96px;text-align:right;font-size:13px}
+  .pvCk .num{margin-left:auto;flex:0 0 126px;text-align:right;font-size:13px}
   .pvBlankBox{height:52px;margin:6px 0 0 48px;border-bottom:1px solid #dfe3e8}
   .pvSeal{margin:26px 0 0 232px}
   .pvSeal span{display:inline-block;border:1px dashed #b9c0ca;border-radius:4px;
@@ -209,6 +229,7 @@
     #docPvMask .paper{box-shadow:none;width:794px;min-height:1123px;margin:0 auto;
       break-inside:avoid;page-break-after:always}
     #docPvMask .paper:last-child{page-break-after:auto}
+    #docPvMask .pvTips{display:none !important}
   }
 
   .mask{position:fixed;inset:0;background:rgba(20,26,34,.38);display:none;
@@ -2040,8 +2061,17 @@ function claimData(){
 }
 
 /* 待填的空：值没拿到就画一条下划线，别留空白让人以为是漏了 */
+/* 纸上的占位分三种，颜色一眼能分：
+   pvFill 待补（等单据 / 由你定）  橙色虚线
+   pvMiss 缺资料（档案里没有）      红色虚线
+   pvSkip 不用填                    灰底标签 + 原因 */
 const pvBlank=(w)=>'<u class="pvU" style="min-width:'+(w||90)+'px">&nbsp;</u>';
-const pvVal=(v,w)=> v ? '<u class="pvU">'+escPv(v)+'</u>' : pvBlank(w||90);
+const pvFill=(t,w)=>'<u class="pvU pvFill" style="min-width:'+(w||0)+'px">'+(t?escPv(t):"&nbsp;")+'</u>';
+const pvMiss=(t,w)=>'<u class="pvU pvMiss" style="min-width:'+(w||0)+'px">'+escPv(t||"缺")+'</u>';
+const pvSkip=(t)=>'<span class="pvSkip">'+escPv(t||"本栏不填")+'</span>';
+/* v 有值 → 普通下划线；没有 → 红色「缺资料」并写清去哪补 */
+const pvVal=(v,w,missHint)=> v ? '<u class="pvU">'+escPv(v)+'</u>'
+                              : pvMiss(missHint||"缺·去公司档案补", w||110);
 function escPv(v){ return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
 function paperClaim(){
@@ -2050,44 +2080,64 @@ function paperClaim(){
             ["提单正反面","BILL OF LODING"],
             ["商业发票","COMMERCIAL INVOICE"],
             ["装箱单","PACKING LIST"]];
-  const ckRow=(cn,en)=>`<div class="pvCk"><i>（　）</i><span class="cn">${cn}</span><span class="en">${en}</span><span class="num">${pvBlank(46)} 份</span></div>`;
+  const ckRow=(cn,en)=>`<div class="pvCk"><i>（　）</i><span class="cn">${cn}</span><span class="en">${en}</span><span class="num">${pvFill("待补",26)} 份</span></div>`;
   return `<div class="paper">
   <div class="pvHead">
     <div class="pvTtl">索 赔 申 请 书</div>
-    <div class="pvNo">保单号码：${pvBlank(140)}</div>
+    <div class="pvNo">保单号码：${pvFill("待补·见保险单",132)}</div>
   </div>
   <p><span class="pvLb">受文者：</span>${pvVal("国际保险公司")}</p>
   <p><span class="pvLb">主&nbsp;&nbsp;旨：</span>向贵公司投保之进出口货物发生损失，兹请予以理赔。</p>
   <p><span class="pvLb">说&nbsp;&nbsp;明：</span>一、本公司自${pvVal(d.portCn,110)}港，进出口${pvVal(d.goodsCn,150)}货物，
-     装载于${pvBlank(96)}轮，</p>
+     装载于${pvFill("待补·见提单",112)}轮，</p>
   <p class="pvInd">因货物发生损失，请依保险契约的约定予以理赔。</p>
   <p class="pvInd">二、前项损失共计损失${pvVal(d.amt,140)}元经计算如后：</p>
   <div class="pvGap"></div>
   <p class="pvInd3">三、随附有关之索赔文件如下（打○者）</p>
   <div class="pvCkList">
     ${CK.map(([cn,en])=>ckRow(cn,en)).join("")}
-    <div class="pvCk"><i>（　）</i><span class="cn">与运送人之损失追偿往来函件</span><span class="num">${pvBlank(46)} 份</span></div>
+    <div class="pvCk"><i>（　）</i><span class="cn">与运送人之损失追偿往来函件</span><span class="num">${pvFill("待补",26)} 份</span></div>
     <div class="pvCk"><i></i><span class="cn en2">CORRESPONDENCES EXCHANGED WITH</span></div>
     <div class="pvCk"><i></i><span class="cn en2">CARRIERS REGARDING THEIR LIABILITY</span></div>
-    <div class="pvCk"><i>（　）</i><span class="cn">其他证明文件（索赔清单/报价单）</span><span class="num">${pvBlank(46)} 份</span></div>
+    <div class="pvCk"><i>（　）</i><span class="cn">其他证明文件（索赔清单/报价单）</span><span class="num">${pvFill("待补",26)} 份</span></div>
     <div class="pvCk"><i></i><span class="cn en2">OTHER CERTIFICATES</span></div>
     <div class="pvBlankBox"></div>
   </div>
   <div class="pvSeal"><span>（请加盖贵公司大小章）</span></div>
   <div class="pvSign">
-    <p>申请人：${pvVal(d.claimant,240)}</p>
-    <p>地&nbsp;&nbsp;址：${pvVal(d.addr,240)}</p>
-    <p class="pvDate">${pvBlank(52)} 年 ${pvBlank(34)} 月 ${pvBlank(34)} 日</p>
+    <p>申请人：${pvVal(d.claimant,240,"缺 · 公司档案填中文全称")}</p>
+    <p>地&nbsp;&nbsp;址：${pvVal(d.addr,240,"缺 · 公司档案填中文地址")}</p>
+    <p class="pvDate">${pvFill("待补",46)} 年 ${pvFill("待补",34)} 月 ${pvFill("待补",34)} 日</p>
+  </div>
+  <div class="pvTips">
+    <b>纸上标记怎么看</b><br>
+    <span class="k1">■</span> <b class="k1">橙色虚线</b>＝这一格要你补，程序拿不到：
+      保单号码（货物运输保险单右上角）、装载于（海运提单 Ocean Vessel Voy.No.／空运单 Flight）、
+      随附单据份数（按需打○并填）、申请日期。<br>
+    <span class="k2">■</span> <b class="k2">红色虚线</b>＝资料还没填，去「公司档案」补上就会自动出现。<br>
+    <span class="k3">■</span> <b class="k3">灰色标签</b>＝这一栏不用填，标签里写了原因。<br>
+    <span style="color:#64748b">黑色下划线是已经自动填好的值，照抄即可。此提示不会打印。</span>
   </div>
 </div>`;
 }
 
 /* 通用版式：其他单据先用这个，标题 + 字段两列，够对照着填 */
 function paperGeneric(doc, rows){
-  const cells=(rows||[]).map(([k,v])=>{
+  const cells=(rows||[]).map(([k,v,tag])=>{
     const t=String(v==null?"":v);
-    const cls=/^（留空|（非|^空$/.test(t.trim())?"pvEmpty":"";
-    return `<tr><th>${escPv(k)}</th><td class="${cls}">${escPv(t).replace(/\n/g,"<br>")}</td></tr>`;
+    const body=escPv(t).replace(/\n/g,"<br>");
+    /* 三种状态：不用填（灰标签+原因）、要你补（橙底）、已填好（原样）。
+       既看值本身的关键词，也看来源标签——标签是程序判定的口径，更准。 */
+    let td;
+    if(tag==="空" || /留空|不填/.test(t))
+        td=`<span class="pvSkip">本栏不填</span><span class="pvNote">${body}</span>`;
+    else if(tag==="待确认" || /待确认|待填|自行填写|回填|收到后/.test(t))
+        td=`<span class="pvNeedTxt">${body}</span>`;
+    else if(!t.trim())
+        td=`<span class="pvSkip">本栏不填</span>`;
+    else
+        td=body;
+    return `<tr><th>${escPv(k)}</th><td>${td}</td></tr>`;
   }).join("");
   return `<div class="paper">
   <div class="pvHead"><div class="pvTtl sm">${escPv(doc||"单据")}</div></div>
