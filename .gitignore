@@ -17,3 +17,8 @@ dist/POCIB识图服务-独立包.zip
 *.raw
 _f*.png
 app/_*.js
+*.bak
+*.bak-*
+
+# 视频工程（截图 / 渲染中间产物，约 500MB，不进仓库）
+video/
