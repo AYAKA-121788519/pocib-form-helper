@@ -244,6 +244,27 @@
   .dRow .tall{height:38px}
   .pvD .dTip{font-size:9px;color:#5b6675;margin-top:5px;font-family:"Microsoft YaHei",sans-serif}
 
+  /* ---- 销售合同 SALES CONFIRMATION ---- */
+  .paper.pvC{padding:30px 26px 26px}
+  .pvC .cCoName{font-size:11.5px;line-height:1.6;padding:5px 7px;height:52px;vertical-align:top}
+  .pvC .cCoName b{font-weight:700;letter-spacing:.2px}
+  .pvC .cTitle{text-align:center;font-size:15.5px;font-weight:700;color:#1b4bd0;
+    letter-spacing:5px;padding:5px 0 7px;font-family:"Times New Roman",serif}
+  .pvC .cDear{font-size:10px;line-height:1.6;padding:4px 6px;height:32px}
+  .pvC .cDear .ind{display:inline-block;padding-left:16px}
+  .pvC .cDesc{font-size:9.5px;line-height:1.45}
+  .pvC .cUp{text-align:center;line-height:1.4;font-size:9.5px}
+  .pvC .lb2{background:#f2f4f7;font-size:9.5px;text-align:right;padding-right:5px}
+  .pvC .cSay{font-size:9.5px;line-height:1.55;font-weight:600;letter-spacing:.2px}
+  .pvC .cArb{font-size:8.8px;line-height:1.55;padding:5px 7px;text-align:justify}
+  .pvC .cArb .zh{color:#3a424e}
+  .pvC .cSign{font-size:9.5px;line-height:1.6;padding:6px 7px}
+  .pvC .cSign .sg{color:#8a94a3;font-size:9px}
+  .pvC .cSign .stamp{color:#1b4bd0;font-weight:700}
+  .pvC .ck{display:inline-block;font-size:13px;line-height:1;color:#1b4bd0;
+    font-family:"Segoe UI Symbol","Microsoft YaHei",sans-serif}
+  .pvC .dcOff{color:#8a94a3}
+
   /* ---- 产地证（CO / FORM A）---- */
   .pvD .certOrig{text-align:center;font-size:14px;letter-spacing:5px;font-weight:700;
     color:#1b4bd0;margin-bottom:6px;font-family:"Heiti SC","Microsoft YaHei",sans-serif}
@@ -640,7 +661,7 @@
       <div class="lg l1"><b>①</b>交易剖面<span>数据只在这里填一次</span></div>
       <div class="lg l2"><b>②</b>履约流程<span>21 步，点一步看单据</span></div>
       <div class="lg l3"><b>③</b>单据字段 · 一致校验<span>自动算，点值复制</span></div>
-      <div class="lg l4"><b>④</b>预览纸<span>14 类版式，A4 可打印</span></div>
+      <div class="lg l4"><b>④</b>预览纸<span>15 类版式，A4 可打印</span></div>
     </div>
 
     <div class="gd-note">
@@ -2232,7 +2253,8 @@ function renderFlow(){
 /* 单据字段：给出了 8 张核心单据的字段级渲染；其余显示字段清单与"待确认" */
 /* ================= 单据预览 =================
    把当前单据按「填好的纸」渲染出来，便于对照 POCIB 页面逐格填。
-   索赔申请书是精排版（按 POCIB 原表单复刻），其余单据先用字段速览版式。 */
+   合同/发票/装箱单/报关单/检验检疫/产地证/投保单/开证/汇款/托收/汇票/委托书/鉴定表
+   均已按 POCIB 原表单复刻；海关缴款书等未单独复刻的走字段速览版式。 */
 
 /* 索赔申请书的全部取值：字段表与预览共用同一份，避免两处各算一套 */
 function claimData(){
@@ -2958,6 +2980,126 @@ function pvTermLine(){
   const fob=/^(FOB|FCA|FAS)$/.test(c.term);
   const p=sp(fob?c.port_load:c.port_dest);
   return c.term+" "+p[0]+(p[1]?", "+tc(p[1]):"");
+}
+
+/* 销售合同（SALES CONFIRMATION）：照 POCIB「业务合同」页面排 */
+function paperContract(){
+  const {one,tag}=pvRows();
+  const val=k=>{
+    const v=one(k), t=tag(k);
+    if(!v.trim()||t==="空") return '<span class="skip">不填</span>';
+    const body=escPv(v).replace(/\n/g,"<br>");
+    return t==="待确认" ? `<span class="fill">${body}</span>` : body;
+  };
+  const blk=k=>{
+    const ls=one(k).split("\n").filter(x=>x.trim());
+    if(!ls.length) return '<span class="skip">不填</span>';
+    return `<b>${escPv(ls[0])}</b>`+ls.slice(1).map(x=>"<br>"+escPv(x)).join("");
+  };
+  const unit=one("单位 Unit");
+  const docsHTML=one("Documents 单据").split("\n").filter(x=>x.trim())
+    .map(l=>`<div class="${l.trim().indexOf("□")===0?"dcOff":""}">${escPv(l)}</div>`).join("");
+  return `<div class="paper pvD pvC">
+  <table class="dRow"><colgroup><col style="width:100%"></colgroup>
+    <tr><td class="cCoName">${blk("卖方名称及地址（抬头两行）")}</td></tr>
+    <tr><td class="cTitle">SALES&nbsp;&nbsp;CONFIRMATION</td></tr>
+  </table>
+
+  <table class="dRow"><colgroup><col style="width:11%"><col style="width:60%"><col style="width:9%"><col style="width:20%"></colgroup>
+    <tr>
+      <td class="lb" rowspan="2">Messrs:</td>
+      <td rowspan="2" style="height:60px">${blk("买方 Messrs")}</td>
+      <td class="lb">No.</td><td class="ct">${val("合同编号 No.")}</td>
+    </tr>
+    <tr>
+      <td class="lb">Date:</td><td class="ct">${val("签约日期 Date")}</td>
+    </tr>
+  </table>
+
+  <table class="dRow"><colgroup><col style="width:100%"></colgroup>
+    <tr><td class="cDear">Dear Sirs.<br>
+      <span class="ind">We are pleased to confirm our sale of the following goods on the terms and conditions set forth below.</span></td></tr>
+  </table>
+
+  <table class="dRow"><colgroup>
+    <col style="width:6%"><col style="width:13%"><col style="width:29%">
+    <col style="width:13%"><col style="width:9%"><col style="width:17%"><col style="width:13%">
+  </colgroup>
+    <tr>
+      <td class="dh">Choice</td><td class="dh">Product<br>No.</td><td class="dh">Description</td>
+      <td class="dh">Quantity</td><td class="dh">Unit</td><td class="dh">Unit Price</td><td class="dh">Amount</td>
+    </tr>
+    <tr>
+      <td class="ct" style="height:52px;vertical-align:middle"><span class="ck">☑</span></td>
+      <td class="ct">${val("货号 Product No.")}</td>
+      <td class="cDesc">${val("品名及规格 Description")}</td>
+      <td class="ct">${val("数量 Quantity")}</td>
+      <td class="ct">${val("单位 Unit")}</td>
+      <td class="cUp">${val("单价 Unit Price（术语 + 币别金额）")}</td>
+      <td class="rt">${val("金额 Amount")}</td>
+    </tr>
+    <tr>
+      <td colspan="3" class="lb2">Total:</td>
+      <td class="ct">${val("Total 总数量")}</td>
+      <td class="ct">${escPv(unit)}</td>
+      <td></td>
+      <td class="rt">${val("Total 总金额")}</td>
+    </tr>
+  </table>
+
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Say Total:</td><td class="cSay" style="height:26px">${val("Say Total 金额大写")}</td></tr>
+  </table>
+
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Payment:</td><td style="height:24px">${val("Payment 支付条款")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Packing:</td><td style="height:24px">${val("Packing 包装条款")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Port of Shipment:</td><td style="height:22px">${val("Port of Shipment 启运港")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Port of Destination:</td><td style="height:22px">${val("Port of Destination 目的港")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Shipment:</td><td style="height:34px">${val("Shipment 装运条款")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Shipping Mark:</td><td style="height:66px;line-height:1.55">${val("Shipping Mark 唛头")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Quality:</td><td style="height:24px">${val("Quality 品质条款")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Insurance:</td><td style="height:56px;line-height:1.55">${val("Insurance 保险条款")}</td></tr>
+  </table>
+  <table class="dRow"><colgroup><col style="width:15%"><col style="width:85%"></colgroup>
+    <tr><td class="lb">Documents:</td><td style="height:118px;line-height:1.62;font-size:9.5px">${docsHTML}</td></tr>
+  </table>
+
+  <table class="dRow"><colgroup><col style="width:100%"></colgroup>
+    <tr><td class="cArb">Any dispute arising from or in connection with this Contract shall be submitted to International
+      Economic and Trade Arbitration Commission for arbitration which shall be conducted in accordance with the
+      IETAC's arbitration rules in effect at the time of applying for arbitration. The arbitral award is final and
+      binding upon both parties.<br>
+      <span class="zh">凡因本合同引起的或与本合同有关的任何争议，均应提交国际经济贸易仲裁委员会，按照申请仲裁时该会现行有效的仲裁规则进行仲裁。仲裁裁决是终局的，对双方均有约束力。</span></td></tr>
+  </table>
+
+  <table class="dRow"><colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+    <tr><td class="dh" style="font-size:10px">BUYERS</td><td class="dh" style="font-size:10px">SELLERS</td></tr>
+    <tr>
+      <td class="cSign" style="height:86px">${val("买方签章 Manager Signature (BUYERS)")}<br>
+        <span class="sg">（Manager Signature）</span></td>
+      <td class="cSign">${val("卖方签章 Manager Signature (SELLERS)")}<br>
+        <span class="sg">（Manager Signature）</span>　<span class="stamp">盖章</span></td>
+    </tr>
+  </table>
+
+  <div class="dTip">黑字＝已按当前案件填好；橙字＝要你补；灰字＝这一栏不用填。合同总金额不能大于当前资金，
+    进口商在 POCIB 里点「确认合同」之后，合同与出口预算表都不能再改，签约前请逐栏核对。</div>
+</div>`;
 }
 
 /* 商业发票：照 POCIB 那张网页表排 */
@@ -3777,6 +3919,7 @@ function openDocPreview(){
   $("pvTitle").textContent=doc;
   $("pvSub").textContent="第 "+LAST_STEP+" 步 · "+(rows0(LAST_STEP)||"");
   $("pvBody").innerHTML = (doc==="索赔申请书") ? paperClaim()
+                       : (doc==="合同"||doc==="外销合同") ? paperContract()
                        : (doc==="入境货物检验检疫申请") ? paperQuarantine()
                        : (doc==="出境货物检验检疫申请") ? paperQuarantineOut()
                        : (doc==="进口货物报关单"||doc==="出口货物报关单") ? paperCustoms()
@@ -3821,8 +3964,90 @@ function renderFields(step,di){
     $("docNote").textContent=""; return;
   }
 
+  // —— 销售合同（外销合同）——
+  if(doc==="合同"||doc==="外销合同"){
+    const ti=termInfo(c.term), up=+$("unit_price").value||0;
+    const ic=insFromLetters();
+    const mkPct=(ic&&ic.markup)?ic.markup:(+$("markup").value||110);
+    const isUS=/AMERICA|U\.?S\.?A|UNITED STATES/i.test(buyer.country||"")
+            || /NEW YORK|LOS ANGELES|CHICAGO|HOUSTON|SEATTLE|MIAMI|SAN FRANCISCO|LONG BEACH/i.test(c.port_dest||"");
+    const pk = D.sameUnit
+      ? n0(c.qty)+" "+uq(c.qty,c.unit)
+      : n0(D.packs)+" "+uq(D.packs,c.pack_unit)+" OF "+n0(c.pack_qty)+" "+uq(c.pack_qty,c.unit)+" EACH";
+    const shipWhen = c.payment==="L/C"
+      ? (c.lc_date?"WITHIN 30 DAYS AFTER RECEIPT OF L/C":"WITHIN 30 DAYS AFTER RECEIPT OF L/C")
+      : (c.ship_deadline?"BY "+String(c.ship_deadline).replace(/^(\d{4})(\d{2})(\d{2})$/,"$1-$2-$3")
+                         :"BY ________（待补：磋商最迟装运日）");
+    const shipWay = (c.transport==="空运"?"BY AIR":"BY VESSEL")
+                  + (c.transport!=="空运"&&D.box?"　"+boxEnLabel(D.box):"");
+    const mark = c.shipping_mark || [
+      String(buyer.short_en||buyer.name_en||"").toUpperCase(),
+      c.contract||"",
+      String(c.port_dest||"").split(",")[0].toUpperCase(),
+      D.packs>0?("1-"+D.packs):""
+    ].filter(s=>s&&s.trim()).join("\n");
+    const insLine = ti.ins
+      ? "COVERED BY THE SELLER FOR "+mkPct+"% OF INVOICE VALUE AGAINST "
+        +((ic&&ic.base)?ic.base:"ALL RISKS")
+        +(ic&&ic.war?" AND WAR RISK":"")+(ic&&ic.strike?" AND STRIKES RISK":"")
+        +" AS PER OCEAN MARINE CARGO CLAUSES OF PICC DATED 1/1/1981."
+      : (/^(DAP|DPU)$/.test(String(c.term).toUpperCase())
+          ? "COVERED BY THE SELLER FOR ITS OWN BENEFIT; THE POLICY IS NOT TO BE HANDED TO THE BUYER."
+          : "TO BE COVERED BY THE BUYER.");
+    const dq=c.docs_clause||[];
+    const docLines=[
+      "☑ Commercial Invoice　　1 original + 3 copies",
+      c.transport==="空运"?"☑ Airway Bill　　3 originals":"☑ Bill of Lading　　3 originals + 3 copies",
+      "☑ Packing List　　1 original + 3 copies",
+      ti.ins?"☑ Insurance Policy　　1 original + 3 copies"
+            :"□ Insurance Policy（"+c.term+" 由买方投保，不选）",
+      (dq.some(x=>/数量|重量/.test(x))?"☑":"□")+" Certificate of Quantity/Weight",
+      (dq.some(x=>/品质/.test(x))?"☑":"□")+" Certificate of Quality",
+      (dq.some(x=>/植物/.test(x))?"☑":"□")+" Certificate of Phytosanitary",
+      (dq.some(x=>/健康/.test(x))?"☑":"□")+" Health Certificate",
+      isUS?"☑ Certificate of Origin（一般原产地证）":"☑ Certificate of Origin Form A（普惠制产地证）"
+    ].join("\n");
+    G("卖方名称及地址（抬头两行）",seller.name_en+"\n"+seller.address_en,"主体");
+    G("买方 Messrs",buyer.name_en+"\n"+buyer.address_en,"主体");
+    G("合同编号 No.",c.contract,"自动");
+    G("签约日期 Date",c.issue_date||contractDate(c)||"—","自动");
+    G("货号 Product No.",c.goods_no||"—","主体");
+    G("品名及规格 Description",c.goods+"\n"+(c.desc||""),"自动");
+    G("数量 Quantity",n0(c.qty),"自动");
+    G("单位 Unit",uq(c.qty,c.unit),"自动");
+    const tc=s=>String(s||"").split(",")[0].trim();
+    const termShort=c.term+" "+(/^(FOB|FCA|FAS)$/.test(String(c.term).toUpperCase())?tc(c.port_load):tc(c.port_dest));
+    G("单价 Unit Price（术语 + 币别金额）",termShort+"\n"+c.currency+" "+n2(up),"自动");
+    G("金额 Amount",c.currency+" "+n2(D.amount),"自动");
+    G("Total 总数量",n0(c.qty),"自动");
+    G("Total 总金额",c.currency+" "+n2(D.amount),"自动");
+    G("Say Total 金额大写",amtWords(D.amount,c.amt_prefix||c.currency||"USD"),"自动");
+    G("Payment 支付条款",c.pay_text||"（按磋商结果）",c.pay_text?"自动":"待确认");
+    G("Packing 包装条款",pk,"自动");
+    G("Port of Shipment 启运港",c.port_load,"自动");
+    G("Port of Destination 目的港",c.port_dest,"自动");
+    G("Shipment 装运条款",shipWhen+"\n"+shipWay,shipWhen.indexOf("待补")>=0?"待确认":"自动");
+    G("Shipping Mark 唛头",mark,"自动");
+    G("Quality 品质条款","As per samples submitted by seller.","常量");
+    G("Insurance 保险条款",insLine,ti.ins?"自动":"常量");
+    G("Documents 单据",docLines,"自动");
+    G("仲裁条款 Arbitration","Any dispute arising from or in connection with this Contract shall be submitted to "
+      +"International Economic and Trade Arbitration Commission for arbitration ...（固定条款，照抄）","常量");
+    G("买方签章 Manager Signature (BUYERS)",[buyer.name_en,buyer.legal_en].filter(Boolean).join("\n"),"主体");
+    G("卖方签章 Manager Signature (SELLERS)",[seller.name_en,seller.legal_en].filter(Boolean).join("\n"),"主体");
+    note="抬头写卖方（出口商）英文名称 + 英文地址，必须分两行；Messrs 填买方（进口商）名称地址。"
+        +"合同号只能英文/数字且不能重复（B2B 竞赛由系统生成），前 8 位就是签约日期。"
+        +"一笔合同只交易一种商品，货号必须取「国内工厂」里现成的商品号，Description 抄商品的「英文名称 + 英文描述」两行。"
+        +"Unit 填销售单位并注意单复数（数量>1 写 PCS，MT 不变）。"
+        +"Unit Price 上方单独一栏写贸易术语 + 港口（FOB/FCA/FAS 跟启运港，CFR/CIF/CPT/CIP/DAP/DPU 跟目的港），下方写币别 + 金额。"
+        +"Say Total 必须与数字金额 100% 一致，否则合同检查不通过（USD 整数写 ... ONLY，带小数写 ... CENTS XX）。"
+        +"Insurance：CIF/CIP 由卖方按合同险别和加成投保并写明；FOB/CFR/FCA/CPT 由买方投保，本栏写 TO BE COVERED BY THE BUYER；"
+        +"DAP/DPU 卖方为自己利益投保、保单不给买方，Documents 里不勾保险单。"
+        +"Documents：发票、装箱单必备；海运勾提单、空运勾运单；产地证二选一——进口国是美国选一般原产地证，其他国家选普惠制 FORM A。"
+        +"合同总金额不能大于当前资金，且进口商确认后合同与出口预算表都不能再改，签约前务必核对。";
+  }
   // —— 商业发票 / 装箱单 ——
-  if(doc==="商业发票"){
+  else if(doc==="商业发票"){
     G("出票人 Issuer",seller.name_en+"\n"+seller.address_en,"主体");
     G("受票人 To",buyer.name_en+"\n"+buyer.address_en,"主体");
     G("发票号 No.",c.invoice_no||"（由系统生成后回填）",c.invoice_no?"自动":"待确认");
