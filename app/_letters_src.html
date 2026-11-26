@@ -420,6 +420,8 @@
     font-weight:600;color:#fff;line-height:1.35;transition:filter .15s}
   #pftBalAbs{background:linear-gradient(135deg,#2563EB,#1D4ED8)}
   #pftBalRel{background:linear-gradient(135deg,#7C3AED,#6D28D9)}
+  #pftMaxSum{background:linear-gradient(135deg,#0E9F6E,#047857)}
+  #pftMaxSum:hover{filter:brightness(1.08)}
   .pft-mid button:hover{filter:brightness(1.1)}
   .pft-rel{margin:0 12px 12px;background:#fff;border:1px solid #E1EBF7;border-radius:9px;padding:10px 14px}
   .pft-rel-hd{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#4A5B72;margin-bottom:7px}
@@ -452,6 +454,7 @@
         <div class="pft-mid">
           <button id="pftBalAbs" title="调整成交价，使出口商与进口商的盈亏额相同">⇄ 一键平衡绝对盈亏</button>
           <button id="pftBalRel" title="调整成交价，使出口商与进口商的盈亏率相同">⇄ 一键平衡相对盈亏</button>
+          <button id="pftMaxSum" title="在「两边都不亏」的前提下，把成交价定在双方盈亏额合计最大的位置（进口关税与增值税按价计，提价会多缴税，所以合计随价跌而升）">◎ 双方总额最大</button>
         </div>
         <div class="pft-side im">
           <div class="pft-lab"><b>进口商</b><span>绝对盈亏</span><em id="pftImRate">—</em></div>
@@ -2348,6 +2351,54 @@ function pftBalanceAbs(){
   pftApply((c2-c1)/(d1-d2));
 }
 
+/* 理性定价：两边都不亏的前提下，让双方盈亏额合计最大。
+   两条盈亏线都随单价线性变化，合计的斜率＝d1+d2；进口要按价缴关税与增值税，
+   所以合计通常是随价跌而升的，最优点落在「出口商刚好保本」那一点；
+   若某个案子反过来（合计随价升），就取「进口商刚好保本」那一点。 */
+function pftMaxSum(){
+  const b=window.__BUDGET; if(!b) return;
+  const note=document.getElementById("pftNote");
+  const up0=b.UP, u2=up0*1.05+0.5;
+  const p1=pftProbe(up0), p2=pftProbe(u2);
+  if(!p1||!p2) return;
+  const d1=(p2.exPftG-p1.exPftG)/(u2-up0);
+  const d2=(p2.imPftG-p1.imPftG)/(u2-up0);
+  if(!isFinite(d1)||!isFinite(d2)) return;
+  const c1=p1.exPftG-d1*up0, c2=p1.imPftG-d2*up0;
+  const S=d1+d2;
+  let u, mine;
+  if(S<0){                       /* 合计随价跌而升 → 左端：出口保本 */
+    if(d1<=1e-9) return;
+    u=Math.max(0.01, -c1/d1); mine="出口";
+  }else{                         /* 合计随价升而升 → 右端：进口保本 */
+    if(d2>=-1e-9) return;
+    u=Math.max(0.01, -c2/d2); mine="进口";
+  }
+  const r=pftProbe(u);
+  if(!r) return;
+  if(mine==="出口" && r.imPftG<-0.01){
+    if(note) note.textContent="出口保本那一点进口仍亏 "+pftMoney(r.imPftG)+" "+r.imCur
+      +"，两边无法同时不亏：先调进口市场价或运费再试";
+    return;
+  }
+  if(mine==="进口" && r.exPftG<-0.01){
+    if(note) note.textContent="进口保本那一点出口仍亏 "+pftMoney(r.exPftG)+" USD，两边无法同时不亏";
+    return;
+  }
+  const before=b.exPftG+b.imPftG;
+  pftApply(u);
+  /* 落价后再读一次，纸面数字与实际成交单价对得上 */
+  const nb=window.__BUDGET||r;
+  const ex=nb.exPftG, im=nb.imPftG, tot=ex+im, gain=tot-before;
+  const z=v=>Math.abs(v)<0.005?0:v;
+  if(note){
+    note.textContent="理性定价 USD "+nb.UP.toFixed(2)+"：出口 "+pftMoney(z(ex))
+      +"、进口 "+pftMoney(z(im))+"，合计 "+pftMoney(tot)
+      +(gain>0.5?("（比刚才多 "+pftMoney(gain)+"）"):"")
+      +"　提价只是把利润从进口挪到出口，进口还得多缴按价计的关税与增值税，合计因此随价跌而升。";
+  }
+}
+
 /* 一键平衡相对盈亏：两边盈亏率相等（单调，二分） */
 function pftBalanceRel(){
   const b=window.__BUDGET; if(!b) return;
@@ -2383,12 +2434,14 @@ function pftThrottle(fn){
   const sr=document.getElementById("pftRelSlider");
   const ba=document.getElementById("pftBalAbs");
   const br=document.getElementById("pftBalRel");
+  const mx=document.getElementById("pftMaxSum");
   const thEx=pftThrottle(pftSetExRate), thIm=pftThrottle(pftSetImRate), thShare=pftThrottle(pftSetShare);
   if(se) se.addEventListener("input",e=>{ thEx(Number(e.target.value)); });
   if(si) si.addEventListener("input",e=>{ thIm(Number(e.target.value)); });
   if(sr) sr.addEventListener("input",e=>{ thShare(Number(e.target.value)); });
   if(ba) ba.addEventListener("click",pftBalanceAbs);
   if(br) br.addEventListener("click",pftBalanceRel);
+  if(mx) mx.addEventListener("click",pftMaxSum);
 
   /* 首屏先静默算一遍，让滑块直接显示真实值 */
   setTimeout(()=>{
