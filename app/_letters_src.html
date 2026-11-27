@@ -37,13 +37,29 @@
          gap:12px;align-items:start;margin-top:12px}
   .bgrid>.bcol{display:flex;flex-direction:column;gap:12px;min-width:0}
   .bgrid .blk{margin-top:0 !important}
-  @media(max-width:1120px){
+  /* 缩放 / 窄窗口：三列 → 两列（预算卡占满一行）→ 单列，别直接塌成一列 */
+  @media(max-width:1280px){
+    .cols{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .cols>#budgetCard{grid-column:span 2}
+    /* 前两张排一行，交易条件独占一行，否则第 2 行右半格会空着 */
+    .cols>#tradeCard{grid-column:span 2}
+  }
+  @media(max-width:1000px){
     .cols{grid-template-columns:1fr}
     .cols>#budgetCard{grid-column:auto}
   }
-  /* 预算卡内部两栏可以撑到更窄：单栏预算会变得很长 */
-  @media(max-width:820px){
+  /* 预算卡内部两栏：窗口再窄一点就并成一栏，不然左右都挤 */
+  @media(max-width:1080px){
     .bgrid{grid-template-columns:1fr}
+  }
+  /* 盈亏调节两列在窄卡里会挤，改成一列并排 */
+  @media(max-width:560px){
+    .pft-grid{grid-template-columns:1fr}
+    .pft-side.ex{grid-column:1;grid-row:1}
+    .pft-side.im{grid-column:1;grid-row:2}
+    .pft-mid{grid-column:1;grid-row:3;flex-wrap:wrap}
+    .pft-mid button{flex:1 1 100%}
+    .pft-rel-bar{grid-template-columns:64px 1fr 64px;gap:8px}
   }
 
   .hint{
@@ -222,7 +238,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" id="tradeCard">
     <h2>交易条件</h2>
     <div class="grid3">
       <div class="fld"><label>贸易术语</label>
@@ -407,21 +423,26 @@
           background:linear-gradient(90deg,#E8F3FF,#F2FBF6);border-bottom:1px solid #D8E7F8}
   .pft-hd b{font-size:12.5px;color:#1B4FD8;letter-spacing:1px}
   .pft-hd span{font-size:11px;color:#6B7C93}
-  .pft-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
+  .pft-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;align-items:stretch}
+  /* 出口商 / 进口商并排一行，按钮组另起一行 —— 否则 grid 自动排布会把两块各占半行、右边空一半 */
+  .pft-side.ex{grid-column:1;grid-row:1}
+  .pft-side.im{grid-column:2;grid-row:1}
+  .pft-mid{grid-column:1/-1;grid-row:2}
   .pft-side{background:#fff;border:1px solid #E1EBF7;border-radius:9px;padding:10px 12px}
   .pft-side.ex{border-left:4px solid #0EA5A4}
   .pft-side.im{border-left:4px solid #F97316}
-  .pft-lab{display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:#4A5B72}
+  .pft-lab{display:flex;align-items:baseline;gap:7px;font-size:11px;color:#4A5B72;
+    white-space:nowrap;overflow:hidden}
   .pft-lab b{font-size:12.5px;color:#16233A}
-  .pft-lab em{margin-left:auto;font-style:normal;font-weight:700;font-size:15px;
-              font-family:Consolas,monospace}
+  .pft-lab em{margin-left:auto;font-style:normal;font-weight:700;font-size:14px;
+              font-family:Consolas,monospace;white-space:nowrap}
   .ex .pft-lab em{color:#0B8F8E}.im .pft-lab em{color:#D9600B}
   .pft-side input[type=range]{width:100%;margin:9px 0 3px;height:18px;cursor:grab}
   .pft-side.ex input[type=range]{accent-color:#0EA5A4}
   .pft-side.im input[type=range]{accent-color:#F97316}
   .pft-val{font-size:12px;font-family:Consolas,monospace;color:#33445C;text-align:right}
   .pft-val.neg{color:#C0341C}
-  .pft-mid{grid-column:1/-1;display:flex;flex-direction:row;gap:8px}
+  .pft-mid{display:flex;flex-direction:row;gap:8px}
   .pft-mid button{flex:1;cursor:pointer;border:0;border-radius:8px;padding:9px 6px;font-size:11.5px;
     font-weight:600;color:#fff;line-height:1.35;transition:filter .15s}
   #pftBalAbs{background:linear-gradient(135deg,#2563EB,#1D4ED8)}
@@ -447,38 +468,6 @@
   .pft-note{padding:0 12px 10px;font-size:11px;color:#6B7C93;font-family:Consolas,monospace}
 </style>
 
-    <div class="pft">
-      <div class="pft-hd"><b>盈亏调节</b>
-        <span>拖动滑块直接改成交单价 —— 合同金额、单据、函电一起变</span></div>
-
-      <div class="pft-grid">
-        <div class="pft-side ex">
-          <div class="pft-lab"><b>出口商</b><span>绝对盈亏</span><em id="pftExRate">—</em></div>
-          <input type="range" id="pftExSlider" min="-50" max="150" step="0.5" value="19.7">
-          <div class="pft-val" id="pftExAmt">—</div>
-        </div>
-        <div class="pft-mid">
-          <button id="pftBalAbs" title="调整成交价，使出口商与进口商的盈亏额相同">⇄ 一键平衡绝对盈亏</button>
-          <button id="pftBalRel" title="调整成交价，使出口商与进口商的盈亏率相同">⇄ 一键平衡相对盈亏</button>
-          <button id="pftMaxSum" title="在「两边都不亏」的前提下，把成交价定在双方盈亏额合计最大的位置（进口关税与增值税按价计，提价会多缴税，所以合计随价跌而升）">◎ 双方总额最大</button>
-        </div>
-        <div class="pft-side im">
-          <div class="pft-lab"><b>进口商</b><span>绝对盈亏</span><em id="pftImRate">—</em></div>
-          <input type="range" id="pftImSlider" min="-50" max="150" step="0.5" value="8.2">
-          <div class="pft-val" id="pftImAmt">—</div>
-        </div>
-      </div>
-
-      <div class="pft-rel">
-        <div class="pft-rel-hd"><b>相对盈亏率</b><span>双方盈亏额占总额的比例，拖动可调分配</span></div>
-        <div class="pft-rel-bar">
-          <span class="pft-pct l" id="pftRelL">50.0%<small>出口占比</small></span>
-          <div class="pft-track"><input type="range" id="pftRelSlider" min="0" max="100" step="0.5" value="50"></div>
-          <span class="pft-pct r" id="pftRelR">50.0%<small>进口占比</small></span>
-        </div>
-      </div>
-      <div class="pft-note" id="pftNote">—</div>
-    </div>
 
     <!-- 隐藏的原控件（供联动逻辑读写，不在界面显示） -->
     <div style="display:none">
@@ -531,6 +520,39 @@
     </div><!-- /左列 -->
 
     <div class="bcol">
+    <div class="pft">
+      <div class="pft-hd"><b>盈亏调节</b>
+        <span>拖动滑块直接改成交单价 —— 合同金额、单据、函电一起变</span></div>
+
+      <div class="pft-grid">
+        <div class="pft-side ex">
+          <div class="pft-lab"><b>出口商</b><span>绝对盈亏</span><em id="pftExRate">—</em></div>
+          <input type="range" id="pftExSlider" min="-50" max="150" step="0.5" value="19.7">
+          <div class="pft-val" id="pftExAmt">—</div>
+        </div>
+        <div class="pft-mid">
+          <button id="pftBalAbs" title="调整成交价，使出口商与进口商的盈亏额相同">⇄ 一键平衡绝对盈亏</button>
+          <button id="pftBalRel" title="调整成交价，使出口商与进口商的盈亏率相同">⇄ 一键平衡相对盈亏</button>
+          <button id="pftMaxSum" title="在「两边都不亏」的前提下，把成交价定在双方盈亏额合计最大的位置（进口关税与增值税按价计，提价会多缴税，所以合计随价跌而升）">◎ 双方总额最大</button>
+        </div>
+        <div class="pft-side im">
+          <div class="pft-lab"><b>进口商</b><span>绝对盈亏</span><em id="pftImRate">—</em></div>
+          <input type="range" id="pftImSlider" min="-50" max="150" step="0.5" value="8.2">
+          <div class="pft-val" id="pftImAmt">—</div>
+        </div>
+      </div>
+
+      <div class="pft-rel">
+        <div class="pft-rel-hd"><b>相对盈亏率</b><span>双方盈亏额占总额的比例，拖动可调分配</span></div>
+        <div class="pft-rel-bar">
+          <span class="pft-pct l" id="pftRelL">50.0%<small>出口占比</small></span>
+          <div class="pft-track"><input type="range" id="pftRelSlider" min="0" max="100" step="0.5" value="50"></div>
+          <span class="pft-pct r" id="pftRelR">50.0%<small>进口占比</small></span>
+        </div>
+      </div>
+      <div class="pft-note" id="pftNote">—</div>
+    </div>
+
     <!-- 出口信息 -->
     <div class="blk" style="margin-top:12px; border:1px solid var(--line); border-radius:8px; padding:10px 12px 12px; background:#fbfcfd">
       <div style="font-size:12px; font-weight:600; color:var(--grey); margin-bottom:8px">出口信息</div>
