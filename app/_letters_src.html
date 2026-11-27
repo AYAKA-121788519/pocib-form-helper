@@ -269,16 +269,23 @@
         <select id="ship"><option>海运</option><option>空运</option></select></div>
       <div class="fld"><label>支付方式</label>
         <select id="pay">
-          <option value="LCSIGHT">L/C AT SIGHT 即期信用证</option>
-          <option value="LC30">L/C AT 30 DAYS AFTER SIGHT 见票后30天</option>
-          <option value="LC45">L/C AT 45 DAYS AFTER SIGHT 见票后45天</option>
-          <option value="LC60">L/C AT 60 DAYS AFTER SIGHT 见票后60天</option>
-          <option value="LC90">L/C AT 90 DAYS AFTER SIGHT 见票后90天</option>
-          <option value="TT30">T/T 电汇（前 30% 后 70%）</option>
-          <option value="TT50">T/T 电汇（前 50% 后 50%）</option>
-          <option value="TT">T/T 电汇（全额预付）</option>
-          <option value="DP">D/P 付款交单</option>
-          <option value="DA">D/A 承兑交单</option>
+          <option value="LCSIGHT">L/C 即期</option>
+          <option value="LC30">L/C 见票后 30 天</option>
+          <option value="LC45">L/C 见票后 45 天</option>
+          <option value="LC60">L/C 见票后 60 天</option>
+          <option value="LC90">L/C 见票后 90 天</option>
+          <option value="TT">T/T 100% 预付</option>
+          <option value="TT10">T/T 10% + 90%</option>
+          <option value="TT20">T/T 20% + 80%</option>
+          <option value="TT30">T/T 30% + 70%</option>
+          <option value="TT40">T/T 40% + 60%</option>
+          <option value="TT50">T/T 50% + 50%</option>
+          <option value="TT100A">T/T 100% 装运后 30 天</option>
+          <option value="DP">D/P 即期</option>
+          <option value="DA30">D/A 见票后 30 天</option>
+          <option value="DA45">D/A 见票后 45 天</option>
+          <option value="DA60">D/A 见票后 60 天</option>
+          <option value="DA90">D/A 见票后 90 天</option>
         </select></div>
       <div class="fld"></div>
     </div>
@@ -697,6 +704,35 @@ function resetBudget(){
   document.getElementById("bResult").style.display="none";
 }
 
+/* 支付条款：代码 ↔ 合同上的写法（与主程序 PAY_TERMS 一一对应） */
+const PAY_TEXT={
+  LCSIGHT:"L/C AT SIGHT", LC30:"L/C AT 30 DAYS AFTER SIGHT", LC45:"L/C AT 45 DAYS AFTER SIGHT",
+  LC60:"L/C AT 60 DAYS AFTER SIGHT", LC90:"L/C AT 90 DAYS AFTER SIGHT",
+  TT:"T/T 100% IN ADVANCE",
+  TT10:"T/T 10% IN ADVANCE AND 90% WITHIN 30 DAYS AFTER SHIPMENT DATE",
+  TT20:"T/T 20% IN ADVANCE AND 80% WITHIN 30 DAYS AFTER SHIPMENT DATE",
+  TT30:"T/T 30% IN ADVANCE AND 70% WITHIN 30 DAYS AFTER SHIPMENT DATE",
+  TT40:"T/T 40% IN ADVANCE AND 60% WITHIN 30 DAYS AFTER SHIPMENT DATE",
+  TT50:"T/T 50% IN ADVANCE AND 50% WITHIN 30 DAYS AFTER SHIPMENT DATE",
+  TT100A:"T/T 100% WITHIN 30 DAYS AFTER SHIPMENT DATE",
+  DP:"D/P AT SIGHT",
+  DA30:"D/A AT 30 DAYS AFTER SIGHT", DA45:"D/A AT 45 DAYS AFTER SIGHT",
+  DA60:"D/A AT 60 DAYS AFTER SIGHT", DA90:"D/A AT 90 DAYS AFTER SIGHT"
+};
+/* 合同上的支付条款 → 本页下拉的代码 */
+function payCodeOf(txt){
+  const t=String(txt||"").toUpperCase();
+  if(/^L\/C/.test(t)){ const m=t.match(/(\d{1,3})\s*DAYS?/); return m? "LC"+m[1] : "LCSIGHT"; }
+  if(/^D\/A/.test(t)){ const m=t.match(/(\d{1,3})\s*DAYS?/); return m? "DA"+m[1] : "DA30"; }
+  if(/^D\/P/.test(t)) return "DP";
+  if(/^T\/T/.test(t)){
+    if(/100%\s*IN\s*ADVANCE/.test(t)) return "TT";
+    if(/100%\s*WITHIN/.test(t)) return "TT100A";
+    const m=t.match(/(\d{1,3})\s*%/); return m? "TT"+m[1] : "TT";
+  }
+  return "LCSIGHT";
+}
+
 /* ================== 短语 ================== */
 function ph(c){
   const isSea = c.ship==="海运";
@@ -719,14 +755,28 @@ function ph(c){
     "LC90":  ["by irrevocable letter of credit at 90 days after sight",
              "见票后 90 天付款的不可撤销信用证","the relevant L/C","信用证"],
     "TT":    ["by 100% T/T in advance","100% 电汇预付","the full payment","全部货款"],
-    "TT30":  ["by T/T, 30% deposit and the balance of 70% to be paid before shipment",
-             "30% 定金预付，余款 70% 于装运前付清","the deposit payment","定金"],
-    "TT50":  ["by T/T, 50% deposit and the balance of 50% to be paid before shipment",
-             "50% 定金预付，余款 50% 于装运前付清","the deposit payment","定金"],
+    "TT10":  ["by T/T, 10% deposit and the balance of 90% to be paid within 30 days after shipment date",
+             "10% 定金预付，余款 90% 于装运后 30 天内付清","the deposit payment","定金"],
+    "TT20":  ["by T/T, 20% deposit and the balance of 80% to be paid within 30 days after shipment date",
+             "20% 定金预付，余款 80% 于装运后 30 天内付清","the deposit payment","定金"],
+    "TT30":  ["by T/T, 30% deposit and the balance of 70% to be paid within 30 days after shipment date",
+             "30% 定金预付，余款 70% 于装运后 30 天内付清","the deposit payment","定金"],
+    "TT40":  ["by T/T, 40% deposit and the balance of 60% to be paid within 30 days after shipment date",
+             "40% 定金预付，余款 60% 于装运后 30 天内付清","the deposit payment","定金"],
+    "TT50":  ["by T/T, 50% deposit and the balance of 50% to be paid within 30 days after shipment date",
+             "50% 定金预付，余款 50% 于装运后 30 天内付清","the deposit payment","定金"],
+    "TT100A":["by 100% T/T within 30 days after shipment date",
+             "装运后 30 天内 100% 电汇","the full payment","全部货款"],
     "DP":    ["by documents against payment (D/P) at sight",
              "即期付款交单（D/P）","the payment against documents","付款赎单款项"],
-    "DA":    ["by documents against acceptance (D/A)",
-             "承兑交单（D/A）","the acceptance of drafts","承兑手续"]
+    "DA30":  ["by documents against acceptance (D/A) at 30 days after sight",
+             "见票后 30 天承兑交单（D/A）","the acceptance of drafts","承兑手续"],
+    "DA45":  ["by documents against acceptance (D/A) at 45 days after sight",
+             "见票后 45 天承兑交单（D/A）","the acceptance of drafts","承兑手续"],
+    "DA60":  ["by documents against acceptance (D/A) at 60 days after sight",
+             "见票后 60 天承兑交单（D/A）","the acceptance of drafts","承兑手续"],
+    "DA90":  ["by documents against acceptance (D/A) at 90 days after sight",
+             "见票后 90 天承兑交单（D/A）","the acceptance of drafts","承兑手续"]
   };
   const q = P[c.pay] || P["LCSIGHT"];
   return {isSea, ship, shipCN, term, termCN, portEN,
@@ -1944,6 +1994,13 @@ function syncFromTerms(){
   /* 3) 支付方式 → 预算区支付方式 */
   const bPay=document.getElementById("bPay");
   bPay.value = /^LC/.test(pay) ? "LC" : (/^TT/.test(pay) ? "TT" : "OTHER");
+  /* T/T 两段式的定金比例跟着条款走，银行手续费按定金/尾款两笔各判最低 */
+  if(bPay.value==="TT"){
+    const txt=(typeof PAY_TEXT!=="undefined" && PAY_TEXT[pay]) || "";
+    const m=String(txt).match(/(\d{1,3})\s*%/);
+    const el=document.getElementById("bX11");
+    if(el) el.value = m? m[1] : "100";
+  }
 
   /* 4) 只读展示字段 */
   document.getElementById("bPayDisp").value  = pay + "（" + (bPay.value==="LC" ? "L/C 费率 0.13%" :
@@ -2019,6 +2076,14 @@ function onPortChanged(){
   const el=document.getElementById(id);
   el.addEventListener("change",syncFromTerms);
   el.addEventListener("input",syncFromTerms);
+});
+/* 支付条款改选 → 把对应的条款写法回传合同（左栏「支付条款」跟着换） */
+document.getElementById("pay").addEventListener("change",()=>{
+  const P=window.parent;
+  const txt=PAY_TEXT[document.getElementById("pay").value]||"";
+  if(P && P!==window && typeof P.LETTERS_ADOPT_PAY==="function" && txt){
+    try{ P.LETTERS_ADOPT_PAY(txt); }catch(e){}
+  }
 });
 ["portLoad","portDisc"].forEach(id=>{
   const el=document.getElementById(id);
