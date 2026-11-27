@@ -762,6 +762,8 @@
       </div>
       <div class="grp"><label>贸易与结算</label>
         <div class="row"><span class="k">合同号</span><input id="contract"></div>
+        <div class="row"><span class="k">单据日期</span><input id="issue_date" type="date"
+             title="所有单据上的日期都用它；默认今天，可改"></div>
         <div class="row"><span class="k">贸易术语</span><select id="term"></select></div>
         <div class="row"><span class="k">结算方式</span><select id="payment"></select></div>
         <div class="row"><span class="k">支付条款</span><input id="payText" placeholder="T/T 100% IN ADVANCE"></div>
@@ -1890,10 +1892,16 @@ function uq(n,u){ return (Math.abs(n-1)<1e-9) ? String(u||"").toUpperCase() : pl
 /* ---------------- 渲染 ---------------- */
 let CASE="A", SEL=null;
 
+function todayStr(){
+  const d=new Date(), p=n=>String(n).padStart(2,"0");
+  return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());
+}
 function loadCase(k){
   CASE=k;const c=CASES[k];
   FRT_AUTO="";                        // 换案例回到自动估算
-  for(const id of ["contract","term","payment","transport","port_load","port_dest",
+  /* 日期默认今天：一般用户都是当天填单，不用每次手打 */
+  c.issue_date = todayStr();
+  for(const id of ["contract","issue_date","term","payment","transport","port_load","port_dest",
       "goods","qty","unit","pack_qty","pack_unit","unit_price","gw","nw","vol","freight","markup","rate"]){
     const el=$(id); if(!el) continue;
     el.value=c[id]!==undefined?c[id]:"";
@@ -1971,10 +1979,8 @@ function boxEnLabel(b){ return !b?"":b.list.map(x=>`${x.n}×${x.en}`).join(" + "
 function boxField(d){
   const b=d.box;
   if(!b) return "—";
-  if(b.lcl) return `□ 货柜　☑ 拼箱　　LCL ${n3(d.total_vol)} CBM / ${n0(d.total_gw)} KGS`
-                 +`　（整箱折算 ${boxLabel(b)}）`;
-  return `☑ 货柜　□ 拼箱　　${boxEnLabel(b)}（${b.list.map(x=>x.pd).join("+")}）`
-       +`　柜容 ${n0(b.cbm)} CBM / ${b.tne} TNE`;
+  if(b.lcl) return `□ 货柜　☑ 拼箱　　LCL ${n3(d.total_vol)} CBM，${n0(d.total_gw)} KGS`;
+  return `☑ 货柜　□ 拼箱　　${boxEnLabel(b)}`;
 }
 
 /* ---------------- 预计运费：运价表 × 柜型 ----------------
@@ -2404,7 +2410,7 @@ function docsOf(f){
       if(cif) d.push("货物运输保险单");
       d.push("产地证");
       (c.docs_clause||[]).forEach(x=>d.push("商检证书-"+x));
-      if(c.payment!=="T/T") d.push("出口押汇申请书（办押汇才交）");
+      if(c.payment!=="T/T") d.push("出口押汇申请书");
       break;
     case "进口报检":
       d = (air?["提货通知单","航空运单"]:["提货单"])
@@ -2508,8 +2514,8 @@ function termInfo(t){
 function freightCode(c){
   const air=c.transport==="空运";
   const sellerPay=!!termInfo(c.term).frt;
-  if(air) return sellerPay?"201022（空运费，卖方付）":"201023（空运费，买方付）";
-  return sellerPay?"201012（海运费，卖方付）":"201013（海运费，买方付）";
+  if(air) return sellerPay?"201022":"201023";
+  return sellerPay?"201012":"201013";
 }
 
 /* 从函电预算的 iframe 里读当前选的险别 / 附加险 / 加成（读不到就返回 null，调用方走默认） */
@@ -2610,10 +2616,10 @@ function paperQuarantine(){
   const pick=(k)=>{ const r=R.find(x=>String(x[0]).indexOf(k)===0); return r?[String(r[1]),String(r[2])]:["",""]; };
   /* 值太长塞不进格子时换成短提示 */
   const SHORT={
-    "（提货单 / 运单上的编号）":"待补·见提货单",
+    "（提货单或运单上的编号）":"待补·见提货单",
     "（到货通知邮件上的日期）":"待补·见到货通知",
     "（按合同索赔条款的截止日期）":"待补·按合同条款",
-    "（质量 / 卫生等特殊条款；无则填「无」）":"待补·无则填「无」",
+    "（质量、卫生等特殊条款；无则填「无」）":"待补·无则填「无」",
     "（须申请人亲笔签名）":"亲笔签名",
     "（一般商品可空白）":"可空白",
     "（未卸毕可暂不填，卸毕后补）":"待补·卸毕后填",
@@ -3005,8 +3011,8 @@ function paperCustoms(){
   const SHORT={
     "（按提货单 / 到货通知上的进境日期填，格式 YYYY-MM-DD）":"待补·见提货单",
     "（实际向海关申报那天，格式 YYYY-MM-DD）":"待补·申报当天",
-    "抄提货单 / 海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号":"待补·船名 + 航次",
-    "抄配舱回单 / 海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号":"待补·船名 + 航次",
+    "抄提货单、海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号":"待补·船名 + 航次",
+    "抄配舱回单、海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号":"待补·船名 + 航次",
     "抄《提货单》编号（空运抄《航空运单》编号）；单据中心没有可不填":"待补·见提货单",
     "抄《海运提单》编号（空运抄《航空运单》编号）；单据中心没有可不填":"待补·见海运提单",
     "N/M（无唛头）":"N/M",
@@ -3032,8 +3038,8 @@ function paperCustoms(){
     const tds=cells.map(x=>`<td class="${cls||"ct"}">${x[0]}</td>`).join("");
     return `<table class="dRow"><colgroup>${cols}</colgroup><tr>${tds}</tr></table>`;
   };
-  const gw=one("毛重 / 净重").split("/");
-  const price=one("单价 / 总价").split("/");
+  const gw=one("毛重 / 净重").split("\n");
+  const price=one("单价 / 总价").split("\n");
   const gname=(one("商品名称")||"")+(one("规格型号（中文）")&&one("规格型号（中文）").indexOf("商品档案")<0
     ? "<br>"+escPv(one("规格型号（中文）")) : "");
   const ctry=(k)=>{ const v=one(k); return v?escPv(v):'<span class="fill">缺</span>'; };
@@ -4173,7 +4179,7 @@ function renderFields(step,di){
     const shipWhen = c.payment==="L/C"
       ? (c.lc_date?"WITHIN 30 DAYS AFTER RECEIPT OF L/C":"WITHIN 30 DAYS AFTER RECEIPT OF L/C")
       : (c.ship_deadline?"BY "+String(c.ship_deadline).replace(/^(\d{4})(\d{2})(\d{2})$/,"$1-$2-$3")
-                         :"BY ________（待补：磋商最迟装运日）");
+                         :"BY 待补·磋商最迟装运日");
     const shipWay = (c.transport==="空运"?"BY AIR":"BY VESSEL")
                   + (c.transport!=="空运"&&D.box?"　"+boxEnLabel(D.box):"");
     const mark = c.shipping_mark || [
@@ -4196,17 +4202,17 @@ function renderFields(step,di){
       c.transport==="空运"?"☑ Airway Bill　　3 originals":"☑ Bill of Lading　　3 originals + 3 copies",
       "☑ Packing List　　1 original + 3 copies",
       ti.ins?"☑ Insurance Policy　　1 original + 3 copies"
-            :"□ Insurance Policy（"+c.term+" 由买方投保，不选）",
+            :"□ Insurance Policy（"+c.term+" 买方投保，不选）",
       (dq.some(x=>/数量|重量/.test(x))?"☑":"□")+" Certificate of Quantity/Weight",
       (dq.some(x=>/品质/.test(x))?"☑":"□")+" Certificate of Quality",
       (dq.some(x=>/植物/.test(x))?"☑":"□")+" Certificate of Phytosanitary",
       (dq.some(x=>/健康/.test(x))?"☑":"□")+" Health Certificate",
-      isUS?"☑ Certificate of Origin（一般原产地证）":"☑ Certificate of Origin Form A（普惠制产地证）"
+      isUS?"☑ Certificate of Origin":"☑ Certificate of Origin Form A"
     ].join("\n");
     G("卖方名称及地址（抬头两行）",seller.name_en+"\n"+seller.address_en,"主体");
     G("买方 Messrs",buyer.name_en+"\n"+buyer.address_en,"主体");
     G("合同编号 No.",c.contract,"自动");
-    G("签约日期 Date",c.issue_date||contractDate(c)||"—","自动");
+    G("签约日期 Date",c.issue_date||contractDate(c)||todayStr(),"自动");
     G("货号 Product No.",c.goods_no||"—","主体");
     G("品名及规格 Description",c.goods+"\n"+(c.desc||""),"自动");
     G("数量 Quantity",n0(c.qty),"自动");
@@ -4259,7 +4265,7 @@ function renderFields(step,di){
     G("贸易术语（单价上方那行）",pvTermLine(),"自动");
     G("金额 Amount",c.currency+" "+n2(D.amount),"自动");
     G("金额大写 SAY TOTAL",amtWords(D.amount,c.amt_prefix||"USD"),"自动");
-    G("签发（盖章 + 手签）",seller.name_zh+" / "+seller.name_en+" / "+(seller.legal_en||""),"主体");
+    G("签发（盖章 + 手签）",[seller.name_zh,seller.name_en,seller.legal_en].filter(Boolean).join("\n"),"主体");
     note="支付条款照合同 Payment 栏原文抄，格式「方式 + 期限」（D/A AT 60 DAYS AFTER SIGHT / L/C AT SIGHT）。"
         +"运输说明写 FROM 装运港 TO 目的港 + BY SEA/AIR，两个港都要带国家名；贸易术语另起一行写在本单「单价」上方"
         +"（FOB/FCA 跟启运港，CFR/CIF/CPT/CIP 跟目的港）。"
@@ -4282,7 +4288,7 @@ function renderFields(step,di){
     G("净重 N.W",nW(D.total_nw)+" KGS","自动");
     G("箱外尺寸 Meas.",n3(D.total_vol)+" CBM","自动");
     G("件数大写 SAY TOTAL","SAY "+words0(D.packs)+" "+uq(D.packs,c.pack_unit)+" ONLY","自动");
-    G("签发（盖章 + 手签）",seller.name_zh+" / "+seller.name_en+" / "+(seller.legal_en||""),"主体");
+    G("签发（盖章 + 手签）",[seller.name_zh,seller.name_en,seller.legal_en].filter(Boolean).join("\n"),"主体");
     note="装箱单号与发票号均由系统生成后回填，发票号必须与商业发票一致；装箱日期与发票日期同一天。"
         +"外包装件数＝总销售数量 ÷ 单位包装数后进位取整（105 件、每箱 20 件 → 6 箱），"
         +"毛重 / 净重 / 体积都按这个件数算总量，单位写 KGS、CBM。"
@@ -4298,7 +4304,7 @@ function renderFields(step,di){
       : "一切险 ALL RISKS + 战争险 + 罢工险";
     const mk=(ic&&ic.markup!=null)? ic.markup : (+$("markup").value||0);
     const rt=(+$("rate").value||0);
-    G("投保单号 Application No.","M00001125（投保后由系统给号）","待确认");
+    G("投保单号 Application No.","待补","待确认");
     G("投保人 Applicant",who.name_en,"主体");
     G("投保人地址 Applicant's Add",who.address_en,"主体");
     G("邮编 Code",who.postcode||"（公司档案缺邮编）","主体");
@@ -4351,17 +4357,17 @@ function renderFields(step,di){
     G("装载于",q.sea
         ? "抄海运提单的 Ocean Vessel Voy.No.（船名 + 航次）"
         : "抄航空运单（AWB）的 Flight 栏位（航班号 + 日期）","待确认");
-    G("损失金额及币别",q.amt+"（＝保单上的保险金额）","自动");
-    G("随附单据 · 保险单正本 ORIGINAL POLICY","__ 份（打○）","待确认");
-    G("随附单据 · 提单正反面 BILL OF LODING","__ 份（打○，空运改填航空运单）","待确认");
-    G("随附单据 · 商业发票 COMMERCIAL INVOICE","__ 份（打○）","待确认");
-    G("随附单据 · 装箱单 PACKING LIST","__ 份（打○）","待确认");
-    G("随附单据 · 与运送人损失追偿往来函件","__ 份（有则打○）","待确认");
-    G("随附单据 · 其他证明文件（索赔清单 / 报价单）","__ 份（有则打○）","待确认");
+    G("损失金额及币别",q.amt,"自动");
+    G("随附单据 · 保险单正本 ORIGINAL POLICY","1","自动");
+    G("随附单据 · 提单正反面 BILL OF LODING",c.transport==="空运"?"1（改交航空运单）":"1","自动");
+    G("随附单据 · 商业发票 COMMERCIAL INVOICE","1","自动");
+    G("随附单据 · 装箱单 PACKING LIST","1","自动");
+    G("随附单据 · 与运送人损失追偿往来函件","1","自动");
+    G("随附单据 · 其他证明文件（索赔清单 / 报价单）","1","自动");
     G("加盖印章","（请加盖贵公司大小章）","待确认");
     G("申请人",q.claimant||"（先在公司档案填中文全称）","自动");
     G("地址",q.addr||"（先在公司档案填中文地址）","自动");
-    G("申请日期","____ 年 __ 月 __ 日（须为日期格式）","待确认");
+    G("申请日期",(function(){const t=todayStr().split("-");return t[0]+" 年 "+(+t[1])+" 月 "+(+t[2])+" 日";})(),"自动");
     G("正文（点一下整段复制）",
       "本公司向贵公司投保之进出口货物发生损失，兹请予以理赔。\n"
       +"一、本公司自"+q.portCn+"港，进出口"+q.goodsCn+"货物，装载于____轮，"
@@ -4394,14 +4400,14 @@ function renderFields(step,di){
     G("海关编号","（海关接受申报时生成，POCIB 不填）","空");
     G("境内收发货人",me.name_zh+"\n"+me.credit_code,"主体");
     G(isOut?"出境关别":"进境关别",portShort(myPort)+"海关","码表");
-    G(isOut?"出口日期":"进口日期","（按提货单 / 到货通知上的进境日期填，格式 YYYY-MM-DD）","待确认");
-    G("申报日期","（实际向海关申报那天，格式 YYYY-MM-DD）","待确认");
+    G(isOut?"出口日期":"进口日期",isOut?"待补·按提货单装船日":"待补·见到货通知","待确认");
+    G("申报日期",todayStr(),"自动");
     G("备案号","（POCIB 不填）","空");
     G(isOut?"境外收货人":"境外发货人",other.name_en,"主体");
     G("运输方式",c.transport==="空运"?"(4) 航空运输":"(2) 水路运输","码表");
     G("运输工具名称及航次号",
-      isOut ? "抄配舱回单 / 海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号"
-            : "抄提货单 / 海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号","待确认");
+      isOut ? "抄配舱回单、海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号"
+            : "抄提货单、海运提单上的船名 + 航次（如 TBA 011W），空运抄航班号","待确认");
     G("提运单号", isOut ? "抄《海运提单》编号（空运抄《航空运单》编号）；单据中心没有可不填"
                         : "抄《提货单》编号（空运抄《航空运单》编号）；单据中心没有可不填","待确认");
     G("货物存放地点","（POCIB 可不填，留空）","空");
@@ -4418,7 +4424,7 @@ function renderFields(step,di){
     G(isOut?"离境口岸":"入境口岸",tx(myPort),"码表");
     G("包装种类",packZh(c),"码表");
     G("件数",n0(D.packs)+" "+packZh(c),"自动");
-    G("毛重 / 净重",n2(D.total_gw)+" / "+n2(D.total_nw),"自动");
+    G("毛重 / 净重",n2(D.total_gw)+"\n"+n2(D.total_nw),"自动");
     /* 成交方式代码表：POCIB 只认 CIF / C&F / FOB 三个（DAP、DPU 按含运保费口径归 CIF） */
     const ti=termInfo(c.term);
     G("成交方式",ti.code,"常量");
@@ -4436,13 +4442,13 @@ function renderFields(step,di){
     G("保费",fillI ? "USD "+n2(D.premium||0)+"　标记 3" : whyI, fillI?"自动":"空");
     G("杂费","（POCIB 不填）","空");
     G("随附单据及编号","（POCIB 可不填）","空");
-    G("标记唛码及备注",c.shipping_mark||"N/M（无唛头）","待确认");
-    G("项号","1（有几项商品就列几行）","常量");
+    G("标记唛码及备注",c.shipping_mark||"N/M","自动");
+    G("项号","1","常量");
     G("商品编号",c.hs,"主体");
     G("商品名称",c.hs_zh,"主体");
     G("规格型号（中文）",(GD(c.goods_no)||{}).spec_zh||"（商品档案没填中文规格，需手填）","主体");
     G("数量及单位",n0(c.qty)+" "+unitZh(c),"自动");
-    G("单价 / 总价",n2(+$("unit_price").value)+" / "+n2(D.amount),"自动");
+    G("单价 / 总价",n2(+$("unit_price").value)+"\n"+n2(D.amount),"自动");
     G("币制",(c.amt_prefix||c.currency||"USD"),"常量");
     G("原产国（地区）",countryZhOf(isOut?me:other, fkPort),"码表");
     G("最终目的国（地区）",countryZhOf(isOut?other:me, myPort),"码表");
@@ -4580,7 +4586,7 @@ function renderFields(step,di){
        其余看报检时申请了什么、产地证申请了哪一张 */
     const dc=(c.docs_clause||[]), has=re=>dc.some(x=>re.test(x));
     const cert=String(c.cert||"");
-    G("份数 · 汇票","2（正本 + 副本）","待确认");
+    G("份数 · 汇票","2","待确认");
     G("份数 · 商业发票","4","待确认");
     G("份数 · 海运运单",c.transport==="空运"?"（空运，不填）":"1",c.transport==="空运"?"空":"待确认");
     G("份数 · 航空运单",c.transport==="空运"?"1":"（海运，不填）",c.transport==="空运"?"待确认":"空");
@@ -4599,7 +4605,7 @@ function renderFields(step,di){
     G("付款指示 · 联系人姓名",seller.legal_zh||"","主体");
     G("付款指示 · 电话",seller.tel||"","主体");
     G("付款指示 · 传真",seller.fax||"（公司档案缺传真）","主体");
-    G("公司签章",seller.name_zh+"（加盖公章）","主体");
+    G("公司签章",seller.name_zh,"主体");
     note="致＝托收行中文名（出口地银行）；托收行填中文名 + 中文地址，代收行填进口地银行的英文名 + 英文地址。"
         +"委托人（出口商）三项都用中文，付款人（进口商）三项都用英文，逐栏对抄不易串行。"
         +"份数：汇票 / 商业发票 / 装箱单必填，海运运单与航空运单二选一，保险单只在 CIF/CIP 下要，"
@@ -4612,11 +4618,11 @@ function renderFields(step,di){
     const tenor=isLC?"at sight":(c.payment==="D/A"||c.payment==="D/P")?(c.payment==="D/A"?((c.pay_days||60)+" days after sight"):"at sight"):"at sight";
     const drawee=isLC?(BK(buyer).en||buyer.bank_en||""):buyer.name_en;
     const payee=isLC?(BK(seller).en||seller.bank_en||""):seller.name_en;
-    G("汇票号码 No.",c.draft_no||"系统生成（如 S00000454）","自动");
+    G("汇票号码 No.",c.draft_no||"待补","待确认");
     G("出票日期 Dated",c.issue_date||"—","自动");
     G("汇票金额 Exchange for",c.currency+" "+n2(D.amount),"自动");
     G("付款期限 At",tenor+"　Sight of this FIRST of Exchange","自动");
-    G("受款人 Pay to the Order of",payee+(isLC?"":"（非 L/C 填出口商）"),"自动");
+    G("受款人 Pay to the Order of",payee,"自动");
     G("金额大写 the sum of",amtWords(D.amount,c.amt_prefix||c.currency||"USD"),"自动");
     G("信用证号码 L/C No.",isLC?(c.lc_no||""):"（非 L/C，不填）",isLC?"自动":"空");
     G("开证日期 Dated",isLC?(c.lc_date||""):"（非 L/C，不填）",isLC?"自动":"空");
@@ -4718,15 +4724,15 @@ function renderFields(step,di){
     const pAcct=acctOf(payer,cur);
     G("外汇账号", pAcct||(payer.account_no? payer.account_no+"（档案里的本币账号；如需 "+cur+" 账号，去 我的资金 → 账户列表 查）":acctMiss(cur)),
       pAcct?"主体":"待确认");
-    G("购汇金额","0.00（全额走现汇，不购汇）","自动");
+    G("购汇金额","0.00","自动");
     G("购汇账号","（购汇金额为 0，本栏不填）","空");
     G("汇款人名称及地址",payer.name_zh+"\n"+payer.address_zh,"主体");
-    G("组织机构代码",orgCode+"（取统一社会信用代码第 9-17 位）","自动");
+    G("组织机构代码",orgCode,"自动");
     G("其他金额","（不填）","空");
     G("收款银行之代理行名称及地址","（无中转行，可不填）","空");
     G("收款人开户银行名称及地址",BK(payer).zh+"\n"+BK(payer).addr_zh,"银行表");
     G("收款人开户银行在其代理行的账号","（可不填）","空");
-    G("收款人名称及地址","国际货运有限公司\n（中文全称照「国际货运有限公司」网站「联系我们」抄）","待确认");
+    G("收款人名称及地址","待补（照货代网站「联系我们」抄中文全称）","待确认");
     G("收款人账号",c.forwarder_acct||"（国际货运代理专用发票上的开户银行账号）","待确认");
     G("汇款附言","FREIGHT FOR S/C "+c.contract,"自动");
     G("国内外费用承担","☑ 汇款人 OUR　□ 收款人 BEN　□ 共同 SHA","待确认");
@@ -4783,7 +4789,7 @@ function renderFields(step,di){
     G("运费 FREIGHT",(c.amt_prefix||c.currency||"USD")+" "+n2(+$("freight").value||0)
       +"　"+(prepaid?"☑ PREPAID　□ COLLECT":"□ PREPAID　☑ COLLECT"),"自动");
     G("RATE AGREED 运价协议（预付 / 到付）",
-      (prepaid?"☑ 预付 PREPAID":"☑ 到付 COLLECT")+"（"+c.term+" 术语下"+(prepaid?"由卖方":"由买方")+"付运费）","自动");
+      prepaid?"☑ 预付 PREPAID":"☑ 到付 COLLECT","自动");
     G("SPECIAL INSTRUCTIONS 特别指示","（船公司特殊要求，无则留空）","空");
     G("DOCUMENT 发票号 INVOICE No.",c.invoice_no||"（商业发票生成后回填）",c.invoice_no?"自动":"待确认");
     G("DOCUMENT 装箱单号 PACKING LIST No.",c.pack_no||"（装箱单生成后回填）",c.pack_no?"自动":"待确认");
@@ -4938,7 +4944,7 @@ function genericRows(doc,c,D,seller,buyer){
       ["金额",(c.amt_prefix||c.currency||"USD")+" "+n2(D.amount),"自动"],
       ["国外费用承担人","□ 付款人　□ 委托人（按合同打√）","待确认"],
       ["国内费用承担人","□ 付款人　□ 委托人（按合同打√）","待确认"],
-      ["单据份数 · 汇票","2（正本 + 副本，必填）","待确认"],
+      ["单据份数 · 汇票","2","待确认"],
       ["单据份数 · 商业发票","3（必填）","待确认"],
       ["单据份数 · 海运运单",c.transport==="空运"?"（空运，不填）":"3（正本 3 份）",c.transport==="空运"?"空":"待确认"],
       ["单据份数 · 航空运单",c.transport==="空运"?"3（空运必填）":"（海运，不填）",c.transport==="空运"?"待确认":"空"],
@@ -5004,7 +5010,7 @@ function genericRows(doc,c,D,seller,buyer){
       ["合同号",c.contract,"自动"],
       ["贸易方式","一般贸易","常量"],
       ["贸易国别（地区）",countryZhOf(seller,c.port_load),"码表"],
-      ["提单/运单号","（提货单 / 运单上的编号）","待确认"],
+      ["提单/运单号","（提货单或运单上的编号）","待确认"],
       ["到货日期","（到货通知邮件上的日期）","待确认"],
       ["启运国家（地区）",countryZhOf(seller,c.port_load),"码表"],
       ["许可证/审批号","（一般商品可空白）","空"],
@@ -5015,7 +5021,7 @@ function genericRows(doc,c,D,seller,buyer){
       ["经停口岸","（直航不填）","空"],
       ["目的地",portZh(c.port_dest),"自动"],
       ["集装箱规格、数量及号码",boxTxt,"待确认"],
-      ["合同订立的特殊条款以及其他要求","（质量 / 卫生等特殊条款；无则填「无」）","待确认"],
+      ["合同订立的特殊条款以及其他要求","（质量、卫生等特殊条款；无则填「无」）","待确认"],
       ["货物存放地点","（POCIB 可不填，留空）","空"],
       ["用途","（如 加工 / 销售；用途明确的商品可不填）","空"],
       ["随附单据（打√，合同/发票/提运单/装箱单必须）",
@@ -5089,7 +5095,7 @@ function genericRows(doc,c,D,seller,buyer){
         ["2. 收货人 Goods consigned to",buyer.name_en+", "+buyer.address_en+", "+buyer.country,"主体+拼接"],
         ["3. 运输方式与路线 Means of transport and route",trans,"自动"],
         ["4. 官方使用 For official use","（签证机构填写，留空）","空"],
-        ["5. 项号 Item number","1（有几项商品就列几行）","常量"],
+        ["5. 项号 Item number","1","常量"],
         ["6. 唛头及包装号 Marks and numbers of packages",c.shipping_mark||"N/M","待确认"],
         ["7. 包装件数、种类及货物描述",goodsDescField(c,D),"自动"],
         ["8. 原产地标准 Origin criterion",'"P"',"自动"],
@@ -5888,6 +5894,9 @@ document.addEventListener("change",e=>{
 /* 输入联动 */
 ["qty","unit_price","pack_qty","gw","nw","vol","freight","markup","rate"]
   .forEach(id=>$(id).addEventListener("input",()=>{if(CASES[CASE])CASES[CASE][id]=+$(id).value;compute();}));
+if($("issue_date")) $("issue_date").addEventListener("change",()=>{
+  CASES[CASE].issue_date=$("issue_date").value; compute();
+});
 ["contract","hs","hs_zh","goods_name","unit","pack_unit"].forEach(id=>{
   const el=$(id); if(el) el.addEventListener("input",()=>{
     const k=id==="goods_name"?"goods":id; CASES[CASE][k]=el.value; compute();
@@ -5943,6 +5952,9 @@ $("coMask").addEventListener("mousedown",e=>{
 });
 $("fields").onclick=(e)=>{
   const td=e.target.closest("td.v"); if(!td) return;
+  const tr=td.parentElement, last=tr&&tr.lastElementChild;
+  const tag=last?String(last.textContent||"").trim():"";
+  if(tag==="空"){ toast("这一栏不用填，没有要复制的值"); return; }
   const raw=decodeURIComponent(td.getAttribute("data-c")||"");
   if(!raw){ toast("该项为空，未复制"); return; }
   copyOne(raw);
