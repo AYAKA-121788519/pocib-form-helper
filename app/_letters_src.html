@@ -1086,6 +1086,14 @@ function calcFreight(){
     foGoods.textContent=(gv? "商品："+gv : "商品：—")
       + "　件数 "+qty+" 件（每件 "+wt+" KG / "+vol+" CBM）"
       + (qv>0? "　合同数量 "+qv.toLocaleString("en-US")+" "+uv : "");
+    /* 量级提示：一笔合同上百个柜子基本是数量单位填错了（把 件/箱 当成了 吨/MT） */
+    const box20=Math.ceil(Math.max(tonW/25, totV/33));
+    if(box20>20){
+      const sp=document.createElement("div");
+      sp.style.cssText="color:#c0392b;margin-top:2px";
+      sp.textContent="≈"+box20+" 个 20 尺柜（"+totV.toFixed(0)+" CBM / "+tonW.toFixed(0)+" 吨），量级偏大，先核对合同数量的单位（MT / 件 / 箱）";
+      foGoods.appendChild(sp);
+    }
   }
   if(foWt) foWt.textContent = tonW.toFixed(3);
   if(foVol) foVol.textContent = totV.toFixed(3);
@@ -1099,9 +1107,9 @@ function calcFreight(){
     const hit=bands.find(b=>chg<b[2]) || bands[bands.length-1];
     const rate=hit[1];
     const raw=rate*chg, usd=Math.max(min, raw);
-    rows.push(`<tr><td style="padding:2px 14px 2px 0">适用 ${hit[0]}</td>`+
-      `<td style="padding:2px 14px 2px 0">费率 ${rate} USD/KG</td><td style="padding:2px 14px 2px 0">计费重量 ${chg.toFixed(2)} KG</td>`+
-      `<td style="padding:2px 14px 2px 0">总价 <b>${usd.toFixed(2)}</b>${usd>raw+1e-9? "（低于最低运费 "+min.toFixed(2)+"，按最低收）":""}</td></tr>`);
+    rows.push(`<tr><td style="padding:2px 14px 2px 0;white-space:nowrap">适用 ${hit[0]}</td>`+
+      `<td style="padding:2px 14px 2px 0;white-space:nowrap">费率 ${rate} USD/KG</td><td style="padding:2px 14px 2px 0;white-space:nowrap">计费重量 ${chg.toFixed(2)} KG</td>`+
+      `<td style="padding:2px 14px 2px 0;white-space:nowrap">总价 <b>${usd.toFixed(2)}</b>${usd>raw+1e-9? "（低于最低运费 "+min.toFixed(2)+"，按最低收）":""}</td></tr>`);
     final=usd;
   } else {
     /* 海运：按所选「集装箱类型」计算（普柜 / 冻柜），取该类型下最省的装箱方案 */
@@ -1116,17 +1124,19 @@ function calcFreight(){
     specs.forEach(([n,price,wCap,vCap])=>{
       const cnt=Math.ceil(Math.max(tonW/wCap, totV/vCap));
       prices.push(price*cnt);
-      rows.push(`<tr><td style="padding:2px 14px 2px 0">${gname} ${n}</td><td style="padding:2px 14px 2px 0">单价 ${price.toFixed(2)}</td>`+
-        `<td style="padding:2px 14px 2px 0">个数 ${cnt}</td><td style="padding:2px 14px 2px 0">总价 <b>${(price*cnt).toFixed(2)}</b></td></tr>`);
+      rows.push(`<tr><td style="padding:2px 10px 2px 0;white-space:nowrap">${gname} ${n}</td>`+
+        `<td style="padding:2px 10px 2px 0;white-space:nowrap">单价 ${price.toFixed(2)}</td>`+
+        `<td style="padding:2px 0;white-space:nowrap">${cnt} 个 = <b>${(price*cnt).toFixed(2)}</b></td></tr>`);
     });
     const lcl=Math.max(lv*totV, lw*tonW);
     prices.push(lcl);
-    rows.push(`<tr><td style="padding:2px 14px 2px 0">${gname} 拼箱</td><td style="padding:2px 14px 2px 0">体积 ${lv}×${totV.toFixed(2)} / 重量 ${lw}×${tonW.toFixed(3)} 取大</td>`+
-      `<td style="padding:2px 14px 2px 0">—</td><td style="padding:2px 14px 2px 0">总价 <b>${lcl.toFixed(2)}</b></td></tr>`);
+    rows.push(`<tr><td style="padding:2px 10px 2px 0;white-space:nowrap">${gname} 拼箱</td>`+
+      `<td style="padding:2px 10px 2px 0;font-size:11.5px">体积 ${lv}×${totV.toFixed(2)} / 重量 ${lw}×${tonW.toFixed(3)} 取大</td>`+
+      `<td style="padding:2px 0;white-space:nowrap"><b>${lcl.toFixed(2)}</b></td></tr>`);
     /* 最终运费 = 该柜型下各方案中的较小值 */
     final=Math.min(...prices);
   }
-  if(foDetail) foDetail.innerHTML = `<table style="border-collapse:collapse;margin-top:4px">${rows.join("")}</table>`;
+  if(foDetail) foDetail.innerHTML = `<div style="overflow-x:auto"><table style="border-collapse:collapse;margin-top:4px">${rows.join("")}</table></div>`;
   if(foFinal){
     if(final>0){
       foFinal.style.color="";
@@ -1830,6 +1840,8 @@ function calcBudget(silent){
   /* 把本轮的数值结果留给盈亏调节用（静默试算也走这里） */
   window.__BUDGET={N:N,UP:UP,xr:xr,ir:ir,exG26:exG26,exPftG:exPftG,exPftRG:exPftRG,
                    costG:costG,imK26:imK26,imCostG:imK25,imPftG:imK27,imPftRG:imK28,
+                   /* 本币口径的进口盈亏/成本，面板显示要用它，别拿美元数配本币符号 */
+                   imPftJ:imJ27,imCostJ:imJ25,imK25:imK25,
                    imCur:imCur,exCur:exCur};
   const _br=document.getElementById("bExpRate");
   if(_br) _br.value=(exPftRG*100).toFixed(2);
@@ -2313,7 +2325,11 @@ function pftSync(){
 
   const a1=document.getElementById("pftExAmt"), a2=document.getElementById("pftImAmt");
   if(a1){ a1.textContent=pftMoney(b.exPftG)+" USD"; a1.className="pft-val"+(b.exPftG<0?" neg":""); }
-  if(a2){ a2.textContent=pftMoney(b.imPftG)+" "+b.imCur; a2.className="pft-val"+(b.imPftG<0?" neg":""); }
+  /* 进口盈亏原来把 imK27（美元）直接配上 imCur（欧元），比预算表里的本币数大一个汇率倍 */
+  if(a2){
+    a2.textContent=pftMoney(b.imPftJ)+" "+b.imCur;
+    a2.className="pft-val"+(b.imPftJ<0?" neg":"");
+  }
 
   const tot=b.exPftG+b.imPftG;
   let share= tot!==0 ? (b.exPftG/tot*100) : 50;
@@ -2329,9 +2345,14 @@ function pftSync(){
   if(r) r.firstChild.nodeValue=(100-share).toFixed(1)+"%";
 
   const note=document.getElementById("pftNote");
-  if(note) note.textContent="成交单价 USD "+b.UP.toFixed(2)
-    +"　出口盈亏 "+pftMoney(b.exPftG)+" USD"
-    +"　进口盈亏 "+pftMoney(b.imPftG)+" "+b.imCur;
+  if(note){
+    /* 进口国本币就是美元时别重复一遍括号 */
+    const same=Math.abs(b.ir-1)<1e-9 || b.imCur==="USD";
+    note.textContent="成交单价 USD "+b.UP.toFixed(2)
+      +"　出口盈亏 "+pftMoney(b.exPftG)+" USD"
+      +"　进口盈亏 "+pftMoney(b.imPftJ)+" "+b.imCur
+      + (same? "" : "（"+pftMoney(b.imPftG)+" USD）");
+  }
   PFT.busy=false;
 }
 
