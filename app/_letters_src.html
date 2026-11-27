@@ -1541,6 +1541,20 @@ function syncBudget(){
   document.getElementById("bExFreight").style.background = isFOB ? "#f7f8fa" : "#ffffff";
   document.getElementById("bImFreight").style.background = isFOB ? "#ffffff" : "#f7f8fa";
   /* 保留已填写的运费值（切换术语不丢数据，由 calcBudget 决定是否计入） */
+  /* 但方向变了要跟边：CPT/CIF 出口付、FOB 进口付，目标格还是 0 就把另一格的值搬过来，
+     否则运费卡没算出来时（航线没价、件数没填）预算表会出现「CPT 出口运费 0」 */
+  (function(){
+    const ex=document.getElementById("bExFreight"), im=document.getElementById("bImFreight");
+    if(!ex || !im) return;
+    const n=v=>{const x=parseFloat(String(v).replace(/,/g,"")); return isNaN(x)?0:x;};
+    const dst=isFOB? im : ex, src=isFOB? ex : im;
+    if(n(dst.value)<=0 && n(src.value)>0){
+      SETTING_FRT=true;
+      dst.value=src.value;
+      dst.dispatchEvent(new Event("input",{bubbles:true}));
+      SETTING_FRT=false;
+    }
+  })();
 
   document.getElementById("freightTip").textContent = isFOB
     ? "当前贸易术语为 FOB/FCA/FAS：运费由进口方承担 → 上方运费计算的结果会自动写进「进口运费」，改港口 / 柜型 / 数量都会跟着变。"
@@ -1832,7 +1846,9 @@ function calcBudget(silent){
     贸易方式：<b>${mode}</b>　　交易数量：<b>${fmt(N,0)}</b>　　成交单价：<b>USD ${fmt(UP)}</b></div>`;
   html+=manTable("出 口 预 算",expRows,exCur);
   html+=`<div class="mtb-cap">汇率 = 1 单位本币折合美元；美元 = 本币 × 汇率。`
-    +`按所选贸易术语（${mode}）裁剪，不涉及的运费/保费等科目不予列出。</div>`;
+    +`按所选贸易术语（${mode}）裁剪，不涉及的运费/保费等科目不予列出。`
+    +`<b>本术语下：主运费由${sellerFrt?"出口商":"进口商"}承担，`
+    +`保险费由${withIns?"出口商":"进口商"}承担${withIns?"（价内含运费、保费）":(midTerm?"（价内含运费，不含保费）":"（价内不含运费、保费）")}。</b></div>`;
   html+=`<div style="height:16px"></div>`;
   html+=manTable("进 口 预 算",impRows,imCur);
   html+=`<div class="mtb-cap">报关费、信用证费用按进口国本币计；成交价按美元计；`
