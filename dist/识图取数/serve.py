@@ -94,6 +94,93 @@ class Api(BaseHTTPRequestHandler):
         self.send_header("Content-Length", "0")
         self.end_headers()
 
+    # ---- 代取网页：浏览器从 file:// 打开时读不了别的站，让本机服务去抓
+    def _fetch(self, q):
+        """GET /fetch?url=<encoded>
+        只做「取回 HTML」，解析交给网页自己（规则改了不用重启服务）。
+        学校 POCIB 服务器多在 192.168.x.x 内网，这里不限制目标地址。"""
+        import urllib.request, ssl
+        url = (q.get("url") or [""])[0].strip()
+        if not url.lower().startswith(("http://", "https://")):
+            return self._json({"ok": False, "error": "只支持 http:// 或 https:// 开头的网址"}, 400)
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                          "(KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+        })
+        try:
+            with urllib.request.urlopen(req, timeout=30, context=ctx) as r:
+                raw = r.read()
+                enc = (r.headers.get_content_charset() or "").lower()
+                final = r.geturl()
+        except Exception as e:
+            return self._json({"ok": False, "error": "抓取失败：%s" % e}, 200)
+        text = ""
+        for e in [enc, "utf-8", "gb18030", "latin-1"]:
+            if not e:
+                continue
+            try:
+                text = raw.decode(e)
+                break
+            except Exception:
+                continue
+        if not text:
+            text = raw.decode("utf-8", "replace")
+        return self._json({"ok": True, "url": final, "bytes": len(raw),
+                           "charset": enc or "utf-8", "html": text[:1200000]})
+
+    def _tariff(self, q):
+        """GET /tariff?base=<服务器>&q=<HS或品名>
+        POCIB 税率查询是 ASP.NET WebForms：先取表单页里的 __VIEWSTATE，再 POST 查询，
+        这一步浏览器跨域做不了，放到本机服务里做。返回结果页 HTML 给前端解析。"""
+        import re, urllib.request, urllib.parse, ssl
+        base = ((q.get("base") or [""])[0] or "http://192.168.150.135:5015").rstrip("/")
+        kw = (q.get("q") or [""])[0].strip()
+        if not kw:
+            return self._json({"ok": False, "error": "缺少查询关键词"}, 400)
+        form = base + "/institutions/company/14/SearchHSCodeForm.aspx"
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        hdr = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+               "Referer": form, "Accept": "text/html,application/xhtml+xml"}
+
+        def grab(url, data=None):
+            req = urllib.request.Request(url, data=data, headers=hdr)
+            with urllib.request.urlopen(req, timeout=30, context=ctx) as r:
+                raw = r.read()
+                enc = (r.headers.get_content_charset() or "utf-8")
+            try:
+                return raw.decode(enc)
+            except Exception:
+                return raw.decode("utf-8", "replace")
+
+        try:
+            page = grab(form)
+        except Exception as e:
+            return self._json({"ok": False, "error": "连不上 %s：%s" % (base, e)})
+        def hid(k):
+            m = re.search(r'(?:name|id)="%s"[^>]*value="([^"]*)"' % k, page)
+            return m.group(1) if m else ""
+        is_code = kw.isdigit()
+        payload = {
+            "__VIEWSTATE": hid("__VIEWSTATE"),
+            "__VIEWSTATEGENERATOR": hid("__VIEWSTATEGENERATOR"),
+            "__EVENTVALIDATION": hid("__EVENTVALIDATION"),
+            "curPageNo": "1", "totalCount": "0", "perPageCount": "20",
+            "hscode": kw if is_code else "", "goodsname": "" if is_code else kw,
+            "bSearch": "true",
+        }
+        try:
+            html = grab(form, urllib.parse.urlencode(payload).encode())
+        except Exception as e:
+            return self._json({"ok": False, "error": "查询失败：%s" % e})
+        return self._json({"ok": True, "base": base, "q": kw, "bytes": len(html), "html": html})
+
     # ---- 路由
     def do_GET(self):
         u = urlparse(self.path)
@@ -110,6 +197,10 @@ class Api(BaseHTTPRequestHandler):
                 return self._capture(q)
             if path in ("/lastshot", "/lastshot.png"):
                 return self._lastshot()
+            if path == "/fetch":
+                return self._fetch(q)
+            if path == "/tariff":
+                return self._tariff(q)
             if path == "/":
                 return self._json({"ok": True, "app": APP_SIG,
                                    "hint": "在本机识别服务里：/ping /windows /capture /lastshot"})
